@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
-import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard } from './components'
+import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity } from './components'
 import BrandImage, { BrandConfigs } from './components/BrandImage';
 import './styles/globals.css'
 
