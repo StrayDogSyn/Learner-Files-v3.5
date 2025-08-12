@@ -477,6 +477,7 @@
   @media (max-width: 768px) {
     .glass-container {
       backdrop-filter: var(--blur-subtle);
+      -webkit-backdrop-filter: var(--blur-subtle);
       border-radius: 16px;
     }
     
@@ -498,6 +499,7 @@
   @media (min-width: 1024px) {
     .glass-container {
       backdrop-filter: var(--blur-heavy);
+      -webkit-backdrop-filter: var(--blur-heavy);
     }
     
     .glass-card {
@@ -516,6 +518,14 @@
   
   .animate-glass-glow {
     animation: glassGlow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-delay-2s {
+    animation-delay: 2s;
+  }
+  
+  .animate-delay-4s {
+    animation-delay: 4s;
   }
   
   @keyframes fadeIn {

@@ -110,8 +110,8 @@ function App() {
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium"></div>
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-hunter-emerald/10 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-metallic-silver/5 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-hunter-core/8 rounded-full blur-2xl animate-pulse-slow" style={{animationDelay: '4s'}}></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-metallic-silver/5 rounded-full blur-3xl animate-pulse-slow animate-delay-2s"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-hunter-core/8 rounded-full blur-2xl animate-pulse-slow animate-delay-4s"></div>
       </div>
 
       {/* Navigation */}
@@ -414,12 +414,16 @@ function App() {
                   <a 
                     href="https://github.com/straydogsyndications" 
                     className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
+                    title="Visit StrayDog Syndications on GitHub"
+                    aria-label="GitHub Profile"
                   >
                     <FaGithub size={20} />
                   </a>
                   <a 
                     href="https://linkedin.com/company/straydogsyndications" 
                     className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
+                    title="Connect with StrayDog Syndications on LinkedIn"
+                    aria-label="LinkedIn Profile"
                   >
                     <FaLinkedin size={20} />
                   </a>
@@ -457,7 +461,11 @@ function App() {
                     <label className="block text-sm font-medium text-metallic-silver mb-2">
                       Project Type
                     </label>
-                    <select className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light transition-all duration-300">
+                    <select 
+                      className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light transition-all duration-300"
+                      aria-label="Select project type"
+                      title="Choose the type of project you're interested in"
+                    >
                       <option value="">Select project type</option>
                       <option value="web-app">Web Application</option>
                       <option value="ai-integration">AI Integration</option>
