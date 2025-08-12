@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
+import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard } from './components'
 import './styles/globals.css'
-import { FaGithub, FaLinkedin, FaEnvelope, FaExternalLinkAlt, FaCode, FaDatabase, FaServer, FaMobile } from 'react-icons/fa'
 
 interface Project {
   id: number
@@ -20,13 +21,14 @@ interface Skill {
 
 function App() {
   const [mounted, setMounted] = useState(false)
-  const [activeSection, setActiveSection] = useState('hero')
+  const [activeSection, setActiveSection] = useState('home')
+  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     
     const handleScroll = () => {
-      const sections = ['hero', 'about', 'projects', 'skills', 'contact']
+      const sections = ['home', 'about', 'skills', 'projects', 'contact']
       const scrollPosition = window.scrollY + 100
       
       for (const section of sections) {
@@ -92,240 +94,427 @@ function App() {
     }
   }
 
-  const getSkillIcon = (category: string) => {
-    switch (category) {
-      case 'frontend': return <FaCode className="text-blue-500" />
-      case 'backend': return <FaServer className="text-green-500" />
-      case 'database': return <FaDatabase className="text-purple-500" />
-      case 'tools': return <FaMobile className="text-orange-500" />
-      default: return <FaCode className="text-gray-500" />
-    }
-  }
+  // Removed getSkillIcon function as it's now handled by SkillCard component
+
+  const navigationItems = [
+    { id: 'home', label: 'Home', href: '#home' },
+    { id: 'about', label: 'About', href: '#about' },
+    { id: 'skills', label: 'Skills', href: '#skills' },
+    { id: 'projects', label: 'Projects', href: '#projects' },
+    { id: 'contact', label: 'Contact', href: '#contact' },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-charcoal-dark relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-hunter-emerald/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-metallic-silver/5 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-hunter-core/8 rounded-full blur-2xl animate-pulse-slow" style={{animationDelay: '4s'}}></div>
+      </div>
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Portfolio</h1>
-            <div className="hidden md:flex space-x-6">
-              {['hero', 'about', 'projects', 'skills', 'contact'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`capitalize transition-colors ${
-                    activeSection === section
-                      ? 'text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                  }`}
-                >
-                  {section}
-                </button>
-              ))}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <GlassNavigation 
+          items={navigationItems}
+          activeItem={activeSection}
+          logo={
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-lg flex items-center justify-center">
+                <span className="text-charcoal-dark font-bold text-sm">SD</span>
+              </div>
+              <span className="font-display font-bold text-lg bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+                StrayDog Syndications
+              </span>
             </div>
-          </div>
-        </div>
-      </nav>
+          }
+        />
+      </div>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
+      <section id="home" className="min-h-screen flex items-center justify-center relative z-10">
         <div className="container mx-auto px-4 text-center">
-          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              <span className="bg-gradient-to-r from-primary-600 to-purple-600 bg-clip-text text-transparent">
-                AISE Developer
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-              Tier 2 Graduate specializing in AI-enhanced software development and modern web technologies
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => scrollToSection('projects')}
-                className="btn-primary"
-              >
-                View My Work
-              </button>
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="px-6 py-3 border-2 border-primary-600 text-primary-600 dark:text-primary-400 dark:border-primary-400 rounded-lg hover:bg-primary-600 hover:text-white dark:hover:bg-primary-400 dark:hover:text-gray-900 transition-colors duration-200 font-semibold"
-              >
-                Get In Touch
-              </button>
+          <GlassContainer className="max-w-4xl mx-auto">
+            <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+              <div className="mb-8">
+                <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-full flex items-center justify-center shadow-2xl">
+                  <span className="text-4xl font-bold text-charcoal-dark">SD</span>
+                </div>
+                <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
+                  <span className="bg-gradient-to-r from-hunter-emerald via-metallic-silver to-hunter-core bg-clip-text text-transparent">
+                    StrayDog Syndications
+                  </span>
+                </h1>
+                <h2 className="text-2xl md:text-3xl font-semibold text-metallic-silver mb-4">
+                  AISE Developer Portfolio
+                </h2>
+                <p className="text-lg md:text-xl text-metallic-silver/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+                  Tier 2 Graduate specializing in AI-enhanced software development, modern web technologies, 
+                  and innovative digital solutions that push the boundaries of what's possible.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button 
+                  onClick={() => scrollToSection('projects')}
+                  className="px-8 py-4 bg-gradient-to-r from-hunter-emerald to-hunter-core text-charcoal-dark font-semibold rounded-lg hover:shadow-lg hover:shadow-hunter-emerald/25 transition-all duration-300 transform hover:scale-105"
+                >
+                  View My Work
+                </button>
+                <button 
+                  onClick={() => scrollToSection('contact')}
+                  className="px-8 py-4 border-2 border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 transform hover:scale-105"
+                >
+                  Get In Touch
+                </button>
+              </div>
             </div>
-          </div>
+          </GlassContainer>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white dark:bg-gray-800">
+      <section id="about" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">About Me</h2>
-          <div className="max-w-4xl mx-auto">
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              About StrayDog Syndications
+            </h2>
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">AI-Enhanced Development</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  As a Tier 2 AISE graduate, I specialize in leveraging artificial intelligence to enhance software development processes. 
-                  My expertise spans modern web technologies, with a focus on creating intelligent, user-centric applications.
+              <GlassCard variant="hunter" className="h-full">
+                <h3 className="font-display text-2xl font-semibold mb-6 text-glass-light">
+                  Passionate Developer & AI Innovator
+                </h3>
+                <p className="text-hunter-sage mb-6 leading-relaxed">
+                  As a Tier 2 AISE graduate, StrayDog Syndications represents the cutting edge of 
+                  artificial intelligence and software engineering excellence. Our mission is to 
+                  create transformative digital experiences that push technological boundaries.
                 </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  I'm passionate about building scalable solutions that combine cutting-edge AI capabilities with robust software architecture. 
-                  My approach emphasizes clean code, performance optimization, and seamless user experiences.
+                <p className="text-hunter-sage mb-6 leading-relaxed">
+                  We specialize in AI-enhanced web development, machine learning integration, and 
+                  crafting premium user experiences that solve complex real-world challenges with 
+                  innovative technological solutions.
                 </p>
                 <div className="flex space-x-4">
-                  <a href="https://github.com" title="GitHub Profile" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="https://github.com" title="GitHub Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaGithub size={24} />
                   </a>
-                  <a href="https://linkedin.com" title="LinkedIn Profile" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="https://linkedin.com" title="LinkedIn Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaLinkedin size={24} />
                   </a>
-                  <a href="mailto:contact@example.com" title="Send Email" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="mailto:contact@example.com" title="Send Email" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaEnvelope size={24} />
                   </a>
                 </div>
-              </div>
-              <div className="card">
-                <h4 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Key Achievements</h4>
-                <ul className="space-y-3 text-gray-600 dark:text-gray-300">
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">✓</span>
-                    Completed AISE Tier 2 certification program
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">✓</span>
-                    Built 15+ full-stack applications
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">✓</span>
-                    Integrated AI/ML models in production apps
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">✓</span>
-                    Contributed to open-source projects
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-500 mr-2">✓</span>
-                    Mentored junior developers
-                  </li>
-                </ul>
-              </div>
+              </GlassCard>
+              <GlassCard variant="premium" className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-hunter-emerald/10 to-metallic-silver/10"></div>
+                <div className="relative z-10">
+                  <h4 className="font-display text-xl font-semibold mb-6 text-glass-light">Key Achievements</h4>
+                  <ul className="space-y-4 text-hunter-sage">
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Completed AISE Tier 2 certification program</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Built 15+ full-stack applications</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Integrated AI/ML models in production apps</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Contributed to open-source projects</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Mentored junior developers</span>
+                    </li>
+                  </ul>
+                </div>
+              </GlassCard>
             </div>
           </div>
         </div>
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section id="projects" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">Featured Projects</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div key={project.id} className="card hover:shadow-xl transition-shadow duration-300">
-                <div className="h-48 bg-gradient-to-br from-primary-100 to-purple-100 dark:from-primary-900 dark:to-purple-900 rounded-lg mb-4 flex items-center justify-center">
-                  <FaCode size={48} className="text-primary-600 dark:text-primary-400" />
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <span key={tech} className="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-full text-sm">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex space-x-4">
-                  {project.githubUrl && (
-                    <a href={project.githubUrl} className="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                      <FaGithub className="mr-2" /> Code
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a href={project.liveUrl} className="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                      <FaExternalLinkAlt className="mr-2" /> Live Demo
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              Featured Projects
+            </h2>
+            
+            {/* Featured Project */}
+            <div className="mb-16">
+              <ProjectCard
+                title="AI-Enhanced Portfolio Platform"
+                description="A cutting-edge portfolio platform featuring glassmorphic design, AI-powered content optimization, and advanced user experience patterns. Built with React, TypeScript, and modern CSS techniques."
+                technologies={['React', 'TypeScript', 'CSS Variables', 'Glassmorphism', 'AI Integration']}
+                githubUrl="https://github.com/straydogsyndications"
+                liveUrl="https://straydogsyndications.dev"
+                featured={true}
+                className="max-w-4xl mx-auto"
+              />
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  title={project.title}
+                  description={project.description}
+                  technologies={project.technologies}
+                  githubUrl={project.githubUrl}
+                  liveUrl={project.liveUrl}
+                  className={`animate-fade-in`}
+                  style={{animationDelay: `${(index + 1) * 150}ms`}}
+                />
+              ))}
+            </div>
+            
+            {/* Call to Action */}
+            <div className="mt-16 text-center">
+              <GlassCard variant="premium" className="max-w-2xl mx-auto">
+                <h3 className="font-display text-2xl font-semibold text-glass-light mb-4">
+                  Ready to Collaborate?
+                </h3>
+                <p className="text-hunter-sage mb-6 leading-relaxed">
+                  Let's work together to create something extraordinary. From AI-enhanced applications 
+                  to premium user experiences, StrayDog Syndications delivers innovation.
+                </p>
+                <button 
+                  onClick={() => scrollToSection('contact')}
+                  className="px-8 py-4 bg-gradient-to-r from-hunter-emerald to-hunter-core text-charcoal-dark font-semibold rounded-lg hover:shadow-lg hover:shadow-hunter-emerald/25 transition-all duration-300 transform hover:scale-105"
+                >
+                  Start a Project
+                </button>
+              </GlassCard>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 bg-white dark:bg-gray-800">
+      <section id="skills" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">Technical Skills</h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8">
-              {['frontend', 'backend', 'database', 'tools'].map((category) => (
-                <div key={category} className="card">
-                  <h3 className="text-xl font-semibold mb-6 text-gray-900 dark:text-white capitalize flex items-center">
-                    {getSkillIcon(category)}
-                    <span className="ml-2">{category}</span>
-                  </h3>
-                  <div className="space-y-4">
-                    {skills.filter(skill => skill.category === category).map((skill) => (
-                      <div key={skill.name}>
-                        <div className="flex justify-between mb-2">
-                          <span className="text-gray-700 dark:text-gray-300">{skill.name}</span>
-                          <span className="text-gray-500 dark:text-gray-400">{skill.level}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                          <div
-                            className="skill-progress-bar"
-                            data-skill-level={skill.level}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              Skills & Technologies
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {skills.map((skill, index) => (
+                <SkillCard
+                  key={skill.name}
+                  name={skill.name}
+                  level={skill.level}
+                  category={skill.category as 'frontend' | 'backend' | 'database' | 'tools'}
+                  className={`animate-fade-in`}
+                  style={{animationDelay: `${index * 100}ms`}}
+                />
               ))}
+            </div>
+            
+            {/* Skills Summary */}
+            <div className="mt-16 grid md:grid-cols-3 gap-8">
+              <GlassCard variant="hunter" className="text-center">
+                <div className="text-3xl text-hunter-emerald mb-4">
+                  <FaCode />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">
+                  Frontend Excellence
+                </h3>
+                <p className="text-hunter-sage">
+                  Modern React, TypeScript, and cutting-edge UI frameworks
+                </p>
+              </GlassCard>
+              
+              <GlassCard variant="premium" className="text-center">
+                <div className="text-3xl text-metallic-silver mb-4">
+                  <FaServer />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">
+                  Backend Mastery
+                </h3>
+                <p className="text-hunter-sage">
+                  Scalable APIs, cloud architecture, and AI integration
+                </p>
+              </GlassCard>
+              
+              <GlassCard variant="hunter" className="text-center">
+                <div className="text-3xl text-hunter-core mb-4">
+                  <FaDatabase />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">
+                  Data & AI
+                </h3>
+                <p className="text-hunter-sage">
+                  Machine learning, data analysis, and intelligent systems
+                </p>
+              </GlassCard>
             </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-900">
+      <section id="contact" className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">Get In Touch</h2>
-          <div className="max-w-2xl mx-auto">
-            <div className="card">
-              <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
-                I'm always interested in new opportunities and collaborations. 
-                Whether you have a project in mind or just want to connect, feel free to reach out!
-              </p>
-              <div className="grid md:grid-cols-3 gap-6 text-center">
-                <a href="mailto:contact@example.com" className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                  <FaEnvelope size={32} className="text-primary-600 dark:text-primary-400 mb-3" />
-                  <span className="text-gray-900 dark:text-white font-semibold">Email</span>
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">contact@example.com</span>
-                </a>
-                <a href="https://linkedin.com" className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                  <FaLinkedin size={32} className="text-primary-600 dark:text-primary-400 mb-3" />
-                  <span className="text-gray-900 dark:text-white font-semibold">LinkedIn</span>
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Connect with me</span>
-                </a>
-                <a href="https://github.com" className="flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                  <FaGithub size={32} className="text-primary-600 dark:text-primary-400 mb-3" />
-                  <span className="text-gray-900 dark:text-white font-semibold">GitHub</span>
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">View my code</span>
-                </a>
-              </div>
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              Get In Touch
+            </h2>
+            <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+              <GlassCard variant="hunter" className="h-full">
+                <h3 className="font-display text-2xl font-semibold mb-6 text-glass-light">
+                  Let's Create Something Extraordinary
+                </h3>
+                <p className="text-hunter-sage mb-8 leading-relaxed">
+                  StrayDog Syndications is always ready for new challenges and innovative collaborations. 
+                  Whether you have a groundbreaking project in mind or want to explore the possibilities 
+                  of AI-enhanced development, let's connect and build the future together.
+                </p>
+                
+                <div className="space-y-6 mb-8">
+                  <div className="flex items-center group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <FaEnvelope className="text-charcoal-dark" />
+                    </div>
+                    <div>
+                      <p className="text-glass-light font-medium">Email</p>
+                      <p className="text-hunter-sage">contact@straydogsyndications.dev</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-metallic-silver to-hunter-core rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <FaPhone className="text-charcoal-dark" />
+                    </div>
+                    <div>
+                      <p className="text-glass-light font-medium">Phone</p>
+                      <p className="text-hunter-sage">+1 (555) STRAY-DOG</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center group">
+                    <div className="w-12 h-12 bg-gradient-to-br from-hunter-core to-hunter-forest rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                      <FaMapMarkerAlt className="text-charcoal-dark" />
+                    </div>
+                    <div>
+                      <p className="text-glass-light font-medium">Location</p>
+                      <p className="text-hunter-sage">Global Remote & On-Site</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex space-x-4">
+                  <a 
+                    href="https://github.com/straydogsyndications" 
+                    className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                  <a 
+                    href="https://linkedin.com/company/straydogsyndications" 
+                    className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
+                  >
+                    <FaLinkedin size={20} />
+                  </a>
+                </div>
+              </GlassCard>
+              
+              <GlassCard variant="premium">
+                <h3 className="font-display text-xl font-semibold mb-6 text-glass-light">
+                  Start Your Project
+                </h3>
+                <form className="space-y-6">
+                  <div>
+                    <label className="block text-sm font-medium text-metallic-silver mb-2">
+                      Full Name
+                    </label>
+                    <input 
+                      type="text" 
+                      className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light placeholder-hunter-sage transition-all duration-300" 
+                      placeholder="Your name"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-metallic-silver mb-2">
+                      Email Address
+                    </label>
+                    <input 
+                      type="email" 
+                      className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light placeholder-hunter-sage transition-all duration-300" 
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-metallic-silver mb-2">
+                      Project Type
+                    </label>
+                    <select className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light transition-all duration-300">
+                      <option value="">Select project type</option>
+                      <option value="web-app">Web Application</option>
+                      <option value="ai-integration">AI Integration</option>
+                      <option value="mobile-app">Mobile Application</option>
+                      <option value="consulting">Technical Consulting</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-metallic-silver mb-2">
+                      Project Details
+                    </label>
+                    <textarea 
+                      rows={4} 
+                      className="w-full px-4 py-3 bg-glass-subtle border border-glass-border rounded-lg focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald text-glass-light placeholder-hunter-sage transition-all duration-300 resize-none" 
+                      placeholder="Tell us about your project vision, requirements, and goals..."
+                    ></textarea>
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    className="w-full px-6 py-4 bg-gradient-to-r from-hunter-emerald to-hunter-core text-charcoal-dark font-semibold rounded-lg hover:shadow-lg hover:shadow-hunter-emerald/25 transition-all duration-300 transform hover:scale-105"
+                  >
+                    Send Message
+                  </button>
+                </form>
+              </GlassCard>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-gray-600 dark:text-gray-300">
-            © 2024 AISE Developer Portfolio. Built with React, TypeScript, and Tailwind CSS.
-          </p>
+      <footer className="relative z-10 py-12">
+        <div className="container mx-auto px-4">
+          <GlassCard variant="premium" className="text-center">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="flex items-center space-x-3 mb-4 md:mb-0">
+                <div className="w-10 h-10 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-lg flex items-center justify-center">
+                  <span className="text-charcoal-dark font-bold text-sm">SD</span>
+                </div>
+                <span className="font-display font-bold text-lg bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+                  StrayDog Syndications
+                </span>
+              </div>
+              
+              <div className="text-center md:text-right">
+                <p className="text-hunter-sage mb-2">
+                  © 2024 StrayDog Syndications. Crafted with precision.
+                </p>
+                <p className="text-hunter-sage/70 text-sm">
+                  Built with React, TypeScript, and Glassmorphic Design
+                </p>
+              </div>
+            </div>
+          </GlassCard>
         </div>
       </footer>
     </div>

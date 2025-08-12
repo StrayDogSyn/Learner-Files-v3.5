@@ -8,18 +8,66 @@ export default {
   theme: {
     extend: {
       colors: {
+        // StrayDog Syndications Color Palette
+        charcoal: {
+          black: '#1C1C1C',
+          slate: '#2B2B2B',
+          graphite: '#3A3A3A',
+        },
+        hunter: {
+          core: '#355E3B',
+          forest: '#2A4B2F',
+          emerald: '#50C878',
+          sage: '#9FB9A3',
+          metallic: '#2F4F4F',
+        },
+        metallic: {
+          silver: '#C0C0C0',
+          gunmetal: '#48494B',
+          platinum: '#D7D7D7',
+        },
+        glass: {
+          light: '#F5F5F5',
+          pearl: '#FAFAFA',
+        },
+        // Legacy support
         primary: {
           50: '#eff6ff',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          900: '#1e3a8a',
+          500: '#50C878',
+          600: '#355E3B',
+          700: '#2A4B2F',
+          900: '#1C1C1C',
         },
-        dark: {
-          bg: '#0f172a',
-          card: '#1e293b',
-          text: '#e2e8f0',
-        }
+      },
+      fontFamily: {
+        display: ['Orbitron', 'Audiowide', 'sans-serif'],
+        body: ['Inter', 'Source Sans Pro', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+      },
+      fontSize: {
+        'xs': 'var(--text-xs)',
+        'sm': 'var(--text-sm)',
+        'base': 'var(--text-base)',
+        'lg': 'var(--text-lg)',
+        'xl': 'var(--text-xl)',
+        '2xl': 'var(--text-2xl)',
+        '3xl': 'var(--text-3xl)',
+        '4xl': 'var(--text-4xl)',
+        '5xl': 'var(--text-5xl)',
+        '6xl': 'var(--text-6xl)',
+      },
+      backdropBlur: {
+        'glass': 'var(--blur-medium)',
+        'heavy': 'var(--blur-heavy)',
+        'subtle': 'var(--blur-subtle)',
+      },
+      boxShadow: {
+        'glass-soft': 'var(--shadow-glass-soft)',
+        'glass-medium': 'var(--shadow-glass-medium)',
+        'glass-strong': 'var(--shadow-glass-strong)',
+        'metallic-glow': 'var(--shadow-metallic-glow)',
+        'hunter-glow': 'var(--shadow-hunter-glow)',
+        'premium': 'var(--shadow-premium)',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',
