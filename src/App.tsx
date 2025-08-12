@@ -275,7 +275,7 @@ function App() {
                         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                           <div
                             className="skill-progress-bar"
-                            style={{ '--skill-width': `${skill.level}%` } as React.CSSProperties}
+                            data-skill-level={skill.level}
                           ></div>
                         </div>
                       </div>

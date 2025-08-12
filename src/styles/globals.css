@@ -21,6 +21,18 @@
   
   .skill-progress-bar {
     @apply bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-1000;
-    width: var(--skill-width, 0%);
   }
+  
+  .skill-progress-bar[data-skill-level="10"] { width: 10%; }
+  .skill-progress-bar[data-skill-level="20"] { width: 20%; }
+  .skill-progress-bar[data-skill-level="30"] { width: 30%; }
+  .skill-progress-bar[data-skill-level="40"] { width: 40%; }
+  .skill-progress-bar[data-skill-level="50"] { width: 50%; }
+  .skill-progress-bar[data-skill-level="60"] { width: 60%; }
+  .skill-progress-bar[data-skill-level="70"] { width: 70%; }
+  .skill-progress-bar[data-skill-level="80"] { width: 80%; }
+  .skill-progress-bar[data-skill-level="85"] { width: 85%; }
+  .skill-progress-bar[data-skill-level="90"] { width: 90%; }
+  .skill-progress-bar[data-skill-level="95"] { width: 95%; }
+  .skill-progress-bar[data-skill-level="100"] { width: 100%; }
 }
