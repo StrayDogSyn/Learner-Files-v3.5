@@ -1,8 +1,8 @@
 # TODO:
 
 - [x] implement-metadata: Add structured Open Graph & Twitter Card metadata with brand imagery for social sharing (priority: High)
-- [ ] github-activity-section: Create 'What I'm Working On' section with GitHub API integration for recent commits (**IN PROGRESS**) (priority: High)
-- [ ] theme-toggle: Implement light/dark brand mode toggle maintaining glassmorphic identity (priority: High)
+- [x] github-activity-section: Create 'What I'm Working On' section with GitHub API integration for recent commits (priority: High)
+- [ ] theme-toggle: Implement light/dark brand mode toggle maintaining glassmorphic identity (**IN PROGRESS**) (priority: High)
 - [ ] analytics-setup: Add analytics tracking setup (Google Analytics/Plausible) with heatmap integration (priority: Medium)
 - [ ] project-spotlight: Add quarterly project spotlight rotation feature with in-depth write-ups (priority: Medium)
 - [ ] career-timeline: Create interactive career timeline with certification and role tracking (priority: Medium)

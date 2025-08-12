@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
-import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity } from './components'
+import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle } from './components'
 import BrandImage, { BrandConfigs } from './components/BrandImage';
 import './styles/globals.css'
 
@@ -29,7 +29,7 @@ function App() {
     setMounted(true)
     
     const handleScroll = () => {
-      const sections = ['home', 'about', 'skills', 'projects', 'contact']
+      const sections = ['home', 'about', 'github-activity', 'skills', 'projects', 'contact']
       const scrollPosition = window.scrollY + 100
       
       for (const section of sections) {
@@ -190,6 +190,7 @@ function App() {
               </span>
             </div>
           }
+          actions={<ThemeToggle />}
         />
       </div>
 
@@ -314,80 +315,8 @@ function App() {
         </div>
       </section>
 
-      {/* GitHub Stats Section */}
-      <section className="py-16 relative z-10">
-        <div className="container mx-auto px-4">
-          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <h2 className="font-display text-3xl font-bold text-center mb-12 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
-              Development Activity
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              <GlassCard variant="hunter" className="text-center">
-                <div className="text-4xl text-hunter-emerald mb-4">
-                  <FaGithub className="mx-auto" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Active Developer</h3>
-                <p className="text-hunter-sage text-sm mb-4">Consistent contributions and project development</p>
-                <div className="text-2xl font-bold text-hunter-emerald">6+ Projects</div>
-                <p className="text-hunter-sage text-xs">Live interactive applications</p>
-              </GlassCard>
-              
-              <GlassCard variant="premium" className="text-center">
-                <div className="text-4xl text-metallic-silver mb-4">
-                  <FaCode className="mx-auto" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Tech Stack</h3>
-                <p className="text-hunter-sage text-sm mb-4">Modern technologies and frameworks</p>
-                <div className="text-2xl font-bold text-metallic-silver">15+ Skills</div>
-                <p className="text-hunter-sage text-xs">Frontend, Backend, AI/ML</p>
-              </GlassCard>
-              
-              <GlassCard variant="hunter" className="text-center md:col-span-2 lg:col-span-1">
-                <div className="text-4xl text-hunter-core mb-4">
-                  <FaRocket className="mx-auto" />
-                </div>
-                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Learning Journey</h3>
-                <p className="text-hunter-sage text-sm mb-4">Continuous growth and education</p>
-                <div className="text-2xl font-bold text-hunter-core">2024+</div>
-                <p className="text-hunter-sage text-xs">Career transition in progress</p>
-              </GlassCard>
-            </div>
-            
-            <div className="mt-12 text-center">
-              <GlassCard variant="premium" className="max-w-4xl mx-auto">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                  <div className="flex-1">
-                    <h3 className="font-display text-xl font-semibold text-glass-light mb-2">
-                      Explore My GitHub Portfolio
-                    </h3>
-                    <p className="text-hunter-sage text-sm">
-                      Interactive projects, games, and applications showcasing modern web development skills
-                    </p>
-                  </div>
-                  <div className="flex gap-4">
-                    <a 
-                      href="https://github.com/StrayDogSyn" 
-                      className="px-6 py-3 bg-gradient-to-r from-hunter-emerald to-hunter-core text-charcoal-dark font-semibold rounded-lg hover:shadow-lg hover:shadow-hunter-emerald/25 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaGithub /> View GitHub
-                    </a>
-                    <a 
-                      href="https://straydogsyn.github.io/portfolio" 
-                      className="px-6 py-3 border-2 border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FaExternalLinkAlt /> Live Portfolio
-                    </a>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* GitHub Activity Section */}
+      <GitHubActivity />
 
       {/* Projects Section */}
       <section id="projects" className="py-20 relative z-10">

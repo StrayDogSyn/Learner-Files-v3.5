@@ -12,6 +12,7 @@ interface GlassNavigationProps {
   activeItem?: string;
   className?: string;
   logo?: React.ReactNode;
+  actions?: React.ReactNode;
 }
 
 const GlassNavigation: React.FC<GlassNavigationProps> = ({
@@ -19,6 +20,7 @@ const GlassNavigation: React.FC<GlassNavigationProps> = ({
   activeItem,
   className = '',
   logo,
+  actions,
 }) => {
   const handleItemClick = (item: NavigationItem) => {
     if (item.onClick) {
@@ -44,23 +46,35 @@ const GlassNavigation: React.FC<GlassNavigationProps> = ({
             )}
           </div>
 
-          {/* Navigation Items */}
-          <div className="hidden md:flex space-x-2">
-            {items.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => handleItemClick(item)}
-                className={`glass-nav-item ${
-                  activeItem === item.id ? 'active' : ''
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          {/* Navigation Items & Actions */}
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex space-x-2">
+              {items.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => handleItemClick(item)}
+                  className={`glass-nav-item ${
+                    activeItem === item.id ? 'active' : ''
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+            {actions && (
+              <div className="flex items-center space-x-2">
+                {actions}
+              </div>
+            )}
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          {/* Mobile Menu & Actions */}
+          <div className="md:hidden flex items-center space-x-2">
+            {actions && (
+              <div className="flex items-center space-x-2">
+                {actions}
+              </div>
+            )}
             <button className="glass-nav-item p-2">
               <svg
                 className="w-6 h-6"
