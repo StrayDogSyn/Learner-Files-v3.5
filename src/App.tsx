@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
 import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard } from './components'
 import BrandImage, { BrandConfigs } from './components/BrandImage';
 import './styles/globals.css'
@@ -51,41 +51,91 @@ function App() {
   const projects: Project[] = [
     {
       id: 1,
-      title: 'AI-Powered Task Manager',
-      description: 'A modern task management application with AI-powered suggestions and smart categorization.',
-      technologies: ['React', 'TypeScript', 'Node.js', 'OpenAI API'],
-      githubUrl: 'https://github.com/example/ai-task-manager',
-      liveUrl: 'https://ai-task-manager.demo.com'
+      title: 'Advanced Calculator',
+      description: 'Complete calculator with explosion effects for divide-by-zero operations and full keyboard support. Features modern UI design and responsive functionality.',
+      technologies: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Responsive Design'],
+      githubUrl: 'https://github.com/StrayDogSyn/advanced-calculator',
+      liveUrl: 'https://straydogsyn.github.io/calculator'
     },
     {
       id: 2,
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with payment integration and inventory management.',
-      technologies: ['React', 'Express.js', 'MongoDB', 'Stripe API'],
-      githubUrl: 'https://github.com/example/ecommerce-platform'
+      title: 'Knucklebones Game',
+      description: 'Interactive dice-based strategy game with dynamic scoring system. Demonstrates game logic implementation and user interaction design.',
+      technologies: ['JavaScript', 'HTML5', 'CSS3', 'Game Logic'],
+      githubUrl: 'https://github.com/StrayDogSyn/knucklebones-game',
+      liveUrl: 'https://straydogsyn.github.io/knucklebones'
     },
     {
       id: 3,
-      title: 'Real-time Chat Application',
-      description: 'WebSocket-based chat application with rooms, file sharing, and emoji reactions.',
-      technologies: ['React', 'Socket.io', 'Node.js', 'PostgreSQL'],
-      githubUrl: 'https://github.com/example/chat-app',
-      liveUrl: 'https://chat-app.demo.com'
+      title: 'CompTIA Quiz Application',
+      description: 'Technical certification preparation tool with interactive questions and progress tracking. Built for IT certification study.',
+      technologies: ['JavaScript', 'HTML5', 'CSS3', 'Local Storage'],
+      githubUrl: 'https://github.com/StrayDogSyn/comptia-quiz',
+      liveUrl: 'https://straydogsyn.github.io/comptia-quiz'
+    },
+    {
+      id: 4,
+      title: 'Rock Paper Scissors',
+      description: 'Classic game implementation with modern UI and responsive design. Features score tracking and smooth animations.',
+      technologies: ['JavaScript', 'CSS3', 'HTML5', 'Animations'],
+      githubUrl: 'https://github.com/StrayDogSyn/rock-paper-scissors',
+      liveUrl: 'https://straydogsyn.github.io/rock-paper-scissors'
+    },
+    {
+      id: 5,
+      title: 'Interactive Navbar Showcase',
+      description: 'Demonstration of navigation design patterns and accessibility features. Showcases modern web navigation techniques.',
+      technologies: ['HTML5', 'CSS3', 'JavaScript', 'ARIA', 'Accessibility'],
+      githubUrl: 'https://github.com/StrayDogSyn/interactive-navbar',
+      liveUrl: 'https://straydogsyn.github.io/navbar-showcase'
+    },
+    {
+      id: 6,
+      title: 'Quiz Ninja 2.1',
+      description: 'Advanced learning assessment tool with multiple question types and detailed analytics. Features progress tracking and performance insights.',
+      technologies: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Data Analytics'],
+      githubUrl: 'https://github.com/StrayDogSyn/quiz-ninja',
+      liveUrl: 'https://straydogsyn.github.io/quiz-ninja'
     }
   ]
 
   const skills: Skill[] = [
+    // Frontend Technologies
+    { name: 'JavaScript (ES6+)', level: 95, category: 'frontend' },
     { name: 'React', level: 90, category: 'frontend' },
     { name: 'TypeScript', level: 85, category: 'frontend' },
-    { name: 'JavaScript', level: 95, category: 'frontend' },
-    { name: 'Tailwind CSS', level: 80, category: 'frontend' },
+    { name: 'HTML5', level: 95, category: 'frontend' },
+    { name: 'CSS3', level: 90, category: 'frontend' },
+    { name: 'Tailwind CSS', level: 85, category: 'frontend' },
+    { name: 'Bootstrap', level: 80, category: 'frontend' },
+    { name: 'Responsive Design', level: 90, category: 'frontend' },
+    
+    // Backend Technologies
     { name: 'Node.js', level: 85, category: 'backend' },
     { name: 'Express.js', level: 80, category: 'backend' },
-    { name: 'Python', level: 75, category: 'backend' },
-    { name: 'MongoDB', level: 70, category: 'database' },
+    { name: 'Python', level: 80, category: 'backend' },
+    { name: 'RESTful APIs', level: 85, category: 'backend' },
+    
+    // Databases
+    { name: 'MongoDB', level: 75, category: 'database' },
     { name: 'PostgreSQL', level: 75, category: 'database' },
-    { name: 'Git', level: 90, category: 'tools' },
-    { name: 'Docker', level: 65, category: 'tools' }
+    { name: 'MySQL', level: 70, category: 'database' },
+    
+    // AI & Development Tools
+    { name: 'Claude API', level: 85, category: 'tools' },
+    { name: 'OpenAI', level: 80, category: 'tools' },
+    { name: 'Machine Learning', level: 75, category: 'tools' },
+    { name: 'Git & GitHub', level: 95, category: 'tools' },
+    { name: 'VS Code', level: 90, category: 'tools' },
+    { name: 'Docker', level: 70, category: 'tools' },
+    { name: 'Terminal/CLI', level: 85, category: 'tools' },
+    { name: 'RegEx', level: 80, category: 'tools' },
+    
+    // Mobile & Additional Skills
+    { name: 'Android Development', level: 65, category: 'tools' },
+    { name: 'UX/UI Design', level: 80, category: 'frontend' },
+    { name: 'Technical Writing', level: 90, category: 'tools' },
+    { name: 'A/B Testing', level: 75, category: 'tools' }
   ]
 
   const scrollToSection = (sectionId: string) => {
@@ -161,11 +211,12 @@ function App() {
                   </span>
                 </h1>
                 <h2 className="text-2xl md:text-3xl font-semibold text-metallic-silver mb-4">
-                  Developer with 20 Years Professional Excellence
+                  From Kitchen to Code: 20+ Years of Excellence
                 </h2>
                 <p className="text-lg md:text-xl text-metallic-silver/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-                  Specializing in AI-enhanced software development, modern web technologies, 
-                  and innovative digital solutions that push the boundaries of what's possible.
+                  Transforming two decades of fine dining leadership into innovative software development. 
+                  Specializing in JavaScript, AI/ML technologies, and creating digital experiences with 
+                  the same precision and attention to detail that defined my culinary career.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -192,31 +243,36 @@ function App() {
         <div className="container mx-auto px-4">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
-              About StrayDog Syndications
+              About Eric 'Hunter' Petross
             </h2>
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <GlassCard variant="hunter" className="h-full">
                 <h3 className="font-display text-2xl font-semibold mb-6 text-glass-light">
-                  Passionate Developer & AI Innovator
+                  From Kitchen to Code: An Honest Journey
                 </h3>
                 <p className="text-hunter-sage mb-6 leading-relaxed">
-                  As a Tier 2 AISE graduate, StrayDog Syndications represents the cutting edge of 
-                  artificial intelligence and software engineering excellence. Our mission is to 
-                  create transformative digital experiences that push technological boundaries.
+                  Welcome to my GitHub profile—where code meets creativity and a dash of wit! I'm Eric 'Hunter' Petross, 
+                  a detail-oriented and collaborative software developer based out of New England, with a serious passion 
+                  for JavaScript, AI/ML innovations, and the ever-fascinating world of LLMs.
                 </p>
                 <p className="text-hunter-sage mb-6 leading-relaxed">
-                  We specialize in AI-enhanced web development, machine learning integration, and 
-                  crafting premium user experiences that solve complex real-world challenges with 
-                  innovative technological solutions.
+                  After 20+ years of leadership excellence in fine dining, I've transitioned into software development 
+                  with the same dedication to precision and quality. Currently pursuing Justice Through Code at Columbia 
+                  Business School, focusing on back-end development and AI/ML technologies.
+                </p>
+                <p className="text-hunter-sage mb-6 leading-relaxed">
+                  My motto is simple: "If it challenges me, it excites me!" Whether building intuitive web interfaces 
+                  or diving deep into AI/ML advancements, I bring the same collaborative spirit and attention to detail 
+                  that made me successful in hospitality.
                 </p>
                 <div className="flex space-x-4">
-                  <a href="https://github.com" title="GitHub Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
+                  <a href="https://github.com/StrayDogSyn" title="GitHub Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaGithub size={24} />
                   </a>
                   <a href="https://linkedin.com" title="LinkedIn Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaLinkedin size={24} />
                   </a>
-                  <a href="mailto:contact@example.com" title="Send Email" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
+                  <a href="mailto:contact@straydogsyndications.com" title="Send Email" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
                     <FaEnvelope size={24} />
                   </a>
                 </div>
@@ -224,29 +280,108 @@ function App() {
               <GlassCard variant="premium" className="relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-hunter-emerald/10 to-metallic-silver/10"></div>
                 <div className="relative z-10">
-                  <h4 className="font-display text-xl font-semibold mb-6 text-glass-light">Key Achievements</h4>
+                  <h4 className="font-display text-xl font-semibold mb-6 text-glass-light">Professional Journey</h4>
                   <ul className="space-y-4 text-hunter-sage">
                     <li className="flex items-start">
                       <span className="text-hunter-emerald mr-3 text-lg">✓</span>
-                      <span>Completed AISE Tier 2 certification program</span>
+                      <span>AI Content Writer at Outlier AI (October 2024 - Present)</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-hunter-emerald mr-3 text-lg">✓</span>
-                      <span>Built 15+ full-stack applications</span>
+                      <span>Justice Through Code - Back-End Development & AI/ML</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-hunter-emerald mr-3 text-lg">✓</span>
-                      <span>Integrated AI/ML models in production apps</span>
+                      <span>Associate in Applied Science - Computer Network Technologies</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-hunter-emerald mr-3 text-lg">✓</span>
-                      <span>Contributed to open-source projects</span>
+                      <span>20+ years fine dining leadership experience</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-hunter-emerald mr-3 text-lg">✓</span>
-                      <span>Mentored junior developers</span>
+                      <span>Interactive portfolio with 6+ live projects</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Anticipated graduation: August 14th, 2025</span>
                     </li>
                   </ul>
+                </div>
+              </GlassCard>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* GitHub Stats Section */}
+      <section className="py-16 relative z-10">
+        <div className="container mx-auto px-4">
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-3xl font-bold text-center mb-12 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              Development Activity
+            </h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              <GlassCard variant="hunter" className="text-center">
+                <div className="text-4xl text-hunter-emerald mb-4">
+                  <FaGithub className="mx-auto" />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Active Developer</h3>
+                <p className="text-hunter-sage text-sm mb-4">Consistent contributions and project development</p>
+                <div className="text-2xl font-bold text-hunter-emerald">6+ Projects</div>
+                <p className="text-hunter-sage text-xs">Live interactive applications</p>
+              </GlassCard>
+              
+              <GlassCard variant="premium" className="text-center">
+                <div className="text-4xl text-metallic-silver mb-4">
+                  <FaCode className="mx-auto" />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Tech Stack</h3>
+                <p className="text-hunter-sage text-sm mb-4">Modern technologies and frameworks</p>
+                <div className="text-2xl font-bold text-metallic-silver">15+ Skills</div>
+                <p className="text-hunter-sage text-xs">Frontend, Backend, AI/ML</p>
+              </GlassCard>
+              
+              <GlassCard variant="hunter" className="text-center md:col-span-2 lg:col-span-1">
+                <div className="text-4xl text-hunter-core mb-4">
+                  <FaRocket className="mx-auto" />
+                </div>
+                <h3 className="font-display text-xl font-semibold text-glass-light mb-2">Learning Journey</h3>
+                <p className="text-hunter-sage text-sm mb-4">Continuous growth and education</p>
+                <div className="text-2xl font-bold text-hunter-core">2024+</div>
+                <p className="text-hunter-sage text-xs">Career transition in progress</p>
+              </GlassCard>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <GlassCard variant="premium" className="max-w-4xl mx-auto">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex-1">
+                    <h3 className="font-display text-xl font-semibold text-glass-light mb-2">
+                      Explore My GitHub Portfolio
+                    </h3>
+                    <p className="text-hunter-sage text-sm">
+                      Interactive projects, games, and applications showcasing modern web development skills
+                    </p>
+                  </div>
+                  <div className="flex gap-4">
+                    <a 
+                      href="https://github.com/StrayDogSyn" 
+                      className="px-6 py-3 bg-gradient-to-r from-hunter-emerald to-hunter-core text-charcoal-dark font-semibold rounded-lg hover:shadow-lg hover:shadow-hunter-emerald/25 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaGithub /> View GitHub
+                    </a>
+                    <a 
+                      href="https://straydogsyn.github.io/portfolio" 
+                      className="px-6 py-3 border-2 border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaExternalLinkAlt /> Live Portfolio
+                    </a>
+                  </div>
                 </div>
               </GlassCard>
             </div>
@@ -265,11 +400,11 @@ function App() {
             {/* Featured Project */}
             <div className="mb-16">
               <ProjectCard
-                title="AI-Enhanced Portfolio Platform"
-                description="A cutting-edge portfolio platform featuring glassmorphic design, AI-powered content optimization, and advanced user experience patterns. Built with React, TypeScript, and modern CSS techniques."
-                technologies={['React', 'TypeScript', 'CSS Variables', 'Glassmorphism', 'AI Integration']}
-                githubUrl="https://github.com/straydogsyndications"
-                liveUrl="https://straydogsyndications.dev"
+                title="Interactive Web Development Portfolio"
+                description="Comprehensive showcase featuring 6+ interactive projects, games, and applications. Demonstrates full-stack capabilities with modern JavaScript, responsive design, and creative problem-solving. Includes advanced calculator, strategy games, and technical tools."
+                technologies={['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Responsive Design', 'GitHub Pages', 'Interactive UI']}
+                githubUrl="https://github.com/StrayDogSyn"
+                liveUrl="https://straydogsyn.github.io/portfolio"
                 featured={true}
                 className="max-w-4xl mx-auto"
               />
@@ -306,6 +441,121 @@ function App() {
                 >
                   Start a Project
                 </button>
+              </GlassCard>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AI & Technical Writing Expertise Section */}
+      <section className="py-20 relative z-10 bg-gradient-to-br from-charcoal-dark/20 to-hunter-forest/10">
+        <div className="container mx-auto px-4">
+          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+              AI & Technical Writing Expertise
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+              <GlassCard variant="premium" className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-hunter-emerald/10 to-metallic-silver/10"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-hunter-emerald to-hunter-core rounded-lg flex items-center justify-center mr-4">
+                      <FaLightbulb className="text-charcoal-dark text-2xl" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-2xl font-semibold text-glass-light">AI Content Writer</h3>
+                      <p className="text-hunter-sage">Outlier AI • October 2024 - Present</p>
+                    </div>
+                  </div>
+                  <p className="text-hunter-sage mb-6 leading-relaxed">
+                    Specializing in creating high-quality AI training content and technical documentation. 
+                    Working with cutting-edge language models and contributing to the advancement of AI systems 
+                    through precise, well-structured content creation.
+                  </p>
+                  <ul className="space-y-3 text-hunter-sage">
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>AI model training and content optimization</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Technical documentation and API guides</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>LLM prompt engineering and optimization</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-hunter-emerald mr-3 text-lg">✓</span>
+                      <span>Cross-functional collaboration with AI teams</span>
+                    </li>
+                  </ul>
+                </div>
+              </GlassCard>
+              
+              <GlassCard variant="hunter" className="relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-hunter-core/10 to-hunter-forest/10"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-metallic-silver to-hunter-core rounded-lg flex items-center justify-center mr-4">
+                      <FaRocket className="text-charcoal-dark text-2xl" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-2xl font-semibold text-glass-light">AI/ML Technologies</h3>
+                      <p className="text-hunter-sage">Modern Development Stack</p>
+                    </div>
+                  </div>
+                  <p className="text-hunter-sage mb-6 leading-relaxed">
+                    Leveraging the latest in artificial intelligence and machine learning to create 
+                    intelligent applications. From API integrations to custom AI solutions, bringing 
+                    cutting-edge technology to real-world problems.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-glass-subtle/50 rounded-lg p-4 border border-glass-border">
+                      <h4 className="font-semibold text-glass-light mb-2">AI Platforms</h4>
+                      <ul className="text-sm text-hunter-sage space-y-1">
+                        <li>• OpenAI GPT APIs</li>
+                        <li>• Claude AI</li>
+                        <li>• Hugging Face</li>
+                        <li>• TensorFlow</li>
+                      </ul>
+                    </div>
+                    <div className="bg-glass-subtle/50 rounded-lg p-4 border border-glass-border">
+                      <h4 className="font-semibold text-glass-light mb-2">Specializations</h4>
+                      <ul className="text-sm text-hunter-sage space-y-1">
+                        <li>• Prompt Engineering</li>
+                        <li>• Content Generation</li>
+                        <li>• API Integration</li>
+                        <li>• Model Training</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </GlassCard>
+            </div>
+            
+            <div className="mt-16 text-center">
+              <GlassCard variant="premium" className="max-w-4xl mx-auto">
+                <h3 className="font-display text-2xl font-semibold text-glass-light mb-4">
+                  StrayDog Syndications: Where Innovation Meets Excellence
+                </h3>
+                <p className="text-hunter-sage mb-6 leading-relaxed">
+                  Combining 20+ years of hospitality excellence with cutting-edge AI/ML expertise. 
+                  Every project receives the same attention to detail and commitment to quality that 
+                  defined my culinary career, now applied to creating intelligent software solutions.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <span className="px-4 py-2 bg-hunter-emerald/20 text-hunter-emerald rounded-full text-sm font-medium border border-hunter-emerald/30">
+                    AI Integration Specialist
+                  </span>
+                  <span className="px-4 py-2 bg-metallic-silver/20 text-metallic-silver rounded-full text-sm font-medium border border-metallic-silver/30">
+                    Technical Content Writer
+                  </span>
+                  <span className="px-4 py-2 bg-hunter-core/20 text-hunter-core rounded-full text-sm font-medium border border-hunter-core/30">
+                    Full-Stack Developer
+                  </span>
+                </div>
               </GlassCard>
             </div>
           </div>
@@ -387,9 +637,9 @@ function App() {
                   Let's Create Something Extraordinary
                 </h3>
                 <p className="text-hunter-sage mb-8 leading-relaxed">
-                  StrayDog Syndications is always ready for new challenges and innovative collaborations. 
-                  Whether you have a groundbreaking project in mind or want to explore the possibilities 
-                  of AI-enhanced development, let's connect and build the future together.
+                  Ready for new challenges and innovative collaborations! Whether you have a project in mind, 
+                  want to explore AI/ML possibilities, or just want to connect with a fellow developer who 
+                  brings hospitality-level service to software development, let's build something amazing together.
                 </p>
                 
                 <div className="space-y-6 mb-8">
@@ -399,17 +649,17 @@ function App() {
                     </div>
                     <div>
                       <p className="text-glass-light font-medium">Email</p>
-                      <p className="text-hunter-sage">contact@straydogsyndications.dev</p>
+                      <p className="text-hunter-sage">contact@straydogsyndications.com</p>
                     </div>
                   </div>
                   
                   <div className="flex items-center group">
                     <div className="w-12 h-12 bg-gradient-to-br from-metallic-silver to-hunter-core rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
-                      <FaPhone className="text-charcoal-dark" />
+                      <FaGithub className="text-charcoal-dark" />
                     </div>
                     <div>
-                      <p className="text-glass-light font-medium">Phone</p>
-                      <p className="text-hunter-sage">+1 (555) STRAY-DOG</p>
+                      <p className="text-glass-light font-medium">GitHub Portfolio</p>
+                      <p className="text-hunter-sage">github.com/StrayDogSyn</p>
                     </div>
                   </div>
                   
@@ -419,24 +669,32 @@ function App() {
                     </div>
                     <div>
                       <p className="text-glass-light font-medium">Location</p>
-                      <p className="text-hunter-sage">Global Remote & On-Site</p>
+                      <p className="text-hunter-sage">New England, Remote Available</p>
                     </div>
                   </div>
                 </div>
                 
                 <div className="flex space-x-4">
                   <a 
-                    href="https://github.com/straydogsyndications" 
+                    href="https://github.com/StrayDogSyn" 
                     className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
-                    title="Visit StrayDog Syndications on GitHub"
+                    title="Visit Eric's GitHub Profile"
                     aria-label="GitHub Profile"
                   >
                     <FaGithub size={20} />
                   </a>
                   <a 
-                    href="https://linkedin.com/company/straydogsyndications" 
+                    href="https://straydogsyn.github.io/portfolio" 
                     className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
-                    title="Connect with StrayDog Syndications on LinkedIn"
+                    title="View Live Portfolio"
+                    aria-label="Live Portfolio"
+                  >
+                    <FaExternalLinkAlt size={20} />
+                  </a>
+                  <a 
+                    href="https://linkedin.com" 
+                    className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
+                    title="Connect on LinkedIn"
                     aria-label="LinkedIn Profile"
                   >
                     <FaLinkedin size={20} />

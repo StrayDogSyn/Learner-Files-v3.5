@@ -2,6 +2,7 @@
 export { default as GlassContainer } from './GlassContainer';
 export { default as GlassCard } from './GlassCard';
 export { default as GlassNavigation } from './GlassNavigation';
+export { default as GitHubActivity } from './GitHubActivity';
 export { default as SkillCard } from './SkillCard';
 export { default as ProjectCard } from './ProjectCard';
 
