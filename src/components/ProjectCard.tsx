@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaGithub, FaExternalLinkAlt, FaCode, FaEye } from 'react-icons/fa';
 import GlassCard from './GlassCard';
+import BrandImage from './BrandImage';
 
 interface ProjectCardProps {
   title: string;
@@ -28,16 +29,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <GlassCard 
       variant={featured ? "premium" : "hunter"} 
-      className={`project-card group ${className}`}
+      className={`project-card group relative ${className}`}
       padding="lg"
       style={style}
     >
+      {/* Brand Watermark */}
+      <div className="absolute top-3 right-3 z-10 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+        <BrandImage
+          src="/assets/brand/circa2024.png"
+          alt="StrayDog Syndications Project"
+          width={24}
+          height={24}
+          className="filter brightness-0 invert"
+          lazy={false}
+        />
+      </div>
+      
       {/* Project Image */}
       {imageUrl && (
         <div className="relative mb-6 overflow-hidden rounded-lg">
           <img
             src={imageUrl}
-            alt={title}
+            alt={`${title} - StrayDog Syndications Project`}
             className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-charcoal-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

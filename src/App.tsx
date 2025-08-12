@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCode, FaServer, FaDatabase } from 'react-icons/fa';
 import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard } from './components'
+import BrandImage, { BrandConfigs } from './components/BrandImage';
 import './styles/globals.css'
 
 interface Project {
@@ -109,6 +110,15 @@ function App() {
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium"></div>
+        {/* Brand Banner Background Pattern */}
+        <div 
+          className="absolute inset-0 opacity-5 bg-repeat bg-center"
+          style={{
+            backgroundImage: 'url(/assets/brand/banner.png)',
+            backgroundSize: '400px 200px',
+            filter: 'brightness(0.3) contrast(1.2)'
+          }}
+        ></div>
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-hunter-emerald/10 rounded-full blur-3xl animate-pulse-slow"></div>
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-metallic-silver/5 rounded-full blur-3xl animate-pulse-slow animate-delay-2s"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-hunter-core/8 rounded-full blur-2xl animate-pulse-slow animate-delay-4s"></div>
@@ -121,9 +131,10 @@ function App() {
           activeItem={activeSection}
           logo={
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-lg flex items-center justify-center">
-                <span className="text-charcoal-dark font-bold text-sm">SD</span>
-              </div>
+              <BrandImage
+                {...BrandConfigs.navLogo}
+                className="w-8 h-8 rounded-lg"
+              />
               <span className="font-display font-bold text-lg bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
                 StrayDog Syndications
               </span>
@@ -138,8 +149,11 @@ function App() {
           <GlassContainer className="max-w-4xl mx-auto">
             <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <div className="mb-8">
-                <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-full flex items-center justify-center shadow-2xl">
-                  <span className="text-4xl font-bold text-charcoal-dark">SD</span>
+                <div className="w-32 h-32 mx-auto mb-6 relative">
+                  <BrandImage
+                    {...BrandConfigs.heroLogo}
+                    className="w-32 h-32 rounded-full shadow-2xl border-4 border-hunter-emerald/30 hover:border-hunter-emerald/60 transition-all duration-300"
+                  />
                 </div>
                 <h1 className="font-display text-5xl md:text-7xl font-bold mb-6">
                   <span className="bg-gradient-to-r from-hunter-emerald via-metallic-silver to-hunter-core bg-clip-text text-transparent">
@@ -147,10 +161,10 @@ function App() {
                   </span>
                 </h1>
                 <h2 className="text-2xl md:text-3xl font-semibold text-metallic-silver mb-4">
-                  AISE Developer Portfolio
+                  Developer with 20 Years Professional Excellence
                 </h2>
                 <p className="text-lg md:text-xl text-metallic-silver/80 mb-8 max-w-3xl mx-auto leading-relaxed">
-                  Tier 2 Graduate specializing in AI-enhanced software development, modern web technologies, 
+                  Specializing in AI-enhanced software development, modern web technologies, 
                   and innovative digital solutions that push the boundaries of what's possible.
                 </p>
               </div>
@@ -502,12 +516,25 @@ function App() {
       {/* Footer */}
       <footer className="relative z-10 py-12">
         <div className="container mx-auto px-4">
-          <GlassCard variant="premium" className="text-center">
+          <GlassCard variant="premium" className="text-center relative">
+            {/* Brand Watermark */}
+            <div className="absolute top-4 right-4 opacity-20">
+              <BrandImage
+                src="/assets/brand/circa2024.png"
+                alt="StrayDog Syndications 2024"
+                width={48}
+                height={48}
+                className="filter brightness-0 invert"
+                lazy={false}
+              />
+            </div>
+            
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="flex items-center space-x-3 mb-4 md:mb-0">
-                <div className="w-10 h-10 bg-gradient-to-br from-hunter-emerald to-metallic-silver rounded-lg flex items-center justify-center">
-                  <span className="text-charcoal-dark font-bold text-sm">SD</span>
-                </div>
+                <BrandImage
+                  {...BrandConfigs.navLogo}
+                  className="w-10 h-10 rounded-lg"
+                />
                 <span className="font-display font-bold text-lg bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
                   StrayDog Syndications
                 </span>
