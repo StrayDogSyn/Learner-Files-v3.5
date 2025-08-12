@@ -183,8 +183,8 @@
   /* Glass Container System */
   .glass-container {
     background: var(--glass-primary);
-    backdrop-filter: var(--blur-medium);
     -webkit-backdrop-filter: var(--blur-medium);
+    backdrop-filter: var(--blur-medium);
     border: 1px solid var(--glass-border-light);
     border-radius: 20px;
     box-shadow: var(--shadow-glass-soft);
@@ -205,8 +205,8 @@
   
   .glass-container-secondary {
     background: var(--glass-secondary);
-    backdrop-filter: var(--blur-heavy);
     -webkit-backdrop-filter: var(--blur-heavy);
+    backdrop-filter: var(--blur-heavy);
     border: 1px solid var(--glass-border-medium);
     border-radius: 24px;
     box-shadow: var(--shadow-glass-medium);
@@ -216,8 +216,8 @@
   
   .glass-container-premium {
     background: linear-gradient(135deg, var(--glass-primary) 0%, var(--glass-secondary) 100%);
-    backdrop-filter: var(--blur-heavy);
     -webkit-backdrop-filter: var(--blur-heavy);
+    backdrop-filter: var(--blur-heavy);
     border: 2px solid transparent;
     border-radius: 28px;
     box-shadow: var(--shadow-premium);
@@ -272,8 +272,8 @@
   /* Navigation Glass System */
   .glass-nav {
     background: var(--glass-primary);
-    backdrop-filter: var(--blur-heavy);
     -webkit-backdrop-filter: var(--blur-heavy);
+    backdrop-filter: var(--blur-heavy);
     border-bottom: 1px solid var(--glass-border-light);
     position: fixed;
     top: 0;
