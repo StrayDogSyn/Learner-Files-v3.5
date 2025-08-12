@@ -520,12 +520,58 @@
     animation: glassGlow 2s ease-in-out infinite alternate;
   }
   
+  .animate-delay-1s {
+    animation-delay: 1s;
+  }
+  
   .animate-delay-2s {
     animation-delay: 2s;
   }
   
+  .animate-delay-3s {
+    animation-delay: 3s;
+  }
+  
   .animate-delay-4s {
     animation-delay: 4s;
+  }
+  
+  /* Dynamic animation delays for skill cards */
+  .animate-delay-0ms { animation-delay: 0ms; }
+  .animate-delay-100ms { animation-delay: 100ms; }
+  .animate-delay-200ms { animation-delay: 200ms; }
+  .animate-delay-300ms { animation-delay: 300ms; }
+  .animate-delay-400ms { animation-delay: 400ms; }
+  .animate-delay-500ms { animation-delay: 500ms; }
+  .animate-delay-600ms { animation-delay: 600ms; }
+  .animate-delay-700ms { animation-delay: 700ms; }
+  .animate-delay-800ms { animation-delay: 800ms; }
+  .animate-delay-900ms { animation-delay: 900ms; }
+  .animate-delay-1000ms { animation-delay: 1000ms; }
+  
+  /* Dynamic animation delays for other elements */
+  .animate-delay-150ms { animation-delay: 150ms; }
+  .animate-delay-450ms { animation-delay: 450ms; }
+  .animate-delay-750ms { animation-delay: 750ms; }
+  
+  /* Transition delay utilities */
+  .transition-delay-0ms { transition-delay: 0ms; }
+  .transition-delay-150ms { transition-delay: 150ms; }
+  .transition-delay-300ms { transition-delay: 300ms; }
+  .transition-delay-450ms { transition-delay: 450ms; }
+  .transition-delay-600ms { transition-delay: 600ms; }
+  .transition-delay-750ms { transition-delay: 750ms; }
+  .transition-delay-900ms { transition-delay: 900ms; }
+  .transition-delay-1050ms { transition-delay: 1050ms; }
+  .transition-delay-1200ms { transition-delay: 1200ms; }
+  .transition-delay-1350ms { transition-delay: 1350ms; }
+  .transition-delay-1500ms { transition-delay: 1500ms; }
+  
+  /* Brand banner background styles */
+  .brand-banner-bg {
+    background-image: url('/assets/brand/banner.png');
+    background-size: 400px 200px;
+    filter: brightness(0.3) contrast(1.2);
   }
   
   @keyframes fadeIn {

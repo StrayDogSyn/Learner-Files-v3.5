@@ -212,6 +212,8 @@ const GitHubActivity: React.FC = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-brand-hunter hover:text-brand-sage transition-colors"
+                        title={`View ${repo.name} on GitHub`}
+                        aria-label={`View ${repo.name} repository on GitHub`}
                       >
                         <ExternalLink className="h-4 w-4" />
                       </a>

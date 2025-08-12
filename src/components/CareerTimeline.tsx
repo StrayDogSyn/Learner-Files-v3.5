@@ -245,10 +245,9 @@ const CareerTimeline: React.FC = () => {
                   <div
                     key={event.id}
                     data-timeline-id={event.id}
-                    className={`relative transition-all duration-700 ${
+                    className={`relative transition-all duration-700 transition-delay-${index * 150}ms ${
                       isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
                     }`}
-                    style={{ transitionDelay: `${index * 150}ms` }}
                   >
                     {/* Timeline Dot */}
                     <div className={`absolute left-6 w-4 h-4 rounded-full border-2 border-white shadow-lg ${

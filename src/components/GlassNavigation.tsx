@@ -75,7 +75,11 @@ const GlassNavigation: React.FC<GlassNavigationProps> = ({
                 {actions}
               </div>
             )}
-            <button className="glass-nav-item p-2">
+            <button 
+              className="glass-nav-item p-2"
+              title="Toggle mobile menu"
+              aria-label="Toggle mobile menu"
+            >
               <svg
                 className="w-6 h-6"
                 fill="none"
