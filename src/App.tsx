@@ -175,13 +175,13 @@ function App() {
                   My approach emphasizes clean code, performance optimization, and seamless user experiences.
                 </p>
                 <div className="flex space-x-4">
-                  <a href="https://github.com" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="https://github.com" title="GitHub Profile" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     <FaGithub size={24} />
                   </a>
-                  <a href="https://linkedin.com" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="https://linkedin.com" title="LinkedIn Profile" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     <FaLinkedin size={24} />
                   </a>
-                  <a href="mailto:contact@example.com" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <a href="mailto:contact@example.com" title="Send Email" className="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     <FaEnvelope size={24} />
                   </a>
                 </div>
@@ -273,9 +273,9 @@ function App() {
                           <span className="text-gray-500 dark:text-gray-400">{skill.level}%</span>
                         </div>
                         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                          <div 
-                            className="bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-1000"
-                            style={{ width: `${skill.level}%` }}
+                          <div
+                            className="skill-progress-bar"
+                            style={{ '--skill-width': `${skill.level}%` } as React.CSSProperties}
                           ></div>
                         </div>
                       </div>

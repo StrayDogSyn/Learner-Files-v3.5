@@ -18,4 +18,9 @@
     @apply bg-white dark:bg-dark-card rounded-xl shadow-lg p-6 
            border border-gray-200 dark:border-gray-700;
   }
+  
+  .skill-progress-bar {
+    @apply bg-gradient-to-r from-primary-500 to-primary-600 h-2 rounded-full transition-all duration-1000;
+    width: var(--skill-width, 0%);
+  }
 }
