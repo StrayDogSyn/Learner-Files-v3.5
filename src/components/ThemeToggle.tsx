@@ -1,13 +1,19 @@
 import React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAnalytics } from '../hooks/useAnalytics';
 
 const ThemeToggle: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { trackThemeToggle } = useAnalytics();
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={() => {
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        toggleTheme();
+        trackThemeToggle(newTheme);
+      }}
       className="
         relative p-3 rounded-full transition-all duration-300 ease-in-out
         bg-white/10 dark:bg-black/20 backdrop-blur-md

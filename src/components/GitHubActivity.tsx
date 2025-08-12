@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GlassCard } from './GlassCard';
+import GlassCard from './GlassCard';
 import { Calendar, GitCommit, ExternalLink, Clock } from 'lucide-react';
 
 interface GitHubCommit {
@@ -160,7 +160,7 @@ const GitHubActivity: React.FC = () => {
             
             <div className="space-y-4">
               {commits.length > 0 ? (
-                commits.map((commit, index) => (
+                commits.map((commit) => (
                   <div key={commit.sha} className="border-l-2 border-brand-hunter/30 pl-4 pb-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">

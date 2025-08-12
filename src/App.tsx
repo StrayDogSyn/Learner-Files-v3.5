@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
-import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle } from './components'
+import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle, ProjectSpotlight, CareerTimeline, KitchenLessons, AIExperimentShowcase, BrandWatermark, ParallaxBackground } from './components'
 import BrandImage, { BrandConfigs } from './components/BrandImage';
+import { useAnalytics, useScrollTracking, usePerformanceTracking } from './hooks/useAnalytics';
 import './styles/globals.css'
 
 interface Project {
@@ -23,6 +24,11 @@ interface Skill {
 function App() {
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const { trackNavigation, trackContactAttempt, trackSocialClick } = useAnalytics()
+  
+  // Initialize analytics tracking
+  useScrollTracking()
+  usePerformanceTracking()
   // const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -139,11 +145,12 @@ function App() {
   ]
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const element = document.getElementById(sectionId)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+        trackNavigation(sectionId)
+      }
     }
-  }
 
   // Removed getSkillIcon function as it's now handled by SkillCard component
 
@@ -195,7 +202,9 @@ function App() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative z-10">
+      <section id="home" className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden">
+        <ParallaxBackground variant="pattern" speed={0.3} opacity={0.04} />
+        <BrandWatermark variant="pattern" opacity={0.03} size="large" position="center" />
         <div className="container mx-auto px-4 text-center">
           <GlassContainer className="max-w-4xl mx-auto">
             <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -267,13 +276,28 @@ function App() {
                   that made me successful in hospitality.
                 </p>
                 <div className="flex space-x-4">
-                  <a href="https://github.com/StrayDogSyn" title="GitHub Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
+                  <a 
+                    href="https://github.com/StrayDogSyn" 
+                    title="GitHub Profile" 
+                    className="text-hunter-emerald hover:text-metallic-silver transition-colors"
+                    onClick={() => trackSocialClick('github')}
+                  >
                     <FaGithub size={24} />
                   </a>
-                  <a href="https://linkedin.com" title="LinkedIn Profile" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
+                  <a 
+                    href="https://linkedin.com" 
+                    title="LinkedIn Profile" 
+                    className="text-hunter-emerald hover:text-metallic-silver transition-colors"
+                    onClick={() => trackSocialClick('linkedin')}
+                  >
                     <FaLinkedin size={24} />
                   </a>
-                  <a href="mailto:contact@straydogsyndications.com" title="Send Email" className="text-hunter-emerald hover:text-metallic-silver transition-colors">
+                  <a 
+                    href="mailto:contact@straydogsyndications.com" 
+                    title="Send Email" 
+                    className="text-hunter-emerald hover:text-metallic-silver transition-colors"
+                    onClick={() => trackContactAttempt('email')}
+                  >
                     <FaEnvelope size={24} />
                   </a>
                 </div>
@@ -317,6 +341,9 @@ function App() {
 
       {/* GitHub Activity Section */}
       <GitHubActivity />
+
+      {/* Project Spotlight Section */}
+      <ProjectSpotlight />
 
       {/* Projects Section */}
       <section id="projects" className="py-20 relative z-10">
@@ -377,7 +404,9 @@ function App() {
       </section>
 
       {/* AI & Technical Writing Expertise Section */}
-      <section className="py-20 relative z-10 bg-gradient-to-br from-charcoal-dark/20 to-hunter-forest/10">
+      <section className="py-20 relative z-10 bg-gradient-to-br from-charcoal-dark/20 to-hunter-forest/10 overflow-hidden">
+        <ParallaxBackground variant="geometric" speed={0.2} opacity={0.02} />
+        <BrandWatermark variant="logo" opacity={0.02} size="medium" position="top-right" />
         <div className="container mx-auto px-4">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
@@ -491,8 +520,18 @@ function App() {
         </div>
       </section>
 
+      {/* Career Timeline Section */}
+      <CareerTimeline />
+
+      {/* Kitchen Lessons Section */}
+      <KitchenLessons />
+
+      {/* AI Experiments Section */}
+      <AIExperimentShowcase />
+
       {/* Skills Section */}
-      <section id="skills" className="py-20 relative z-10">
+      <section id="skills" className="py-20 relative z-10 overflow-hidden">
+        <ParallaxBackground variant="minimal" speed={0.4} opacity={0.03} />
         <div className="container mx-auto px-4">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">

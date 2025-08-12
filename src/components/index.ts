@@ -4,6 +4,12 @@ export { default as GlassCard } from './GlassCard';
 export { default as GlassNavigation } from './GlassNavigation';
 export { default as GitHubActivity } from './GitHubActivity';
 export { default as ThemeToggle } from './ThemeToggle';
+export { default as ProjectSpotlight } from './ProjectSpotlight';
+export { default as CareerTimeline } from './CareerTimeline';
+export { default as KitchenLessons } from './KitchenLessons';
+export { default as AIExperimentShowcase } from './AIExperimentShowcase';
+export { default as BrandWatermark } from './BrandWatermark';
+export { default as ParallaxBackground } from './ParallaxBackground';
 export { default as SkillCard } from './SkillCard';
 export { default as ProjectCard } from './ProjectCard';
 
