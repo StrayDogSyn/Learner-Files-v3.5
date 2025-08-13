@@ -28,9 +28,12 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
 
   const renderPattern = () => (
     <svg
-      className="w-full h-full"
+      className="w-full h-full parallax-transform"
       viewBox="0 0 800 600"
-      style={{ transform, opacity }}
+      style={{
+        '--parallax-transform': transform,
+        '--parallax-opacity': opacity
+      } as React.CSSProperties}
     >
       <defs>
         <pattern id="parallaxPattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
@@ -71,9 +74,12 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
 
   const renderGeometric = () => (
     <svg
-      className="w-full h-full"
+      className="w-full h-full parallax-transform"
       viewBox="0 0 800 600"
-      style={{ transform, opacity }}
+      style={{
+        '--parallax-transform': transform,
+        '--parallax-opacity': opacity
+      } as React.CSSProperties}
     >
       <defs>
         <linearGradient id="geoGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -124,9 +130,12 @@ const ParallaxBackground: React.FC<ParallaxBackgroundProps> = ({
 
   const renderMinimal = () => (
     <svg
-      className="w-full h-full"
+      className="w-full h-full parallax-transform"
       viewBox="0 0 800 600"
-      style={{ transform, opacity }}
+      style={{
+        '--parallax-transform': transform,
+        '--parallax-opacity': opacity
+      } as React.CSSProperties}
     >
       <defs>
         <radialGradient id="minimalGradient" cx="50%" cy="50%" r="50%">

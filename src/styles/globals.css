@@ -630,4 +630,46 @@
   .bg-hunter-gradient {
     background: linear-gradient(135deg, var(--hunter-green-core), var(--emerald-accent));
   }
+  
+  /* Progress bar utilities */
+  .progress-bar-20 { width: 20%; }
+  .progress-bar-40 { width: 40%; }
+  .progress-bar-60 { width: 60%; }
+  .progress-bar-80 { width: 80%; }
+  .progress-bar-100 { width: 100%; }
+  
+  /* Animation delay utilities */
+  .anim-delay-0 { animation-delay: 0ms; }
+  .anim-delay-100 { animation-delay: 100ms; }
+  .anim-delay-150 { animation-delay: 150ms; }
+  .anim-delay-200 { animation-delay: 200ms; }
+  .anim-delay-250 { animation-delay: 250ms; }
+  .anim-delay-300 { animation-delay: 300ms; }
+  .anim-delay-350 { animation-delay: 350ms; }
+  .anim-delay-400 { animation-delay: 400ms; }
+  .anim-delay-450 { animation-delay: 450ms; }
+  .anim-delay-500 { animation-delay: 500ms; }
+  .anim-delay-600 { animation-delay: 600ms; }
+  .anim-delay-750 { animation-delay: 750ms; }
+  
+  /* Skill progress gradient */
+  .bg-skill-gradient {
+    background: linear-gradient(90deg, var(--hunter-green-core), var(--emerald-accent), var(--silver-steel));
+  }
+  
+  /* Dynamic progress bar */
+  .progress-dynamic {
+    width: var(--progress-width, 0%);
+  }
+  
+  /* Dynamic animation delay */
+  .anim-delay-dynamic {
+    animation-delay: var(--anim-delay, 0ms);
+  }
+  
+  /* Dynamic transform and opacity */
+  .parallax-transform {
+    transform: var(--parallax-transform, translateY(0px));
+    opacity: var(--parallax-opacity, 1);
+  }
 }
