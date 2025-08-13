@@ -3,7 +3,6 @@
 ## 1. Project Setup & Dependencies
 
 ### 1.1 Initialize Project
-
 ```bash
 # Create new Vite + React + TypeScript project
 npm create vite@latest marvel-quiz-game -- --template react-ts
@@ -24,7 +23,6 @@ npm install -D playwright @playwright/test
 ```
 
 ### 1.2 Tailwind Configuration with Glassmorphism
-
 ```javascript
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
@@ -117,7 +115,6 @@ export default {
 ## 2. Core Architecture Setup
 
 ### 2.1 Zustand Store Configuration
-
 ```typescript
 // src/store/gameStore.ts
 import { create } from 'zustand'
@@ -298,7 +295,6 @@ export const useGameStore = create<GameState>()()
 ```
 
 ### 2.2 Marvel API Service
-
 ```typescript
 // src/services/marvelApi.ts
 import CryptoJS from 'crypto-js'
@@ -384,6 +380,31 @@ class MarvelApiService {
   }
   
   async getCharacterEvents(characterId: number, limit = 10): Promise<any> {
-    return this.makeRequest(`/characters/${characterId}/events`,
-```
-
+    return this.makeRequest(`/characters/${characterId}/events`, { limit })
+  }
+  
+  async getRandomCharacters(count = 10): Promise<MarvelCharacter[]> {
+    // Get total count first
+    const initialResponse = await this.getCharacters({ limit: 1 })
+    const totalCharacters = initialResponse.data.total
+    
+    // Generate random offsets
+    const characters: MarvelCharacter[] = []
+    const usedOffsets = new Set<number>()
+    
+    while (characters.length < count && usedOffsets.size < totalCharacters) {
+      const randomOffset = Math.floor(Math.random() * totalCharacters)
+      
+      if (!usedOffsets.has(randomOffset)) {
+        usedOffsets.add(randomOffset)
+        
+        try {
+          const response = await this.getCharacters({ limit: 1, offset: randomOffset })
+          if (response.data.results.length > 0) {
+            characters.push(response.data.results[0])
+          }
+        } catch (error) {
+          console.warn('Failed to fetch character at offset', randomOffset, error)
+        }
+      }
+    }
