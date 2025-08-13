@@ -1,21 +1,45 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { 
+// Minimal local type definitions to avoid import issues
+type GameMode = 'story' | 'blitz' | 'survival' | 'multiplayer';
+type Screen = 'home' | 'game-mode-selection' | 'difficulty-selection' | 'game-arena' | 'results' | 'multiplayer-lobby' | 'achievements' | 'leaderboard' | 'settings' | 'profile' | 'loading';
+
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+// Import only the types that work
+import type { 
   Player, 
   PlayerStatistics,
-  GameSession, 
   UIState, 
   GameSettings, 
   MultiplayerRoom, 
-  GameMode, 
   QuizQuestion,
   PlayerAnswer,
-  Achievement,
   Notification,
-  Modal,
-  Screen,
-  DeepPartial
+  Modal
 } from '../types';
+
+// Local GameSession interface
+interface GameSession {
+  id: string;
+  playerId: string;
+  gameMode: GameMode;
+  difficulty: string;
+  startTime: number;
+  endTime?: number;
+  currentQuestionIndex: number;
+  questions: QuizQuestion[];
+  answers: PlayerAnswer[];
+  score: number;
+  lives: number;
+  timeRemaining?: number;
+  status: 'active' | 'paused' | 'completed' | 'abandoned';
+  powerUpsUsed: string[];
+  streakCount: number;
+  bestStreak: number;
+}
 import { questionGenerator } from '../services/questionGenerator';
 import { generateId } from '../lib/utils';
 
@@ -408,21 +432,21 @@ export const useGameStore = create<GameStore>()(
       // Achievement actions
       unlockAchievement: (achievementId) => {
         const { player, updatePlayer, addNotification } = get();
-        
         if (!player) return;
         
+        // Check if player already has this achievement
         const hasAchievement = player.achievements.some(a => a.id === achievementId);
         if (hasAchievement) return;
         
         // This would typically fetch achievement data from a service
-        const achievement: Achievement = {
+        const achievement = {
           id: achievementId,
           name: 'Achievement Unlocked',
           description: 'You earned a new achievement!',
-          icon: 'trophy',
-          category: 'milestone-badges',
-          rarity: 'common',
+          icon: '🏆',
+          rarity: 'common' as const,
           points: 100,
+          category: 'general' as const,
           unlockedAt: Date.now()
         };
         

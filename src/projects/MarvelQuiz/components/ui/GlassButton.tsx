@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import { type LucideProps } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface GlassButtonProps {
@@ -11,7 +11,7 @@ interface GlassButtonProps {
   className?: string;
   variant?: 'default' | 'primary' | 'secondary' | 'danger' | 'success' | 'hero';
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  icon?: LucideIcon;
+  icon?: React.ComponentType<LucideProps>;
   iconPosition?: 'left' | 'right';
   glow?: boolean;
   pulse?: boolean;

@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Toaster } from 'sonner';
-import { useGameStore } from '../../../marvel-quiz-game/src/stores/gameStore';
-import { ParticleBackground } from '../../../marvel-quiz-game/src/components/3d/ParticleBackground';
-import { HomeScreen } from '../../../marvel-quiz-game/src/components/screens/HomeScreen';
-import { GameArenaScreen } from '../../../marvel-quiz-game/src/components/screens/GameArenaScreen';
-import { ResultsScreen } from '../../../marvel-quiz-game/src/components/screens/ResultsScreen';
-import { SettingsScreen } from '../../../marvel-quiz-game/src/components/screens/SettingsScreen';
-import { AchievementsScreen } from '../../../marvel-quiz-game/src/components/screens/AchievementsScreen';
-import { LeaderboardScreen } from '../../../marvel-quiz-game/src/components/screens/LeaderboardScreen';
-import { MultiplayerLobbyScreen } from '../../../marvel-quiz-game/src/components/screens/MultiplayerLobbyScreen';
-import { LoadingScreen } from '../../../marvel-quiz-game/src/components/screens/LoadingScreen';
-import { NotificationManager } from '../../../marvel-quiz-game/src/components/ui/NotificationManager';
-import { ModalManager } from '../../../marvel-quiz-game/src/components/ui/ModalManager';
-import { AudioManager } from '../../../marvel-quiz-game/src/components/audio/AudioManager';
-import { cn } from '../../../marvel-quiz-game/src/lib/utils';
-import '../../../marvel-quiz-game/src/styles/globals.css';
+import { useGameStore } from './stores/gameStore';
+import { ParticleBackground } from './components/3d/ParticleBackground';
+import { HomeScreen } from './components/screens/HomeScreen';
+import { GameArenaScreen } from './components/screens/GameArenaScreen';
+import { ResultsScreen } from './components/screens/ResultsScreen';
+import { SettingsScreen } from './components/screens/SettingsScreen';
+import { AchievementsScreen } from './components/screens/AchievementsScreen';
+import { LeaderboardScreen } from './components/screens/LeaderboardScreen';
+import { MultiplayerLobbyScreen } from './components/screens/MultiplayerLobbyScreen';
+import { LoadingScreen } from './components/screens/LoadingScreen';
+import { NotificationManager } from './components/ui/NotificationManager';
+import { ModalManager } from './components/ui/ModalManager';
+import { AudioManager } from './components/audio/AudioManager';
+import { cn } from './lib/utils';
+import './styles/globals.css';
 
 function MarvelQuizGame() {
   const { 

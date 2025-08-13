@@ -17,11 +17,22 @@ import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
-import type { Achievement } from '../../types';
+// import type { Achievement } from '../../types';
 
 // Local achievement type for this component
-interface LocalAchievement extends Omit<Achievement, 'category'> {
-  category: Achievement['category'] | 'performance-medals' | 'streak-achievements' | 'speed-records' | 'collection-trophies' | 'game-mode-mastery' | 'social-achievements';
+interface LocalAchievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+  points: number;
+  unlockedAt?: number;
+  progress?: {
+    current: number;
+    required: number;
+  };
+  category: 'infinity-stones' | 'character-badges' | 'milestone-badges' | 'performance-medals' | 'streak-achievements' | 'speed-records' | 'collection-trophies' | 'game-mode-mastery' | 'social-achievements';
   requirement: string;
   unlocked: boolean;
 }
