@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface NavigationItem {
   id: string;
   label: string;
   href?: string;
   onClick?: () => void;
+  isRoute?: boolean;
 }
 
 interface GlassNavigationProps {
@@ -49,17 +51,32 @@ const GlassNavigation: React.FC<GlassNavigationProps> = ({
           {/* Navigation Items & Actions */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="flex space-x-2">
-              {items.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleItemClick(item)}
-                  className={`glass-nav-item ${
-                    activeItem === item.id ? 'active' : ''
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {items.map((item) => {
+                if (item.isRoute && item.href) {
+                  return (
+                    <Link
+                      key={item.id}
+                      to={item.href}
+                      className={`glass-nav-item ${
+                        activeItem === item.id ? 'active' : ''
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                }
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleItemClick(item)}
+                    className={`glass-nav-item ${
+                      activeItem === item.id ? 'active' : ''
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
             </div>
             {actions && (
               <div className="flex items-center space-x-2">
