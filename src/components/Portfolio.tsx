@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
-import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle, ProjectSpotlight, CareerTimeline, KitchenLessons, AIExperimentShowcase, BrandWatermark, ParallaxBackground, MarvelQuizShowcase } from './index'
-import BrandImage, { BrandConfigs } from './BrandImage';
-import { projects } from '../data/projects';
-import { useAnalytics, useScrollTracking, usePerformanceTracking } from '../hooks/useAnalytics';
-import '../styles/globals.css'
+import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
+import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs } from 'react-icons/si';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { skills, projects, achievements, experiences } from '../data/projects';
+import { SkillCard } from './SkillCard';
+import { ProjectCard } from './ProjectCard';
+import { GlassContainer } from './GlassContainer';
+import { ParticleBackground } from './ParticleBackground';
+import { ContactForm } from './ContactForm';
+import { SocialLinks } from './SocialLinks';
+import { ProjectSpotlight } from './ProjectSpotlight';
+import { AIExperimentShowcase } from './AIExperimentShowcase';
+import { trackPageView } from '../utils/analytics';
 
 interface Skill {
   name: string
@@ -242,7 +250,7 @@ function Portfolio() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {skills.map((skill, index) => (
-                <SkillCard key={skill.name} skill={skill} index={index} />
+                <SkillCard key={skill.name} {...skill} />
               ))}
             </div>
           </div>
@@ -275,7 +283,7 @@ function Portfolio() {
             {/* All Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {projects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
+                <ProjectCard key={project.id} {...project} />
               ))}
             </div>
           </div>

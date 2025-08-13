@@ -1,10 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import useGameStore from '../../stores/gameStore';
+import { useEffect, useRef } from 'react';
+import { useGameStore } from '../../stores/gameStore';
 
 export function AudioManager() {
   const { settings } = useGameStore();
   const audioContextRef = useRef<AudioContext | null>(null);
-  const soundsRef = useRef<{ [key: string]: AudioBuffer }>({});
 
   useEffect(() => {
     // Initialize Web Audio API

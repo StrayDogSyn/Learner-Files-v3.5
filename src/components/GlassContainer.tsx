@@ -3,10 +3,10 @@ import React from 'react';
 interface GlassContainerProps {
   variant?: 'primary' | 'secondary' | 'premium' | 'hunter';
   blur?: 'subtle' | 'medium' | 'heavy';
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  as?: React.ElementType;
+  as?: keyof JSX.IntrinsicElements;
 }
 
 const GlassContainer: React.FC<GlassContainerProps> = ({

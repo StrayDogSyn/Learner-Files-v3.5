@@ -222,9 +222,8 @@ class MarvelApiService {
 
   async getRandomCharacters(count: number = 10): Promise<MarvelCharacter[]> {
     try {
-      // First, get total count
-      const initialResponse = await this.fetchCharacters({ limit: 1 });
-      const totalCharacters = 1564; // Marvel API typically has around 1564 characters
+      // Marvel API typically has around 1564 characters
+      const totalCharacters = 1564;
       
       const characters: MarvelCharacter[] = [];
       const usedOffsets = new Set<number>();

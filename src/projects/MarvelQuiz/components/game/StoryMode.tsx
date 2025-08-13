@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Book, 
   Star, 
-  ArrowRight, 
   Lock, 
   CheckCircle, 
   Play,
   Trophy,
   Target,
-  Clock,
   Zap
 } from 'lucide-react';
-import { useGameStore } from '../../stores/gameStore';
+import { useGameStore } from '../../store/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
@@ -208,7 +206,7 @@ function ChapterCard({ chapter, index, onPlay }: ChapterCardProps) {
           <div className="mb-4">
             <div className="text-xs text-gray-400 mb-2">Featured Characters:</div>
             <div className="flex flex-wrap gap-1">
-              {chapter.characters.map((character, i) => (
+              {chapter.characters.map((character: string, i: number) => (
                 <span
                   key={i}
                   className="px-2 py-1 bg-white/10 rounded-full text-xs text-gray-300"
@@ -335,7 +333,7 @@ export function StoryMode({ onStartChapter }: StoryModeProps) {
         
         <GlassPanel className="p-4 text-center">
           <Zap className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-          <div className="text-2xl font-bold text-purple-400 mb-1">{player.level}</div>
+          <div className="text-2xl font-bold text-purple-400 mb-1">{player?.level || 1}</div>
           <div className="text-sm text-gray-400">Player Level</div>
         </GlassPanel>
       </motion.div>

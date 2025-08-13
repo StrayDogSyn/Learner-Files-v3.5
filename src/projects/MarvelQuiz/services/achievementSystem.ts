@@ -432,8 +432,11 @@ class AchievementSystem {
 
   checkAchievements(gameData: any): Achievement[] {
     const unlockedAchievements: Achievement[] = [];
-    const playerStats = useGameStore.getState().player.stats;
-    const unlockedIds = useGameStore.getState().player.achievements.map(a => a.id);
+    const player = useGameStore.getState().player;
+    if (!player) return unlockedAchievements;
+    
+    const playerStats = player.stats;
+    const unlockedIds = player.achievements.map(a => a.id);
 
     for (const achievement of this.achievements) {
       // Skip if already unlocked
@@ -614,7 +617,10 @@ class AchievementSystem {
     const achievement = this.getAchievementById(achievementId);
     if (!achievement) return null;
 
-    const unlockedIds = useGameStore.getState().player.achievements.map(a => a.id);
+    const player = useGameStore.getState().player;
+    if (!player) return null;
+    
+    const unlockedIds = player.achievements.map(a => a.id);
     if (unlockedIds.includes(achievementId)) return null;
 
     const specialGameData = {

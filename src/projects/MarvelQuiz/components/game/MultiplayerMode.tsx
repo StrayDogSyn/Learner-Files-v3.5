@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Users, 
   Crown, 
-  Star, 
-  Target, 
   Clock,
   Zap,
   Trophy,
@@ -108,7 +106,6 @@ interface MultiplayerModeProps {
 }
 
 export function MultiplayerMode({ onGameEnd, roomId }: MultiplayerModeProps) {
-  const { player } = useGameStore();
   const [players, setPlayers] = useState(mockPlayers);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(15);
@@ -117,7 +114,7 @@ export function MultiplayerMode({ onGameEnd, roomId }: MultiplayerModeProps) {
   const [gamePhase, setGamePhase] = useState<'waiting' | 'playing' | 'results'>('playing');
   const [round, setRound] = useState(1);
   const [totalRounds] = useState(5);
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected] = useState(true);
   const [chatMessages, setChatMessages] = useState(mockChatMessages);
   const [newMessage, setNewMessage] = useState('');
   const [showChat, setShowChat] = useState(false);
@@ -170,7 +167,6 @@ export function MultiplayerMode({ onGameEnd, roomId }: MultiplayerModeProps) {
       
       // Calculate results
       const isCorrect = answerIndex === currentQuestion.correctAnswer;
-      const responseTime = currentQuestion.timeLimit - timeLeft;
       
       if (isCorrect) {
         const points = Math.max(100, (timeLeft * 10) + (currentPlayer.streak * 50));

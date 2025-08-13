@@ -15,31 +15,11 @@ import type {
   UIState, 
   GameSettings, 
   MultiplayerRoom, 
-  QuizQuestion,
   PlayerAnswer,
   Notification,
-  Modal
+  Modal,
+  GameSession
 } from '../types';
-
-// Local GameSession interface
-interface GameSession {
-  id: string;
-  playerId: string;
-  gameMode: GameMode;
-  difficulty: string;
-  startTime: number;
-  endTime?: number;
-  currentQuestionIndex: number;
-  questions: QuizQuestion[];
-  answers: PlayerAnswer[];
-  score: number;
-  lives: number;
-  timeRemaining?: number;
-  status: 'active' | 'paused' | 'completed' | 'abandoned';
-  powerUpsUsed: string[];
-  streakCount: number;
-  bestStreak: number;
-}
 import { questionGenerator } from '../services/questionGenerator';
 import { generateId } from '../lib/utils';
 
@@ -284,7 +264,6 @@ export const useGameStore = create<GameStore>()(
           setLoading(true);
           
           // Generate questions based on game mode and difficulty
-          const questionCount = gameMode === 'blitz' ? 30 : gameMode === 'survival' ? 50 : 20;
           const questions = await questionGenerator.generateQuestions(
             10,
             difficulty as any
@@ -358,7 +337,6 @@ export const useGameStore = create<GameStore>()(
         });
         
         // Update player statistics
-        const correctAnswers = newAnswers.filter(a => a.isCorrect).length;
         const totalAnswers = newAnswers.length;
         const avgResponseTime = newAnswers.reduce((sum, a) => sum + a.responseTime, 0) / totalAnswers;
         
@@ -446,7 +424,7 @@ export const useGameStore = create<GameStore>()(
           icon: '🏆',
           rarity: 'common' as const,
           points: 100,
-          category: 'general' as const,
+          category: 'milestone-badges' as const,
           unlockedAt: Date.now()
         };
         

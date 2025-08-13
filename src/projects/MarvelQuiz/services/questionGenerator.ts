@@ -41,28 +41,7 @@ interface Comic {
   };
 }
 
-interface Series {
-  id: number;
-  title: string;
-  description: string;
-  startYear: number;
-  endYear: number;
-  thumbnail: {
-    path: string;
-    extension: string;
-  };
-  creators: {
-    items: Array<{
-      name: string;
-      role: string;
-    }>;
-  };
-  characters: {
-    items: Array<{
-      name: string;
-    }>;
-  };
-}
+
 
 export interface Question {
   id: string;
@@ -79,7 +58,6 @@ export interface Question {
 class QuestionGenerator {
   private characters: Character[] = [];
   private comics: Comic[] = [];
-  private series: Series[] = [];
   private isInitialized = false;
 
   // Predefined question templates for different categories
@@ -89,7 +67,7 @@ class QuestionGenerator {
         template: "What is {character}'s real name?",
         difficulty: 'easy',
         correctAnswer: 0,
-        generateOptions: (character: Character, allCharacters: Character[]) => {
+        generateOptions: (character: Character, _allCharacters: Character[]) => {
           const realNames = this.getCharacterRealNames();
           const correctName = realNames[character.name] || 'Unknown';
           const wrongNames = Object.values(realNames)
