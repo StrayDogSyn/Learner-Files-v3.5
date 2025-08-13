@@ -93,8 +93,11 @@ const SkillCard: React.FC<SkillCardProps> = ({
         
         <div className="skill-progress-container">
           <div
-            className="skill-progress-bar bg-skill-gradient"
+            className="skill-progress-bar"
             data-skill-level={level}
+            style={{
+              background: `linear-gradient(90deg, var(--hunter-green-core), var(--emerald-accent), var(--silver-steel))`
+            }}
           ></div>
         </div>
       </div>
