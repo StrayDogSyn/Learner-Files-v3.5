@@ -54,7 +54,7 @@ const spotlightProjects: ProjectSpotlightData[] = [
       codeReduction: '30%'
     },
     githubUrl: 'https://github.com/StrayDogSyn',
-    liveUrl: 'https://straydogsyndications.com',
+    liveUrl: 'https://www.straygog-syndications-llc.com',
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20glassmorphic%20portfolio%20website%20with%20dark%20theme%20toggle%20and%20elegant%20design%20elements&image_size=landscape_16_9',
     quarter: 'Q4',
     year: 2024,
@@ -89,7 +89,7 @@ const spotlightProjects: ProjectSpotlightData[] = [
       userEngagementIncrease: '85%'
     },
     githubUrl: 'https://github.com/StrayDogSyn',
-    liveUrl: 'https://ai-platform.straydogsyndications.com',
+    liveUrl: 'https://www.straygog-syndications-llc.com',
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=AI%20content%20generation%20platform%20interface%20with%20multiple%20language%20models%20and%20modern%20dashboard&image_size=landscape_16_9',
     quarter: 'Q3',
     year: 2024,
@@ -124,7 +124,7 @@ const spotlightProjects: ProjectSpotlightData[] = [
       userSatisfaction: '88%'
     },
     githubUrl: 'https://github.com/StrayDogSyn',
-    liveUrl: 'https://restaurant-mgmt.straydogsyndications.com',
+    liveUrl: 'https://www.straydog-syndications-llc.com',
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=elegant%20restaurant%20management%20dashboard%20with%20scheduling%20and%20analytics%20features&image_size=landscape_16_9',
     quarter: 'Q2',
     year: 2024,

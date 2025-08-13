@@ -230,7 +230,7 @@ function App() {
                     <FaLinkedin size={24} />
                   </a>
                   <a 
-                    href="mailto:contact@straydogsyndications.com" 
+                    href="mailto:eHunter@straydog-secondstory.org" 
                     title="Send Email" 
                     className="text-hunter-emerald hover:text-metallic-silver transition-colors"
                     onClick={() => trackContactAttempt('email')}
@@ -545,7 +545,7 @@ function App() {
                     </div>
                     <div>
                       <p className="text-glass-light font-medium">Email</p>
-                      <p className="text-hunter-sage">contact@straydogsyndications.com</p>
+                      <p className="text-hunter-sage">eHunter@straydog-secondstory.org</p>
                     </div>
                   </div>
                   
