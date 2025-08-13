@@ -214,6 +214,7 @@ export interface UIState {
   showLeaderboard: boolean;
   notifications: Notification[];
   modals: Modal[];
+  activeModal?: Modal | null;
 }
 
 export type Screen = 
@@ -255,8 +256,9 @@ export interface Modal {
 
 export interface ModalAction {
   label: string;
-  action: () => void;
-  style?: 'primary' | 'secondary' | 'danger';
+  handler: () => void;
+  variant?: 'primary' | 'secondary' | 'danger';
+  closeOnClick?: boolean;
 }
 
 // Animation Types

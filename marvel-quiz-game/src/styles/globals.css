@@ -49,6 +49,7 @@ body {
 /* Glassmorphism utilities */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
@@ -57,6 +58,7 @@ body {
 
 .glass-button {
   background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
@@ -70,6 +72,7 @@ body {
 
 .glass-card {
   background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
@@ -77,6 +80,7 @@ body {
 
 .glass-input {
   background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -91,6 +95,7 @@ body {
 
 .glass-modal {
   background: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -428,6 +433,17 @@ body {
 ::-moz-selection {
   background: rgba(229, 9, 20, 0.3);
   color: white;
+}
+
+/* Animation delay utilities */
+.animate-pulse-delay-1 {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 1s;
+}
+
+.animate-pulse-delay-2 {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 2s;
 }
 
 /* Print styles */

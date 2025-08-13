@@ -60,6 +60,8 @@ function ToggleSetting({ label, description, value, onChange }: ToggleSettingPro
           "relative w-12 h-6 rounded-full transition-all duration-300",
           value ? "bg-blue-500" : "bg-gray-600"
         )}
+        aria-label={`Toggle ${label}: Currently ${value ? 'enabled' : 'disabled'}`}
+        title={`Toggle ${label}: Currently ${value ? 'enabled' : 'disabled'}`}
       >
         <motion.div
           className="absolute top-1 w-4 h-4 bg-white rounded-full shadow-lg"
@@ -116,6 +118,8 @@ function SliderSetting({
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+          aria-label={label}
+          title={`${label}: ${formatValue(value)}`}
         />
       </div>
     </div>
@@ -143,6 +147,8 @@ function SelectSetting({ label, description, value, options, onChange }: SelectS
         value={value}
         onChange={(e) => onChange(e.target.value)}
         className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
+        aria-label={label}
+        title={label}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value} className="bg-gray-800">

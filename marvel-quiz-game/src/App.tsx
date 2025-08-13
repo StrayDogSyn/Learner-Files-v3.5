@@ -31,6 +31,7 @@ function App() {
       setPlayer({
         id: crypto.randomUUID(),
         name: 'Marvel Fan',
+        username: 'MarvelFan',
         level: 1,
         experience: 0,
         totalScore: 0,
@@ -45,6 +46,17 @@ function App() {
           language: 'en'
         },
         statistics: {
+          totalQuestionsAnswered: 0,
+          correctAnswers: 0,
+          averageResponseTime: 0,
+          bestStreak: 0,
+          favoriteCategory: 'general',
+          timeSpentPlaying: 0,
+          totalScore: 0,
+          averageAccuracy: 0,
+          gamesPlayed: 0
+        },
+        stats: {
           totalQuestionsAnswered: 0,
           correctAnswers: 0,
           averageResponseTime: 0,

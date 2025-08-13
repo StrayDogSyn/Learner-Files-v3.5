@@ -1,6 +1,5 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Points, PointMaterial, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 import { useGameStore } from '../../stores/gameStore';
 
@@ -53,40 +52,33 @@ function ParticleField() {
     // Rotate the entire particle system
     ref.current.rotation.x = time * 0.1;
     ref.current.rotation.y = time * 0.05;
-    
-    // Animate individual particles
-    const positions = ref.current.geometry.attributes.position.array as Float32Array;
-    
-    for (let i = 0; i < positions.length; i += 3) {
-      // Add floating motion
-      positions[i + 1] += Math.sin(time + i) * 0.01;
-      
-      // Add pulsing effect
-      const scale = 1 + Math.sin(time * 2 + i) * 0.1;
-      positions[i] *= scale;
-      positions[i + 2] *= scale;
-    }
-    
-    ref.current.geometry.attributes.position.needsUpdate = true;
   });
   
   return (
-    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
-      <PointMaterial
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-color"
+          count={colors.length / 3}
+          array={colors}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.5}
         transparent
         vertexColors
-        size={0.5}
         sizeAttenuation={true}
         depthWrite={false}
         blending={THREE.AdditiveBlending}
       />
-      <bufferAttribute
-        attach="geometry-attributes-color"
-        array={colors}
-        count={colors.length / 3}
-        itemSize={3}
-      />
-    </Points>
+    </points>
   );
 }
 
@@ -202,7 +194,7 @@ export function ParticleBackground() {
         camera={{ position: [0, 0, 30], fov: 75 }}
         style={{ background: 'transparent' }}
         dpr={[1, 2]}
-        performance={{ min: 0.5 }}
+        gl={{ antialias: false, alpha: true }}
       >
         <CameraController />
         
@@ -220,9 +212,6 @@ export function ParticleBackground() {
         
         {/* Infinity stones */}
         <InfinityStones />
-        
-        {/* Fog for depth */}
-        <fog attach="fog" args={['#000000', 20, 100]} />
       </Canvas>
     </div>
   );

@@ -38,6 +38,9 @@ interface GameStore {
   removeNotification: (id: string) => void;
   addModal: (modal: Omit<Modal, 'id'>) => void;
   removeModal: (id: string) => void;
+  openModal: (modal: any) => void;
+  closeModal: () => void;
+  notifications: Notification[];
   
   // Game settings
   settings: GameSettings;
@@ -113,7 +116,8 @@ const defaultUIState: UIState = {
   showAchievements: false,
   showLeaderboard: false,
   notifications: [],
-  modals: []
+  modals: [],
+  activeModal: null
 };
 
 const defaultSettings: GameSettings = {
@@ -151,6 +155,7 @@ export const useGameStore = create<GameStore>()(
       ui: defaultUIState,
       settings: defaultSettings,
       multiplayerRoom: null,
+      notifications: [],
 
       // Player actions
       setPlayer: (player) => set({ player }),
@@ -206,6 +211,20 @@ export const useGameStore = create<GameStore>()(
         ui: {
           ...state.ui,
           modals: state.ui.modals.filter(m => m.id !== id)
+        }
+      })),
+
+      openModal: (modal) => set((state) => ({
+        ui: {
+          ...state.ui,
+          activeModal: { ...modal, id: generateId() }
+        }
+      })),
+
+      closeModal: () => set((state) => ({
+        ui: {
+          ...state.ui,
+          activeModal: null
         }
       })),
 

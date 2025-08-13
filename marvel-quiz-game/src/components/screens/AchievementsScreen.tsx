@@ -437,6 +437,8 @@ export function AchievementsScreen() {
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
+                aria-label="Sort achievements by"
+                title="Sort achievements by"
               >
                 <option value="rarity" className="bg-gray-800">Sort by Rarity</option>
                 <option value="name" className="bg-gray-800">Sort by Name</option>

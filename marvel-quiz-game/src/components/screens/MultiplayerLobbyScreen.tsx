@@ -271,6 +271,8 @@ function CreateRoomModal({ isOpen, onClose, onCreate }: CreateRoomModalProps) {
                 value={maxPlayers}
                 onChange={(e) => setMaxPlayers(Number(e.target.value))}
                 className="w-full"
+                aria-label="Maximum number of players"
+                title={`Maximum players: ${maxPlayers}`}
               />
             </div>
             
@@ -283,6 +285,8 @@ function CreateRoomModal({ isOpen, onClose, onCreate }: CreateRoomModalProps) {
                 value={gameMode}
                 onChange={(e) => setGameMode(e.target.value)}
                 className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
+                aria-label="Select game mode"
+                title="Select game mode"
               >
                 <option value="blitz" className="bg-gray-800">Blitz Mode</option>
                 <option value="survival" className="bg-gray-800">Survival Mode</option>
@@ -299,6 +303,8 @@ function CreateRoomModal({ isOpen, onClose, onCreate }: CreateRoomModalProps) {
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
                 className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:border-blue-400 focus:outline-none"
+                aria-label="Select difficulty level"
+                title="Select difficulty level"
               >
                 <option value="easy" className="bg-gray-800">Easy</option>
                 <option value="medium" className="bg-gray-800">Medium</option>

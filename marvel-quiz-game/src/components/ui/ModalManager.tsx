@@ -94,3 +94,6 @@ export function ModalManager() {
       </motion.div>
     </AnimatePresence>
   );
+}
+
+export default ModalManager;

@@ -236,8 +236,8 @@ export function HomeScreen() {
 
       {/* Decorative Elements */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-gradient-to-br from-red-500/20 to-transparent rounded-full blur-xl animate-pulse" />
-      <div className="absolute bottom-20 right-20 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-4 w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-transparent rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }} />
+      <div className="absolute bottom-20 right-20 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-transparent rounded-full blur-xl animate-pulse-delay-1" />
+      <div className="absolute top-1/2 left-4 w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-transparent rounded-full blur-xl animate-pulse-delay-2" />
     </div>
   );
 }

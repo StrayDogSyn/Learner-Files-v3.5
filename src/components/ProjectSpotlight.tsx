@@ -348,6 +348,8 @@ const ProjectSpotlight: React.FC = () => {
                       ? 'bg-[var(--brand-primary)]'
                       : 'bg-[var(--border-secondary)] hover:bg-[var(--brand-primary)]/50'
                   }`}
+                  aria-label={`Go to project ${index + 1}`}
+                  title={`Go to project ${index + 1}`}
                 />
               ))}
             </div>

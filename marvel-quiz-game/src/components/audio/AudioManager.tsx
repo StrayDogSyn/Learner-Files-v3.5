@@ -8,7 +8,7 @@ export function AudioManager() {
 
   useEffect(() => {
     // Initialize Web Audio API
-    if (settings.audio.enabled && !audioContextRef.current) {
+    if (settings.audio.soundEffects && !audioContextRef.current) {
       try {
         audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
       } catch (error) {
@@ -21,11 +21,11 @@ export function AudioManager() {
         audioContextRef.current.close();
       }
     };
-  }, [settings.audio.enabled]);
+  }, [settings.audio.soundEffects]);
 
   // Play sound effect
   const playSound = (soundName: string, volume: number = 1) => {
-    if (!settings.audio.enabled || !audioContextRef.current) return;
+    if (!settings.audio.soundEffects || !audioContextRef.current) return;
 
     try {
       const audioContext = audioContextRef.current;
@@ -55,7 +55,7 @@ export function AudioManager() {
       }
 
       // Configure gain (volume)
-      gainNode.gain.setValueAtTime(volume * settings.audio.volume * 0.1, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(volume * settings.audio.masterVolume * 0.1, audioContext.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
 
       // Connect nodes
@@ -76,7 +76,7 @@ export function AudioManager() {
     return () => {
       delete (window as any).playSound;
     };
-  }, [settings.audio.enabled, settings.audio.volume]);
+  }, [settings.audio.soundEffects, settings.audio.masterVolume]);
 
   // Play background music (if implemented)
   const playBackgroundMusic = () => {
@@ -92,7 +92,7 @@ export function AudioManager() {
       oscillator.frequency.setValueAtTime(220, audioContext.currentTime); // A3
       oscillator.type = 'sine';
       
-      gainNode.gain.setValueAtTime(settings.audio.volume * 0.05, audioContext.currentTime);
+      gainNode.gain.setValueAtTime(settings.audio.masterVolume * 0.05, audioContext.currentTime);
       
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
