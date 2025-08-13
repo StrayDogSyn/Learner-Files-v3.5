@@ -1,4 +1,5 @@
 # StrayDog Syndications Glassmorphic Portfolio
+
 ## Technical Architecture Document
 
 ## 1. Architecture Design
@@ -37,23 +38,28 @@ graph TD
 
 ## 2. Technology Description
 
-- **Frontend**: React@18 + TypeScript + Vite
-- **Styling**: CSS Custom Properties + Tailwind CSS@3 + PostCSS
-- **Fonts**: Google Fonts (Orbitron, Inter, JetBrains Mono)
-- **Icons**: React Icons (Font Awesome)
-- **Deployment**: GitHub Pages with Vite build optimization
+* **Frontend**: React\@18 + TypeScript + Vite
+
+* **Styling**: CSS Custom Properties + Tailwind CSS\@3 + PostCSS
+
+* **Fonts**: Google Fonts (Orbitron, Inter, JetBrains Mono)
+
+* **Icons**: React Icons (Font Awesome)
+
+* **Deployment**: GitHub Pages with Vite build optimization
 
 ## 3. Route Definitions
 
-| Route | Purpose |
-|-------|----------|
-| / | Single-page portfolio with glassmorphic sections (Hero, About, Skills, Projects, Contact) |
+| Route | Purpose                                                                                   |
+| ----- | ----------------------------------------------------------------------------------------- |
+| /     | Single-page portfolio with glassmorphic sections (Hero, About, Skills, Projects, Contact) |
 
 ## 4. CSS Design Token System
 
 ### 4.1 Core Design Tokens
 
 **StrayDog Color System:**
+
 ```css
 :root {
   /* Primary Base Colors */
@@ -77,6 +83,7 @@ graph TD
 ```
 
 **Glassmorphism System:**
+
 ```css
 :root {
   /* Glass Backgrounds */
@@ -103,6 +110,7 @@ graph TD
 ```
 
 **Typography System:**
+
 ```css
 :root {
   /* Font Families */
@@ -123,6 +131,7 @@ graph TD
 ```
 
 **Animation System:**
+
 ```css
 :root {
   /* Timing Functions */
@@ -141,6 +150,7 @@ graph TD
 ### 4.2 Glassmorphic Component Library
 
 **Glass Container System:**
+
 ```css
 .glass-container {
   background: var(--glass-primary);
@@ -166,6 +176,7 @@ graph TD
 ```
 
 **Interactive Glass Cards:**
+
 ```css
 .glass-card {
   @extend .glass-container;
@@ -207,6 +218,7 @@ graph TD
 ```
 
 **Navigation Glass System:**
+
 ```css
 .glass-nav {
   background: var(--glass-primary);
@@ -279,6 +291,7 @@ interface ProjectCardProps {
 ### 5.2 Responsive Design Implementation
 
 **Breakpoint System:**
+
 ```css
 :root {
   --bp-xs: 320px;
@@ -311,39 +324,64 @@ interface ProjectCardProps {
 ## 6. Performance Optimization
 
 ### 6.1 CSS Optimization
-- Use CSS custom properties for consistent theming
-- Implement efficient backdrop-filter usage with fallbacks
-- Optimize animation performance with transform and opacity
-- Minimize repaints with will-change property on animated elements
+
+* Use CSS custom properties for consistent theming
+
+* Implement efficient backdrop-filter usage with fallbacks
+
+* Optimize animation performance with transform and opacity
+
+* Minimize repaints with will-change property on animated elements
 
 ### 6.2 Asset Optimization
-- Implement font-display: swap for web fonts
-- Use WebP images with fallbacks
-- Optimize SVG icons and illustrations
-- Implement lazy loading for non-critical assets
+
+* Implement font-display: swap for web fonts
+
+* Use WebP images with fallbacks
+
+* Optimize SVG icons and illustrations
+
+* Implement lazy loading for non-critical assets
 
 ### 6.3 Accessibility Considerations
-- Maintain sufficient color contrast ratios
-- Provide reduced motion alternatives
-- Ensure keyboard navigation compatibility
-- Implement proper ARIA labels and semantic HTML
+
+* Maintain sufficient color contrast ratios
+
+* Provide reduced motion alternatives
+
+* Ensure keyboard navigation compatibility
+
+* Implement proper ARIA labels and semantic HTML
 
 ## 7. Development Guidelines
 
 ### 7.1 CSS Methodology
-- Use CSS custom properties for all design tokens
-- Follow BEM naming convention for component classes
-- Implement mobile-first responsive design
-- Use logical properties for better internationalization
+
+* Use CSS custom properties for all design tokens
+
+* Follow BEM naming convention for component classes
+
+* Implement mobile-first responsive design
+
+* Use logical properties for better internationalization
 
 ### 7.2 Component Development
-- Create reusable glassmorphic components
-- Implement proper TypeScript interfaces
-- Follow React best practices for performance
-- Ensure accessibility compliance in all components
+
+* Create reusable glassmorphic components
+
+* Implement proper TypeScript interfaces
+
+* Follow React best practices for performance
+
+* Ensure accessibility compliance in all components
 
 ### 7.3 Browser Support
-- Modern browsers with backdrop-filter support
-- Graceful degradation for older browsers
-- Progressive enhancement approach
-- Fallback styles for unsupported features
+
+* Modern browsers with backdrop-filter support
+
+* Graceful degradation for older browsers
+
+* Progressive enhancement approach
+
+* Fallback styles for unsupported features
+
