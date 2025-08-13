@@ -1,4 +1,3 @@
-import React from 'react';
 import { Toaster } from 'sonner';
 import useGameStore from '../../stores/gameStore';
 

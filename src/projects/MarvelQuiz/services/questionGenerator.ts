@@ -276,7 +276,6 @@ class QuestionGenerator {
 
       this.characters = charactersResponse;
       this.comics = comicsResponse;
-      this.series = seriesResponse;
       this.isInitialized = true;
     } catch (error) {
       console.warn('Failed to fetch Marvel API data, using fallback questions:', error);

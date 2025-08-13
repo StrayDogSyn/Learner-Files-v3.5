@@ -65,13 +65,8 @@ export const GlassPanel: React.FC<GlassPanelProps> = ({
   const motionProps = animate ? {
     initial: { opacity: 0, scale: 0.95, y: 20 },
     animate: { opacity: 1, scale: 1, y: 0 },
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94]
-    },
     whileHover: {
-      scale: 1.02,
-      transition: { duration: 0.2 }
+      scale: 1.02
     }
   } : {};
 

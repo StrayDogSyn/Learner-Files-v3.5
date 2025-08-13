@@ -10,7 +10,7 @@ import {
   Target,
   Zap
 } from 'lucide-react';
-import { useGameStore } from '../../store/gameStore';
+import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
