@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -6,14 +6,10 @@ import {
   Plus, 
   Search, 
   Crown, 
-  Settings, 
   Play, 
-  Copy, 
-  Check,
   Globe,
   Lock,
   Zap,
-  Clock,
   Target,
   Gamepad2,
   Wifi,
@@ -23,6 +19,7 @@ import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
+import type { MultiplayerRoom, MultiplayerPlayer } from '../../types';
 
 // Mock multiplayer data (in real app, this would come from Socket.io)
 const mockRooms = [
@@ -74,7 +71,17 @@ const mockRooms = [
 ];
 
 interface RoomCardProps {
-  room: any;
+  room: {
+    id: string;
+    name: string;
+    host: string;
+    players: Array<{ id: string; username: string; avatar: string; isHost: boolean; isReady: boolean }>;
+    maxPlayers: number;
+    gameMode: string;
+    difficulty: string;
+    status: string;
+    isPrivate?: boolean;
+  };
   onJoin: (roomId: string) => void;
 }
 
@@ -142,7 +149,7 @@ function RoomCard({ room, onJoin }: RoomCardProps) {
           </div>
           
           <div className="flex items-center gap-2 flex-wrap">
-            {room.players.map((player: any) => (
+            {room.players.map((player: { id: string; username: string; avatar: string; isHost: boolean; isReady: boolean }) => (
               <div key={player.id} className="relative">
                 <img
                   src={player.avatar}
@@ -194,7 +201,13 @@ function RoomCard({ room, onJoin }: RoomCardProps) {
 interface CreateRoomModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (roomData: any) => void;
+  onCreate: (roomData: {
+    name: string;
+    maxPlayers: number;
+    gameMode: string;
+    difficulty: string;
+    isPrivate: boolean;
+  }) => void;
 }
 
 function CreateRoomModal({ isOpen, onClose, onCreate }: CreateRoomModalProps) {
@@ -352,9 +365,9 @@ export function MultiplayerLobbyScreen() {
   const { setCurrentScreen, player } = useGameStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected] = useState(true);
   const [rooms, setRooms] = useState(mockRooms);
-  const [copiedRoomId, setCopiedRoomId] = useState<string | null>(null);
+  const [copiedRoomId] = useState<string | null>(null);
   
   const filteredRooms = rooms.filter(room => 
     room.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -368,7 +381,15 @@ export function MultiplayerLobbyScreen() {
     setCurrentScreen('game-arena');
   };
   
-  const handleCreateRoom = (roomData: any) => {
+  const handleCreateRoom = (roomData: {
+    name: string;
+    maxPlayers: number;
+    gameMode: string;
+    difficulty: string;
+    isPrivate: boolean;
+  }) => {
+    if (!player) return;
+    
     // In real app, this would emit a socket event
     const newRoom = {
       id: `room-${Date.now()}`,
@@ -387,11 +408,11 @@ export function MultiplayerLobbyScreen() {
     setRooms(prev => [newRoom, ...prev]);
   };
   
-  const copyRoomCode = (roomId: string) => {
-    navigator.clipboard.writeText(roomId);
-    setCopiedRoomId(roomId);
-    setTimeout(() => setCopiedRoomId(null), 2000);
-  };
+  // const copyRoomCode = (roomId: string) => {
+  //   navigator.clipboard.writeText(roomId);
+  //   setCopiedRoomId(roomId);
+  //   setTimeout(() => setCopiedRoomId(null), 2000);
+  // };
   
   return (
     <div className="min-h-screen p-4">

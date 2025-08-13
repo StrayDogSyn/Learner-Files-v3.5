@@ -1,10 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Play, Trophy, Settings, Users, Zap, Shield, Infinity } from 'lucide-react';
+import { Play, Trophy, Settings, Users, Zap, Shield, Infinity as InfinityIcon } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
+import type { GameMode, Screen } from '../../types';
 
 const gameModesData = [
   {
@@ -31,7 +32,7 @@ const gameModesData = [
     id: 'survival',
     name: 'Survival Mode',
     description: 'How long can you survive the ultimate test?',
-    icon: Infinity,
+    icon: InfinityIcon,
     color: 'from-purple-500 to-pink-600',
     difficulty: 'Adaptive',
     duration: 'Unlimited',
@@ -62,12 +63,12 @@ export function HomeScreen() {
       setCurrentScreen('multiplayer-lobby');
     } else {
       setLoading(true);
-      await startGame(gameMode as any, 'medium');
+      await startGame(gameMode as GameMode, 'medium');
     }
   };
 
   const handleNavigation = (screen: string) => {
-    setCurrentScreen(screen as any);
+    setCurrentScreen(screen as Screen);
   };
 
   return (

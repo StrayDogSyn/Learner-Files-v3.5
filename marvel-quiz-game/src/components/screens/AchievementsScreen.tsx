@@ -11,23 +11,30 @@ import {
   Award,
   Lock,
   CheckCircle,
-  Filter,
   Search
 } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
+import type { Achievement } from '../../types';
+
+// Local achievement type for this component
+interface LocalAchievement extends Omit<Achievement, 'category'> {
+  category: Achievement['category'] | 'performance-medals' | 'streak-achievements' | 'speed-records' | 'collection-trophies' | 'game-mode-mastery' | 'social-achievements';
+  requirement: string;
+  unlocked: boolean;
+}
 
 // Mock achievements data (in real app, this would come from a service)
-const allAchievements = [
+const allAchievements: LocalAchievement[] = [
   {
     id: 'first-question',
     name: 'First Steps',
     description: 'Answer your first question',
     icon: 'star',
-    category: 'milestone-badges',
-    rarity: 'common',
+    category: 'milestone-badges' as const,
+    rarity: 'common' as const,
     points: 50,
     requirement: 'Answer 1 question',
     unlocked: true,
@@ -38,8 +45,8 @@ const allAchievements = [
     name: 'Flawless Victory',
     description: 'Complete a game with 100% accuracy',
     icon: 'trophy',
-    category: 'performance-medals',
-    rarity: 'legendary',
+    category: 'character-badges' as const,
+    rarity: 'legendary' as const,
     points: 500,
     requirement: 'Get 100% accuracy in any game mode',
     unlocked: true,
@@ -175,7 +182,7 @@ const rarityConfig = {
 };
 
 interface AchievementCardProps {
-  achievement: any;
+  achievement: LocalAchievement;
   index: number;
 }
 
@@ -288,7 +295,7 @@ function AchievementCard({ achievement, index }: AchievementCardProps) {
 }
 
 function getIconComponent(iconName: string) {
-  const icons: { [key: string]: any } = {
+  const icons: { [key: string]: React.ComponentType<{ className?: string }> } = {
     trophy: Trophy,
     star: Star,
     zap: Zap,
@@ -301,7 +308,7 @@ function getIconComponent(iconName: string) {
 }
 
 export function AchievementsScreen() {
-  const { setCurrentScreen, player } = useGameStore();
+  const { setCurrentScreen } = useGameStore();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('rarity'); // rarity, name, points, unlocked
@@ -315,9 +322,10 @@ export function AchievementsScreen() {
     })
     .sort((a, b) => {
       switch (sortBy) {
-        case 'rarity':
+        case 'rarity': {
           const rarityOrder = { legendary: 4, epic: 3, rare: 2, common: 1 };
           return rarityOrder[b.rarity as keyof typeof rarityOrder] - rarityOrder[a.rarity as keyof typeof rarityOrder];
+        }
         case 'name':
           return a.name.localeCompare(b.name);
         case 'points':

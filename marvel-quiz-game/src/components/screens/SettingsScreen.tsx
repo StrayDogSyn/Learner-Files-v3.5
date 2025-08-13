@@ -3,13 +3,9 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
   Volume2, 
-  VolumeX, 
-  Music, 
   Zap, 
   Eye, 
   Accessibility,
-  Globe,
-  Palette,
   Save,
   RotateCcw
 } from 'lucide-react';
@@ -20,7 +16,7 @@ import { cn } from '../../lib/utils';
 
 interface SettingSectionProps {
   title: string;
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<{ className?: string }>;
   children: React.ReactNode;
 }
 
@@ -165,7 +161,7 @@ export function SettingsScreen() {
   const [hasChanges, setHasChanges] = useState(false);
   const [originalSettings] = useState(settings);
 
-  const handleSettingChange = (category: string, key: string, value: any) => {
+  const handleSettingChange = (category: string, key: string, value: string | number | boolean) => {
     updateSettings({ [category]: { [key]: value } });
     setHasChanges(true);
   };
