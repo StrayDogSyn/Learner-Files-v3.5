@@ -1,19 +1,12 @@
 import { useState, useEffect } from 'react'
 import { FaGithub, FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaCode, FaServer, FaDatabase, FaRocket, FaLightbulb, FaExternalLinkAlt } from 'react-icons/fa';
-import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle, ProjectSpotlight, CareerTimeline, KitchenLessons, AIExperimentShowcase, BrandWatermark, ParallaxBackground } from './components'
+import { GlassContainer, GlassCard, GlassNavigation, SkillCard, ProjectCard, GitHubActivity, ThemeToggle, ProjectSpotlight, CareerTimeline, KitchenLessons, AIExperimentShowcase, BrandWatermark, ParallaxBackground, MarvelQuizShowcase } from './components'
 import BrandImage, { BrandConfigs } from './components/BrandImage';
+import { projects } from './data/projects';
 import { useAnalytics, useScrollTracking, usePerformanceTracking } from './hooks/useAnalytics';
 import './styles/globals.css'
 
-interface Project {
-  id: number
-  title: string
-  description: string
-  technologies: string[]
-  githubUrl?: string
-  liveUrl?: string
-  image?: string
-}
+
 
 interface Skill {
   name: string
@@ -54,56 +47,7 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'Advanced Calculator',
-      description: 'Complete calculator with explosion effects for divide-by-zero operations and full keyboard support. Features modern UI design and responsive functionality.',
-      technologies: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Responsive Design'],
-      githubUrl: 'https://github.com/StrayDogSyn/advanced-calculator',
-      liveUrl: 'https://straydogsyn.github.io/calculator'
-    },
-    {
-      id: 2,
-      title: 'Knucklebones Game',
-      description: 'Interactive dice-based strategy game with dynamic scoring system. Demonstrates game logic implementation and user interaction design.',
-      technologies: ['JavaScript', 'HTML5', 'CSS3', 'Game Logic'],
-      githubUrl: 'https://github.com/StrayDogSyn/knucklebones-game',
-      liveUrl: 'https://straydogsyn.github.io/knucklebones'
-    },
-    {
-      id: 3,
-      title: 'CompTIA Quiz Application',
-      description: 'Technical certification preparation tool with interactive questions and progress tracking. Built for IT certification study.',
-      technologies: ['JavaScript', 'HTML5', 'CSS3', 'Local Storage'],
-      githubUrl: 'https://github.com/StrayDogSyn/comptia-quiz',
-      liveUrl: 'https://straydogsyn.github.io/comptia-quiz'
-    },
-    {
-      id: 4,
-      title: 'Rock Paper Scissors',
-      description: 'Classic game implementation with modern UI and responsive design. Features score tracking and smooth animations.',
-      technologies: ['JavaScript', 'CSS3', 'HTML5', 'Animations'],
-      githubUrl: 'https://github.com/StrayDogSyn/rock-paper-scissors',
-      liveUrl: 'https://straydogsyn.github.io/rock-paper-scissors'
-    },
-    {
-      id: 5,
-      title: 'Interactive Navbar Showcase',
-      description: 'Demonstration of navigation design patterns and accessibility features. Showcases modern web navigation techniques.',
-      technologies: ['HTML5', 'CSS3', 'JavaScript', 'ARIA', 'Accessibility'],
-      githubUrl: 'https://github.com/StrayDogSyn/interactive-navbar',
-      liveUrl: 'https://straydogsyn.github.io/navbar-showcase'
-    },
-    {
-      id: 6,
-      title: 'Quiz Ninja 2.1',
-      description: 'Advanced learning assessment tool with multiple question types and detailed analytics. Features progress tracking and performance insights.',
-      technologies: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Data Analytics'],
-      githubUrl: 'https://github.com/StrayDogSyn/quiz-ninja',
-      liveUrl: 'https://straydogsyn.github.io/quiz-ninja'
-    }
-  ]
+  // Projects are now imported from data/projects.ts
 
   const skills: Skill[] = [
     // Frontend Technologies
@@ -346,28 +290,21 @@ function App() {
               Featured Projects
             </h2>
             
-            {/* Featured Project */}
+            {/* Featured Project - Marvel Quiz Showcase */}
             <div className="mb-16">
-              <ProjectCard
-                title="Interactive Web Development Portfolio"
-                description="Comprehensive showcase featuring 6+ interactive projects, games, and applications. Demonstrates full-stack capabilities with modern JavaScript, responsive design, and creative problem-solving. Includes advanced calculator, strategy games, and technical tools."
-                technologies={['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Responsive Design', 'GitHub Pages', 'Interactive UI']}
-                githubUrl="https://github.com/StrayDogSyn"
-                liveUrl="https://straydogsyn.github.io/portfolio"
-                featured={true}
-                className="max-w-4xl mx-auto"
-              />
+              <MarvelQuizShowcase />
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
+              {projects.filter(project => project.category !== 'featured').map((project, index) => (
                 <ProjectCard
                   key={project.id}
                   title={project.title}
                   description={project.description}
-                  technologies={project.technologies}
+                  technologies={project.techStack}
                   githubUrl={project.githubUrl}
                   liveUrl={project.liveUrl}
+                  featured={project.category === 'featured'}
                   className={`animate-fade-in animate-delay-${(index + 1) * 150}ms`}
                 />
               ))}

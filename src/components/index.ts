@@ -12,6 +12,7 @@ export { default as BrandWatermark } from './BrandWatermark';
 export { default as ParallaxBackground } from './ParallaxBackground';
 export { default as SkillCard } from './SkillCard';
 export { default as ProjectCard } from './ProjectCard';
+export { default as MarvelQuizShowcase } from './MarvelQuizShowcase';
 
 // Type exports
 export type { default as GlassContainerProps } from './GlassContainer';

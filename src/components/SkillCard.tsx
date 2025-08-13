@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaCode, FaServer, FaDatabase, FaTools } from 'react-icons/fa';
+import { getBrandIcon } from '../data/brands';
 import GlassCard from './GlassCard';
 
 interface SkillCardProps {
@@ -22,6 +23,14 @@ const SkillCard: React.FC<SkillCardProps> = ({
   const getCategoryIcon = () => {
     if (icon) return icon;
     
+    // Try to get specific brand icon first
+    const brandIcon = getBrandIcon(name);
+    if (brandIcon) {
+      const IconComponent = brandIcon.icon;
+      return <IconComponent className="text-2xl" style={{ color: brandIcon.color }} />;
+    }
+    
+    // Fallback to category icons
     switch (category) {
       case 'frontend':
         return <FaCode className="text-hunter-emerald" />;

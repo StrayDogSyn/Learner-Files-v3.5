@@ -344,8 +344,8 @@
   
   .btn-secondary {
     background: var(--glass-primary);
-    backdrop-filter: var(--blur-medium);
     -webkit-backdrop-filter: var(--blur-medium);
+    backdrop-filter: var(--blur-medium);
     color: var(--light-smoke);
     padding: 0.875rem 2rem;
     border: 2px solid var(--glass-border-metallic);
@@ -370,8 +370,8 @@
   .skill-progress-container {
     width: 100%;
     background: var(--glass-primary);
-    backdrop-filter: var(--blur-subtle);
     -webkit-backdrop-filter: var(--blur-subtle);
+    backdrop-filter: var(--blur-subtle);
     border: 1px solid var(--glass-border-light);
     border-radius: 12px;
     height: 8px;
@@ -454,8 +454,8 @@
   /* Text Effects */
   .text-metallic {
     background: var(--metallic-shimmer);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 200% 200%;
     animation: metallicShine 3s ease-in-out infinite;
@@ -468,16 +468,16 @@
   
   .text-hunter-gradient {
     background: linear-gradient(135deg, var(--hunter-green-core), var(--emerald-accent));
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
   /* Responsive Design */
   @media (max-width: 768px) {
     .glass-container {
-      backdrop-filter: var(--blur-subtle);
       -webkit-backdrop-filter: var(--blur-subtle);
+      backdrop-filter: var(--blur-subtle);
       border-radius: 16px;
     }
     
@@ -498,8 +498,8 @@
   
   @media (min-width: 1024px) {
     .glass-container {
-      backdrop-filter: var(--blur-heavy);
       -webkit-backdrop-filter: var(--blur-heavy);
+      backdrop-filter: var(--blur-heavy);
     }
     
     .glass-card {
@@ -602,13 +602,13 @@
 
 @layer utilities {
   .backdrop-blur-glass {
-    backdrop-filter: var(--blur-medium);
     -webkit-backdrop-filter: var(--blur-medium);
+    backdrop-filter: var(--blur-medium);
   }
   
   .backdrop-blur-heavy {
-    backdrop-filter: var(--blur-heavy);
     -webkit-backdrop-filter: var(--blur-heavy);
+    backdrop-filter: var(--blur-heavy);
   }
   
   .text-shadow-glow {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaGithub, FaExternalLinkAlt, FaCode, FaEye } from 'react-icons/fa';
+import { getBrandIcon } from '../data/brands';
 import GlassCard from './GlassCard';
 import BrandImage from './BrandImage';
 
@@ -82,14 +83,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           Technologies
         </h4>
         <div className="flex flex-wrap gap-2">
-          {technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 text-xs font-medium bg-glass-subtle border border-glass-border rounded-full text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 cursor-default"
-            >
-              {tech}
-            </span>
-          ))}
+          {technologies.map((tech, index) => {
+            const brandIcon = getBrandIcon(tech);
+            return (
+              <span
+                key={index}
+                className="px-3 py-1 text-xs font-medium bg-glass-subtle border border-glass-border rounded-full text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 cursor-default flex items-center gap-1"
+              >
+                {brandIcon && (
+                  <brandIcon.icon 
+                    className="w-3 h-3" 
+                    style={{ color: brandIcon.color }}
+                  />
+                )}
+                {tech}
+              </span>
+            );
+          })}
         </div>
       </div>
       
