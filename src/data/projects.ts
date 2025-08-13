@@ -29,7 +29,7 @@ export const projects: Project[] = [
       'Local storage for high scores',
       'Animated UI transitions'
     ],
-    liveUrl: 'https://marvel-quiz-straydogsyn.vercel.app',
+    liveUrl: 'https://straydogsyn.github.io/Learner-Files-v3.5/#/marvel-quiz',
     githubUrl: 'https://github.com/StrayDogSyn/marvel-quiz-game',
     image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Marvel%20superhero%20quiz%20game%20interface%20with%20red%20and%20gold%20colors%2C%20modern%20UI%20design%2C%20comic%20book%20style%2C%20interactive%20buttons%2C%20score%20display&image_size=landscape_16_9',
     category: 'featured',

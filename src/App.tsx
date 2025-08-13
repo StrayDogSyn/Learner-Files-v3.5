@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './styles/globals.css';
+import MarvelQuizGame from './projects/MarvelQuiz/index';
 
 // Portfolio components
 const Portfolio = () => {
@@ -36,38 +37,14 @@ const Portfolio = () => {
   );
 };
 
-// Marvel Quiz Component (temporary placeholder)
-const MarvelQuiz = () => {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-red-900 via-black to-yellow-900">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center text-white">
-          <h1 className="text-6xl font-bold mb-8">Marvel Quiz Game</h1>
-          <div className="bg-black/50 backdrop-blur-lg rounded-2xl p-12 max-w-2xl mx-auto">
-            <h2 className="text-3xl mb-6">🚀 Loading Game...</h2>
-            <p className="text-xl mb-8">
-              The Marvel Quiz is being assembled...
-            </p>
-            <a
-              href="#/"
-              className="inline-block px-8 py-4 bg-gradient-to-r from-red-600 to-yellow-600
-                       text-white font-bold rounded-lg hover:scale-105 transition-transform"
-            >
-              Back to Portfolio
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Portfolio />} />
-        <Route path="/marvel-quiz" element={<MarvelQuiz />} />
+        <Route path="/marvel-quiz" element={<MarvelQuizGame />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

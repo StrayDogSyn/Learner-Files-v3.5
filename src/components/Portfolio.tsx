@@ -390,7 +390,7 @@ function Portfolio() {
                     <FaGithub size={20} />
                   </a>
                   <a 
-                    href="https://straydogsyn.github.io/portfolio" 
+                    href="https://straydogsyn.github.io/Learner-Files-v3.5/" 
                     className="w-12 h-12 bg-glass-subtle border border-glass-border rounded-lg flex items-center justify-center text-hunter-emerald hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 hover:scale-110"
                     title="View Live Portfolio"
                     aria-label="Live Portfolio"

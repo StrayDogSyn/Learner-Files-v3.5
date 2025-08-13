@@ -35,7 +35,7 @@ const experiments: Experiment[] = [
     category: 'NLP',
     technologies: ['Python', 'PyTorch', 'Transformers', 'FastAPI', 'Redis', 'Docker'],
     githubUrl: 'https://github.com/StrayDogSyn/sentiment-analysis-pipeline',
-    demoUrl: 'https://sentiment-demo.straydogsyn.dev',
+    // demoUrl: 'https://sentiment-demo.straydogsyn.dev', // Demo temporarily unavailable
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20dashboard%20showing%20real-time%20sentiment%20analysis%20with%20colorful%20charts%20and%20social%20media%20feeds%2C%20dark%20theme%2C%20professional%20UI%2C%20data%20visualization&image_size=landscape_16_9',
     status: 'Active',
     metrics: {
@@ -63,7 +63,7 @@ const experiments: Experiment[] = [
     category: 'Computer Vision',
     technologies: ['TensorFlow', 'OpenCV', 'React', 'Node.js', 'MongoDB', 'AWS S3'],
     githubUrl: 'https://github.com/StrayDogSyn/culinary-cv-system',
-    demoUrl: 'https://food-cv.straydogsyn.dev',
+    // demoUrl: 'https://food-cv.straydogsyn.dev', // Demo temporarily unavailable
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=sophisticated%20food%20recognition%20interface%20showing%20analyzed%20dishes%20with%20nutritional%20data%2C%20ingredient%20breakdown%2C%20modern%20culinary%20app%20design%2C%20professional%20photography&image_size=landscape_16_9',
     status: 'Completed',
     metrics: {
@@ -118,7 +118,7 @@ const experiments: Experiment[] = [
     category: 'AI Tools',
     technologies: ['OpenAI API', 'TypeScript', 'Next.js', 'Prisma', 'GitHub API', 'Vercel'],
     githubUrl: 'https://github.com/StrayDogSyn/ai-code-reviewer',
-    demoUrl: 'https://code-review-ai.straydogsyn.dev',
+    // demoUrl: 'https://code-review-ai.straydogsyn.dev', // Demo temporarily unavailable
     imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20code%20review%20interface%20with%20AI%20suggestions%2C%20syntax%20highlighting%2C%20improvement%20recommendations%2C%20developer%20tools%20aesthetic%2C%20dark%20theme&image_size=landscape_16_9',
     status: 'Active',
     metrics: {
@@ -231,7 +231,7 @@ const AIExperimentShowcase: React.FC = () => {
             ].map(({ key, label, icon: Icon }) => (
               <button
                 key={key}
-                onClick={() => setFilter(key as any)}
+onClick={() => setFilter(key as 'all' | 'featured' | 'active' | 'completed')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${
                   filter === key
                     ? 'bg-[var(--brand-primary)] text-white shadow-lg'
@@ -248,6 +248,7 @@ const AIExperimentShowcase: React.FC = () => {
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
+            aria-label="Filter experiments by category"
             className="bg-[var(--glass-bg)] border border-[var(--glass-border)] text-[var(--text-primary)] px-4 py-2 rounded-full focus:outline-none focus:border-[var(--brand-primary)] transition-colors"
           >
             {categories.map((category) => (
@@ -438,6 +439,7 @@ const AIExperimentShowcase: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setSelectedExperiment(null)}
+                  aria-label="Close experiment details"
                   className="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors ml-4"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

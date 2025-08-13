@@ -86,9 +86,7 @@ export const MarvelQuizShowcase: React.FC = () => {
               
               <div className="flex gap-3">
                 <a 
-                  href="https://marvel-quiz-straydogsyn.vercel.app" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
+                  href="#/marvel-quiz" 
                   className="p-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all duration-300 hover:scale-105 flex items-center gap-2"
                 >
                   <FiExternalLink className="w-5 h-5" />
