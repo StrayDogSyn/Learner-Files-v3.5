@@ -24,6 +24,11 @@ export default defineConfig({
     }), 
     tsconfigPaths(),
   ],
+  base: '/Learner-Files-v3.5/',
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+  },
   server: {
     proxy: {
       '/api': {
