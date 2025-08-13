@@ -51,6 +51,8 @@ export function ModalManager() {
                   p-2 rounded-lg text-slate-400 hover:text-white
                   hover:bg-slate-700/50 transition-colors
                 "
+                aria-label="Close modal"
+                title="Close modal"
               >
                 <X size={20} />
               </button>

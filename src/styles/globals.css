@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
 
+/* stylelint-disable at-rule-no-unknown */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
 
 /* StrayDog Syndications Design Token System */
 :root {
@@ -52,8 +54,41 @@
   --shadow-metallic-glow: 0 0 20px rgba(80, 200, 120, 0.3);
   --shadow-hunter-glow: 0 0 30px rgba(53, 94, 59, 0.4);
   --shadow-premium: 0 20px 60px 0 rgba(28, 28, 28, 0.3);
-  
-  /* Font Families */
+}
+
+/* Marvel Quiz Showcase Styles */
+[data-progress] {
+  width: var(--progress-width, 0%);
+}
+
+[data-animation-delay] {
+  animation-delay: var(--animation-delay, 0ms);
+}
+
+[data-color] {
+  color: var(--icon-color, currentColor);
+}
+
+/* Set CSS custom properties from data attributes */
+[data-progress] {
+  --progress-width: attr(data-progress);
+}
+
+[data-animation-delay] {
+  --animation-delay: attr(data-animation-delay);
+}
+
+[data-color] {
+  --icon-color: attr(data-color);
+}
+
+/* Skill Card Styles */
+.skill-progress-bar {
+  background: linear-gradient(90deg, var(--hunter-green-core), var(--emerald-accent), var(--silver-steel));
+}
+
+/* Font Families */
+:root {
   --font-display: 'Orbitron', 'Audiowide', sans-serif;
   --font-body: 'Inter', 'Source Sans Pro', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
@@ -246,6 +281,7 @@
   
   /* Interactive Glass Cards */
   .glass-card {
+    /* stylelint-disable-next-line at-rule-no-unknown */
     @apply glass-container;
     padding: 2rem;
     transition: all var(--duration-normal) var(--ease-glass);
@@ -259,6 +295,7 @@
   }
   
   .glass-card-hunter {
+    /* stylelint-disable-next-line at-rule-no-unknown */
     @apply glass-card;
     background: var(--glass-hunter);
     border-color: var(--glass-border-heavy);

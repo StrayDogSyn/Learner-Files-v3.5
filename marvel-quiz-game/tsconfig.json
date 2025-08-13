@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -20,7 +19,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": false,
-    "noUncheckedSideEffectImports": false,
+
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
