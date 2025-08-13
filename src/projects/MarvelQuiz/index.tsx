@@ -1,101 +1,196 @@
-const MarvelQuizGame = () => {
+import React, { useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { Toaster } from 'sonner';
+import { useGameStore } from '../../../marvel-quiz-game/src/stores/gameStore';
+import { ParticleBackground } from '../../../marvel-quiz-game/src/components/3d/ParticleBackground';
+import { HomeScreen } from '../../../marvel-quiz-game/src/components/screens/HomeScreen';
+import { GameArenaScreen } from '../../../marvel-quiz-game/src/components/screens/GameArenaScreen';
+import { ResultsScreen } from '../../../marvel-quiz-game/src/components/screens/ResultsScreen';
+import { SettingsScreen } from '../../../marvel-quiz-game/src/components/screens/SettingsScreen';
+import { AchievementsScreen } from '../../../marvel-quiz-game/src/components/screens/AchievementsScreen';
+import { LeaderboardScreen } from '../../../marvel-quiz-game/src/components/screens/LeaderboardScreen';
+import { MultiplayerLobbyScreen } from '../../../marvel-quiz-game/src/components/screens/MultiplayerLobbyScreen';
+import { LoadingScreen } from '../../../marvel-quiz-game/src/components/screens/LoadingScreen';
+import { NotificationManager } from '../../../marvel-quiz-game/src/components/ui/NotificationManager';
+import { ModalManager } from '../../../marvel-quiz-game/src/components/ui/ModalManager';
+import { AudioManager } from '../../../marvel-quiz-game/src/components/audio/AudioManager';
+import { cn } from '../../../marvel-quiz-game/src/lib/utils';
+import '../../../marvel-quiz-game/src/styles/globals.css';
+
+function MarvelQuizGame() {
+  const { 
+    ui, 
+    settings, 
+    player,
+    setPlayer 
+  } = useGameStore();
+
+  // Initialize player if not exists
+  useEffect(() => {
+    if (!player) {
+      setPlayer({
+        id: crypto.randomUUID(),
+        name: 'Marvel Fan',
+        username: 'MarvelFan',
+        level: 1,
+        experience: 0,
+        totalScore: 0,
+        gamesPlayed: 0,
+        achievements: [],
+        preferences: {
+          soundEnabled: true,
+          musicEnabled: true,
+          animationsEnabled: true,
+          difficulty: 'medium',
+          theme: 'auto',
+          language: 'en'
+        },
+        statistics: {
+          totalQuestionsAnswered: 0,
+          correctAnswers: 0,
+          averageResponseTime: 0,
+          bestStreak: 0,
+          favoriteCategory: 'general',
+          timeSpentPlaying: 0,
+          totalScore: 0,
+          averageAccuracy: 0,
+          gamesPlayed: 0
+        },
+        stats: {
+          totalQuestionsAnswered: 0,
+          correctAnswers: 0,
+          averageResponseTime: 0,
+          bestStreak: 0,
+          favoriteCategory: 'general',
+          timeSpentPlaying: 0,
+          totalScore: 0,
+          averageAccuracy: 0,
+          gamesPlayed: 0
+        }
+      });
+    }
+  }, [player, setPlayer]);
+
+  // Apply theme and accessibility settings
+  useEffect(() => {
+    const root = document.documentElement;
+    
+    // Apply theme
+    if (settings.accessibility.highContrast) {
+      root.classList.add('high-contrast');
+    } else {
+      root.classList.remove('high-contrast');
+    }
+    
+    if (settings.accessibility.reducedMotion) {
+      root.classList.add('reduce-motion');
+    } else {
+      root.classList.remove('reduce-motion');
+    }
+    
+    if (settings.accessibility.largeText) {
+      root.classList.add('large-text');
+    } else {
+      root.classList.remove('large-text');
+    }
+  }, [settings.accessibility]);
+
+  const renderCurrentScreen = () => {
+    switch (ui.currentScreen) {
+      case 'home':
+        return <HomeScreen />;
+      case 'game-arena':
+        return <GameArenaScreen />;
+      case 'results':
+        return <ResultsScreen />;
+      case 'settings':
+        return <SettingsScreen />;
+      case 'achievements':
+        return <AchievementsScreen />;
+      case 'leaderboard':
+        return <LeaderboardScreen />;
+      case 'multiplayer-lobby':
+        return <MultiplayerLobbyScreen />;
+      case 'loading':
+        return <LoadingScreen />;
+      default:
+        return <HomeScreen />;
+    }
+  };
+
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(to bottom right, #991b1b, #000, #ca8a04)',
-      padding: '2rem',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <h1 style={{
-        fontSize: '3rem',
-        textAlign: 'center',
-        marginBottom: '2rem',
-        textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-      }}>
-        🦸‍♂️ Marvel Quiz Game
-      </h1>
-      
-      <div style={{
-        background: 'rgba(0,0,0,0.5)',
-        padding: '2rem',
-        borderRadius: '1rem',
-        textAlign: 'center',
-        maxWidth: '600px'
-      }}>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>
-          Welcome to the Marvel Universe!
-        </h2>
-        <p style={{ fontSize: '1.1rem', marginBottom: '2rem', lineHeight: '1.6' }}>
-          Test your knowledge of Marvel superheroes, villains, and epic storylines.
-          The quiz is loading and will be available soon!
-        </p>
-        
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a 
-            href="#/" 
-            style={{
-              padding: '1rem 2rem',
-              background: '#dc2626',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '0.5rem',
-              fontWeight: 'bold',
-              transition: 'all 0.3s ease',
-              display: 'inline-block'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = '#b91c1c';
-              e.target.style.transform = 'scale(1.05)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = '#dc2626';
-              e.target.style.transform = 'scale(1)';
-            }}
-          >
-            ← Back to Portfolio
-          </a>
-          
-          <button 
-            style={{
-              padding: '1rem 2rem',
-              background: '#ca8a04',
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.5rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = '#a16207';
-              e.target.style.transform = 'scale(1.05)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = '#ca8a04';
-              e.target.style.transform = 'scale(1)';
-            }}
-            onClick={() => alert('Quiz functionality coming soon! 🚀')}
-          >
-            🎮 Start Quiz (Coming Soon)
-          </button>
+    <div className={cn(
+      'min-h-screen bg-gradient-to-br from-marvel-red via-marvel-blue to-marvel-gold',
+      'relative overflow-hidden',
+      settings.accessibility.highContrast && 'high-contrast',
+      settings.accessibility.reducedMotion && 'reduce-motion',
+      settings.accessibility.largeText && 'text-lg'
+    )}>
+      {/* Particle Background */}
+      {settings.graphics.particles && (
+        <div className="fixed inset-0 z-0">
+          <ParticleBackground />
         </div>
+      )}
+      
+      {/* Cosmic Background Overlay */}
+      <div className="fixed inset-0 z-0 cosmic-bg opacity-30" />
+      
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen">
+        <AnimatePresence mode="wait">
+          {ui.isLoading ? (
+            <LoadingScreen key="loading" />
+          ) : (
+            <div key={ui.currentScreen}>
+              {renderCurrentScreen()}
+            </div>
+          )}
+        </AnimatePresence>
       </div>
       
-      <div style={{
-        marginTop: '2rem',
-        fontSize: '0.9rem',
-        opacity: '0.8',
-        textAlign: 'center'
-      }}>
-        <p>✅ Component is now rendering successfully!</p>
-        <p>🔧 Integration complete - Marvel Quiz is working</p>
+      {/* Audio Manager */}
+      <AudioManager />
+      
+      {/* Notification System */}
+      <NotificationManager />
+      
+      {/* Modal System */}
+      <ModalManager />
+      
+      {/* Toast Notifications */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            color: 'white',
+          },
+        }}
+      />
+      
+      {/* Accessibility Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded"
+      >
+        Skip to main content
+      </a>
+      
+      {/* Back to Portfolio Button */}
+      <div className="fixed top-4 left-4 z-50">
+        <a
+          href="#/"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-lg text-white rounded-lg hover:bg-black/70 transition-all duration-300 border border-white/20"
+        >
+          ← Back to Portfolio
+        </a>
       </div>
     </div>
   );
-};
+}
 
 export default MarvelQuizGame;
