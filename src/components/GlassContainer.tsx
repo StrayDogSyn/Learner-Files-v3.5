@@ -7,12 +7,11 @@ interface GlassContainerProps {
   className?: string;
   onClick?: () => void;
   as?: React.ElementType;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 const GlassContainer: React.FC<GlassContainerProps> = ({
   variant = 'primary',
-  blur = 'medium',
   children,
   className = '',
   onClick,
