@@ -1,0 +1,168 @@
+/*
+ * CSS Layout Debugging Utilities
+ * Add these classes temporarily to debug layout issues
+ */
+
+/* Debug Borders - Add to elements to see boundaries */
+.debug-red { border: 2px solid red !important; }
+.debug-blue { border: 2px solid blue !important; }
+.debug-green { border: 2px solid lime !important; }
+.debug-yellow { border: 2px solid yellow !important; }
+
+/* Debug Background Colors */
+.debug-bg-red { background: rgba(255, 0, 0, 0.1) !important; }
+.debug-bg-blue { background: rgba(0, 0, 255, 0.1) !important; }
+.debug-bg-green { background: rgba(0, 255, 0, 0.1) !important; }
+.debug-bg-yellow { background: rgba(255, 255, 0, 0.1) !important; }
+
+/* Layout Debug Information */
+.debug-info::before {
+  content: attr(class);
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Width Debug */
+.debug-width::after {
+  content: 'W: ' attr(style);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 2px 4px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Overflow Debug */
+.debug-overflow {
+  outline: 3px dashed orange !important;
+  outline-offset: -3px;
+}
+
+/* Grid Debug */
+.debug-grid {
+  background-image: 
+    linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Flex Debug */
+.debug-flex > * {
+  outline: 1px solid rgba(0, 255, 0, 0.5) !important;
+}
+
+/* Responsive Width Debug */
+@media (max-width: 640px) {
+  .debug-responsive::before {
+    content: 'SM: ' attr(class);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: red;
+    color: white;
+    padding: 4px;
+    z-index: 10000;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .debug-responsive::before {
+    content: 'MD: ' attr(class);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: orange;
+    color: white;
+    padding: 4px;
+    z-index: 10000;
+  }
+}
+
+@media (min-width: 769px) {
+  .debug-responsive::before {
+    content: 'LG: ' attr(class);
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: green;
+    color: white;
+    padding: 4px;
+    z-index: 10000;
+  }
+}
+
+/* Box Model Debug */
+.debug-box-model {
+  box-shadow: 
+    inset 0 0 0 2px red,
+    inset 0 0 0 4px orange,
+    inset 0 0 0 6px yellow,
+    inset 0 0 0 8px green !important;
+}
+
+/* Force Layout Recalculation */
+.debug-force-repaint {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Viewport Debug */
+.debug-viewport::before {
+  content: 'VW: ' attr(data-vw) ' VH: ' attr(data-vh);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  z-index: 10000;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+/* CSS Grid Debug Enhanced */
+.debug-grid-lines {
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1fr,
+      rgba(255, 0, 0, 0.3) 1fr,
+      rgba(255, 0, 0, 0.3) calc(1fr + 1px)
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 1fr,
+      rgba(0, 255, 0, 0.3) 1fr,
+      rgba(0, 255, 0, 0.3) calc(1fr + 1px)
+    );
+}
+
+/* Element Size Debug */
+.debug-size::after {
+  content: attr(data-width) ' x ' attr(data-height);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 9999;
+  pointer-events: none;
+}

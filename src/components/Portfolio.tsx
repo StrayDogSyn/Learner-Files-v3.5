@@ -123,7 +123,7 @@ function Portfolio() {
   ];
 
   return (
-    <div className='min-h-screen bg-charcoal-dark relative overflow-hidden w-full'>
+    <div className='min-h-screen bg-charcoal-black relative overflow-hidden w-full'>
       {/* Animated Background */}
       <div className='fixed inset-0 z-0'>
         <div className='absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium'></div>
