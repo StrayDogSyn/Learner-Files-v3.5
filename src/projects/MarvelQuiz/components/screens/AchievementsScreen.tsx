@@ -13,10 +13,10 @@ import {
   CheckCircle,
   Search
 } from 'lucide-react';
-import { useGameStore } from '../../stores/gameStore';
+import { useGameStore } from '../../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 // import type { Achievement } from '../../types';
 
 // Local achievement type for this component

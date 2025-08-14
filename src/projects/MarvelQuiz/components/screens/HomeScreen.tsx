@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { Play, Trophy, Settings, Users, Zap, Shield, Infinity as InfinityIcon } from 'lucide-react';
-import { useGameStore } from '../../stores/gameStore';
+import { useGameStore } from '../../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
-import { cn } from '../../lib/utils';
-import type { GameMode, Screen } from '../../types';
+import { cn } from '../../../lib/utils';
+import type { GameMode, Screen } from '../../../types';
 
 const gameModesData = [
   {

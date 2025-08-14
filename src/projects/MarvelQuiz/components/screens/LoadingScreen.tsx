@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2, Shield, Star } from 'lucide-react';
 import { GlassPanel } from '../ui/GlassPanel';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 
 const loadingMessages = [
   "Assembling the Avengers...",

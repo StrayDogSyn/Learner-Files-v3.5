@@ -17,7 +17,7 @@ import {
 
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 
 // Mock multiplayer data (in real app, this would come from Socket.io)
 const mockPlayers = [

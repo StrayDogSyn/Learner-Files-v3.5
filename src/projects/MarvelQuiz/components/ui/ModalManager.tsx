@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import useGameStore from '../../stores/gameStore';
+import useGameStore from '../../../stores/gameStore';
 import { X } from 'lucide-react';
 
 export function ModalManager() {

@@ -1,5 +1,5 @@
 import { Toaster } from 'sonner';
-import useGameStore from '../../stores/gameStore';
+import useGameStore from '../../../stores/gameStore';
 
 export function NotificationManager() {
   const { notifications, removeNotification } = useGameStore();

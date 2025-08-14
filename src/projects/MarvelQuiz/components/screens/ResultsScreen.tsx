@@ -13,10 +13,10 @@ import {
   TrendingUp,
   Heart
 } from 'lucide-react';
-import { useGameStore } from '../../stores/gameStore';
+import { useGameStore } from '../../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 
 interface StatCardProps {
   icon: React.ComponentType<any>;

@@ -1,7 +1,7 @@
 import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useGameStore } from '../../stores/gameStore';
+import { useGameStore } from '../../../stores/gameStore';
 
 // Error boundary for Three.js components
 function ThreeErrorBoundary({ children }: { children: React.ReactNode }) {
