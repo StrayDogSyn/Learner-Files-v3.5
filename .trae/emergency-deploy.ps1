@@ -3,6 +3,7 @@
 # Executes immediate fixes for critical portfolio issues
 
 param(
+    [string]$EmergencyType = "",
     [switch]$LayoutOnly,
     [switch]$AssetsOnly,
     [switch]$MultiDomainOnly,
@@ -452,84 +453,82 @@ function Test-MultiDomainDeployment {
     return $true
 }
 
+
+
+# Script Execution
 # Main Emergency Deployment Function
 function Start-EmergencyDeployment {
     Show-EmergencyBanner
     
-    try {
-        # Prerequisites and environment check
-        if (-not (Test-Prerequisites)) {
-            throw "Prerequisites check failed"
+    # Handle EmergencyType parameter from npm scripts
+    if ($EmergencyType) {
+        switch ($EmergencyType.ToLower()) {
+            "layout" { $LayoutOnly = $true }
+            "assets" { $AssetsOnly = $true }
+            "multi-domain" { $MultiDomainOnly = $true }
+            "full" { $FullEmergency = $true }
+            default {
+                Write-Emergency "Unknown emergency type: $EmergencyType"
+                return 1
+            }
         }
-        
-        if (-not (Test-Environment)) {
-            throw "Environment validation failed"
-        }
-        
-        # Create backup
+    }
+    
+    # Validate prerequisites
+    if (-not (Test-Prerequisites)) {
+        Write-Emergency "Prerequisites check failed!"
+        return 1
+    }
+    
+    # Create backup
+    if ($EmergencyConfig.BackupEnabled -and -not $DryRun) {
         $backupPath = Backup-CurrentState
-        Write-Info "Backup created at: $backupPath"
-        
-        # Execute emergency protocols based on parameters
+        Write-Info "Backup created: $backupPath"
+    }
+    
+    $success = $true
+    
+    try {
+        # Execute specific emergency protocols
         if ($LayoutOnly -or $FullEmergency) {
-            Invoke-LayoutEmergencyFixes
+            Write-Progress "Executing Layout Emergency Protocol..."
+            $layoutResult = Start-EmergencyProtocol "layout" ".trae\claude-solo-emergency-layout.yml"
+            if (-not $layoutResult) { $success = $false }
         }
         
         if ($AssetsOnly -or $FullEmergency) {
-            Invoke-AssetRecovery
+            Write-Progress "Executing Asset Recovery Protocol..."
+            $assetResult = Start-EmergencyProtocol "assets" ".trae\claude-solo-asset-recovery.yml"
+            if (-not $assetResult) { $success = $false }
         }
         
         if ($MultiDomainOnly -or $FullEmergency) {
-            Invoke-MultiDomainDeployment
+            Write-Progress "Executing Multi-Domain Orchestration..."
+            $domainResult = Start-EmergencyProtocol "multi-domain" ".trae\claude-solo-multi-domain-orchestration.yml"
+            if (-not $domainResult) { $success = $false }
         }
         
-        # Final validation
-        Write-Progress "Running final validation checks..."
-        
-        $finalValidation = @{
-            Layout = if ($LayoutOnly -or $FullEmergency) { Test-LayoutFixes } else { $true }
-            Assets = if ($AssetsOnly -or $FullEmergency) { Test-AssetRecovery } else { $true }
-            MultiDomain = if ($MultiDomainOnly -or $FullEmergency) { Test-MultiDomainDeployment } else { $true }
-        }
-        
-        # Summary Report
-        Write-Host ""
-        Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
-        Write-Host "🎯 EMERGENCY DEPLOYMENT SUMMARY" -ForegroundColor Green -BackgroundColor Black
-        Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
-        
-        foreach ($check in $finalValidation.GetEnumerator()) {
-            $status = if ($check.Value) { "✅ SUCCESS" } else { "❌ NEEDS ATTENTION" }
-            $color = if ($check.Value) { "Green" } else { "Red" }
-            Write-Host "$($check.Key): $status" -ForegroundColor $color
-        }
-        
-        Write-Host ""
-        Write-Host "Portfolio URL: $($EmergencyConfig.PortfolioUrl)" -ForegroundColor Cyan
-        Write-Host "Backup Location: $backupPath" -ForegroundColor Cyan
-        Write-Host "Deployment Time: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')" -ForegroundColor Cyan
-        Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
-        
-        if ($finalValidation.Values -contains $false) {
-            Write-Warning "Some components need additional attention. Check logs for details."
-            return 1
-        } else {
-            Write-Success "Emergency deployment completed successfully!"
+        # Final status
+        if ($success) {
+            Write-Success "🎉 Emergency deployment completed successfully!"
+            Write-Info "All emergency protocols executed without errors."
             return 0
+        } else {
+            Write-Emergency "❌ Emergency deployment completed with errors!"
+            Write-Warning "Review the output above for specific issues."
+            return 1
         }
-        
-    } catch {
-        Write-Emergency "Emergency deployment failed: $($_.Exception.Message)"
-        Write-Info "Check backup at: $backupPath"
-        Write-Info "Review logs for detailed error information"
+    }
+    catch {
+        Write-Emergency "Critical error during emergency deployment: $($_.Exception.Message)"
         return 1
     }
 }
 
-# Script Execution
+# Main execution block
 if ($MyInvocation.InvocationName -ne '.') {
     # Show help if no parameters provided
-    if (-not ($LayoutOnly -or $AssetsOnly -or $MultiDomainOnly -or $FullEmergency)) {
+    if (-not ($LayoutOnly -or $AssetsOnly -or $MultiDomainOnly -or $FullEmergency -or $EmergencyType)) {
         Write-Host ""
         Write-Host "TRAE Emergency Deployment Script" -ForegroundColor Yellow
         Write-Host "================================" -ForegroundColor Yellow
@@ -539,6 +538,7 @@ if ($MyInvocation.InvocationName -ne '.') {
         Write-Host "  .\emergency-deploy.ps1 -LayoutOnly        # Fix layout issues only"
         Write-Host "  .\emergency-deploy.ps1 -AssetsOnly        # Fix asset loading only"
         Write-Host "  .\emergency-deploy.ps1 -MultiDomainOnly   # Deploy multi-domain only"
+        Write-Host "  .\emergency-deploy.ps1 -EmergencyType layout # Via npm scripts"
         Write-Host ""
         Write-Host "Options:" -ForegroundColor Cyan
         Write-Host "  -DryRun                                   # Simulate deployment without changes"
@@ -547,6 +547,7 @@ if ($MyInvocation.InvocationName -ne '.') {
         Write-Host "Examples:" -ForegroundColor Green
         Write-Host "  .\emergency-deploy.ps1 -FullEmergency -Verbose"
         Write-Host "  .\emergency-deploy.ps1 -LayoutOnly -DryRun"
+        Write-Host "  npm run emergency:layout"
         Write-Host ""
         exit 0
     }
@@ -554,4 +555,3 @@ if ($MyInvocation.InvocationName -ne '.') {
     # Execute emergency deployment
     $exitCode = Start-EmergencyDeployment
     exit $exitCode
-}

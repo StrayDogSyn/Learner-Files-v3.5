@@ -41,7 +41,7 @@ export const useAnalytics = () => {
     analytics.trackEvent({
       action: 'navigation',
       category: 'user_flow',
-      label: section
+      label: section,
     });
   }, []);
 
@@ -49,7 +49,7 @@ export const useAnalytics = () => {
     analytics.trackEvent({
       action: 'social_click',
       category: 'external_link',
-      label: platform
+      label: platform,
     });
   }, []);
 
@@ -57,7 +57,7 @@ export const useAnalytics = () => {
     analytics.trackEvent({
       action: 'github_activity',
       category: 'engagement',
-      label: action
+      label: action,
     });
   }, []);
 
@@ -66,7 +66,7 @@ export const useAnalytics = () => {
       action: 'search',
       category: 'site_search',
       label: query,
-      value: resultsCount
+      value: resultsCount,
     });
   }, []);
 
@@ -75,7 +75,7 @@ export const useAnalytics = () => {
       action: 'time_on_section',
       category: 'engagement',
       label: section,
-      value: Math.round(timeSpent / 1000) // Convert to seconds
+      value: Math.round(timeSpent / 1000), // Convert to seconds
     });
   }, []);
 
@@ -84,7 +84,7 @@ export const useAnalytics = () => {
       action: 'scroll_depth',
       category: 'engagement',
       label: `${percentage}%`,
-      value: percentage
+      value: percentage,
     });
   }, []);
 
@@ -96,8 +96,8 @@ export const useAnalytics = () => {
       custom_parameters: {
         error_message: errorMessage,
         user_agent: navigator.userAgent,
-        url: window.location.href
-      }
+        url: window.location.href,
+      },
     });
   }, []);
 
@@ -106,7 +106,7 @@ export const useAnalytics = () => {
       action: 'performance_metric',
       category: 'performance',
       label: metric,
-      value: Math.round(value)
+      value: Math.round(value),
     });
   }, []);
 
@@ -114,7 +114,7 @@ export const useAnalytics = () => {
     analytics.trackEvent({
       action: 'content_view',
       category: 'content',
-      label: `${contentType}:${contentId}`
+      label: `${contentType}:${contentId}`,
     });
   }, []);
 
@@ -122,7 +122,7 @@ export const useAnalytics = () => {
     analytics.trackEvent({
       action: 'content_interaction',
       category: 'engagement',
-      label: `${action}:${contentId}`
+      label: `${action}:${contentId}`,
     });
   }, []);
 
@@ -142,7 +142,7 @@ export const useAnalytics = () => {
     trackError,
     trackPerformance,
     trackContentView,
-    trackContentInteraction
+    trackContentInteraction,
   };
 };
 

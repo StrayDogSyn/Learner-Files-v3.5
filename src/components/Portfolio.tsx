@@ -12,7 +12,7 @@ import ProjectCard from './ProjectCard';
 import GlassContainer from './GlassContainer';
 import GlassCard from './GlassCard';
 import BrandImage from './BrandImage';
-import GlassNavigation from './GlassNavigation';
+import AdvancedNavigation from './AdvancedNavigation';
 import ThemeToggle from './ThemeToggle';
 import ParallaxBackground from './ParallaxBackground';
 import BrandWatermark from './BrandWatermark';
@@ -114,16 +114,29 @@ function Portfolio() {
   };
 
   const navigationItems = [
-    { id: 'home', label: 'Home', href: '#home' },
-    { id: 'featured-projects', label: 'Projects', href: '#featured-projects' },
-    { id: 'career-timeline', label: 'Career', href: '#career-timeline' },
-    { id: 'skills', label: 'Skills', href: '#skills' },
-    { id: 'contact', label: 'Contact', href: '#contact' },
-    { id: 'marvel-quiz', label: 'Marvel Quiz', href: '/marvel-quiz', isRoute: true },
+    { id: 'home', label: 'Home', href: '#home', priority: 1 },
+    {
+      id: 'featured-projects',
+      label: 'Projects',
+      href: '#featured-projects',
+      priority: 2,
+      badge: '5',
+    },
+    { id: 'career-timeline', label: 'Career', href: '#career-timeline', priority: 3 },
+    { id: 'skills', label: 'Skills', href: '#skills', priority: 4 },
+    { id: 'contact', label: 'Contact', href: '#contact', priority: 5 },
+    {
+      id: 'marvel-quiz',
+      label: 'Marvel Quiz',
+      href: '/marvel-quiz',
+      isRoute: true,
+      priority: 6,
+      badge: 'Live',
+    },
   ];
 
   return (
-    <div className='min-h-screen bg-charcoal-black relative overflow-hidden w-full'>
+    <div className='min-h-screen bg-charcoal-dark relative overflow-hidden w-full'>
       {/* Animated Background */}
       <div className='fixed inset-0 z-0'>
         <div className='absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium'></div>
@@ -136,7 +149,7 @@ function Portfolio() {
 
       {/* Navigation */}
       <div className='fixed top-0 left-0 right-0 z-50'>
-        <GlassNavigation
+        <AdvancedNavigation
           items={navigationItems}
           activeItem={activeSection}
           logo={

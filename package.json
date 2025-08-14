@@ -15,7 +15,13 @@
     "emergency:multi-domain": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType multi-domain",
     "emergency:full": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType full",
     "monitor:emergency": "powershell -ExecutionPolicy Bypass -File .trae/emergency-monitoring.ps1",
-    "validate:emergency": "powershell -ExecutionPolicy Bypass -File .trae/emergency-validation.ps1 -TestType all -GenerateReport"
+    "validate:emergency": "powershell -ExecutionPolicy Bypass -File .trae/emergency-validation.ps1 -TestType all -GenerateReport",
+    "ai:performance": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType performance -GenerateReport",
+    "ai:behavior": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType behavior -GenerateReport",
+    "ai:conversion": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType conversion -GenerateReport",
+    "ai:technical-debt": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType technical_debt -GenerateReport",
+    "ai:full-analysis": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType all -GenerateReport",
+    "ai:monitor": "powershell -ExecutionPolicy Bypass -File .trae/performance-ai-automation.ps1 -AnalysisType all -ContinuousMode"
   },
   "dependencies": {
     "@react-three/fiber": "^9.3.0",

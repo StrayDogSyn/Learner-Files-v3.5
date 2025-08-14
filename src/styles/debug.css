@@ -1,23 +1,153 @@
-/*
- * CSS Layout Debugging Utilities
- * Add these classes temporarily to debug layout issues
- */
+/* CSS Layout Debugging Utilities */
 
-/* Debug Borders - Add to elements to see boundaries */
-.debug-red { border: 2px solid red !important; }
-.debug-blue { border: 2px solid blue !important; }
-.debug-green { border: 2px solid lime !important; }
-.debug-yellow { border: 2px solid yellow !important; }
+/* Debug Border Box Model */
+.debug-borders * {
+  border: 1px solid rgba(255, 0, 0, 0.3) !important;
+  box-sizing: border-box !important;
+}
 
-/* Debug Background Colors */
-.debug-bg-red { background: rgba(255, 0, 0, 0.1) !important; }
-.debug-bg-blue { background: rgba(0, 0, 255, 0.1) !important; }
-.debug-bg-green { background: rgba(0, 255, 0, 0.1) !important; }
-.debug-bg-yellow { background: rgba(255, 255, 0, 0.1) !important; }
+.debug-borders *:nth-child(2n) {
+  border-color: rgba(0, 255, 0, 0.3) !important;
+}
 
-/* Layout Debug Information */
-.debug-info::before {
-  content: attr(class);
+.debug-borders *:nth-child(3n) {
+  border-color: rgba(0, 0, 255, 0.3) !important;
+}
+
+/* Debug Grid Layout */
+.debug-grid {
+  background-image: 
+    linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px !important;
+}
+
+/* Debug Flexbox */
+.debug-flex {
+  outline: 2px solid rgba(255, 215, 0, 0.8) !important;
+  outline-offset: -2px !important;
+}
+
+.debug-flex > * {
+  outline: 1px solid rgba(255, 165, 0, 0.6) !important;
+  outline-offset: -1px !important;
+}
+
+/* Debug Container Widths */
+.debug-widths {
+  position: relative;
+}
+
+.debug-widths::before {
+  content: attr(class) " - W:" attr(data-width) " H:" attr(data-height);
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Debug Overflow Issues */
+.debug-overflow {
+  outline: 3px solid red !important;
+  background: rgba(255, 0, 0, 0.1) !important;
+}
+
+.debug-overflow::before {
+  content: "OVERFLOW DETECTED";
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 9999;
+}
+
+/* Debug Glass Effects */
+.debug-glass {
+  outline: 2px dashed rgba(80, 200, 120, 0.8) !important;
+  outline-offset: -2px;
+}
+
+.debug-glass::after {
+  content: "GLASS EFFECT";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(80, 200, 120, 0.9);
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Debug Responsive Breakpoints */
+.debug-breakpoints::before {
+  content: "XS";
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 0, 0, 0.9);
+  color: white;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 9999;
+  border-radius: 4px;
+}
+
+@media (min-width: 640px) {
+  .debug-breakpoints::before {
+    content: "SM";
+    background: rgba(255, 165, 0, 0.9);
+  }
+}
+
+@media (min-width: 768px) {
+  .debug-breakpoints::before {
+    content: "MD";
+    background: rgba(255, 255, 0, 0.9);
+    color: black;
+  }
+}
+
+@media (min-width: 1024px) {
+  .debug-breakpoints::before {
+    content: "LG";
+    background: rgba(0, 255, 0, 0.9);
+    color: black;
+  }
+}
+
+@media (min-width: 1280px) {
+  .debug-breakpoints::before {
+    content: "XL";
+    background: rgba(0, 0, 255, 0.9);
+  }
+}
+
+@media (min-width: 1536px) {
+  .debug-breakpoints::before {
+    content: "2XL";
+    background: rgba(128, 0, 128, 0.9);
+  }
+}
+
+/* Debug Z-Index Stacking */
+.debug-z-index {
+  position: relative;
+}
+
+.debug-z-index::after {
+  content: "Z:" attr(style);
   position: absolute;
   top: 0;
   left: 0;
@@ -29,140 +159,280 @@
   pointer-events: none;
 }
 
-/* Width Debug */
-.debug-width::after {
-  content: 'W: ' attr(style);
+/* Debug Horizontal Scroll Detection */
+.debug-horizontal-scroll {
+  outline: 3px solid orange !important;
+  background: rgba(255, 165, 0, 0.1) !important;
+}
+
+.debug-horizontal-scroll::before {
+  content: "HORIZONTAL SCROLL DETECTED - Check width/overflow";
+  position: fixed;
+  top: 50px;
+  right: 10px;
+  background: orange;
+  color: black;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 9999;
+  border-radius: 4px;
+  max-width: 250px;
+  text-align: center;
+}
+
+/* Layout Analysis Helper */
+.layout-analysis {
+  position: relative;
+}
+
+.layout-analysis::before {
+  content: 
+    "W: " attr(data-computed-width) 
+    " | H: " attr(data-computed-height) 
+    " | Box: " attr(data-box-sizing);
   position: absolute;
-  bottom: 0;
-  right: 0;
-  background: rgba(255, 0, 0, 0.8);
+  bottom: 100%;
+  left: 0;
+  background: rgba(0, 0, 0, 0.9);
   color: white;
-  padding: 2px 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  white-space: nowrap;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 3px;
+}
+
+/* Glass Effect Debug */
+.debug-backdrop-filter {
+  position: relative;
+}
+
+.debug-backdrop-filter::before {
+  content: "BACKDROP-FILTER: " attr(data-backdrop-filter);
+  position: absolute;
+  top: -25px;
+  right: 0;
+  background: rgba(80, 200, 120, 0.9);
+  color: white;
+  padding: 3px 6px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+/* Performance Debug */
+.debug-performance {
+  outline: 2px solid purple !important;
+}
+
+.debug-performance::after {
+  content: "PERFORMANCE CHECK NEEDED";
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: purple;
+  color: white;
+  padding: 2px 6px;
   font-size: 10px;
   z-index: 9999;
   pointer-events: none;
 }
 
-/* Overflow Debug */
-.debug-overflow {
-  outline: 3px dashed orange !important;
+/* Transform Debug */
+.debug-transform {
+  outline: 2px solid cyan !important;
+  outline-offset: 2px;
+}
+
+.debug-transform::before {
+  content: "TRANSFORM: " attr(data-transform);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: cyan;
+  color: black;
+  padding: 3px 6px;
+  font-size: 10px;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+  border-radius: 3px;
+}
+
+/* Animation Debug */
+.debug-animation {
+  outline: 2px solid lime !important;
+  outline-offset: -2px;
+  animation: debug-pulse 2s infinite;
+}
+
+@keyframes debug-pulse {
+  0%, 100% { outline-color: lime; }
+  50% { outline-color: yellow; }
+}
+
+.debug-animation::after {
+  content: "ANIMATED ELEMENT";
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: lime;
+  color: black;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* CSS Grid Debug */
+.debug-css-grid {
+  outline: 3px solid magenta !important;
   outline-offset: -3px;
 }
 
-/* Grid Debug */
-.debug-grid {
-  background-image: 
-    linear-gradient(rgba(255, 0, 0, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
+.debug-css-grid > * {
+  outline: 1px solid rgba(255, 0, 255, 0.5) !important;
+  outline-offset: -1px;
 }
 
-/* Flex Debug */
-.debug-flex > * {
-  outline: 1px solid rgba(0, 255, 0, 0.5) !important;
-}
-
-/* Responsive Width Debug */
-@media (max-width: 640px) {
-  .debug-responsive::before {
-    content: 'SM: ' attr(class);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: red;
-    color: white;
-    padding: 4px;
-    z-index: 10000;
-  }
-}
-
-@media (min-width: 641px) and (max-width: 768px) {
-  .debug-responsive::before {
-    content: 'MD: ' attr(class);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: orange;
-    color: white;
-    padding: 4px;
-    z-index: 10000;
-  }
-}
-
-@media (min-width: 769px) {
-  .debug-responsive::before {
-    content: 'LG: ' attr(class);
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: green;
-    color: white;
-    padding: 4px;
-    z-index: 10000;
-  }
-}
-
-/* Box Model Debug */
-.debug-box-model {
-  box-shadow: 
-    inset 0 0 0 2px red,
-    inset 0 0 0 4px orange,
-    inset 0 0 0 6px yellow,
-    inset 0 0 0 8px green !important;
-}
-
-/* Force Layout Recalculation */
-.debug-force-repaint {
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-/* Viewport Debug */
-.debug-viewport::before {
-  content: 'VW: ' attr(data-vw) ' VH: ' attr(data-vh);
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 8px;
-  border-radius: 4px;
-  z-index: 10000;
-  font-family: monospace;
-  font-size: 12px;
-}
-
-/* CSS Grid Debug Enhanced */
-.debug-grid-lines {
-  background-image: 
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 1fr,
-      rgba(255, 0, 0, 0.3) 1fr,
-      rgba(255, 0, 0, 0.3) calc(1fr + 1px)
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 1fr,
-      rgba(0, 255, 0, 0.3) 1fr,
-      rgba(0, 255, 0, 0.3) calc(1fr + 1px)
-    );
-}
-
-/* Element Size Debug */
-.debug-size::after {
-  content: attr(data-width) ' x ' attr(data-height);
+.debug-css-grid::before {
+  content: "CSS GRID CONTAINER";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.8);
+  top: 0;
+  left: 0;
+  background: magenta;
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: bold;
   z-index: 9999;
   pointer-events: none;
+}
+
+/* Flexbox Debug */
+.debug-flexbox {
+  outline: 3px solid gold !important;
+  outline-offset: -3px;
+}
+
+.debug-flexbox > * {
+  outline: 1px solid rgba(255, 215, 0, 0.7) !important;
+  outline-offset: -1px;
+}
+
+.debug-flexbox::before {
+  content: "FLEXBOX CONTAINER";
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: gold;
+  color: black;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Positioning Debug */
+.debug-positioning[data-position="absolute"]::before {
+  content: "ABSOLUTE";
+  background: red;
+}
+
+.debug-positioning[data-position="relative"]::before {
+  content: "RELATIVE"; 
+  background: orange;
+}
+
+.debug-positioning[data-position="fixed"]::before {
+  content: "FIXED";
+  background: purple;
+}
+
+.debug-positioning[data-position="sticky"]::before {
+  content: "STICKY";
+  background: green;
+}
+
+.debug-positioning::before {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 3px;
+}
+
+/* Utility Classes for Quick Debugging */
+.debug-red { outline: 2px solid red !important; }
+.debug-blue { outline: 2px solid blue !important; }
+.debug-green { outline: 2px solid green !important; }
+.debug-yellow { outline: 2px solid yellow !important; }
+.debug-purple { outline: 2px solid purple !important; }
+.debug-orange { outline: 2px solid orange !important; }
+
+/* Hide Debug in Production */
+@media (prefers-reduced-motion: reduce) {
+  .debug-animation {
+    animation: none !important;
+  }
+}
+
+/* Print Styles Debug */
+@media print {
+  .debug-borders,
+  .debug-grid,
+  .debug-flex,
+  .debug-widths,
+  .debug-overflow,
+  .debug-glass,
+  .debug-breakpoints,
+  .debug-z-index,
+  .debug-horizontal-scroll,
+  .debug-backdrop-filter,
+  .debug-performance,
+  .debug-transform,
+  .debug-animation,
+  .debug-css-grid,
+  .debug-flexbox,
+  .debug-positioning {
+    outline: none !important;
+    background: none !important;
+  }
+  
+  .debug-borders *,
+  .debug-flex *,
+  .debug-css-grid *,
+  .debug-flexbox * {
+    outline: none !important;
+    border: none !important;
+  }
+  
+  .debug-borders::before,
+  .debug-widths::before,
+  .debug-overflow::before,
+  .debug-glass::after,
+  .debug-breakpoints::before,
+  .debug-z-index::after,
+  .debug-horizontal-scroll::before,
+  .debug-backdrop-filter::before,
+  .debug-performance::after,
+  .debug-transform::before,
+  .debug-animation::after,
+  .debug-css-grid::before,
+  .debug-flexbox::before,
+  .debug-positioning::before {
+    display: none !important;
+  }
 }
