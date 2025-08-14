@@ -134,6 +134,10 @@
   
   html {
     scroll-behavior: smooth;
+    width: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
   }
   
   body {
@@ -143,6 +147,10 @@
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    width: 100%;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
   }
   
   body::before {
@@ -511,7 +519,7 @@
   }
   
   /* Responsive Design */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
     .glass-container {
       -webkit-backdrop-filter: var(--blur-subtle);
       backdrop-filter: var(--blur-subtle);
@@ -533,6 +541,17 @@
     }
   }
   
+  @media (min-width: 768px) {
+    .glass-container {
+      -webkit-backdrop-filter: var(--blur-medium);
+      backdrop-filter: var(--blur-medium);
+    }
+    
+    .glass-card {
+      padding: 2rem;
+    }
+  }
+  
   @media (min-width: 1024px) {
     .glass-container {
       -webkit-backdrop-filter: var(--blur-heavy);
@@ -541,6 +560,13 @@
     
     .glass-card {
       padding: 2.5rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .glass-container {
+      -webkit-backdrop-filter: var(--blur-extreme);
+      backdrop-filter: var(--blur-extreme);
     }
   }
   
@@ -638,6 +664,52 @@
 }
 
 @layer utilities {
+  /* Full-width layout utilities */
+  .w-full {
+    width: 100%;
+  }
+  
+  .max-w-full {
+    max-width: 100%;
+  }
+  
+  .min-w-full {
+    min-width: 100%;
+  }
+  
+  /* Container utilities */
+  .container-fluid {
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .container-responsive {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  @media (min-width: 640px) {
+    .container-responsive {
+      padding: 0 1.5rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container-responsive {
+      padding: 0 2rem;
+    }
+  }
+  
+  @media (min-width: 1280px) {
+    .container-responsive {
+      padding: 0 2.5rem;
+    }
+  }
+  
   .backdrop-blur-glass {
     -webkit-backdrop-filter: var(--blur-medium);
     backdrop-filter: var(--blur-medium);

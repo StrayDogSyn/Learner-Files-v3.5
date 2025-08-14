@@ -115,7 +115,7 @@ function Portfolio() {
   ];
 
   return (
-    <div className="min-h-screen bg-charcoal-dark relative overflow-hidden">
+    <div className="min-h-screen bg-charcoal-dark relative overflow-hidden w-full">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-charcoal-dark via-hunter-forest to-charcoal-medium"></div>
@@ -147,11 +147,11 @@ function Portfolio() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden">
+      <section id="home" className="min-h-screen flex items-center justify-center relative z-10 overflow-hidden w-full">
         <ParallaxBackground variant="pattern" speed={0.3} opacity={0.04} />
         <BrandWatermark variant="pattern" opacity={0.03} size="large" position="center" />
-        <div className="container mx-auto px-4 text-center">
-          <GlassContainer className="max-w-4xl mx-auto">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <GlassContainer className="max-w-5xl mx-auto">
             <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
               <div className="mb-8">
                 <div className="w-32 h-32 mx-auto mb-6 relative">
@@ -194,8 +194,8 @@ function Portfolio() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section id="about" className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               About Eric 'Hunter' Petross
@@ -235,8 +235,8 @@ function Portfolio() {
       </section>
 
       {/* GitHub Activity Section */}
-      <section id="github-activity" className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section id="github-activity" className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               Development Activity
@@ -247,8 +247,8 @@ function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section id="skills" className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               Technical Expertise
@@ -263,8 +263,8 @@ function Portfolio() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section id="projects" className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               Featured Projects
@@ -305,8 +305,8 @@ function Portfolio() {
       </section>
 
       {/* AI & Innovation Section */}
-      <section className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               AI & Innovation Focus
@@ -353,13 +353,13 @@ function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 relative z-10">
-        <div className="container mx-auto px-4">
+      <section id="contact" className="py-20 relative z-10 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h2 className="font-display text-4xl font-bold text-center mb-16 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
               Get In Touch
             </h2>
-            <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+            <div className="w-full grid md:grid-cols-2 gap-12">
               <GlassCard variant="hunter" className="h-full">
                 <h3 className="font-display text-2xl font-semibold mb-6 text-glass-light">
                   Let's Create Something Extraordinary
@@ -500,8 +500,8 @@ function Portfolio() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 py-12">
-        <div className="container mx-auto px-4">
+      <footer className="relative z-10 py-12 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <GlassCard variant="premium" className="text-center relative">
             {/* Brand Watermark */}
             <div className="absolute top-4 right-4 opacity-20">
