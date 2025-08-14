@@ -1,0 +1,485 @@
+{
+  "Timestamp": "2025-08-14T16:07:05.6019483-04:00",
+  "Duration": 3.2985665,
+  "Summary": {
+    "PassedTests": 39,
+    "TotalTests": 58,
+    "SkippedTests": 0,
+    "FailedTests": 0,
+    "WarningTests": 19,
+    "SuccessRate": 67.24
+  },
+  "DryRun": {
+    "IsPresent": false
+  },
+  "FullValidation": {
+    "IsPresent": false
+  },
+  "Results": [
+    {
+      "Timestamp": "2025-08-14T16:07:05.8577652-04:00",
+      "Category": "Prerequisites",
+      "Test": "PowerShell",
+      "Status": "Pass",
+      "Message": "Version: PowerShell 7.5.2",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:05.9145697-04:00",
+      "Category": "Prerequisites",
+      "Test": "Node.js",
+      "Status": "Pass",
+      "Message": "Version: v22.13.0",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.3931729-04:00",
+      "Category": "Prerequisites",
+      "Test": "npm",
+      "Status": "Pass",
+      "Message": "Version: 11.0.0",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4573527-04:00",
+      "Category": "Prerequisites",
+      "Test": "Git",
+      "Status": "Pass",
+      "Message": "Version: git version 2.47.1.windows.2",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4666466-04:00",
+      "Category": "Configuration",
+      "Test": "Layout Emergency",
+      "Status": "Pass",
+      "Message": "File exists, size: 8209 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4759056-04:00",
+      "Category": "Configuration",
+      "Test": "Layout Emergency YAML",
+      "Status": "Pass",
+      "Message": "Valid YAML structure",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4773214-04:00",
+      "Category": "Configuration",
+      "Test": "Asset Recovery",
+      "Status": "Pass",
+      "Message": "File exists, size: 12202 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4803103-04:00",
+      "Category": "Configuration",
+      "Test": "Asset Recovery YAML",
+      "Status": "Pass",
+      "Message": "Valid YAML structure",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4817424-04:00",
+      "Category": "Configuration",
+      "Test": "Multi-Domain",
+      "Status": "Pass",
+      "Message": "File exists, size: 16181 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4832227-04:00",
+      "Category": "Configuration",
+      "Test": "Multi-Domain YAML",
+      "Status": "Pass",
+      "Message": "Valid YAML structure",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4846705-04:00",
+      "Category": "Configuration",
+      "Test": "Monitoring Dashboard",
+      "Status": "Pass",
+      "Message": "File exists, size: 12877 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.4999135-04:00",
+      "Category": "Configuration",
+      "Test": "Monitoring Dashboard YAML",
+      "Status": "Warning",
+      "Message": "YAML structure incomplete",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5014354-04:00",
+      "Category": "Configuration",
+      "Test": "Deployment Script",
+      "Status": "Pass",
+      "Message": "File exists, size: 16709 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5030532-04:00",
+      "Category": "Configuration",
+      "Test": "Response Playbook",
+      "Status": "Pass",
+      "Message": "File exists, size: 13962 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5055076-04:00",
+      "Category": "Configuration",
+      "Test": "Package Configuration",
+      "Status": "Pass",
+      "Message": "File exists, size: 31679 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5081514-04:00",
+      "Category": "Configuration",
+      "Test": "Documentation",
+      "Status": "Pass",
+      "Message": "File exists, size: 10619 bytes",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5139207-04:00",
+      "Category": "Environment",
+      "Test": ".env",
+      "Status": "Warning",
+      "Message": "File missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5154299-04:00",
+      "Category": "Environment",
+      "Test": ".env.local",
+      "Status": "Pass",
+      "Message": "File exists",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5165902-04:00",
+      "Category": "Environment",
+      "Test": ".env.claude-solo.example",
+      "Status": "Warning",
+      "Message": "File missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5173871-04:00",
+      "Category": "Environment",
+      "Test": "ANTHROPIC_API_KEY",
+      "Status": "Warning",
+      "Message": "Not configured or placeholder",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5181903-04:00",
+      "Category": "Environment",
+      "Test": "GITHUB_TOKEN",
+      "Status": "Warning",
+      "Message": "Not configured or placeholder",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5189384-04:00",
+      "Category": "Environment",
+      "Test": "PORTFOLIO_BASE_URL",
+      "Status": "Warning",
+      "Message": "Not configured or placeholder",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5196634-04:00",
+      "Category": "Environment",
+      "Test": "VITE_MARVEL_PUBLIC_KEY",
+      "Status": "Warning",
+      "Message": "Not configured or placeholder",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5309417-04:00",
+      "Category": "Package",
+      "Test": "Configuration Load",
+      "Status": "Pass",
+      "Message": "JSON valid",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5409977-04:00",
+      "Category": "Package",
+      "Test": "Script emergency:layout",
+      "Status": "Warning",
+      "Message": "Script missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5424564-04:00",
+      "Category": "Package",
+      "Test": "Script emergency:assets",
+      "Status": "Warning",
+      "Message": "Script missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5433082-04:00",
+      "Category": "Package",
+      "Test": "Script emergency:multi-domain",
+      "Status": "Warning",
+      "Message": "Script missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5443746-04:00",
+      "Category": "Package",
+      "Test": "Script monitor:emergency",
+      "Status": "Warning",
+      "Message": "Script missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5453536-04:00",
+      "Category": "Package",
+      "Test": "Script validate:emergency",
+      "Status": "Warning",
+      "Message": "Script missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5512553-04:00",
+      "Category": "Package",
+      "Test": "Dependencies",
+      "Status": "Pass",
+      "Message": "1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 dependencies",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5583523-04:00",
+      "Category": "Layout Emergency",
+      "Test": "Agent Configuration",
+      "Status": "Pass",
+      "Message": "All agents configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5615611-04:00",
+      "Category": "Layout Emergency",
+      "Test": "Monitoring Triggers",
+      "Status": "Pass",
+      "Message": "Triggers configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5648064-04:00",
+      "Category": "Asset Recovery",
+      "Test": "banner.png",
+      "Status": "Warning",
+      "Message": "Asset missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5659207-04:00",
+      "Category": "Asset Recovery",
+      "Test": "gearLogo.png",
+      "Status": "Warning",
+      "Message": "Asset missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5671231-04:00",
+      "Category": "Asset Recovery",
+      "Test": "mainLogo.png",
+      "Status": "Warning",
+      "Message": "Asset missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5681781-04:00",
+      "Category": "Asset Recovery",
+      "Test": "favicon.png",
+      "Status": "Warning",
+      "Message": "Asset missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:06.5699552-04:00",
+      "Category": "Asset Recovery",
+      "Test": "Agent Configuration",
+      "Status": "Pass",
+      "Message": "Agents configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:07.0952673-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydog-syndications-llc.com DNS",
+      "Status": "Pass",
+      "Message": "DNS resolves",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:07.550157-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydog-syndications-llc.com HTTP",
+      "Status": "Pass",
+      "Message": "HTTP 200 OK",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:07.6316249-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydogsyndicationsllc.biz DNS",
+      "Status": "Pass",
+      "Message": "DNS resolves",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.2105346-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydogsyndicationsllc.biz HTTP",
+      "Status": "Pass",
+      "Message": "HTTP 200 OK",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.2497324-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydog-secondstory.org DNS",
+      "Status": "Pass",
+      "Message": "DNS resolves",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.7029937-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydog-secondstory.org HTTP",
+      "Status": "Pass",
+      "Message": "HTTP 200 OK",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.7253616-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydogsyn.github.io DNS",
+      "Status": "Pass",
+      "Message": "DNS resolves",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8664762-04:00",
+      "Category": "Multi-Domain",
+      "Test": "straydogsyn.github.io HTTP",
+      "Status": "Warning",
+      "Message": "HTTP failed: Response status code does not indicate success: 404 (Not Found).",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8685808-04:00",
+      "Category": "Multi-Domain",
+      "Test": "Orchestration Config",
+      "Status": "Pass",
+      "Message": "Configuration valid",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8725114-04:00",
+      "Category": "Monitoring",
+      "Test": "emergency_status Section",
+      "Status": "Pass",
+      "Message": "Section configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8733053-04:00",
+      "Category": "Monitoring",
+      "Test": "layout_monitoring Section",
+      "Status": "Pass",
+      "Message": "Section configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.874486-04:00",
+      "Category": "Monitoring",
+      "Test": "asset_monitoring Section",
+      "Status": "Pass",
+      "Message": "Section configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8755144-04:00",
+      "Category": "Monitoring",
+      "Test": "multi_domain_monitoring Section",
+      "Status": "Pass",
+      "Message": "Section configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8763449-04:00",
+      "Category": "Monitoring",
+      "Test": "performance_monitoring Section",
+      "Status": "Pass",
+      "Message": "Section configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8772155-04:00",
+      "Category": "Monitoring",
+      "Test": "Alert Configuration",
+      "Status": "Pass",
+      "Message": "Alerts configured",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8895449-04:00",
+      "Category": "Deployment",
+      "Test": "Script Exists",
+      "Status": "Pass",
+      "Message": "Script file exists",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8918323-04:00",
+      "Category": "Deployment",
+      "Test": "Function Show-EmergencyBanner",
+      "Status": "Pass",
+      "Message": "Function exists",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8932327-04:00",
+      "Category": "Deployment",
+      "Test": "Function Test-Prerequisites",
+      "Status": "Pass",
+      "Message": "Function exists",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8940521-04:00",
+      "Category": "Deployment",
+      "Test": "Function Backup-CurrentState",
+      "Status": "Pass",
+      "Message": "Function exists",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8948716-04:00",
+      "Category": "Deployment",
+      "Test": "Function Start-EmergencyProtocol",
+      "Status": "Warning",
+      "Message": "Function missing",
+      "Details": ""
+    },
+    {
+      "Timestamp": "2025-08-14T16:07:08.8955755-04:00",
+      "Category": "Deployment",
+      "Test": "Script Parameters",
+      "Status": "Warning",
+      "Message": "Parameters incomplete",
+      "Details": ""
+    }
+  ],
+  "TestType": "all"
+}

@@ -9,7 +9,13 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "client:dev": "vite",
-    "server:dev": "nodemon"
+    "server:dev": "nodemon",
+    "emergency:layout": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType layout",
+    "emergency:assets": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType assets",
+    "emergency:multi-domain": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType multi-domain",
+    "emergency:full": "powershell -ExecutionPolicy Bypass -File .trae/emergency-deploy.ps1 -EmergencyType full",
+    "monitor:emergency": "powershell -ExecutionPolicy Bypass -File .trae/emergency-monitoring.ps1",
+    "validate:emergency": "powershell -ExecutionPolicy Bypass -File .trae/emergency-validation.ps1 -TestType all -GenerateReport"
   },
   "dependencies": {
     "@react-three/fiber": "^9.3.0",
