@@ -1,4 +1,5 @@
 // Advanced Project Showcase Type Definitions
+import type { DemoConfiguration, DemoPreset } from './demo';
 
 export interface ProjectMetrics {
   accuracy?: string;
@@ -32,23 +33,7 @@ export interface GitHubStats {
   readme: string;
 }
 
-export interface DemoConfiguration {
-  projectId: string;
-  demoType: 'iframe' | 'component' | 'sandbox' | 'api-playground' | 'game';
-  height: string;
-  interactive: boolean;
-  codeVisible: boolean;
-  configurable: boolean;
-  presets?: DemoPreset[];
-  embedUrl?: string;
-}
 
-export interface DemoPreset {
-  name: string;
-  description: string;
-  configuration: Record<string, any>;
-  code?: string;
-}
 
 export interface ProjectCard {
   id: string;

@@ -1,20 +1,24 @@
 import { ProjectCard, DemoConfiguration, DemoPreset } from '../types/project';
+import type { DemoConfiguration as DemoConfig } from '../types/demo';
 
 // Demo presets for interactive projects
 const marvelQuizPresets: DemoPreset[] = [
   {
+    id: 'easy-mode',
     name: 'Easy Mode',
     description: 'Beginner-friendly questions with multiple choice',
     configuration: { difficulty: 'easy', timeLimit: 30, questionCount: 10 },
     code: '// Easy mode configuration\nconst config = { difficulty: "easy", timeLimit: 30 };',
   },
   {
+    id: 'hard-mode',
     name: 'Hard Mode',
     description: 'Advanced MCU trivia with strict time limits',
     configuration: { difficulty: 'hard', timeLimit: 15, questionCount: 20 },
     code: '// Hard mode configuration\nconst config = { difficulty: "hard", timeLimit: 15 };',
   },
   {
+    id: 'speed-run',
     name: 'Speed Run',
     description: 'Ultra-fast questions for experienced fans',
     configuration: { difficulty: 'expert', timeLimit: 10, questionCount: 30 },
@@ -24,18 +28,21 @@ const marvelQuizPresets: DemoPreset[] = [
 
 const portfolioPresets: DemoPreset[] = [
   {
+    id: 'dark-theme',
     name: 'Dark Theme',
     description: 'Experience the portfolio in dark mode',
     configuration: { theme: 'dark', animations: true, glassmorphism: true },
     code: '// Dark theme configuration\nconst theme = { mode: "dark", glassmorphism: true };',
   },
   {
+    id: 'light-theme',
     name: 'Light Theme',
     description: 'Clean light mode with subtle shadows',
     configuration: { theme: 'light', animations: true, glassmorphism: false },
     code: '// Light theme configuration\nconst theme = { mode: "light", glassmorphism: false };',
   },
   {
+    id: 'performance-mode',
     name: 'Performance Mode',
     description: 'Optimized for maximum performance',
     configuration: { theme: 'dark', animations: false, glassmorphism: false },
@@ -98,6 +105,10 @@ export const enhancedProjects: ProjectCard[] = [
       configurable: true,
       presets: marvelQuizPresets,
       embedUrl: 'https://straydogsyn.github.io/Learner-Files-v3.5/#/marvel-quiz',
+      theme: 'dark',
+      responsive: true,
+      fullscreen: true,
+      analytics: true,
     },
     status: 'live',
     priority: 1,

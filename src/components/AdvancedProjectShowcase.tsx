@@ -17,12 +17,16 @@ import {
   FaBrain,
   FaMobile,
   FaCogs,
+  FaExpand,
+  FaTimes,
 } from 'react-icons/fa';
 import { enhancedProjects, getProjectStats } from '../data/enhancedProjects';
-import { ProjectCard, ProjectFilter, ProjectSort, ProjectSearch, ViewMode } from '../types/project';
+import type { ProjectCard, ProjectFilter, ProjectSort, ProjectSearch, ViewMode } from '../types/project';
 import { githubApi } from '../services/githubApi';
 import GlassCard from './GlassCard';
 import BrandImage from './BrandImage';
+import InteractiveDemo from './InteractiveDemo';
+import MarvelQuizDemo from './MarvelQuizDemo';
 
 interface AdvancedProjectShowcaseProps {
   initialViewMode?: ViewMode;
@@ -30,6 +34,39 @@ interface AdvancedProjectShowcaseProps {
   showSearch?: boolean;
   maxProjects?: number;
 }
+
+// Utility functions
+const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case 'web-app':
+      return <FaLaptopCode />;
+    case 'game':
+      return <FaGamepad />;
+    case 'ai':
+      return <FaBrain />;
+    case 'mobile':
+      return <FaMobile />;
+    case 'api':
+      return <FaCogs />;
+    default:
+      return <FaLaptopCode />;
+  }
+};
+
+const getDifficultyColor = (difficulty: string) => {
+  switch (difficulty) {
+    case 'beginner':
+      return 'text-green-400';
+    case 'intermediate':
+      return 'text-yellow-400';
+    case 'advanced':
+      return 'text-orange-400';
+    case 'expert':
+      return 'text-red-400';
+    default:
+      return 'text-gray-400';
+  }
+};
 
 const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
   initialViewMode = 'grid',
@@ -455,6 +492,42 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           </button>
         </div>
       )}
+
+      {/* Interactive Demo Modal */}
+      {showDemo && selectedProject && (
+        <div className='fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4'>
+          <div className='bg-glass-dark border border-glass-border rounded-lg w-full max-w-6xl max-h-[90vh] overflow-hidden'>
+            <div className='flex items-center justify-between p-4 border-b border-glass-border'>
+              <h3 className='text-xl font-semibold text-white'>Interactive Demo: {selectedProject.title}</h3>
+              <button
+                onClick={() => setShowDemo(false)}
+                className='text-gray-300 hover:text-white transition-colors'
+              >
+                <FaTimes className='text-xl' />
+              </button>
+            </div>
+            <div className='p-4'>
+              {selectedProject.demoConfig && (
+                selectedProject.id === 'marvel-quiz-game' ? (
+                  <MarvelQuizDemo
+                    config={selectedProject.demoConfig}
+                    onDemoStart={(sessionId) => console.log('Demo started:', sessionId)}
+                    onDemoComplete={(sessionId, analytics) => console.log('Demo completed:', analytics)}
+                    onError={(error) => console.error('Demo error:', error)}
+                  />
+                ) : (
+                  <InteractiveDemo
+                    config={selectedProject.demoConfig}
+                    onDemoStart={(sessionId) => console.log('Demo started:', sessionId)}
+                    onDemoComplete={(sessionId, analytics) => console.log('Demo completed:', analytics)}
+                    onError={(error) => console.error('Demo error:', error)}
+                  />
+                )
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -586,12 +659,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   // Grid View
   return (
-    <GlassCard
-      variant='premium'
-      className='overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-hunter-emerald/10'
+    <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      <GlassCard
+        variant='premium'
+        className='overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-hunter-emerald/10'
+      >
       {/* Project Image */}
       <div className='relative overflow-hidden'>
         <img
@@ -750,7 +825,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
       </div>
-    </GlassCard>
+      </GlassCard>
+    </div>
   );
 };
 

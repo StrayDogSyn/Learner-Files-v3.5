@@ -935,4 +935,123 @@
     transform: var(--parallax-transform, translateY(0px));
     opacity: var(--parallax-opacity, 1);
   }
+
+  /* Interactive Demo Styles */
+  .interactive-demo {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .marvel-quiz-demo {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  .demo-header {
+    background: linear-gradient(135deg, rgba(53, 94, 59, 0.9), rgba(80, 200, 120, 0.1));
+    backdrop-filter: blur(10px);
+  }
+
+  .demo-content {
+    background: rgba(28, 28, 28, 0.95);
+  }
+
+  .demo-main {
+    background: rgba(28, 28, 28, 0.98);
+  }
+
+  .demo-controls {
+    background: linear-gradient(135deg, rgba(53, 94, 59, 0.8), rgba(80, 200, 120, 0.05));
+    backdrop-filter: blur(10px);
+  }
+
+  .demo-code-panel {
+    background: rgba(0, 0, 0, 0.9);
+    border-top: 1px solid rgba(80, 200, 120, 0.2);
+  }
+
+  .demo-analytics-panel {
+    background: rgba(53, 94, 59, 0.1);
+    border-top: 1px solid rgba(80, 200, 120, 0.2);
+  }
+
+  .demo-leaderboard-panel {
+    background: rgba(53, 94, 59, 0.1);
+    border-top: 1px solid rgba(80, 200, 120, 0.2);
+  }
+
+  .quiz-stats {
+    background: linear-gradient(135deg, rgba(53, 94, 59, 0.9), rgba(80, 200, 120, 0.1));
+    backdrop-filter: blur(10px);
+  }
+
+  .tutorial-overlay {
+    backdrop-filter: blur(8px);
+  }
+
+  /* Demo Animation Classes */
+  .demo-fade-in {
+    animation: demoFadeIn 0.3s ease-in-out;
+  }
+
+  .demo-slide-up {
+    animation: demoSlideUp 0.4s ease-out;
+  }
+
+  .demo-pulse {
+    animation: demoPulse 2s infinite;
+  }
+
+  @keyframes demoFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes demoSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes demoPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  /* High Contrast Mode */
+  [data-high-contrast="true"] .interactive-demo {
+    border: 2px solid #ffffff;
+  }
+
+  [data-high-contrast="true"] .demo-header {
+    background: #000000;
+    border-bottom: 2px solid #ffffff;
+  }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    .interactive-demo *,
+    .marvel-quiz-demo * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

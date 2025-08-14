@@ -102,16 +102,26 @@ function Start-PerformanceOptimization {
     try {
         # Check if dev server is running
         $devServerRunning = $false
+        $targetUrl = ""
+        
         try {
             $response = Invoke-WebRequest -Uri "http://localhost:5173" -TimeoutSec 5 -ErrorAction SilentlyContinue
-            $devServerRunning = $true
-            $targetUrl = "http://localhost:5173"
+            if ($response.StatusCode -eq 200) {
+                $devServerRunning = $true
+                $targetUrl = "http://localhost:5173"
+                Write-AILog "Dev server detected at localhost:5173" "SUCCESS"
+            }
         } catch {
             Write-AILog "Dev server not running, checking for production build..." "WARN"
-            $targetUrl = "file:///$ProjectRoot/dist/index.html"
+            if (Test-Path "$ProjectRoot/dist/index.html") {
+                $targetUrl = "file:///$ProjectRoot/dist/index.html"
+                Write-AILog "Using production build for analysis" "INFO"
+            } else {
+                Write-AILog "No production build found. Please run 'npm run build' first." "ERROR"
+            }
         }
         
-        if ($devServerRunning) {
+        if ($devServerRunning -and $targetUrl) {
             $lighthouseCmd = "lighthouse $targetUrl --output=json --output-path='$lighthouseReport' --chrome-flags='--headless'"
             Invoke-Expression $lighthouseCmd
             
@@ -150,7 +160,8 @@ function Start-PerformanceOptimization {
                     }
                 }
             }
-        } else {
+        }
+    } else {
             Write-AILog "Cannot run Lighthouse - no accessible URL found" "WARN"
         }
     } catch {
