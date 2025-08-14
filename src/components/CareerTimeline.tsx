@@ -218,25 +218,24 @@ const CareerTimeline: React.FC = () => {
   };
 
   return (
-    <section id="career-timeline" className="py-20 relative z-10">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="font-display text-4xl font-bold mb-4 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
-            Career Timeline
-          </h2>
-          <p className="text-lg text-[var(--text-secondary)] max-w-2xl mx-auto">
-            A journey from hospitality excellence to technology innovation, showcasing continuous growth and skill development
-          </p>
-        </div>
+    <div className="relative">
+      <div className="text-center mb-8">
+        <h3 className="font-display text-2xl font-bold mb-2 bg-gradient-to-r from-hunter-emerald to-metallic-silver bg-clip-text text-transparent">
+          Career Timeline
+        </h3>
+        <p className="text-sm text-[var(--text-secondary)]">
+          A journey from hospitality excellence to technology innovation
+        </p>
+      </div>
 
-        <div className="max-w-4xl mx-auto">
-          {/* Timeline Container */}
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--brand-primary)] via-[var(--brand-secondary)] to-[var(--brand-accent)]"></div>
+      <div className="max-w-3xl mx-auto">
+        {/* Timeline Container */}
+        <div className="relative">
+          {/* Timeline Line */}
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[var(--brand-primary)] via-[var(--brand-secondary)] to-[var(--brand-accent)]"></div>
 
-            {/* Timeline Items */}
-            <div className="space-y-8">
+          {/* Timeline Items */}
+          <div className="space-y-4">
               {timelineEvents.map((event, index) => {
                 const isExpanded = expandedItems.has(event.id);
                 const isVisible = visibleItems.has(event.id);
@@ -368,11 +367,11 @@ const CareerTimeline: React.FC = () => {
                   </div>
                 );
               })}
-            </div>
           </div>
+        </div>
 
-          {/* Timeline Summary */}
-          <div className="mt-16 glass rounded-xl p-8 text-center">
+        {/* Timeline Summary */}
+        <div className="mt-8 glass rounded-xl p-6 text-center">
             <h3 className="font-display text-2xl font-semibold text-[var(--text-primary)] mb-4">
               20+ Years of Excellence
             </h3>
@@ -393,11 +392,10 @@ const CareerTimeline: React.FC = () => {
                 <div className="text-3xl font-bold text-[var(--brand-accent)] mb-2">6+</div>
                 <div className="text-sm text-[var(--text-muted)]">Projects Completed</div>
               </div>
-            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
