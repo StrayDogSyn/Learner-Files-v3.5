@@ -1,17 +1,55 @@
-import { useRef, useMemo, useEffect } from 'react';
+import { useRef, useMemo, useEffect, useCallback, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useGameStore } from '../../stores/gameStore';
 
+// Error boundary for Three.js components
+function ThreeErrorBoundary({ children }: { children: React.ReactNode }) {
+  return (
+    <div>
+      {children}
+    </div>
+  );
+}
+
+// Context loss handler
+function ContextHandler() {
+  const { gl } = useThree();
+  
+  useEffect(() => {
+    const canvas = gl.domElement;
+    
+    const handleContextLost = (event: Event) => {
+      console.warn('WebGL context lost, attempting to recover...');
+      event.preventDefault();
+    };
+    
+    const handleContextRestored = () => {
+      console.log('WebGL context restored');
+    };
+    
+    canvas.addEventListener('webglcontextlost', handleContextLost);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored);
+    
+    return () => {
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored);
+    };
+  }, [gl]);
+  
+  return null;
+}
+
 // Particle system component
 function ParticleField() {
-  const ref = useRef<THREE.Points>(null!);
+  const ref = useRef<THREE.Points>(null);
   const { settings } = useGameStore();
   
-  // Generate particle positions
+  // Generate particle positions (reduced count for better performance)
   const [positions, colors] = useMemo(() => {
-    const positions = new Float32Array(1000 * 3);
-    const colors = new Float32Array(1000 * 3);
+    const particleCount = 500; // Reduced from 1000
+    const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
     
     // Marvel color palette
     const marvelColors = [
@@ -23,7 +61,7 @@ function ParticleField() {
       new THREE.Color('#ff4500'), // Orange (Soul Stone)
     ];
     
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < particleCount; i++) {
       // Random positions in a sphere
       const radius = Math.random() * 25 + 5;
       const theta = Math.random() * Math.PI * 2;
@@ -43,15 +81,21 @@ function ParticleField() {
     return [positions, colors];
   }, []);
   
-  // Animation loop
+  // Animation loop with error handling and throttling
   useFrame((state) => {
     if (!ref.current || !settings.graphics.animations) return;
     
-    const time = state.clock.getElapsedTime();
-    
-    // Rotate the entire particle system
-    ref.current.rotation.x = time * 0.1;
-    ref.current.rotation.y = time * 0.05;
+    try {
+      const time = state.clock.getElapsedTime();
+      
+      // Throttle animations to reduce DOM manipulation
+      if (Math.floor(time * 30) % 2 === 0) { // Only update every other frame at 30fps
+        ref.current.rotation.x = time * 0.05; // Reduced rotation speed
+        ref.current.rotation.y = time * 0.025;
+      }
+    } catch (error) {
+      console.warn('Error in particle animation:', error);
+    }
   });
   
   return (
@@ -86,17 +130,26 @@ function ParticleField() {
 
 // Cosmic energy waves
 function CosmicWaves() {
-  const ref = useRef<THREE.Mesh>(null!);
+  const ref = useRef<THREE.Mesh>(null);
   const { settings } = useGameStore();
   
   useFrame((state) => {
     if (!ref.current || !settings.graphics.animations) return;
     
-    const time = state.clock.getElapsedTime();
-    
-    // Animate the cosmic waves
-    ref.current.rotation.z = time * 0.2;
-    (ref.current.material as THREE.MeshBasicMaterial).opacity = 0.1 + Math.sin(time) * 0.05;
+    try {
+      const time = state.clock.getElapsedTime();
+      
+      // Throttle animations to reduce DOM manipulation
+      if (Math.floor(time * 20) % 3 === 0) { // Update every 3rd frame at 20fps
+        ref.current.rotation.z = time * 0.1; // Reduced rotation speed
+        const material = ref.current.material as THREE.MeshBasicMaterial;
+        if (material) {
+          material.opacity = 0.05 + Math.sin(time * 0.5) * 0.03; // Reduced opacity changes
+        }
+      }
+    } catch (error) {
+      console.warn('Error in cosmic waves animation:', error);
+    }
   });
   
   return (
@@ -114,7 +167,7 @@ function CosmicWaves() {
 
 // Infinity Stone orbits
 function InfinityStones() {
-  const groupRef = useRef<THREE.Group>(null!);
+  const groupRef = useRef<THREE.Group>(null);
   const { settings } = useGameStore();
   
   const stones = useMemo(() => [
@@ -129,20 +182,28 @@ function InfinityStones() {
   useFrame((state) => {
     if (!groupRef.current || !settings.graphics.animations) return;
     
-    const time = state.clock.getElapsedTime();
-    
-    // Rotate the entire group
-    groupRef.current.rotation.y = time * 0.3;
-    
-    // Individual stone animations
-    groupRef.current.children.forEach((stone, index) => {
-      stone.rotation.x = time * (0.5 + index * 0.1);
-      stone.rotation.z = time * (0.3 + index * 0.05);
+    try {
+      const time = state.clock.getElapsedTime();
       
-      // Pulsing effect
-      const scale = 1 + Math.sin(time * 2 + index) * 0.2;
-      stone.scale.setScalar(scale);
-    });
+      // Throttle animations to reduce DOM manipulation
+      if (Math.floor(time * 15) % 2 === 0) { // Update every other frame at 15fps
+        groupRef.current.rotation.y = time * 0.15; // Reduced rotation speed
+        
+        // Individual stone animations (less frequent)
+        groupRef.current.children.forEach((stone, index) => {
+          if (stone && Math.floor(time * 10 + index) % 4 === 0) {
+            stone.rotation.x = time * (0.25 + index * 0.05); // Reduced rotation
+            stone.rotation.z = time * (0.15 + index * 0.025);
+            
+            // Pulsing effect (less dramatic)
+            const scale = 1 + Math.sin(time + index) * 0.1; // Reduced scale change
+            stone.scale.setScalar(scale);
+          }
+        });
+      }
+    } catch (error) {
+      console.warn('Error in infinity stones animation:', error);
+    }
   });
   
   return (
@@ -185,36 +246,62 @@ function CameraController() {
 // Main particle background component
 export function ParticleBackground() {
   const { settings } = useGameStore();
+  const [hasError, setHasError] = useState(false);
   
-  if (!settings.graphics.particles) {
+  if (!settings.graphics.particles || hasError) {
     return null;
   }
   
+  const handleCreated = ({ gl }: { gl: THREE.WebGLRenderer }) => {
+    // Configure renderer for better performance and error handling
+    gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    gl.setClearColor(0x000000, 0);
+    gl.toneMapping = THREE.NoToneMapping;
+    gl.outputColorSpace = THREE.SRGBColorSpace;
+  };
+  
+  const handleError = (error: Error | unknown) => {
+    console.error('Three.js error:', error);
+    setHasError(true);
+  };
+  
   return (
     <div className="absolute inset-0 -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 30], fov: 75 }}
-        style={{ background: 'transparent' }}
-        dpr={[1, 2]}
-        gl={{ antialias: false, alpha: true }}
-      >
-        <CameraController />
-        
-        {/* Ambient lighting */}
-        <ambientLight intensity={0.2} />
-        
-        {/* Point light for depth */}
-        <pointLight position={[10, 10, 10]} intensity={0.5} color="#ffd700" />
-        
-        {/* Particle field */}
-        <ParticleField />
-        
-        {/* Cosmic waves */}
-        <CosmicWaves />
-        
-        {/* Infinity stones */}
-        <InfinityStones />
-      </Canvas>
+      <ThreeErrorBoundary>
+        <Canvas
+          camera={{ position: [0, 0, 30], fov: 75 }}
+          style={{ background: 'transparent' }}
+          dpr={[1, 2]}
+          gl={{ 
+            antialias: false, 
+            alpha: true,
+            preserveDrawingBuffer: false,
+            powerPreference: "high-performance"
+          }}
+          onCreated={handleCreated}
+          onError={handleError}
+          frameloop="demand"
+          performance={{ min: 0.5 }}
+        >
+          <ContextHandler />
+          <CameraController />
+          
+          {/* Ambient lighting */}
+          <ambientLight intensity={0.2} />
+          
+          {/* Point light for depth */}
+          <pointLight position={[10, 10, 10]} intensity={0.5} color="#ffd700" />
+          
+          {/* Particle field */}
+          <ParticleField />
+          
+          {/* Cosmic waves */}
+          <CosmicWaves />
+          
+          {/* Infinity stones */}
+          <InfinityStones />
+        </Canvas>
+      </ThreeErrorBoundary>
     </div>
   );
 }

@@ -113,41 +113,60 @@ class AnalyticsService {
   }
 
   private recordHeatmapEvent(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    const elementInfo = this.getElementInfo(target);
-    const eventType = event.type === 'click' ? 'click' : 'hover';
-    
-    const heatmapEvent: HeatmapEvent = {
-      element: elementInfo,
-      x: event.clientX,
-      y: event.clientY,
-      timestamp: Date.now(),
-      page: window.location.pathname,
-      type: eventType as 'click' | 'hover'
-    };
-
-    this.heatmapData.push(heatmapEvent);
-    
-    // Keep only last 1000 events to prevent memory issues
-    if (this.heatmapData.length > 1000) {
-      this.heatmapData = this.heatmapData.slice(-1000);
-    }
-
-    // Store in localStorage for persistence
     try {
-      localStorage.setItem('straydog_heatmap', JSON.stringify(this.heatmapData));
+      const target = event.target as HTMLElement;
+      if (!target || !target.tagName) {
+        return; // Skip if target is invalid
+      }
+      
+      const elementInfo = this.getElementInfo(target);
+      const eventType = event.type === 'click' ? 'click' : 'hover';
+      
+      const heatmapEvent: HeatmapEvent = {
+        element: elementInfo,
+        x: event.clientX,
+        y: event.clientY,
+        timestamp: Date.now(),
+        page: window.location.pathname,
+        type: eventType as 'click' | 'hover'
+      };
+
+      this.heatmapData.push(heatmapEvent);
+      
+      // Keep only last 1000 events to prevent memory issues
+      if (this.heatmapData.length > 1000) {
+        this.heatmapData = this.heatmapData.slice(-1000);
+      }
+
+      // Store in localStorage for persistence
+      try {
+        localStorage.setItem('straydog_heatmap', JSON.stringify(this.heatmapData));
+      } catch (error) {
+        console.warn('Failed to store heatmap data:', error);
+      }
     } catch (error) {
-      console.warn('Failed to store heatmap data:', error);
+      console.warn('Error recording heatmap event:', error);
     }
   }
 
   private getElementInfo(element: HTMLElement): string {
-    const tagName = element.tagName.toLowerCase();
-    const id = element.id ? `#${element.id}` : '';
-    const className = element.className ? `.${element.className.split(' ').join('.')}` : '';
-    const textContent = element.textContent?.slice(0, 50) || '';
-    
-    return `${tagName}${id}${className} - ${textContent}`.trim();
+    try {
+      if (!element || !element.tagName) {
+        return 'unknown-element';
+      }
+      
+      const tagName = element.tagName.toLowerCase();
+      const id = element.id ? `#${element.id}` : '';
+      const className = element.className && typeof element.className === 'string' 
+        ? `.${element.className.split(' ').filter(c => c.trim()).join('.')}` 
+        : '';
+      const textContent = element.textContent?.slice(0, 50) || '';
+      
+      return `${tagName}${id}${className} - ${textContent}`.trim();
+    } catch (error) {
+      console.warn('Error getting element info:', error);
+      return 'error-element';
+    }
   }
 
   // Public methods for tracking events

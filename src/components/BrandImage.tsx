@@ -90,7 +90,7 @@ const BrandImage: React.FC<BrandImageProps> = ({
       {watermark && isLoaded && (
         <div className="absolute bottom-2 right-2 opacity-30">
           <img
-            src="/assets/brand/circa2024.png"
+            src="/assets/brands/circa2024.png"
             alt="StrayDog Syndications 2024"
             className="w-8 h-8 filter brightness-0 invert"
             loading="lazy"
@@ -105,11 +105,11 @@ export default BrandImage;
 
 // Brand asset constants for easy management
 export const BRAND_ASSETS = {
-  MAIN_LOGO: '/assets/brand/mainLogo.png',
-  GEAR_LOGO: '/assets/brand/gearLogo.png',
-  BANNER: '/assets/brand/banner.png',
-  FAVICON: '/assets/brand/favicon.png',
-  CIRCA_2024: '/assets/brand/circa2024.png'
+  MAIN_LOGO: '/assets/brands/mainLogo.png',
+  GEAR_LOGO: '/assets/brands/gearLogo.png',
+  BANNER: '/assets/brands/banner.png',
+  FAVICON: '/assets/brands/favicon.png',
+  CIRCA_2024: '/assets/brands/circa2024.png'
 } as const;
 
 // Predefined brand image configurations
