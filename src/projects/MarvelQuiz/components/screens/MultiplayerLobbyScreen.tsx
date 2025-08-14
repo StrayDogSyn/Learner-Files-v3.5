@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -19,7 +19,7 @@ import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
 import { GlassButton } from '../ui/GlassButton';
 import { cn } from '../../lib/utils';
-import type { MultiplayerRoom, MultiplayerPlayer } from '../../types';
+
 
 // Mock multiplayer data (in real app, this would come from Socket.io)
 const mockRooms = [
@@ -367,7 +367,7 @@ export function MultiplayerLobbyScreen() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isConnected] = useState(true);
   const [rooms, setRooms] = useState(mockRooms);
-  const [copiedRoomId] = useState<string | null>(null);
+
   
   const filteredRooms = rooms.filter(room => 
     room.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

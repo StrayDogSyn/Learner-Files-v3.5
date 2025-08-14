@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, Trophy, Settings, Users, Zap, Shield, Infinity as InfinityIcon } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';

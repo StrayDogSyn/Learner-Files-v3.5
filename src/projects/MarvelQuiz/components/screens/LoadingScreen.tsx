@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, Zap, Shield, Star } from 'lucide-react';
+import { Loader2, Shield, Star } from 'lucide-react';
 import { GlassPanel } from '../ui/GlassPanel';
 import { cn } from '../../lib/utils';
 

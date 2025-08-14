@@ -11,8 +11,7 @@ import {
   RotateCcw, 
   Share2,
   TrendingUp,
-  Heart,
-  CheckCircle
+  Heart
 } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';
 import { GlassPanel } from '../ui/GlassPanel';
@@ -132,7 +131,6 @@ export function ResultsScreen() {
   } = useGameStore();
   
   const [newAchievements, setNewAchievements] = useState<any[]>([]);
-  const [showShareModal, setShowShareModal] = useState(false);
   
   useEffect(() => {
     if (!currentSession) {

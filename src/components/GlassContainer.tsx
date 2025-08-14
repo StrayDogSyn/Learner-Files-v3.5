@@ -6,7 +6,8 @@ interface GlassContainerProps {
   children?: React.ReactNode;
   className?: string;
   onClick?: () => void;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
+  [key: string]: any;
 }
 
 const GlassContainer: React.FC<GlassContainerProps> = ({
@@ -33,14 +34,14 @@ const GlassContainer: React.FC<GlassContainerProps> = ({
 
   const combinedClassName = `${getVariantClasses()} ${className}`;
 
-  return (
-    <Component
-      className={combinedClassName}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </Component>
+  return React.createElement(
+    Component,
+    {
+      className: combinedClassName,
+      onClick,
+      ...props
+    },
+    children
   );
 };
 

@@ -3,9 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Shield, 
   Heart, 
-  Star, 
-  Target, 
-  TrendingUp,
   Skull,
   Award,
   Timer,
@@ -293,12 +290,14 @@ export function SurvivalMode({ onGameEnd }: SurvivalModeProps) {
     };
     
     // Update player stats
-    updatePlayerStats({
-      gamesPlayed: player.stats.gamesPlayed + 1,
-      totalScore: player.stats.totalScore + score,
-      bestStreak: Math.max(player.stats.bestStreak, maxStreak),
-      averageAccuracy: ((player.stats.averageAccuracy * player.stats.gamesPlayed) + accuracy) / (player.stats.gamesPlayed + 1)
-    });
+    if (player) {
+      updatePlayerStats({
+        gamesPlayed: player.stats.gamesPlayed + 1,
+        totalScore: player.stats.totalScore + score,
+        bestStreak: Math.max(player.stats.bestStreak, maxStreak),
+        averageAccuracy: ((player.stats.averageAccuracy * player.stats.gamesPlayed) + accuracy) / (player.stats.gamesPlayed + 1)
+      });
+    }
     
     onGameEnd(results);
   };

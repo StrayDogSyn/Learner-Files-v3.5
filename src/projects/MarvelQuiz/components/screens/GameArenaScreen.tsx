@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Heart, Zap, Pause, Play, Home, Lightbulb } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';
@@ -123,7 +123,7 @@ export function GameArenaScreen() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
-  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [, setQuestionStartTime] = useState(Date.now());
   
   useEffect(() => {
     if (!currentSession) {
@@ -367,18 +367,18 @@ export function GameArenaScreen() {
                 >
                   <GlassPanel className={cn(
                     "p-6",
-                    currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer 
+                    selectedAnswer && currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer 
                       ? "bg-green-500/20 border-green-500/30" 
                       : "bg-red-500/20 border-red-500/30"
                   )}>
                     <h3 className={cn(
                       "text-2xl font-bold mb-2",
-                      currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? "text-green-300" : "text-red-300"
+                      selectedAnswer && currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? "text-green-300" : "text-red-300"
                     )}>
-                      {currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? "Correct!" : "Incorrect!"}
+                      {selectedAnswer && currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? "Correct!" : "Incorrect!"}
                     </h3>
                     
-                    {currentQuestion.options.indexOf(selectedAnswer) !== currentQuestion.correctAnswer && (
+                    {selectedAnswer && currentQuestion.options.indexOf(selectedAnswer) !== currentQuestion.correctAnswer && (
                        <p className="text-white mb-2">
                          The correct answer was: <span className="font-bold text-green-300">{currentQuestion.options[currentQuestion.correctAnswer]}</span>
                        </p>
@@ -389,7 +389,7 @@ export function GameArenaScreen() {
                     )}
                     
                     <div className="mt-4 text-yellow-300">
-                      +{currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? (currentQuestion.difficulty === 'easy' ? 10 : currentQuestion.difficulty === 'medium' ? 20 : 30) : 0} points
+                      +{selectedAnswer && currentQuestion.options.indexOf(selectedAnswer) === currentQuestion.correctAnswer ? (currentQuestion.difficulty === 'easy' ? 10 : currentQuestion.difficulty === 'medium' ? 20 : 30) : 0} points
                     </div>
                   </GlassPanel>
                 </motion.div>

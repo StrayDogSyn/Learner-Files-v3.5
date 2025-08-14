@@ -1,19 +1,24 @@
-import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
-import { SiReact, SiTypescript, SiTailwindcss, SiNodedotjs } from 'react-icons/si';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { FaGithub, FaLinkedin, FaExternalLinkAlt, FaRocket, FaLightbulb, FaDatabase, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { skills, projects, achievements, experiences } from '../data/projects';
-import { SkillCard } from './SkillCard';
-import { ProjectCard } from './ProjectCard';
-import { GlassContainer } from './GlassContainer';
-import { ParticleBackground } from './ParticleBackground';
-import { ContactForm } from './ContactForm';
-import { SocialLinks } from './SocialLinks';
-import { ProjectSpotlight } from './ProjectSpotlight';
-import { AIExperimentShowcase } from './AIExperimentShowcase';
-import { trackPageView } from '../utils/analytics';
+import { projects } from '../data/projects';
+import SkillCard from './SkillCard';
+import ProjectCard from './ProjectCard';
+import GlassContainer from './GlassContainer';
+import GlassCard from './GlassCard';
+import BrandImage from './BrandImage';
+import GlassNavigation from './GlassNavigation';
+import ThemeToggle from './ThemeToggle';
+import ParallaxBackground from './ParallaxBackground';
+import BrandWatermark from './BrandWatermark';
+
+import ProjectSpotlight from './ProjectSpotlight';
+import AIExperimentShowcase from './AIExperimentShowcase';
+import CareerTimeline from './CareerTimeline';
+import KitchenLessons from './KitchenLessons';
+import GitHubActivity from './GitHubActivity';
+import MarvelQuizShowcase from './MarvelQuizShowcase';
+import { useAnalytics, useScrollTracking, usePerformanceTracking } from '../hooks/useAnalytics';
+import { BrandConfigs } from './BrandImage';
 
 interface Skill {
   name: string
@@ -24,7 +29,7 @@ interface Skill {
 function Portfolio() {
   const [mounted, setMounted] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
-  const { trackNavigation, trackContactAttempt, trackSocialClick } = useAnalytics()
+  const { trackNavigation } = useAnalytics()
   
   // Initialize analytics tracking
   useScrollTracking()
@@ -249,7 +254,7 @@ function Portfolio() {
               Technical Expertise
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {skills.map((skill, index) => (
+              {skills.map((skill) => (
                 <SkillCard key={skill.name} {...skill} />
               ))}
             </div>
@@ -282,8 +287,17 @@ function Portfolio() {
             
             {/* All Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects.map((project, index) => (
-                <ProjectCard key={project.id} {...project} />
+              {projects.map((project) => (
+                <ProjectCard 
+                  key={project.id}
+                  title={project.title}
+                  description={project.description}
+                  technologies={project.techStack}
+                  githubUrl={project.githubUrl}
+                  liveUrl={project.liveUrl}
+                  imageUrl={project.image}
+                  featured={project.category === 'featured'}
+                />
               ))}
             </div>
           </div>

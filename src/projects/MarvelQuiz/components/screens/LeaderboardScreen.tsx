@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowLeft, 
@@ -6,13 +6,10 @@ import {
   Medal, 
   Crown, 
   Star, 
-  TrendingUp, 
   Calendar,
-  Filter,
   RefreshCw,
   Users,
   Target,
-  Zap,
   Clock
 } from 'lucide-react';
 import { useGameStore } from '../../stores/gameStore';
@@ -333,7 +330,7 @@ function StatsCard({ title, value, icon: Icon, color, subtitle }: {
 }
 
 export function LeaderboardScreen() {
-  const { setCurrentScreen, player } = useGameStore();
+  const { setCurrentScreen } = useGameStore();
   const [selectedType, setSelectedType] = useState('global');
   const [isLoading, setIsLoading] = useState(false);
   

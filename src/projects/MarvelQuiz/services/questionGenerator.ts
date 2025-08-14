@@ -268,10 +268,9 @@ class QuestionGenerator {
 
     try {
       // Fetch data from Marvel API
-      const [charactersResponse, comicsResponse, seriesResponse] = await Promise.all([
+      const [charactersResponse, comicsResponse] = await Promise.all([
         marvelApi.fetchCharacters({ limit: 100 }),
-        marvelApi.getComics({ limit: 50 }),
-        marvelApi.getSeries({ limit: 50 })
+        marvelApi.getComics({ limit: 50 })
       ]);
 
       this.characters = charactersResponse;
