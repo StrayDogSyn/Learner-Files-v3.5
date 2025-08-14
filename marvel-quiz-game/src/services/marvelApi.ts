@@ -74,6 +74,18 @@ class MarvelApiService {
         'Marvel API public key not found. Please set VITE_MARVEL_PUBLIC_KEY in your .env file.'
       );
     }
+
+    if (!this.privateKey) {
+      console.warn(
+        'Marvel API private key not found. Please set VITE_MARVEL_PRIVATE_KEY in your .env file.'
+      );
+    }
+
+    if (!this.publicKey || !this.privateKey) {
+      console.error(
+        'Marvel API keys are required for authentication. Please check your .env file.'
+      );
+    }
   }
 
   private generateAuthParams(): { ts: string; apikey: string; hash: string } {

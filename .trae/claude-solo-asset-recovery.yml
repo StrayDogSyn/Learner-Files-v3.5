@@ -1,0 +1,394 @@
+# TRAE Asset Loading Emergency Recovery
+name: "Asset Loading Emergency Recovery"
+trigger: "PARALLEL_TO_LAYOUT_FIX"
+priority: "HIGH"
+version: "1.0.0"
+
+# Global Configuration
+global:
+  claude_api:
+    model: "claude-3-5-sonnet-20241022"
+    max_tokens: 4000
+    temperature: 0.1
+  
+  portfolio_url: "https://straydogsyn.github.io/Learner-Files-v3.5/"
+  asset_base_path: "/assets/brands/"
+  fallback_enabled: true
+  
+  critical_assets:
+    - "banner.png"
+    - "gearLogo.png"
+    - "mainLogo.png"
+    - "favicon.png"
+    - "circa2024.png"
+
+# Emergency Asset Recovery Agents
+agents:
+  asset_recovery_agent:
+    type: "asset_emergency_recovery"
+    priority: "high"
+    
+    prompt: |
+      CRITICAL ASSET LOADING FAILURES RECOVERY:
+      
+      **Console Errors to Resolve Immediately:**
+      - banner.png: 404 error (missing from expected path)
+      - gearLogo.png: 404 error (broken reference)
+      - mainLogo.png: 404 error (path mismatch)
+      - favicon.png: 404 error from /assets/brand/ (incorrect directory)
+      - VITE_MARVEL_PUBLIC_KEY missing causing Marvel Quiz complete failure
+      
+      **Emergency Asset Recovery Protocol:**
+      
+      1. **Asset Location Audit:**
+         - Scan repository structure for missing assets
+         - Identify correct paths vs. referenced paths
+         - Map current asset locations to component references
+         - Document path discrepancies
+      
+      2. **Path Correction Strategy:**
+         - Fix broken image paths in React components
+         - Update import statements and src attributes
+         - Correct asset directory references
+         - Ensure consistent naming conventions
+      
+      3. **Fallback Asset Creation:**
+         - Generate placeholder images for missing assets
+         - Create SVG fallbacks for brand elements
+         - Implement graceful degradation for missing images
+         - Add proper alt text and accessibility features
+      
+      4. **Environment Variable Management:**
+         - Set up proper .env file structure
+         - Configure VITE_MARVEL_PUBLIC_KEY securely
+         - Add environment variable validation
+         - Create development vs. production configs
+      
+      5. **Brand Consistency Enforcement:**
+         - Ensure all brand assets load correctly
+         - Maintain visual identity across all pages
+         - Fix favicon loading issues
+         - Standardize asset naming and organization
+      
+      **Success Criteria:**
+      ✅ All brand assets load without 404 errors
+      ✅ Favicon displays correctly in browser tabs
+      ✅ Marvel Quiz loads with proper API configuration
+      ✅ Consistent branding across all portfolio sections
+      ✅ Proper fallbacks for any missing assets
+    
+    actions:
+      - audit_asset_structure
+      - locate_missing_files
+      - fix_broken_image_paths
+      - create_fallback_assets
+      - setup_env_variable_management
+      - deploy_asset_fixes
+      - validate_asset_loading
+    
+    triggers:
+      - manual: true
+      - schedule: "every 10 minutes until resolved"
+      - webhook: "asset_404_detected"
+    
+    outputs:
+      - asset_audit_report
+      - fixed_component_files
+      - fallback_assets
+      - env_configuration
+
+  api_integration_agent:
+    type: "api_emergency_recovery"
+    priority: "high"
+    
+    prompt: |
+      MARVEL API INTEGRATION EMERGENCY RECOVERY:
+      
+      **Critical Marvel Quiz Integration Issues:**
+      
+      The Marvel Quiz game is completely non-functional due to missing API configuration.
+      This is a showcase project that demonstrates technical capabilities.
+      
+      **Immediate Fixes Required:**
+      
+      1. **Environment Variable Setup:**
+         - Configure VITE_MARVEL_PUBLIC_KEY in .env files
+         - Set up development and production environment configs
+         - Add environment variable validation and error handling
+         - Ensure secure API key management practices
+      
+      2. **API Error Handling & Fallbacks:**
+         - Implement robust error handling for API failures
+         - Add loading states and user feedback
+         - Create fallback content when API is unavailable
+         - Add retry mechanisms for failed requests
+      
+      3. **End-to-End Testing:**
+         - Test Marvel Quiz functionality completely
+         - Verify API calls succeed with proper data
+         - Ensure game loads and functions across devices
+         - Test error scenarios and fallback behaviors
+      
+      4. **Professional Error Handling:**
+         - Add proper loading states and spinners
+         - Implement user-friendly error messages
+         - Create graceful degradation for API failures
+         - Add retry buttons and recovery options
+      
+      5. **Game Functionality Verification:**
+         - Ensure quiz questions load correctly
+         - Verify character data displays properly
+         - Test scoring and progress tracking
+         - Confirm responsive design works
+      
+      **Technical Implementation:**
+      ```typescript
+      // Environment validation
+      const MARVEL_API_KEY = import.meta.env.VITE_MARVEL_PUBLIC_KEY;
+      if (!MARVEL_API_KEY) {
+        throw new Error('Marvel API key not configured');
+      }
+      
+      // Error handling wrapper
+      const apiCall = async () => {
+        try {
+          // API logic here
+        } catch (error) {
+          // Fallback logic
+        }
+      };
+      ```
+      
+      **Success Criteria:**
+      ✅ Marvel Quiz loads without console errors
+      ✅ API calls succeed and return proper character data
+      ✅ Game is fully playable and responsive
+      ✅ Professional error handling for all failure scenarios
+      ✅ Loading states provide good user experience
+      ✅ Fallback content available when API fails
+    
+    actions:
+      - setup_marvel_api_credentials
+      - configure_environment_variables
+      - test_api_endpoints
+      - implement_error_handling
+      - verify_game_functionality
+      - add_loading_states
+      - create_fallback_content
+    
+    dependencies:
+      - asset_recovery_agent
+    
+    outputs:
+      - env_files
+      - api_integration_code
+      - error_handling_components
+      - test_results
+
+  brand_consistency_agent:
+    type: "brand_integration_recovery"
+    priority: "medium"
+    
+    prompt: |
+      BRAND ASSET INTEGRATION & MULTI-DOMAIN CONSISTENCY:
+      
+      **Establish Cohesive Brand Identity Across Portfolio:**
+      
+      The portfolio needs consistent branding that works across all domains and showcases
+      professional quality. Currently, broken assets undermine credibility.
+      
+      **Brand Integration Tasks:**
+      
+      1. **Asset Loading Fixes:**
+         - Repair all broken logo and image references
+         - Ensure proper favicon loading across all pages
+         - Fix asset paths in components and stylesheets
+         - Optimize image loading performance
+      
+      2. **Visual Identity Consistency:**
+         - Standardize logo usage and sizing
+         - Ensure consistent color schemes
+         - Maintain typography consistency
+         - Create cohesive visual hierarchy
+      
+      3. **Multi-Domain Portfolio Integration:**
+         - Link to all 4 domain properties effectively
+         - Create clear navigation between domains
+         - Ensure brand consistency across domains
+         - Add proper cross-domain analytics tracking
+      
+      4. **Domain Integration Requirements:**
+         - **Primary Business**: straydog-syndications-llc.com
+         - **Business Variant**: straydogsyndicationsllc.biz
+         - **Nonprofit**: straydog-secondstory.org
+         - **GitHub Portfolio**: Current GitHub Pages portfolio
+      
+      5. **Navigation & User Experience:**
+         - Add clear domain navigation menu
+         - Create consistent header/footer across properties
+         - Implement proper breadcrumb navigation
+         - Add contact information and social links
+      
+      **Technical Implementation:**
+      - Fix all asset import statements
+      - Create reusable brand component library
+      - Implement proper image optimization
+      - Add favicon pipeline for all domains
+      - Create cross-domain linking strategy
+      
+      **Success Criteria:**
+      ✅ All brand assets load correctly without errors
+      ✅ Consistent visual identity across all pages
+      ✅ Clear navigation to all 4 domain properties
+      ✅ Professional favicon and branding elements
+      ✅ Optimized asset loading performance
+      ✅ Cohesive user experience across domains
+    
+    actions:
+      - fix_brand_asset_loading
+      - create_favicon_pipeline
+      - establish_cross_domain_linking
+      - implement_brand_guidelines
+      - verify_multi_domain_integration
+      - optimize_asset_performance
+    
+    dependencies:
+      - asset_recovery_agent
+      - api_integration_agent
+    
+    outputs:
+      - brand_component_library
+      - cross_domain_navigation
+      - favicon_assets
+      - brand_guidelines
+
+# Automation & Monitoring
+automation_triggers:
+  asset_monitoring:
+    schedule: "every 10 minutes until resolved"
+    condition: "asset_404_detected"
+    checks:
+      - "banner.png availability"
+      - "gearLogo.png availability"
+      - "mainLogo.png availability"
+      - "favicon.png availability"
+    actions:
+      - trigger_asset_recovery_agent
+      - log_404_errors
+      - send_alert_notifications
+  
+  api_health_monitoring:
+    schedule: "every 15 minutes"
+    endpoints:
+      - "Marvel API connectivity"
+      - "Environment variable validation"
+    success_criteria:
+      - api_response_time < 3000ms
+      - environment_variables_present
+      - no_console_errors
+    
+  brand_consistency_checks:
+    schedule: "every 30 minutes"
+    validations:
+      - "All brand assets loading"
+      - "Favicon displaying correctly"
+      - "Cross-domain links functional"
+    metrics:
+      - asset_load_success_rate
+      - brand_consistency_score
+      - user_experience_rating
+
+# Integration Points
+integrations:
+  github:
+    repository: "straydogsyn/Learner-Files-v3.5"
+    asset_paths:
+      - "assets/brands/"
+      - "public/assets/brand/"
+      - "src/assets/"
+    auto_deploy: true
+  
+  environment:
+    development:
+      env_file: ".env.development"
+      marvel_api_endpoint: "https://gateway.marvel.com/v1/public"
+    production:
+      env_file: ".env.production"
+      marvel_api_endpoint: "https://gateway.marvel.com/v1/public"
+  
+  monitoring:
+    asset_tracking: true
+    api_monitoring: true
+    brand_consistency_checks: true
+  
+  notifications:
+    slack:
+      webhook_url: "${SLACK_ASSET_WEBHOOK}"
+      channels:
+        - "#asset-alerts"
+        - "#api-monitoring"
+    
+    email:
+      recipients:
+        - "${DEVELOPER_EMAIL}"
+      severity_threshold: "high"
+
+# Asset Management
+asset_management:
+  fallback_strategy:
+    missing_images: "generate_svg_placeholder"
+    broken_links: "redirect_to_fallback"
+    api_failures: "show_cached_content"
+  
+  optimization:
+    image_compression: true
+    lazy_loading: true
+    cdn_integration: true
+    cache_headers: true
+  
+  validation:
+    file_existence_checks: true
+    path_validation: true
+    accessibility_compliance: true
+    performance_impact_analysis: true
+
+# Security & Compliance
+security:
+  api_key_management:
+    encryption: true
+    rotation_schedule: "quarterly"
+    access_logging: true
+  
+  asset_security:
+    content_security_policy: true
+    cors_configuration: true
+    secure_headers: true
+
+# Performance Optimization
+performance:
+  asset_optimization:
+    image_compression: "80%"
+    lazy_loading: true
+    preloading_critical_assets: true
+  
+  api_optimization:
+    request_caching: "5 minutes"
+    connection_pooling: true
+    timeout_configuration: "10 seconds"
+
+# Success Metrics
+metrics:
+  asset_recovery:
+    target_404_errors: 0
+    asset_load_success_rate: ">99%"
+    favicon_display_success: "100%"
+  
+  api_integration:
+    marvel_quiz_functionality: "100%"
+    api_response_success_rate: ">95%"
+    error_handling_coverage: "100%"
+  
+  brand_consistency:
+    cross_domain_navigation_success: "100%"
+    brand_asset_consistency_score: ">95%"
+    user_experience_rating: ">4.5/5"

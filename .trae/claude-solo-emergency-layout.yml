@@ -1,0 +1,269 @@
+# TRAE Emergency Layout Recovery Protocol
+name: "Emergency Layout Recovery Protocol"
+trigger: "IMMEDIATE"
+priority: "CRITICAL"
+version: "1.0.0"
+
+# Global Configuration
+global:
+  claude_api:
+    model: "claude-3-5-sonnet-20241022"
+    max_tokens: 4000
+    temperature: 0.1
+  
+  portfolio_url: "https://straydogsyn.github.io/Learner-Files-v3.5/"
+  backup_enabled: true
+  monitoring_enabled: true
+  
+  emergency_thresholds:
+    layout_width_utilization: 60  # Alert if content uses less than 60% of viewport
+    container_empty_space: 50     # Alert if containers have >50% empty space
+    content_compression: 40       # Alert if content compressed to <40% of available space
+
+# Emergency Response Agents
+agents:
+  layout_analyzer:
+    type: "emergency_analyzer"
+    priority: "critical"
+    
+    prompt: |
+      EMERGENCY LAYOUT ANALYSIS:
+      
+      Analyze the current portfolio at {{ portfolio_url }} for critical layout failures:
+      
+      1. **Massive Empty Containers**: Identify containers taking >50% viewport width with no content
+      2. **Content Compression**: Find content compressed to <40% of available screen space
+      3. **CSS Grid/Flexbox Failures**: Detect layout system breakdowns causing collapse
+      4. **Phantom Containers**: Locate containers with large dimensions but no visible content
+      5. **Responsive Breakpoint Issues**: Check mobile/tablet/desktop layout consistency
+      
+      **Analysis Requirements:**
+      - Screenshot current state for before/after comparison
+      - Generate DOM structure analysis
+      - Identify specific CSS selectors causing issues
+      - Provide surgical fix recommendations
+      - Create rollback plan for safety
+      
+      **Output Format:**
+      ```css
+      /* EMERGENCY FIXES */
+      /* Issue: [Description] */
+      /* Fix: [Explanation] */
+      .problematic-selector {
+        /* Emergency CSS here */
+      }
+      ```
+      
+      Priority Level: PORTFOLIO BREAKING BUG
+    
+    actions:
+      - screenshot_current_state
+      - analyze_dom_structure
+      - identify_rogue_containers
+      - generate_emergency_css_fixes
+      - create_rollback_plan
+      - validate_responsive_design
+    
+    triggers:
+      - manual: true
+      - schedule: "every 5 minutes until resolved"
+      - webhook: "layout_crisis_detected"
+    
+    outputs:
+      - emergency_css_patch
+      - layout_analysis_report
+      - rollback_instructions
+
+  css_debugger:
+    type: "emergency_debugger"
+    priority: "critical"
+    
+    prompt: |
+      CSS EMERGENCY DEBUGGING:
+      
+      Target the specific layout crisis affecting portfolio usability:
+      
+      **Critical Issues to Fix:**
+      - Container taking 70% of right side as empty green space
+      - Career timeline cramped into narrow left column (unreadable)
+      - "From Kitchen to Code" section compressed and buried
+      - Featured Projects pushed below fold and barely visible
+      - Navigation elements potentially misaligned
+      
+      **Surgical CSS Fixes Required:**
+      1. **Eliminate Phantom Containers**: Remove or fix containers with no content
+      2. **Restore Full-Width Layout**: Ensure content uses proper viewport width
+      3. **Fix Responsive Breakpoints**: Repair mobile/tablet/desktop layouts
+      4. **Maintain Working Styles**: Preserve existing styling that functions correctly
+      5. **Optimize Content Flow**: Ensure logical content hierarchy and visibility
+      
+      **Technical Requirements:**
+      - Generate emergency patch CSS file ready for immediate deployment
+      - Include specific selectors and properties to modify
+      - Provide fallback styles for edge cases
+      - Ensure cross-browser compatibility
+      - Test fixes across all viewport sizes
+      
+      **Output: Emergency CSS patch with deployment instructions**
+    
+    actions:
+      - extract_current_css
+      - identify_layout_bugs
+      - generate_emergency_patches
+      - test_fixes_across_viewports
+      - prepare_deployment_package
+      - validate_cross_browser_compatibility
+    
+    dependencies:
+      - layout_analyzer
+    
+    outputs:
+      - emergency_patch.css
+      - deployment_instructions.md
+      - test_results.json
+
+  emergency_fixer:
+    type: "emergency_deployer"
+    priority: "critical"
+    
+    prompt: |
+      DEPLOY EMERGENCY LAYOUT FIXES:
+      
+      Execute immediate deployment of layout fixes to restore portfolio functionality:
+      
+      **Deployment Targets:**
+      - Primary: {{ portfolio_url }}
+      - Backup current state before any changes
+      - Apply emergency CSS patches from css_debugger
+      - Verify fixes across all device types
+      - Monitor for regression issues post-deployment
+      
+      **Success Criteria:**
+      ✅ Content uses full viewport width (minus proper margins)
+      ✅ No mysterious empty containers consuming screen space
+      ✅ Career timeline properly spaced and readable
+      ✅ Featured Projects prominently visible above fold
+      ✅ Navigation functions correctly
+      ✅ Responsive design works on mobile/tablet/desktop
+      ✅ No console errors related to layout
+      
+      **Deployment Process:**
+      1. Create backup of current CSS/HTML state
+      2. Apply emergency patches incrementally
+      3. Test each fix before proceeding to next
+      4. Deploy to GitHub Pages
+      5. Run automated cross-platform tests
+      6. Monitor user experience metrics
+      7. Prepare rollback if issues detected
+      
+      **Post-Deployment Monitoring:**
+      - Track layout width utilization
+      - Monitor user engagement metrics
+      - Watch for console errors
+      - Verify mobile responsiveness
+    
+    actions:
+      - backup_current_deployment
+      - apply_emergency_css_fixes
+      - deploy_to_github_pages
+      - run_cross_platform_tests
+      - monitor_deployment_health
+      - setup_regression_monitoring
+    
+    dependencies:
+      - css_debugger
+    
+    triggers:
+      - after_css_debugger_completion
+      - manual_emergency_deploy
+    
+    outputs:
+      - deployment_status
+      - test_results
+      - monitoring_dashboard_url
+
+# Automation & Monitoring
+automation_triggers:
+  viewport_analysis:
+    schedule: "every 5 minutes until fixed"
+    condition: "layout_crisis_active"
+    alert_threshold: "layout_width_utilization < 60%"
+    actions:
+      - trigger_layout_analyzer
+      - send_slack_alert
+      - log_crisis_metrics
+  
+  deployment_monitoring:
+    schedule: "continuous for 1 hour post-fix"
+    metrics:
+      - user_experience_score
+      - layout_width_utilization
+      - console_error_count
+      - mobile_responsiveness_score
+    rollback_trigger: "user_experience_score < current_baseline"
+    
+  health_checks:
+    schedule: "every 30 seconds during crisis"
+    endpoints:
+      - "{{ portfolio_url }}"
+      - "{{ portfolio_url }}/health"
+    success_criteria:
+      - response_time < 2000ms
+      - layout_width_utilization > 60%
+      - no_critical_console_errors
+
+# Integration Points
+integrations:
+  github:
+    repository: "straydogsyn/Learner-Files-v3.5"
+    branch: "main"
+    auto_deploy: true
+    backup_branch: "emergency-backup"
+  
+  monitoring:
+    lighthouse_ci: true
+    real_user_monitoring: true
+    error_tracking: true
+  
+  notifications:
+    slack:
+      webhook_url: "${SLACK_EMERGENCY_WEBHOOK}"
+      channels:
+        - "#emergency-alerts"
+        - "#portfolio-monitoring"
+    
+    email:
+      recipients:
+        - "${DEVELOPER_EMAIL}"
+      severity_threshold: "critical"
+
+# Security & Compliance
+security:
+  backup_retention: "7 days"
+  audit_logging: true
+  access_control:
+    emergency_deploy: ["admin", "developer"]
+    monitoring_access: ["admin", "developer", "viewer"]
+
+# Performance Optimization
+performance:
+  css_minification: true
+  cache_busting: true
+  cdn_integration: true
+  image_optimization: true
+
+# Success Metrics
+metrics:
+  layout_recovery:
+    target_width_utilization: ">80%"
+    max_empty_containers: 0
+    content_visibility_score: ">90%"
+  
+  deployment_speed:
+    target_fix_time: "<15 minutes"
+    rollback_time: "<5 minutes"
+  
+  user_experience:
+    bounce_rate_improvement: ">20%"
+    time_on_page_increase: ">30%"
+    mobile_usability_score: ">95%"
