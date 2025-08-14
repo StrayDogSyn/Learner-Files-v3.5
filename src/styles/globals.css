@@ -637,6 +637,19 @@
     filter: brightness(0.3) contrast(1.2);
   }
   
+  /* Fallback for missing banner */
+  .brand-banner-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--hunter-green-core) 0%, var(--emerald-accent) 100%);
+    opacity: 0.1;
+    z-index: -1;
+  }
+  
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

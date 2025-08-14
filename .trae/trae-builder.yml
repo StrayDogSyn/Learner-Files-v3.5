@@ -1,0 +1,582 @@
+# Trae 2.0 Builder - Portfolio Optimization Automation
+name: Portfolio Optimization Builder
+version: "2.0"
+description: "Comprehensive automation workflow for portfolio optimization with SOLO agents"
+
+# Global Configuration
+global:
+  project_root: "./"
+  build_output: "./dist"
+  staging_url: "https://staging.straydogsyndications.com"
+  production_url: "https://straydogsyndications.com"
+  
+  environments:
+    development:
+      url: "http://localhost:5173"
+      auto_reload: true
+      debug_mode: true
+    
+    staging:
+      url: "https://staging.straydogsyndications.com"
+      auto_deploy: true
+      testing_enabled: true
+    
+    production:
+      url: "https://straydogsyndications.com"
+      auto_deploy: false
+      monitoring_enabled: true
+
+# Automated Code Review Triggers
+code_review_triggers:
+  enabled: true
+  
+  git_hooks:
+    pre_commit:
+      enabled: true
+      checks:
+        - "lint_check"
+        - "type_check"
+        - "css_validation"
+        - "asset_optimization"
+      
+      auto_fix:
+        enabled: true
+        safe_fixes_only: true
+        create_commit: true
+    
+    pre_push:
+      enabled: true
+      checks:
+        - "build_test"
+        - "performance_budget"
+        - "seo_validation"
+        - "cross_browser_test"
+      
+      blocking: true
+      timeout: "10m"
+  
+  file_watchers:
+    css_files:
+      patterns: ["**/*.css", "**/*.scss", "**/*.tailwind"]
+      triggers:
+        - "css_layout_validator"
+        - "asset_optimizer"
+      debounce: "2s"
+    
+    component_files:
+      patterns: ["**/*.tsx", "**/*.jsx", "**/*.vue"]
+      triggers:
+        - "css_layout_validator"
+        - "performance_monitor"
+      debounce: "1s"
+    
+    asset_files:
+      patterns: ["**/*.png", "**/*.jpg", "**/*.svg", "**/*.woff2"]
+      triggers:
+        - "asset_optimizer"
+      debounce: "5s"
+    
+    config_files:
+      patterns: ["**/*.json", "**/*.yml", "**/*.config.*"]
+      triggers:
+        - "seo_analyzer"
+        - "performance_monitor"
+      debounce: "3s"
+
+  pull_request_automation:
+    enabled: true
+    
+    auto_checks:
+      - name: "Layout Validation"
+        agent: "css_layout_validator"
+        blocking: true
+        timeout: "5m"
+      
+      - name: "Asset Optimization"
+        agent: "asset_optimizer"
+        blocking: false
+        timeout: "10m"
+      
+      - name: "Performance Analysis"
+        agent: "performance_monitor"
+        blocking: true
+        timeout: "15m"
+      
+      - name: "SEO Validation"
+        agent: "seo_analyzer"
+        blocking: false
+        timeout: "8m"
+    
+    auto_comments:
+      enabled: true
+      include_suggestions: true
+      include_metrics: true
+      include_screenshots: true
+    
+    auto_merge:
+      enabled: false
+      conditions:
+        - "all_checks_pass"
+        - "no_layout_issues"
+        - "performance_budget_met"
+        - "seo_score >= 90"
+
+# SOLO Agents Configuration
+solo_agents:
+  css_layout_validator:
+    config_file: "./.trae/agents/css-layout-validator.yml"
+    enabled: true
+    priority: "high"
+    
+    triggers:
+      - "file_change"
+      - "pull_request"
+      - "scheduled"
+      - "manual"
+    
+    schedule:
+      frequency: "*/30 * * * *"  # Every 30 minutes
+      timezone: "UTC"
+    
+    integration:
+      github_actions: true
+      slack_notifications: true
+      auto_fix: true
+  
+  asset_optimizer:
+    config_file: "./.trae/agents/asset-optimizer.yml"
+    enabled: true
+    priority: "medium"
+    
+    triggers:
+      - "file_change"
+      - "build"
+      - "scheduled"
+    
+    schedule:
+      frequency: "0 2 * * *"  # Daily at 2 AM
+      timezone: "UTC"
+    
+    integration:
+      github_actions: true
+      cdn_sync: true
+      performance_tracking: true
+  
+  performance_monitor:
+    config_file: "./.trae/agents/performance-monitor.yml"
+    enabled: true
+    priority: "critical"
+    
+    triggers:
+      - "deployment"
+      - "scheduled"
+      - "alert"
+      - "manual"
+    
+    schedule:
+      frequency: "*/5 * * * *"  # Every 5 minutes
+      timezone: "UTC"
+    
+    integration:
+      lighthouse: true
+      web_vitals: true
+      real_user_monitoring: true
+      alerting: true
+  
+  seo_analyzer:
+    config_file: "./.trae/agents/seo-analyzer.yml"
+    enabled: true
+    priority: "medium"
+    
+    triggers:
+      - "content_change"
+      - "deployment"
+      - "scheduled"
+    
+    schedule:
+      frequency: "0 6 * * *"  # Daily at 6 AM
+      timezone: "UTC"
+    
+    integration:
+      search_console: true
+      analytics: true
+      structured_data_testing: true
+
+# GitHub Actions Integration
+github_actions:
+  workflow_file: "./.github/workflows/portfolio-optimization.yml"
+  enabled: true
+  
+  automated_testing:
+    unit_tests:
+      enabled: true
+      framework: "vitest"
+      coverage_threshold: 80
+      parallel: true
+    
+    integration_tests:
+      enabled: true
+      framework: "playwright"
+      browsers: ["chromium", "firefox", "webkit"]
+      devices: ["desktop", "tablet", "mobile"]
+    
+    e2e_tests:
+      enabled: true
+      framework: "cypress"
+      base_url: "http://localhost:5173"
+      record: true
+    
+    visual_regression:
+      enabled: true
+      tool: "percy"
+      breakpoints: ["mobile", "tablet", "desktop"]
+      threshold: 0.1
+  
+  performance_budget_enforcement:
+    enabled: true
+    
+    budgets:
+      bundle_size:
+        javascript: "500KB"
+        css: "100KB"
+        images: "2MB"
+        fonts: "200KB"
+      
+      performance_metrics:
+        first_contentful_paint: "1.5s"
+        largest_contentful_paint: "2.5s"
+        time_to_interactive: "3s"
+        cumulative_layout_shift: "0.1"
+        first_input_delay: "100ms"
+      
+      lighthouse_scores:
+        performance: 90
+        accessibility: 95
+        best_practices: 90
+        seo: 95
+    
+    enforcement:
+      blocking: true
+      auto_optimize: true
+      create_issue: true
+  
+  cross_browser_compatibility:
+    enabled: true
+    
+    browsers:
+      chrome:
+        versions: ["latest", "latest-1"]
+        platforms: ["Windows", "macOS", "Linux"]
+      
+      firefox:
+        versions: ["latest", "latest-1"]
+        platforms: ["Windows", "macOS", "Linux"]
+      
+      safari:
+        versions: ["latest", "latest-1"]
+        platforms: ["macOS", "iOS"]
+      
+      edge:
+        versions: ["latest", "latest-1"]
+        platforms: ["Windows"]
+    
+    test_scenarios:
+      - "homepage_load"
+      - "navigation_functionality"
+      - "form_interactions"
+      - "responsive_design"
+      - "javascript_functionality"
+      - "css_rendering"
+    
+    failure_handling:
+      create_issue: true
+      assign_to: "${DEVELOPER_USERNAME}"
+      priority: "high"
+
+# Monitoring Configuration
+monitoring:
+  config_file: "./.trae/monitoring/monitoring-config.yml"
+  enabled: true
+  
+  page_load_monitoring:
+    enabled: true
+    frequency: "2m"
+    endpoints:
+      - "/"
+      - "/about"
+      - "/projects"
+      - "/contact"
+      - "/marvel-quiz"
+    
+    thresholds:
+      warning: "2s"
+      critical: "4s"
+      target: "1.5s"
+    
+    devices: ["desktop", "tablet", "mobile"]
+    locations: ["us-east", "europe", "asia-pacific"]
+  
+  asset_loading_monitoring:
+    enabled: true
+    frequency: "1m"
+    
+    critical_assets:
+      - "/assets/index.css"
+      - "/assets/index.js"
+      - "/assets/brand/mainLogo.png"
+      - "/assets/fonts/inter.woff2"
+    
+    failure_detection:
+      http_errors: [404, 500, 502, 503, 504]
+      network_timeouts: true
+      content_validation: true
+      cascade_detection: true
+  
+  mobile_responsiveness_monitoring:
+    enabled: true
+    frequency: "10m"
+    
+    test_devices:
+      - "iPhone 12"
+      - "Samsung Galaxy S21"
+      - "iPad Pro"
+      - "Google Pixel 5"
+    
+    checks:
+      - "viewport_meta_tag"
+      - "horizontal_scrolling"
+      - "touch_targets"
+      - "text_readability"
+      - "layout_stability"
+      - "navigation_usability"
+
+# Layout Issue Detection & Auto-Fix
+layout_issue_detection:
+  enabled: true
+  
+  green_box_problem:
+    description: "Detect and fix excessive spacing issues like the CareerTimeline green box"
+    
+    detection_rules:
+      excessive_padding:
+        pattern: "py-[2-9][0-9]|pt-[2-9][0-9]|pb-[2-9][0-9]"
+        threshold: "py-20"
+        severity: "warning"
+        components: ["CareerTimeline", "Timeline", "Section"]
+      
+      large_margins:
+        pattern: "m[tblr]?-[2-9][0-9]"
+        threshold: "mt-16"
+        severity: "info"
+        components: ["*"]
+      
+      spacing_inconsistency:
+        pattern: "space-y-[8-9]|space-y-[1-9][0-9]"
+        threshold: "space-y-8"
+        severity: "warning"
+        components: ["Timeline", "List", "Grid"]
+      
+      wrapper_redundancy:
+        pattern: "<section[^>]*>\s*<div[^>]*class=\"[^\"]*container"
+        severity: "info"
+        description: "Unnecessary section wrapper detected"
+    
+    auto_fix_suggestions:
+      - rule: "excessive_padding"
+        fix: "Replace py-20 with py-8 for better spacing"
+        action: "replace_class"
+        from: "py-20"
+        to: "py-8"
+        confidence: "high"
+      
+      - rule: "spacing_inconsistency"
+        fix: "Use space-y-4 instead of space-y-8 for timeline items"
+        action: "replace_class"
+        from: "space-y-8"
+        to: "space-y-4"
+        confidence: "medium"
+      
+      - rule: "wrapper_redundancy"
+        fix: "Remove unnecessary section wrapper"
+        action: "remove_wrapper"
+        element: "section"
+        confidence: "low"
+    
+    auto_fix_execution:
+      enabled: true
+      safe_mode: true
+      create_backup: true
+      create_pr: true
+      auto_test: true
+
+# Notification & Alerting
+notifications:
+  slack:
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+    channels:
+      critical: "#critical-alerts"
+      warnings: "#dev-alerts"
+      info: "#monitoring"
+      success: "#deployments"
+    
+    message_templates:
+      layout_issue_detected: |
+        🚨 Layout Issue Detected!
+        
+        **Component:** {component}
+        **Issue:** {issue_type}
+        **Severity:** {severity}
+        **File:** {file_path}
+        
+        **Suggested Fix:** {suggestion}
+        
+        **Auto-fix available:** {auto_fix_available}
+        
+        [View Details]({details_url})
+      
+      performance_budget_exceeded: |
+        ⚠️ Performance Budget Exceeded!
+        
+        **Metric:** {metric}
+        **Current:** {current_value}
+        **Budget:** {budget_value}
+        **Page:** {page_url}
+        
+        **Optimization suggestions:**
+        {optimization_suggestions}
+        
+        [View Report]({report_url})
+      
+      asset_loading_failure: |
+        💥 Asset Loading Failure!
+        
+        **Asset:** {asset_path}
+        **Error:** {error_message}
+        **Status Code:** {status_code}
+        **Affected Pages:** {affected_pages}
+        
+        **Impact:** {impact_assessment}
+        
+        [Investigate]({investigation_url})
+  
+  email:
+    smtp_config:
+      server: "${SMTP_SERVER}"
+      port: 587
+      username: "${SMTP_USERNAME}"
+      password: "${SMTP_PASSWORD}"
+    
+    recipients:
+      critical: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+      warnings: ["${DEVELOPER_EMAIL}"]
+      reports: ["${STAKEHOLDER_EMAIL}"]
+
+# Reporting & Analytics
+reporting:
+  dashboard:
+    enabled: true
+    url: "https://dashboard.straydogsyndications.com/trae"
+    refresh_interval: "30s"
+    
+    widgets:
+      - "performance_overview"
+      - "layout_issues_summary"
+      - "asset_optimization_status"
+      - "seo_score_trends"
+      - "mobile_responsiveness_score"
+      - "recent_deployments"
+      - "active_alerts"
+  
+  scheduled_reports:
+    daily_summary:
+      enabled: true
+      time: "09:00"
+      recipients: ["${DEVELOPER_EMAIL}"]
+      format: "html"
+      
+      sections:
+        - "performance_metrics"
+        - "layout_issues"
+        - "optimization_opportunities"
+        - "mobile_performance"
+    
+    weekly_analysis:
+      enabled: true
+      day: "monday"
+      time: "08:00"
+      recipients: ["${TEAM_LEAD_EMAIL}", "${STAKEHOLDER_EMAIL}"]
+      format: "pdf"
+      
+      sections:
+        - "performance_trends"
+        - "optimization_impact"
+        - "user_experience_metrics"
+        - "technical_debt_analysis"
+        - "recommendations"
+
+# Success Metrics & KPIs
+success_metrics:
+  performance:
+    lighthouse_performance_score: ">= 90"
+    first_contentful_paint: "<= 1.5s"
+    largest_contentful_paint: "<= 2.5s"
+    cumulative_layout_shift: "<= 0.1"
+    time_to_interactive: "<= 3s"
+  
+  reliability:
+    uptime: ">= 99.9%"
+    asset_availability: ">= 99.95%"
+    error_rate: "<= 0.1%"
+    mean_time_to_recovery: "<= 5m"
+  
+  user_experience:
+    mobile_responsiveness_score: ">= 95"
+    accessibility_score: ">= 95"
+    seo_score: ">= 95"
+    user_satisfaction: ">= 4.5/5"
+  
+  development:
+    layout_issues_count: "0"
+    automated_fix_success_rate: ">= 80%"
+    deployment_frequency: ">= 1/day"
+    lead_time_for_changes: "<= 2h"
+
+# Environment Variables
+environment_variables:
+  required:
+    - "SLACK_WEBHOOK_URL"
+    - "DEVELOPER_EMAIL"
+    - "SMTP_SERVER"
+    - "GITHUB_TOKEN"
+  
+  optional:
+    - "TEAM_LEAD_EMAIL"
+    - "STAKEHOLDER_EMAIL"
+    - "CUSTOM_WEBHOOK_URL"
+    - "LIGHTHOUSE_API_KEY"
+    - "PERCY_TOKEN"
+
+# Security & Compliance
+security:
+  secret_scanning: true
+  dependency_scanning: true
+  code_scanning: true
+  
+  allowed_domains:
+    - "straydogsyndications.com"
+    - "staging.straydogsyndications.com"
+    - "localhost"
+  
+  data_retention:
+    logs: "90d"
+    metrics: "1y"
+    reports: "2y"
+    screenshots: "30d"
+
+# Version Control
+version_control:
+  auto_commit_fixes: true
+  commit_message_template: "🤖 Trae Auto-fix: {fix_description}"
+  branch_naming: "trae/auto-fix/{timestamp}"
+  create_pull_requests: true
+  auto_merge_safe_fixes: false

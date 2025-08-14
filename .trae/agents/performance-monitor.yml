@@ -1,0 +1,377 @@
+# Performance Monitoring SOLO Agent
+name: Performance Monitor
+version: "1.0"
+description: "Autonomous agent for continuous performance monitoring and optimization"
+
+# Agent Configuration
+agent_type: "solo"
+runtime: "node"
+autonomous: true
+learning_enabled: true
+real_time_monitoring: true
+
+# Triggers
+triggers:
+  events:
+    - "build_complete"
+    - "deployment_success"
+    - "code_change"
+    - "scheduled_check"
+  
+  schedule:
+    continuous: "*/5m"  # Every 5 minutes
+    detailed_audit: "0 */6 * * *"  # Every 6 hours
+    comprehensive_report: "0 0 * * 0"  # Weekly
+
+# Performance Metrics
+metrics:
+  core_web_vitals:
+    largest_contentful_paint:
+      good: "<= 2.5s"
+      needs_improvement: "<= 4.0s"
+      poor: "> 4.0s"
+      weight: 0.25
+    
+    first_input_delay:
+      good: "<= 100ms"
+      needs_improvement: "<= 300ms"
+      poor: "> 300ms"
+      weight: 0.25
+    
+    cumulative_layout_shift:
+      good: "<= 0.1"
+      needs_improvement: "<= 0.25"
+      poor: "> 0.25"
+      weight: 0.25
+    
+    interaction_to_next_paint:
+      good: "<= 200ms"
+      needs_improvement: "<= 500ms"
+      poor: "> 500ms"
+      weight: 0.25
+
+  loading_metrics:
+    first_contentful_paint:
+      target: "<= 1.8s"
+      critical: "> 3.0s"
+    
+    time_to_interactive:
+      target: "<= 3.8s"
+      critical: "> 6.0s"
+    
+    speed_index:
+      target: "<= 3.4s"
+      critical: "> 5.8s"
+    
+    total_blocking_time:
+      target: "<= 200ms"
+      critical: "> 600ms"
+
+  resource_metrics:
+    bundle_size:
+      javascript: "<= 500KB"
+      css: "<= 100KB"
+      images: "<= 2MB"
+      fonts: "<= 200KB"
+    
+    network_requests:
+      total_count: "<= 50"
+      critical_path: "<= 10"
+      third_party: "<= 15"
+    
+    cache_efficiency:
+      hit_ratio: ">= 85%"
+      ttl_optimization: ">= 90%"
+
+# Monitoring Configuration
+monitoring:
+  endpoints:
+    - path: "/"
+      name: "Homepage"
+      priority: "critical"
+      frequency: "2m"
+    
+    - path: "/about"
+      name: "About Page"
+      priority: "high"
+      frequency: "5m"
+    
+    - path: "/projects"
+      name: "Projects Page"
+      priority: "high"
+      frequency: "5m"
+    
+    - path: "/contact"
+      name: "Contact Page"
+      priority: "medium"
+      frequency: "10m"
+    
+    - path: "/marvel-quiz"
+      name: "Marvel Quiz"
+      priority: "high"
+      frequency: "5m"
+
+  devices:
+    desktop:
+      viewport: "1920x1080"
+      connection: "4g"
+      cpu_throttling: 1
+    
+    tablet:
+      viewport: "768x1024"
+      connection: "3g"
+      cpu_throttling: 2
+    
+    mobile:
+      viewport: "375x667"
+      connection: "slow-3g"
+      cpu_throttling: 4
+
+  locations:
+    - "us-east-1"  # Virginia
+    - "eu-west-1"  # Ireland
+    - "ap-southeast-1"  # Singapore
+
+# Performance Budgets
+budgets:
+  size_budgets:
+    total_size: "2MB"
+    javascript: "500KB"
+    css: "100KB"
+    images: "1.5MB"
+    fonts: "200KB"
+    other: "200KB"
+  
+  timing_budgets:
+    first_contentful_paint: "1.8s"
+    largest_contentful_paint: "2.5s"
+    time_to_interactive: "3.8s"
+    first_input_delay: "100ms"
+  
+  count_budgets:
+    requests: 50
+    dom_elements: 1500
+    third_party_requests: 15
+
+# Alert Configuration
+alerts:
+  thresholds:
+    performance_score_drop: 10  # Points
+    load_time_increase: "500ms"
+    error_rate_spike: "5%"
+    availability_drop: "99%"
+  
+  channels:
+    slack:
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channel: "#performance-alerts"
+      severity_levels: ["critical", "high"]
+    
+    email:
+      recipients: ["${DEVELOPER_EMAIL}", "${TEAM_EMAIL}"]
+      severity_levels: ["critical"]
+    
+    pagerduty:
+      integration_key: "${PAGERDUTY_KEY}"
+      severity_levels: ["critical"]
+
+# Automated Optimization
+auto_optimization:
+  enabled: true
+  confidence_threshold: 0.9
+  
+  strategies:
+    resource_optimization:
+      - name: "compress_assets"
+        trigger: "bundle_size_exceeded"
+        action: "enable_gzip_brotli"
+      
+      - name: "optimize_images"
+        trigger: "image_size_large"
+        action: "convert_to_webp"
+      
+      - name: "lazy_load_images"
+        trigger: "lcp_slow"
+        action: "implement_intersection_observer"
+    
+    code_optimization:
+      - name: "code_splitting"
+        trigger: "javascript_bundle_large"
+        action: "dynamic_imports"
+      
+      - name: "tree_shaking"
+        trigger: "unused_code_detected"
+        action: "remove_dead_code"
+      
+      - name: "preload_critical"
+        trigger: "fcp_slow"
+        action: "add_preload_hints"
+    
+    caching_optimization:
+      - name: "cache_headers"
+        trigger: "cache_miss_high"
+        action: "optimize_cache_policy"
+      
+      - name: "service_worker"
+        trigger: "repeat_visitor_slow"
+        action: "implement_sw_caching"
+
+# Real User Monitoring (RUM)
+rum:
+  enabled: true
+  sampling_rate: 0.1  # 10% of users
+  
+  data_collection:
+    navigation_timing: true
+    resource_timing: true
+    user_interactions: true
+    custom_metrics: true
+  
+  privacy:
+    anonymize_ip: true
+    gdpr_compliant: true
+    data_retention: "90d"
+
+# Synthetic Monitoring
+synthetic:
+  enabled: true
+  frequency: "5m"
+  
+  test_scenarios:
+    - name: "homepage_load"
+      steps:
+        - "navigate_to_homepage"
+        - "wait_for_load_complete"
+        - "measure_metrics"
+    
+    - name: "user_journey"
+      steps:
+        - "navigate_to_homepage"
+        - "click_projects_link"
+        - "scroll_to_marvel_quiz"
+        - "click_marvel_quiz"
+        - "measure_interaction_metrics"
+    
+    - name: "mobile_experience"
+      device: "mobile"
+      steps:
+        - "navigate_to_homepage"
+        - "test_touch_interactions"
+        - "verify_responsive_layout"
+
+# Performance Analysis
+analysis:
+  bottleneck_detection:
+    enabled: true
+    algorithms:
+      - "critical_path_analysis"
+      - "resource_waterfall_analysis"
+      - "main_thread_blocking_analysis"
+  
+  trend_analysis:
+    enabled: true
+    time_windows: ["1h", "24h", "7d", "30d"]
+    metrics: ["lcp", "fid", "cls", "ttfb"]
+  
+  regression_detection:
+    enabled: true
+    sensitivity: "medium"
+    baseline_period: "7d"
+
+# Learning and Adaptation
+learning:
+  pattern_recognition:
+    performance_patterns: true
+    user_behavior_correlation: true
+    seasonal_trends: true
+  
+  predictive_analysis:
+    performance_forecasting: true
+    capacity_planning: true
+    optimization_recommendations: true
+  
+  adaptive_thresholds:
+    dynamic_budgets: true
+    context_aware_alerts: true
+    personalized_optimization: true
+
+# Integration
+integration:
+  lighthouse:
+    enabled: true
+    config_path: ".lighthouserc.json"
+    categories: ["performance", "accessibility", "best-practices", "seo"]
+  
+  web_vitals:
+    enabled: true
+    library: "web-vitals"
+    reporting_endpoint: "/api/vitals"
+  
+  analytics:
+    google_analytics: true
+    google_tag_manager: true
+    custom_events: true
+  
+  apm_tools:
+    new_relic: false
+    datadog: false
+    sentry: true
+
+# Reporting
+reporting:
+  dashboards:
+    real_time:
+      metrics: ["current_users", "page_load_time", "error_rate"]
+      refresh_interval: "30s"
+    
+    daily:
+      metrics: ["core_web_vitals", "performance_score", "user_satisfaction"]
+      delivery_time: "09:00"
+    
+    weekly:
+      metrics: ["performance_trends", "optimization_opportunities", "budget_compliance"]
+      delivery_day: "monday"
+  
+  export_formats: ["json", "csv", "pdf"]
+  data_retention: "1y"
+
+# Custom Rules for Portfolio
+custom_rules:
+  portfolio_specific:
+    career_timeline_performance:
+      description: "Monitor Career Timeline component performance"
+      metrics:
+        - "timeline_render_time"
+        - "scroll_performance"
+        - "animation_smoothness"
+      thresholds:
+        render_time: "<= 200ms"
+        scroll_fps: ">= 55"
+    
+    marvel_quiz_performance:
+      description: "Monitor Marvel Quiz game performance"
+      metrics:
+        - "game_load_time"
+        - "interaction_responsiveness"
+        - "memory_usage"
+      thresholds:
+        load_time: "<= 2s"
+        interaction_delay: "<= 50ms"
+    
+    glassmorphism_effects:
+      description: "Monitor glassmorphism effect performance"
+      metrics:
+        - "backdrop_filter_performance"
+        - "blur_effect_cost"
+        - "composite_layer_count"
+      thresholds:
+        composite_layers: "<= 10"
+        gpu_memory: "<= 50MB"
+
+# Success Criteria
+success_criteria:
+  performance_score: ">= 90"
+  core_web_vitals_pass_rate: ">= 75%"
+  user_satisfaction: ">= 4.5/5"
+  availability: ">= 99.9%"
+  budget_compliance: "100%"

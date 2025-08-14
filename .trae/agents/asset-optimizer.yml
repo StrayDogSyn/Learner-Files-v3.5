@@ -1,0 +1,300 @@
+# Asset Optimization SOLO Agent
+name: Asset Optimizer
+version: "1.0"
+description: "Autonomous agent for optimizing images, fonts, and other assets"
+
+# Agent Configuration
+agent_type: "solo"
+runtime: "node"
+autonomous: true
+learning_enabled: true
+
+# Triggers
+triggers:
+  file_patterns:
+    - "**/*.png"
+    - "**/*.jpg"
+    - "**/*.jpeg"
+    - "**/*.svg"
+    - "**/*.webp"
+    - "**/*.woff2"
+    - "**/*.woff"
+    - "**/*.ttf"
+  events:
+    - "file_add"
+    - "file_modify"
+    - "pre_build"
+    - "pre_deploy"
+
+# Asset Thresholds
+thresholds:
+  images:
+    max_size: "200KB"
+    quality_threshold: 85
+    compression_ratio: 0.8
+  
+  svg:
+    max_size: "50KB"
+    optimization_level: "aggressive"
+  
+  fonts:
+    max_size: "100KB"
+    subset_threshold: 0.7
+  
+  videos:
+    max_size: "5MB"
+    compression_quality: "medium"
+
+# Optimization Rules
+optimization_rules:
+  image_compression:
+    jpeg:
+      quality: 85
+      progressive: true
+      strip_metadata: true
+      optimize_scans: true
+    
+    png:
+      quality_range: [60, 80]
+      strip_metadata: true
+      optimize_palette: true
+      reduce_colors: true
+    
+    webp:
+      quality: 80
+      lossless: false
+      method: 6
+      alpha_quality: 100
+
+  svg_optimization:
+    remove_comments: true
+    remove_metadata: true
+    remove_unused_ns: true
+    remove_edit_data: true
+    cleanup_attrs: true
+    cleanup_ids: false  # Keep IDs for CSS targeting
+    remove_dimensions: false  # Keep for responsive behavior
+    
+    custom_plugins:
+      - name: "removeViewBox"
+        active: false
+      - name: "removeDimensions"
+        active: false
+      - name: "cleanupIDs"
+        active: false
+
+  font_optimization:
+    subset_unicode_ranges:
+      latin: "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      latin_ext: "U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20CF,U+2113,U+2C60-2C7F,U+A720-A7FF"
+    
+    formats:
+      - "woff2"
+      - "woff"
+    
+    preload_critical: true
+    display_swap: true
+
+# Auto-Optimization
+auto_optimization:
+  enabled: true
+  backup_originals: true
+  progressive_enhancement: true
+  
+  strategies:
+    responsive_images:
+      generate_sizes: [320, 640, 768, 1024, 1280, 1920]
+      formats: ["webp", "jpg"]
+      lazy_loading: true
+    
+    critical_path:
+      inline_small_images: true
+      inline_threshold: "2KB"
+      base64_encode: true
+    
+    modern_formats:
+      prefer_webp: true
+      fallback_support: true
+      browser_detection: true
+
+# Asset Analysis
+analysis:
+  unused_assets:
+    scan_patterns:
+      - "src/**/*.{tsx,ts,jsx,js,css,scss}"
+    ignore_patterns:
+      - "public/favicon.*"
+      - "public/manifest.*"
+    
+    detection_methods:
+      - "static_analysis"
+      - "import_tracking"
+      - "css_reference_check"
+  
+  duplicate_detection:
+    hash_comparison: true
+    visual_similarity: true
+    size_threshold: "1KB"
+  
+  performance_impact:
+    loading_time_analysis: true
+    render_blocking_check: true
+    critical_path_analysis: true
+
+# Brand Asset Management
+brand_assets:
+  logo_optimization:
+    formats: ["svg", "png", "webp"]
+    sizes: [32, 64, 128, 256, 512]
+    dark_mode_variants: true
+  
+  favicon_generation:
+    sizes: [16, 32, 48, 64, 128, 256]
+    formats: ["ico", "png"]
+    apple_touch_icons: true
+  
+  social_media:
+    og_image_size: "1200x630"
+    twitter_card_size: "1200x600"
+    linkedin_size: "1200x627"
+
+# Performance Monitoring
+performance:
+  metrics:
+    - "file_size_reduction"
+    - "loading_time_improvement"
+    - "compression_ratio"
+    - "format_conversion_success"
+  
+  benchmarks:
+    target_reduction: "30%"
+    max_processing_time: "60s"
+    quality_threshold: 0.95
+  
+  alerts:
+    large_asset_threshold: "500KB"
+    optimization_failure: true
+    quality_degradation: true
+
+# CDN Integration
+cdn:
+  providers:
+    - name: "cloudinary"
+      auto_upload: true
+      transformations: true
+    - name: "imagekit"
+      real_time_optimization: true
+    - name: "vercel"
+      edge_optimization: true
+  
+  configuration:
+    auto_format: true
+    auto_quality: true
+    lazy_loading: true
+    responsive_breakpoints: true
+
+# Learning System
+learning:
+  pattern_recognition:
+    asset_usage_patterns: true
+    optimization_effectiveness: true
+    user_behavior_impact: true
+  
+  adaptive_optimization:
+    device_specific: true
+    connection_aware: true
+    usage_frequency_based: true
+  
+  feedback_loop:
+    performance_metrics: true
+    user_satisfaction: true
+    technical_quality: true
+
+# Validation
+validation:
+  quality_checks:
+    visual_comparison: true
+    psnr_threshold: 30
+    ssim_threshold: 0.95
+  
+  format_validation:
+    browser_support: true
+    fallback_availability: true
+    progressive_enhancement: true
+  
+  accessibility:
+    alt_text_presence: true
+    color_contrast: true
+    screen_reader_compatibility: true
+
+# Integration
+integration:
+  build_tools:
+    webpack: true
+    vite: true
+    rollup: true
+  
+  frameworks:
+    react: true
+    next_js: true
+    gatsby: true
+  
+  deployment:
+    vercel: true
+    netlify: true
+    aws_s3: true
+
+# Reporting
+reporting:
+  optimization_summary:
+    before_after_comparison: true
+    size_reduction_stats: true
+    performance_impact: true
+  
+  asset_inventory:
+    total_assets: true
+    optimized_count: true
+    pending_optimization: true
+  
+  recommendations:
+    further_optimization: true
+    format_suggestions: true
+    usage_optimization: true
+
+# Error Handling
+error_handling:
+  corruption_detection: true
+  rollback_capability: true
+  alternative_strategies: true
+  
+  recovery:
+    backup_restoration: true
+    manual_intervention: true
+    skip_problematic_assets: true
+
+# Custom Rules for Portfolio
+custom_rules:
+  portfolio_assets:
+    brand_consistency:
+      logo_variants: ["light", "dark", "monochrome"]
+      color_profile: "sRGB"
+      format_priority: ["svg", "webp", "png"]
+    
+    project_screenshots:
+      max_size: "150KB"
+      aspect_ratio: "16:9"
+      quality: 90
+      lazy_loading: true
+    
+    background_images:
+      progressive_loading: true
+      blur_placeholder: true
+      responsive_sizes: true
+
+# Success Criteria
+success_criteria:
+  size_reduction: ">= 40%"
+  quality_retention: ">= 95%"
+  loading_time_improvement: ">= 25%"
+  format_modernization: ">= 80%"
+  unused_asset_removal: "100%"

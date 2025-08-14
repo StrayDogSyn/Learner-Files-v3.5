@@ -37,7 +37,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Brand Watermark */}
       <div className="absolute top-3 right-3 z-10 opacity-20 group-hover:opacity-40 transition-opacity duration-300">
         <BrandImage
-          src="/assets/brand/circa2024.png"
+          assetKey="circa2024"
           alt="StrayDog Syndications Project"
           width={24}
           height={24}

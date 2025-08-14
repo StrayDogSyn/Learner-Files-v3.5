@@ -1,0 +1,883 @@
+# Multi-Domain Link Validation System
+name: Cross-Domain Link Validation
+version: "2.0"
+description: "Comprehensive link validation across multiple portfolio domains"
+
+# Global Link Validation Configuration
+link_validation:
+  enabled: true
+  
+  validation_scope:
+    internal_links: true
+    external_links: true
+    cross_domain_links: true
+    asset_links: true
+    api_endpoints: true
+    social_media_links: true
+    
+  validation_frequency:
+    real_time: true
+    scheduled: true
+    pre_deployment: true
+    post_deployment: true
+    
+  validation_depth:
+    surface_level: false
+    deep_crawl: true
+    recursive_depth: 3
+    follow_redirects: true
+    check_response_content: true
+
+# Domain Configuration
+domain_configuration:
+  primary_domains:
+    - domain: "straydog-syndications-llc.com"
+      type: "primary"
+      protocol: "https"
+      status: "production"
+      priority: "critical"
+      
+      link_patterns:
+        internal: ["/", "/about", "/projects", "/contact", "/blog/*"]
+        cross_domain:
+          - target: "straydogsyndicationsllc.biz"
+            links: ["/business", "/services", "/portfolio"]
+          - target: "straydog-secondstory.org"
+            links: ["/community", "/impact", "/volunteer"]
+          - target: "straydogsyndications.github.io"
+            links: ["/code", "/repositories", "/technical"]
+      
+      critical_pages:
+        - "/"
+        - "/about"
+        - "/projects"
+        - "/contact"
+        - "/portfolio"
+    
+    - domain: "straydogsyndicationsllc.biz"
+      type: "business"
+      protocol: "https"
+      status: "production"
+      priority: "high"
+      
+      link_patterns:
+        internal: ["/", "/services", "/portfolio", "/contact", "/testimonials"]
+        cross_domain:
+          - target: "straydog-syndications-llc.com"
+            links: ["/", "/about", "/full-portfolio"]
+          - target: "straydog-secondstory.org"
+            links: ["/community-work", "/social-impact"]
+          - target: "straydogsyndications.github.io"
+            links: ["/technical-portfolio", "/code-samples"]
+      
+      critical_pages:
+        - "/"
+        - "/services"
+        - "/portfolio"
+        - "/contact"
+    
+    - domain: "straydog-secondstory.org"
+      type: "organization"
+      protocol: "https"
+      status: "production"
+      priority: "high"
+      
+      link_patterns:
+        internal: ["/", "/mission", "/projects", "/volunteer", "/impact"]
+        cross_domain:
+          - target: "straydog-syndications-llc.com"
+            links: ["/", "/about", "/community-projects"]
+          - target: "straydogsyndicationsllc.biz"
+            links: ["/pro-bono", "/community-services"]
+          - target: "straydogsyndications.github.io"
+            links: ["/open-source", "/community-code"]
+      
+      critical_pages:
+        - "/"
+        - "/mission"
+        - "/projects"
+        - "/volunteer"
+    
+    - domain: "straydogsyndications.github.io"
+      type: "github_pages"
+      protocol: "https"
+      status: "production"
+      priority: "medium"
+      
+      link_patterns:
+        internal: ["/", "/repositories", "/projects", "/documentation"]
+        cross_domain:
+          - target: "straydog-syndications-llc.com"
+            links: ["/", "/about", "/technical-background"]
+          - target: "straydogsyndicationsllc.biz"
+            links: ["/technical-services", "/development"]
+          - target: "straydog-secondstory.org"
+            links: ["/tech-for-good", "/open-source-impact"]
+      
+      critical_pages:
+        - "/"
+        - "/repositories"
+        - "/projects"
+
+# Link Discovery and Crawling
+link_discovery:
+  enabled: true
+  
+  discovery_methods:
+    static_analysis:
+      enabled: true
+      file_types: [".html", ".md", ".jsx", ".tsx", ".vue"]
+      
+      patterns:
+        html_links: ['<a[^>]+href=["\']([^"\'>]+)["\'][^>]*>', '<link[^>]+href=["\']([^"\'>]+)["\'][^>]*>']
+        markdown_links: ['\[([^\]]+)\]\(([^)]+)\)', '\[([^\]]+)\]:\s*([^\s]+)']
+        javascript_links: ['window\.location\.href\s*=\s*["\']([^"\'>]+)["\']', 'location\.assign\(["\']([^"\'>]+)["\']\)']
+        css_links: ['url\(["\']?([^"\')]+)["\']?\)', '@import\s+["\']([^"\'>]+)["\']']
+      
+      exclusions:
+        - "mailto:"
+        - "tel:"
+        - "javascript:"
+        - "data:"
+        - "#"
+    
+    dynamic_crawling:
+      enabled: true
+      user_agent: "Trae-LinkValidator/2.0"
+      
+      crawl_settings:
+        max_pages_per_domain: 100
+        crawl_delay: "1s"
+        concurrent_requests: 5
+        timeout: "30s"
+        follow_redirects: true
+        max_redirects: 5
+      
+      javascript_rendering:
+        enabled: true
+        wait_for_load: "3s"
+        wait_for_network_idle: true
+        capture_spa_routes: true
+    
+    sitemap_parsing:
+      enabled: true
+      
+      sitemap_locations:
+        - "/sitemap.xml"
+        - "/sitemap_index.xml"
+        - "/robots.txt"
+      
+      sitemap_validation:
+        xml_schema_validation: true
+        url_accessibility_check: true
+        lastmod_validation: true
+    
+    api_endpoint_discovery:
+      enabled: true
+      
+      discovery_patterns:
+        - "fetch\(['\"]([^'\"]+)['\"]"
+        - "axios\.[get|post|put|delete]\(['\"]([^'\"]+)['\"]"
+        - "\$\.ajax\([^}]*url[^}]*['\"]([^'\"]+)['\"]"
+        - "XMLHttpRequest.*open\([^,]*,[^,]*['\"]([^'\"]+)['\"]"
+      
+      api_validation:
+        check_cors: true
+        validate_response_format: true
+        check_authentication: false
+
+# Link Validation Rules
+validation_rules:
+  http_status_codes:
+    success_codes: [200, 201, 202, 204, 301, 302, 304]
+    warning_codes: [300, 303, 307, 308]
+    error_codes: [400, 401, 403, 404, 405, 410, 429, 500, 502, 503, 504]
+    
+    retry_on_codes: [429, 500, 502, 503, 504]
+    retry_attempts: 3
+    retry_delay: "5s"
+    exponential_backoff: true
+  
+  response_validation:
+    content_type_validation:
+      enabled: true
+      
+      expected_types:
+        html_pages: ["text/html", "application/xhtml+xml"]
+        css_files: ["text/css"]
+        javascript_files: ["application/javascript", "text/javascript"]
+        images: ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"]
+        fonts: ["font/woff", "font/woff2", "application/font-woff", "application/font-woff2"]
+        json_apis: ["application/json"]
+        xml_feeds: ["application/xml", "text/xml", "application/rss+xml"]
+    
+    content_validation:
+      enabled: true
+      
+      validation_checks:
+        html_validity: true
+        broken_images: true
+        missing_alt_text: true
+        empty_links: true
+        duplicate_links: true
+        anchor_existence: true
+    
+    performance_validation:
+      enabled: true
+      
+      thresholds:
+        response_time: "5s"
+        time_to_first_byte: "2s"
+        content_download_time: "10s"
+        total_page_size: "5MB"
+  
+  accessibility_validation:
+    enabled: true
+    
+    accessibility_checks:
+      link_text_descriptive: true
+      focus_indicators: true
+      keyboard_navigation: true
+      screen_reader_compatibility: true
+      color_contrast: true
+      aria_labels: true
+  
+  seo_validation:
+    enabled: true
+    
+    seo_checks:
+      meta_title_presence: true
+      meta_description_presence: true
+      canonical_links: true
+      hreflang_attributes: true
+      structured_data: true
+      open_graph_tags: true
+      twitter_cards: true
+
+# Cross-Domain Link Management
+cross_domain_management:
+  enabled: true
+  
+  link_mapping:
+    automatic_mapping:
+      enabled: true
+      
+      mapping_rules:
+        content_based:
+          - source_pattern: "/portfolio"
+            target_mappings:
+              business: "/business-portfolio"
+              organization: "/community-projects"
+              github: "/technical-projects"
+          
+          - source_pattern: "/about"
+            target_mappings:
+              business: "/company"
+              organization: "/mission"
+              github: "/developer-profile"
+          
+          - source_pattern: "/contact"
+            target_mappings:
+              business: "/business-contact"
+              organization: "/volunteer-contact"
+              github: "/technical-contact"
+        
+        category_based:
+          - category: "business"
+            primary_domain: "straydogsyndicationsllc.biz"
+            fallback_domains: ["straydog-syndications-llc.com"]
+          
+          - category: "community"
+            primary_domain: "straydog-secondstory.org"
+            fallback_domains: ["straydog-syndications-llc.com"]
+          
+          - category: "technical"
+            primary_domain: "straydogsyndications.github.io"
+            fallback_domains: ["straydog-syndications-llc.com"]
+    
+    manual_mapping:
+      enabled: true
+      
+      custom_mappings:
+        - source_url: "https://straydog-syndications-llc.com/marvel-quiz"
+          target_mappings:
+            business: "https://straydogsyndicationsllc.biz/interactive-demos"
+            organization: "https://straydog-secondstory.org/educational-tools"
+            github: "https://straydogsyndications.github.io/projects/marvel-quiz"
+        
+        - source_url: "https://straydog-syndications-llc.com/career-timeline"
+          target_mappings:
+            business: "https://straydogsyndicationsllc.biz/experience"
+            organization: "https://straydog-secondstory.org/volunteer-history"
+            github: "https://straydogsyndications.github.io/professional-timeline"
+  
+  link_synchronization:
+    enabled: true
+    
+    sync_triggers:
+      - "content_update"
+      - "domain_structure_change"
+      - "navigation_update"
+      - "manual_trigger"
+    
+    sync_operations:
+      update_internal_links: true
+      update_cross_domain_references: true
+      update_navigation_menus: true
+      update_sitemaps: true
+      update_canonical_links: true
+  
+  broken_link_handling:
+    enabled: true
+    
+    detection_methods:
+      real_time_monitoring: true
+      scheduled_checks: true
+      user_reporting: true
+      analytics_integration: true
+    
+    resolution_strategies:
+      automatic_redirect:
+        enabled: true
+        redirect_type: "301"
+        fallback_page: "/404"
+      
+      content_suggestion:
+        enabled: true
+        similarity_threshold: 0.8
+        max_suggestions: 3
+      
+      manual_intervention:
+        enabled: true
+        notification_required: true
+        escalation_time: "24h"
+
+# Validation Workflows
+validation_workflows:
+  real_time_validation:
+    name: "Real-time Link Validation"
+    
+    triggers:
+      file_changes:
+        enabled: true
+        file_patterns: ["**/*.html", "**/*.md", "**/*.jsx", "**/*.tsx"]
+        debounce_delay: "5s"
+      
+      deployment_hooks:
+        enabled: true
+        pre_deployment: true
+        post_deployment: true
+      
+      content_updates:
+        enabled: true
+        cms_webhooks: true
+        git_hooks: true
+    
+    workflow_steps:
+      - name: "Link Extraction"
+        action: "extract_links"
+        timeout: "2m"
+        
+        extraction_config:
+          include_patterns: ["**/*.html", "**/*.md", "**/*.jsx", "**/*.tsx"]
+          exclude_patterns: ["**/node_modules/**", "**/dist/**", "**/.git/**"]
+          link_types: ["internal", "external", "cross_domain", "assets"]
+      
+      - name: "Link Validation"
+        action: "validate_links"
+        timeout: "10m"
+        
+        validation_config:
+          concurrent_checks: 10
+          timeout_per_link: "30s"
+          follow_redirects: true
+          check_anchors: true
+      
+      - name: "Cross-Domain Verification"
+        action: "verify_cross_domain"
+        timeout: "5m"
+        
+        verification_config:
+          check_mapping_accuracy: true
+          validate_content_consistency: true
+          verify_navigation_sync: true
+      
+      - name: "Report Generation"
+        action: "generate_report"
+        timeout: "2m"
+        
+        report_config:
+          include_successful_links: false
+          include_warnings: true
+          include_errors: true
+          detailed_error_info: true
+  
+  scheduled_validation:
+    name: "Comprehensive Link Audit"
+    
+    schedule:
+      cron: "0 3 * * *"  # Daily at 3 AM
+      timezone: "UTC"
+      enabled: true
+    
+    workflow_steps:
+      - name: "Full Site Crawl"
+        action: "crawl_all_domains"
+        timeout: "30m"
+        
+        crawl_config:
+          max_pages: 500
+          crawl_depth: 5
+          include_external_links: true
+          javascript_rendering: true
+      
+      - name: "Comprehensive Validation"
+        action: "validate_all_links"
+        timeout: "60m"
+        
+        validation_config:
+          check_all_link_types: true
+          performance_validation: true
+          accessibility_validation: true
+          seo_validation: true
+      
+      - name: "Cross-Domain Analysis"
+        action: "analyze_cross_domain"
+        timeout: "15m"
+        
+        analysis_config:
+          link_distribution_analysis: true
+          broken_link_patterns: true
+          performance_comparison: true
+          user_journey_validation: true
+      
+      - name: "Trend Analysis"
+        action: "analyze_trends"
+        timeout: "10m"
+        
+        trend_config:
+          historical_comparison: true
+          performance_trends: true
+          error_pattern_analysis: true
+          improvement_suggestions: true
+      
+      - name: "Comprehensive Report"
+        action: "generate_comprehensive_report"
+        timeout: "5m"
+        
+        report_config:
+          executive_summary: true
+          detailed_findings: true
+          trend_analysis: true
+          action_recommendations: true
+  
+  pre_deployment_validation:
+    name: "Pre-Deployment Link Check"
+    
+    triggers:
+      ci_cd_integration: true
+      manual_trigger: true
+      staging_deployment: true
+    
+    workflow_steps:
+      - name: "Staging Environment Validation"
+        action: "validate_staging"
+        timeout: "15m"
+        
+        staging_config:
+          staging_domains:
+            - "staging.straydog-syndications-llc.com"
+            - "staging.straydogsyndicationsllc.biz"
+            - "staging.straydog-secondstory.org"
+          
+          validation_scope:
+            critical_pages_only: false
+            full_site_validation: true
+            cross_domain_links: true
+      
+      - name: "Production Comparison"
+        action: "compare_with_production"
+        timeout: "10m"
+        
+        comparison_config:
+          link_count_comparison: true
+          broken_link_comparison: true
+          performance_comparison: true
+          new_link_validation: true
+      
+      - name: "Deployment Readiness"
+        action: "assess_readiness"
+        timeout: "2m"
+        
+        readiness_config:
+          critical_error_threshold: 0
+          warning_threshold: 5
+          performance_degradation_threshold: "20%"
+          blocking_issues: ["broken_critical_links", "cross_domain_failures"]
+
+# Error Handling and Recovery
+error_handling:
+  enabled: true
+  
+  error_classification:
+    critical_errors:
+      - "broken_critical_page_links"
+      - "cross_domain_navigation_failure"
+      - "ssl_certificate_errors"
+      - "dns_resolution_failures"
+    
+    high_priority_errors:
+      - "broken_internal_links"
+      - "missing_canonical_links"
+      - "redirect_loops"
+      - "slow_response_times"
+    
+    medium_priority_errors:
+      - "broken_external_links"
+      - "missing_alt_text"
+      - "accessibility_violations"
+      - "seo_optimization_issues"
+    
+    low_priority_errors:
+      - "minor_performance_issues"
+      - "non_critical_warnings"
+      - "style_guide_violations"
+  
+  automatic_recovery:
+    enabled: true
+    
+    recovery_actions:
+      broken_link_redirect:
+        enabled: true
+        redirect_to_similar_content: true
+        redirect_to_homepage: false
+        create_404_with_suggestions: true
+      
+      cross_domain_fallback:
+        enabled: true
+        fallback_to_primary_domain: true
+        maintain_user_context: true
+        preserve_analytics_tracking: true
+      
+      cache_invalidation:
+        enabled: true
+        invalidate_on_link_fix: true
+        cdn_cache_purge: true
+        browser_cache_headers: true
+  
+  manual_intervention:
+    notification_triggers:
+      critical_error_count: 1
+      high_priority_error_count: 5
+      medium_priority_error_count: 20
+      validation_failure_rate: "10%"
+    
+    escalation_procedures:
+      immediate_escalation: ["critical_errors"]
+      hourly_escalation: ["high_priority_errors"]
+      daily_escalation: ["medium_priority_errors"]
+      weekly_escalation: ["low_priority_errors"]
+    
+    resolution_tracking:
+      issue_tracking_integration: true
+      resolution_time_tracking: true
+      root_cause_analysis: true
+      prevention_measures: true
+
+# Reporting and Analytics
+reporting:
+  enabled: true
+  
+  report_types:
+    real_time_dashboard:
+      enabled: true
+      
+      dashboard_metrics:
+        - "total_links_checked"
+        - "broken_links_count"
+        - "validation_success_rate"
+        - "average_response_time"
+        - "cross_domain_link_health"
+        - "critical_errors_count"
+      
+      refresh_interval: "5m"
+      auto_refresh: true
+      alert_integration: true
+    
+    daily_summary:
+      enabled: true
+      
+      summary_content:
+        - "validation_statistics"
+        - "new_broken_links"
+        - "fixed_links"
+        - "performance_trends"
+        - "cross_domain_status"
+        - "action_items"
+      
+      delivery_schedule: "8:00 AM UTC"
+      recipients: ["${DEVELOPER_EMAIL}"]
+      format: "html"
+    
+    weekly_analysis:
+      enabled: true
+      
+      analysis_content:
+        - "trend_analysis"
+        - "performance_comparison"
+        - "error_pattern_analysis"
+        - "improvement_recommendations"
+        - "cross_domain_optimization"
+        - "user_experience_impact"
+      
+      delivery_schedule: "Monday 9:00 AM UTC"
+      recipients: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+      format: "pdf"
+    
+    monthly_executive_summary:
+      enabled: true
+      
+      executive_content:
+        - "high_level_metrics"
+        - "business_impact_analysis"
+        - "user_experience_trends"
+        - "technical_debt_assessment"
+        - "strategic_recommendations"
+        - "resource_allocation_suggestions"
+      
+      delivery_schedule: "1st Monday of month 10:00 AM UTC"
+      recipients: ["${EXECUTIVE_EMAIL}"]
+      format: "executive_summary"
+  
+  analytics_integration:
+    google_analytics:
+      enabled: true
+      
+      tracked_events:
+        - "broken_link_clicks"
+        - "cross_domain_navigation"
+        - "404_page_visits"
+        - "external_link_clicks"
+      
+      custom_dimensions:
+        - "link_validation_status"
+        - "cross_domain_source"
+        - "error_type"
+        - "resolution_time"
+    
+    custom_analytics:
+      enabled: true
+      
+      metrics_collection:
+        - "link_click_patterns"
+        - "user_journey_analysis"
+        - "cross_domain_flow"
+        - "error_impact_assessment"
+      
+      data_export:
+        format: "json"
+        frequency: "daily"
+        retention: "1y"
+
+# Performance Optimization
+performance_optimization:
+  enabled: true
+  
+  validation_optimization:
+    concurrent_validation:
+      enabled: true
+      max_concurrent_requests: 20
+      request_throttling: true
+      rate_limiting: "10 requests/second"
+    
+    caching_strategy:
+      enabled: true
+      cache_duration: "1h"
+      cache_invalidation_triggers:
+        - "content_update"
+        - "link_fix"
+        - "domain_change"
+      
+      cache_types:
+        validation_results: "1h"
+        link_discovery: "30m"
+        cross_domain_mapping: "6h"
+        external_link_status: "24h"
+    
+    intelligent_scheduling:
+      enabled: true
+      
+      scheduling_factors:
+        - "link_change_frequency"
+        - "historical_error_rate"
+        - "page_importance"
+        - "user_traffic_patterns"
+      
+      adaptive_intervals:
+        critical_pages: "15m"
+        high_traffic_pages: "1h"
+        standard_pages: "6h"
+        low_priority_pages: "24h"
+  
+  resource_management:
+    memory_optimization:
+      enabled: true
+      max_memory_usage: "1GB"
+      garbage_collection: "aggressive"
+      memory_monitoring: true
+    
+    network_optimization:
+      enabled: true
+      connection_pooling: true
+      keep_alive_connections: true
+      compression: true
+      timeout_optimization: true
+    
+    storage_optimization:
+      enabled: true
+      result_compression: true
+      old_result_cleanup: true
+      index_optimization: true
+
+# Security and Privacy
+security:
+  enabled: true
+  
+  validation_security:
+    user_agent_rotation: true
+    ip_rotation: false
+    request_signing: false
+    ssl_verification: true
+    
+    rate_limiting_respect:
+      enabled: true
+      robots_txt_compliance: true
+      crawl_delay_respect: true
+      server_load_monitoring: true
+  
+  data_protection:
+    sensitive_data_filtering:
+      enabled: true
+      
+      filter_patterns:
+        - "api_keys"
+        - "access_tokens"
+        - "personal_information"
+        - "internal_urls"
+      
+      anonymization:
+        ip_addresses: true
+        user_agents: false
+        referrer_headers: true
+    
+    audit_logging:
+      enabled: true
+      log_retention: "90d"
+      access_logging: true
+      change_tracking: true
+
+# Integration Configuration
+integrations:
+  ci_cd_integration:
+    github_actions:
+      enabled: true
+      workflow_file: ".github/workflows/link-validation.yml"
+      
+      trigger_events:
+        - "push"
+        - "pull_request"
+        - "schedule"
+      
+      validation_steps:
+        - "extract_links"
+        - "validate_internal_links"
+        - "validate_cross_domain_links"
+        - "generate_report"
+        - "update_status_checks"
+    
+    vercel_integration:
+      enabled: true
+      
+      deployment_hooks:
+        pre_deployment: true
+        post_deployment: true
+      
+      environment_validation:
+        staging: true
+        production: true
+        preview: false
+  
+  monitoring_integration:
+    uptime_monitoring:
+      enabled: true
+      providers: ["uptimerobot", "pingdom"]
+      
+      monitoring_endpoints:
+        - "https://straydog-syndications-llc.com/health"
+        - "https://straydogsyndicationsllc.biz/health"
+        - "https://straydog-secondstory.org/health"
+        - "https://straydogsyndications.github.io/health"
+    
+    error_tracking:
+      enabled: true
+      providers: ["sentry", "bugsnag"]
+      
+      error_categories:
+        - "broken_links"
+        - "cross_domain_failures"
+        - "validation_errors"
+        - "performance_issues"
+  
+  notification_integration:
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      
+      notification_channels:
+        critical_errors: "#critical-alerts"
+        daily_reports: "#link-validation"
+        weekly_summaries: "#dev-reports"
+    
+    email:
+      enabled: true
+      
+      notification_types:
+        critical_alerts: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+        daily_summaries: ["${DEVELOPER_EMAIL}"]
+        weekly_reports: ["${TEAM_LEAD_EMAIL}"]
+        monthly_summaries: ["${EXECUTIVE_EMAIL}"]
+
+# Environment Configuration
+environment_variables:
+  required:
+    - "GITHUB_TOKEN"
+    - "SLACK_WEBHOOK_URL"
+    - "DEVELOPER_EMAIL"
+  
+  optional:
+    - "TEAM_LEAD_EMAIL"
+    - "EXECUTIVE_EMAIL"
+    - "UPTIMEROBOT_API_KEY"
+    - "SENTRY_DSN"
+    - "GOOGLE_ANALYTICS_ID"
+    - "CUSTOM_WEBHOOK_URL"
+
+# Success Metrics
+success_metrics:
+  link_health:
+    target_uptime: "99.9%"
+    max_broken_links: 0
+    max_response_time: "3s"
+    cross_domain_success_rate: "100%"
+  
+  user_experience:
+    navigation_success_rate: "99.5%"
+    cross_domain_flow_completion: "95%"
+    error_page_bounce_rate: "<50%"
+    user_satisfaction_score: ">4.5/5"
+  
+  operational_efficiency:
+    validation_automation_rate: "95%"
+    mean_time_to_detection: "<5m"
+    mean_time_to_resolution: "<1h"
+    false_positive_rate: "<5%"

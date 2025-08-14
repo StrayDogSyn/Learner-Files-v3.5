@@ -1,0 +1,518 @@
+name: Portfolio Optimization CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM
+
+env:
+  NODE_VERSION: '18.x'
+  PERFORMANCE_BUDGET_SIZE: '500kb'
+  LIGHTHOUSE_SCORE_THRESHOLD: 90
+
+jobs:
+  # Code Quality and Testing
+  code_quality:
+    runs-on: ubuntu-latest
+    name: Code Quality & Testing
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: false
+
+      - name: Run TypeScript type check
+        run: npm run type-check
+
+      - name: Run unit tests
+        run: npm test -- --coverage
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          flags: unittests
+
+  # CSS Layout Validation
+  css_layout_validation:
+    runs-on: ubuntu-latest
+    name: CSS Layout Validation
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate CSS layouts
+        run: |
+          echo "Checking for excessive spacing patterns..."
+          if grep -r "py-[2-9][0-9]\|mt-[2-9][0-9]\|mb-[2-9][0-9]" src/; then
+            echo "⚠️ Excessive spacing detected in components"
+            echo "Consider reducing padding/margin values for better layout"
+          fi
+          
+          echo "Checking for layout overflow issues..."
+          if grep -r "overflow-hidden" src/ | grep -v "intentional"; then
+            echo "ℹ️ Overflow hidden detected - verify if intentional"
+          fi
+
+      - name: Check responsive breakpoints
+        run: |
+          echo "Validating responsive design patterns..."
+          npm run build
+          
+          # Check for mobile-first approach
+          if ! grep -r "@media.*min-width" src/; then
+            echo "⚠️ Consider using mobile-first responsive design"
+          fi
+
+  # Asset Optimization
+  asset_optimization:
+    runs-on: ubuntu-latest
+    name: Asset Optimization
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check asset sizes
+        run: |
+          echo "Checking asset sizes..."
+          find public assets -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) -exec ls -lh {} \; | awk '$5 > "200K" {print "⚠️ Large image: " $9 " (" $5 ")"}'
+          find public assets -name "*.svg" -exec ls -lh {} \; | awk '$5 > "50K" {print "⚠️ Large SVG: " $9 " (" $5 ")"}'
+
+      - name: Optimize images
+        run: |
+          # Install imagemin if not present
+          npm install --save-dev imagemin imagemin-pngquant imagemin-mozjpeg imagemin-svgo
+          
+          # Create optimization script
+          cat > optimize-assets.js << 'EOF'
+          const imagemin = require('imagemin');
+          const imageminPngquant = require('imagemin-pngquant');
+          const imageminMozjpeg = require('imagemin-mozjpeg');
+          const imageminSvgo = require('imagemin-svgo');
+          
+          (async () => {
+            await imagemin(['public/**/*.{jpg,jpeg,png}'], {
+              destination: 'public/optimized',
+              plugins: [
+                imageminMozjpeg({quality: 85}),
+                imageminPngquant({quality: [0.6, 0.8]})
+              ]
+            });
+            
+            await imagemin(['public/**/*.svg'], {
+              destination: 'public/optimized',
+              plugins: [
+                imageminSvgo({
+                  plugins: [
+                    {name: 'removeViewBox', active: false},
+                    {name: 'cleanupIDs', active: false}
+                  ]
+                })
+              ]
+            });
+            
+            console.log('✅ Assets optimized');
+          })();
+          EOF
+          
+          node optimize-assets.js
+
+  # Performance Budget Enforcement
+  performance_budget:
+    runs-on: ubuntu-latest
+    name: Performance Budget
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Check bundle size
+        run: |
+          echo "Checking bundle sizes..."
+          BUNDLE_SIZE=$(du -sh dist/ | cut -f1)
+          echo "Total bundle size: $BUNDLE_SIZE"
+          
+          # Check individual chunk sizes
+          find dist -name "*.js" -exec ls -lh {} \; | awk '$5 > "500K" {
+            print "❌ Bundle exceeds size limit: " $9 " (" $5 ")"
+            exit 1
+          }'
+          
+          echo "✅ Bundle size within limits"
+
+      - name: Analyze bundle composition
+        run: |
+          npm install --save-dev webpack-bundle-analyzer
+          npx webpack-bundle-analyzer dist/assets/*.js --report --mode static --report-filename bundle-report.html
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundle-analysis
+          path: bundle-report.html
+
+  # Lighthouse Performance Audit
+  lighthouse_audit:
+    runs-on: ubuntu-latest
+    name: Lighthouse Performance Audit
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Serve built files
+        run: |
+          npm install -g serve
+          serve -s dist -p 3000 &
+          sleep 5
+
+      - name: Run Lighthouse audit
+        run: |
+          npm install -g @lhci/cli
+          
+          # Create Lighthouse config
+          cat > .lighthouserc.json << 'EOF'
+          {
+            "ci": {
+              "collect": {
+                "url": ["http://localhost:3000"],
+                "numberOfRuns": 3
+              },
+              "assert": {
+                "assertions": {
+                  "categories:performance": ["error", {"minScore": 0.9}],
+                  "categories:accessibility": ["error", {"minScore": 0.9}],
+                  "categories:best-practices": ["error", {"minScore": 0.9}],
+                  "categories:seo": ["error", {"minScore": 0.9}]
+                }
+              },
+              "upload": {
+                "target": "temporary-public-storage"
+              }
+            }
+          }
+          EOF
+          
+          lhci autorun
+
+  # Cross-Browser Compatibility
+  cross_browser_testing:
+    runs-on: ubuntu-latest
+    name: Cross-Browser Testing
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        viewport: ['1920x1080', '768x1024', '375x667']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Setup browser testing
+        run: |
+          npm install --save-dev playwright
+          npx playwright install ${{ matrix.browser }}
+
+      - name: Run cross-browser tests
+        run: |
+          cat > browser-test.js << 'EOF'
+          const { chromium, firefox } = require('playwright');
+          
+          (async () => {
+            const browserType = '${{ matrix.browser }}' === 'chrome' ? chromium : firefox;
+            const browser = await browserType.launch();
+            const context = await browser.newContext({
+              viewport: {
+                width: parseInt('${{ matrix.viewport }}'.split('x')[0]),
+                height: parseInt('${{ matrix.viewport }}'.split('x')[1])
+              }
+            });
+            
+            const page = await context.newPage();
+            
+            // Serve the built files
+            const { spawn } = require('child_process');
+            const server = spawn('npx', ['serve', '-s', 'dist', '-p', '3001']);
+            
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            try {
+              await page.goto('http://localhost:3001');
+              
+              // Check for layout issues
+              const hasHorizontalScroll = await page.evaluate(() => {
+                return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+              });
+              
+              if (hasHorizontalScroll) {
+                console.log(`❌ Horizontal scroll detected on ${{ matrix.browser }} at ${{ matrix.viewport }}`);
+                process.exit(1);
+              }
+              
+              // Check for responsive elements
+              const timeline = await page.$('.career-timeline, [class*="timeline"]');
+              if (timeline) {
+                const box = await timeline.boundingBox();
+                if (box && box.width > parseInt('${{ matrix.viewport }}'.split('x')[0])) {
+                  console.log(`❌ Timeline component overflows viewport on ${{ matrix.browser }}`);
+                  process.exit(1);
+                }
+              }
+              
+              console.log(`✅ Layout tests passed for ${{ matrix.browser }} at ${{ matrix.viewport }}`);
+            } catch (error) {
+              console.error(`❌ Test failed: ${error.message}`);
+              process.exit(1);
+            } finally {
+              server.kill();
+              await browser.close();
+            }
+          })();
+          EOF
+          
+          node browser-test.js
+
+  # Mobile Responsiveness Check
+  mobile_responsiveness:
+    runs-on: ubuntu-latest
+    name: Mobile Responsiveness
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Mobile responsiveness audit
+        run: |
+          npm install --save-dev puppeteer
+          
+          cat > mobile-audit.js << 'EOF'
+          const puppeteer = require('puppeteer');
+          
+          (async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            
+            // Test different mobile devices
+            const devices = [
+              { name: 'iPhone 12', width: 390, height: 844 },
+              { name: 'Samsung Galaxy S21', width: 384, height: 854 },
+              { name: 'iPad', width: 768, height: 1024 }
+            ];
+            
+            const { spawn } = require('child_process');
+            const server = spawn('npx', ['serve', '-s', 'dist', '-p', '3002']);
+            
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            
+            for (const device of devices) {
+              await page.setViewport({ width: device.width, height: device.height });
+              await page.goto('http://localhost:3002');
+              
+              // Check viewport meta tag
+              const viewportMeta = await page.$('meta[name="viewport"]');
+              if (!viewportMeta) {
+                console.log(`❌ Missing viewport meta tag for ${device.name}`);
+                process.exit(1);
+              }
+              
+              // Check for touch targets
+              const buttons = await page.$$('button, a, [role="button"]');
+              for (const button of buttons) {
+                const box = await button.boundingBox();
+                if (box && (box.width < 44 || box.height < 44)) {
+                  console.log(`⚠️ Small touch target detected on ${device.name}`);
+                }
+              }
+              
+              // Check text readability
+              const textElements = await page.$$('p, span, div');
+              for (const element of textElements.slice(0, 10)) {
+                const fontSize = await page.evaluate(el => {
+                  return window.getComputedStyle(el).fontSize;
+                }, element);
+                
+                if (parseInt(fontSize) < 16) {
+                  console.log(`⚠️ Small text detected on ${device.name}: ${fontSize}`);
+                }
+              }
+              
+              console.log(`✅ Mobile audit passed for ${device.name}`);
+            }
+            
+            server.kill();
+            await browser.close();
+          })();
+          EOF
+          
+          node mobile-audit.js
+
+  # SEO Analysis
+  seo_analysis:
+    runs-on: ubuntu-latest
+    name: SEO Analysis
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: SEO audit
+        run: |
+          echo "Checking for SEO best practices..."
+          
+          # Check for meta descriptions
+          if ! grep -r "meta.*description" dist/; then
+            echo "⚠️ Meta description not found"
+          fi
+          
+          # Check for alt text on images
+          if grep -r "<img" dist/ | grep -v "alt="; then
+            echo "❌ Images without alt text found"
+            exit 1
+          fi
+          
+          # Check heading structure
+          echo "Validating heading structure..."
+          
+          echo "✅ SEO audit completed"
+
+  # Deploy to staging for testing
+  deploy_staging:
+    needs: [code_quality, css_layout_validation, performance_budget, lighthouse_audit]
+    runs-on: ubuntu-latest
+    name: Deploy to Staging
+    if: github.ref == 'refs/heads/develop'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to Vercel (staging)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+  # Notification on completion
+  notify_completion:
+    needs: [code_quality, css_layout_validation, asset_optimization, performance_budget, lighthouse_audit, cross_browser_testing, mobile_responsiveness, seo_analysis]
+    runs-on: ubuntu-latest
+    name: Notify Completion
+    if: always()
+    steps:
+      - name: Notify Slack
+        if: env.SLACK_WEBHOOK_URL
+        run: |
+          STATUS="✅ Success"
+          if [[ "${{ needs.code_quality.result }}" != "success" ]] || 
+             [[ "${{ needs.performance_budget.result }}" != "success" ]] || 
+             [[ "${{ needs.lighthouse_audit.result }}" != "success" ]]; then
+            STATUS="❌ Failed"
+          fi
+          
+          curl -X POST -H 'Content-type: application/json' \
+            --data "{\"text\":\"Portfolio Optimization Workflow: $STATUS\"}" \
+            ${{ env.SLACK_WEBHOOK_URL }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

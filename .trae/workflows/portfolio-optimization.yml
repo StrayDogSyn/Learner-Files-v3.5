@@ -1,0 +1,282 @@
+# Trae 2.0 Builder Portfolio Optimization Workflow
+name: Portfolio Optimization Automation
+version: "2.0"
+description: "Comprehensive automation workflow for portfolio optimization with SOLO agents and monitoring"
+
+# Workflow Triggers
+triggers:
+  - on_file_change:
+      patterns:
+        - "src/**/*.tsx"
+        - "src/**/*.ts"
+        - "src/**/*.css"
+        - "src/**/*.scss"
+        - "public/**/*"
+        - "assets/**/*"
+  - on_git_push:
+      branches: ["main", "develop"]
+  - on_pull_request:
+      actions: ["opened", "synchronize"]
+  - schedule:
+      cron: "0 */6 * * *"  # Every 6 hours
+
+# Environment Configuration
+environment:
+  node_version: "18.x"
+  npm_cache: true
+  performance_budget:
+    max_bundle_size: "500kb"
+    max_load_time: "3s"
+    lighthouse_score: 90
+
+# SOLO Agents Configuration
+solo_agents:
+  css_layout_validator:
+    name: "CSS Layout Validation Agent"
+    description: "Validates CSS layouts and detects spacing issues"
+    triggers:
+      - file_patterns: ["**/*.css", "**/*.scss", "**/*.tsx"]
+    actions:
+      - validate_flexbox_layouts
+      - check_grid_configurations
+      - detect_spacing_anomalies
+      - validate_responsive_breakpoints
+    rules:
+      - name: "excessive_spacing_detection"
+        pattern: "py-[2-9][0-9]|mt-[2-9][0-9]|mb-[2-9][0-9]"
+        severity: "warning"
+        message: "Excessive spacing detected - consider reducing padding/margin"
+      - name: "layout_overflow_check"
+        pattern: "overflow-hidden|overflow-x-hidden"
+        severity: "info"
+        message: "Check if overflow hidden is intentional"
+    auto_fix:
+      enabled: true
+      suggestions:
+        - "Reduce excessive padding from py-20 to py-8"
+        - "Use space-y-4 instead of space-y-8 for tighter layouts"
+        - "Consider max-width constraints for better content flow"
+
+  asset_optimizer:
+    name: "Asset Optimization Agent"
+    description: "Optimizes images, fonts, and other assets"
+    triggers:
+      - file_patterns: ["**/*.png", "**/*.jpg", "**/*.svg", "**/*.woff2"]
+    actions:
+      - compress_images
+      - optimize_svg_files
+      - validate_font_loading
+      - check_asset_sizes
+    thresholds:
+      max_image_size: "200kb"
+      max_svg_size: "50kb"
+      max_font_size: "100kb"
+    auto_optimize:
+      enabled: true
+      quality: 85
+      format_conversion: true
+
+  performance_monitor:
+    name: "Performance Monitoring Agent"
+    description: "Monitors and analyzes performance metrics"
+    triggers:
+      - on_build_complete
+      - on_deployment
+    metrics:
+      - first_contentful_paint
+      - largest_contentful_paint
+      - cumulative_layout_shift
+      - first_input_delay
+      - time_to_interactive
+    thresholds:
+      fcp: "1.8s"
+      lcp: "2.5s"
+      cls: "0.1"
+      fid: "100ms"
+      tti: "3.8s"
+    alerts:
+      slack_webhook: "${SLACK_WEBHOOK_URL}"
+      email: "${ALERT_EMAIL}"
+
+  seo_analyzer:
+    name: "SEO Analysis Agent"
+    description: "Analyzes SEO factors and accessibility"
+    triggers:
+      - file_patterns: ["**/*.html", "**/*.tsx"]
+    checks:
+      - meta_tags_validation
+      - heading_structure
+      - alt_text_presence
+      - semantic_html_usage
+      - schema_markup
+    rules:
+      - name: "missing_alt_text"
+        pattern: "<img(?![^>]*alt=)"
+        severity: "error"
+        message: "Images must have alt text for accessibility"
+      - name: "missing_meta_description"
+        pattern: "<meta name=\"description\""
+        severity: "warning"
+        message: "Meta description should be present"
+
+# GitHub Actions Integration
+github_actions:
+  automated_testing:
+    workflow_file: ".github/workflows/test.yml"
+    triggers: ["push", "pull_request"]
+    jobs:
+      - name: "unit_tests"
+        command: "npm test"
+      - name: "e2e_tests"
+        command: "npm run test:e2e"
+      - name: "type_check"
+        command: "npm run type-check"
+      - name: "lint_check"
+        command: "npm run lint"
+
+  performance_budget:
+    workflow_file: ".github/workflows/performance.yml"
+    triggers: ["pull_request"]
+    jobs:
+      - name: "lighthouse_audit"
+        command: "npm run lighthouse"
+        fail_on_budget_exceeded: true
+      - name: "bundle_analysis"
+        command: "npm run analyze"
+        max_size: "500kb"
+
+  cross_browser_testing:
+    workflow_file: ".github/workflows/browser-test.yml"
+    triggers: ["pull_request"]
+    browsers:
+      - "chrome"
+      - "firefox"
+      - "safari"
+      - "edge"
+    viewports:
+      - "1920x1080"  # Desktop
+      - "768x1024"   # Tablet
+      - "375x667"    # Mobile
+
+# Monitoring Configuration
+monitoring:
+  page_load_times:
+    enabled: true
+    endpoints:
+      - "/"
+      - "/about"
+      - "/projects"
+      - "/contact"
+    frequency: "5m"
+    alerts:
+      threshold: "3s"
+      channels: ["slack", "email"]
+
+  asset_loading:
+    enabled: true
+    track_failures: true
+    retry_attempts: 3
+    timeout: "10s"
+    critical_assets:
+      - "main.css"
+      - "main.js"
+      - "brand-assets"
+
+  mobile_responsiveness:
+    enabled: true
+    devices:
+      - "iPhone 12"
+      - "Samsung Galaxy S21"
+      - "iPad Pro"
+    checks:
+      - viewport_meta_tag
+      - touch_targets
+      - text_readability
+      - horizontal_scrolling
+
+# Layout Issue Detection
+layout_detection:
+  green_box_issue:
+    description: "Detects excessive spacing in timeline components"
+    patterns:
+      - "py-[2-9][0-9]"
+      - "space-y-[8-9]|space-y-[1-9][0-9]"
+      - "mt-[1-9][0-9]|mb-[1-9][0-9]"
+    components:
+      - "CareerTimeline"
+      - "Timeline"
+    auto_suggestions:
+      - "Replace py-20 with py-8 for better spacing"
+      - "Use space-y-4 instead of space-y-8"
+      - "Consider removing section wrapper for embedded components"
+      - "Add max-width constraints to prevent content overflow"
+
+  responsive_issues:
+    description: "Detects responsive layout problems"
+    checks:
+      - overflow_detection
+      - content_wrapping
+      - mobile_layout_breaks
+    auto_fix_suggestions:
+      - "Add responsive breakpoints"
+      - "Use CSS Grid for better layout control"
+      - "Implement proper flex-wrap properties"
+
+# Notification Settings
+notifications:
+  slack:
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+    channels:
+      - "#dev-alerts"
+      - "#performance"
+    message_format: "detailed"
+
+  email:
+    recipients:
+      - "${DEVELOPER_EMAIL}"
+    format: "html"
+    include_screenshots: true
+
+# Reporting
+reporting:
+  dashboard_url: "https://trae-dashboard.example.com"
+  export_formats: ["json", "html", "pdf"]
+  retention_days: 30
+  automated_reports:
+    daily_summary: true
+    weekly_performance: true
+    monthly_trends: true
+
+# Integration Settings
+integrations:
+  lighthouse:
+    enabled: true
+    config_path: ".lighthouserc.json"
+  
+  webpack_bundle_analyzer:
+    enabled: true
+    output_path: "dist/bundle-report.html"
+  
+  sonarqube:
+    enabled: false
+    server_url: "${SONAR_SERVER_URL}"
+    token: "${SONAR_TOKEN}"
+
+# Custom Scripts
+scripts:
+  pre_optimization:
+    - "npm run clean"
+    - "npm run build"
+  
+  post_optimization:
+    - "npm run test:performance"
+    - "npm run generate:report"
+
+# Error Handling
+error_handling:
+  retry_attempts: 3
+  timeout: "30s"
+  fallback_actions:
+    - "notify_team"
+    - "create_issue"
+    - "rollback_if_critical"
