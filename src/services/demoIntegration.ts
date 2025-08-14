@@ -1,13 +1,13 @@
-import type { 
-  DemoConfiguration, 
-  DemoState, 
-  DemoEvent, 
-  DemoAnalytics, 
-  CodeSandboxConfig, 
-  APIPlaygroundConfig, 
+import type {
+  DemoConfiguration,
+  DemoState,
+  DemoEvent,
+  DemoAnalytics,
+  CodeSandboxConfig,
+  APIPlaygroundConfig,
   GameDemoConfig,
   TutorialState,
-  PerformanceMetrics 
+  PerformanceMetrics,
 } from '../types/demo';
 
 class DemoIntegrationService {
@@ -21,7 +21,7 @@ class DemoIntegrationService {
 
   private initializePerformanceObserver(): void {
     if ('PerformanceObserver' in window) {
-      this.performanceObserver = new PerformanceObserver((list) => {
+      this.performanceObserver = new PerformanceObserver(list => {
         for (const entry of list.getEntries()) {
           if (entry.entryType === 'measure') {
             this.trackPerformanceMetric(entry.name, entry.duration);
@@ -53,13 +53,13 @@ class DemoIntegrationService {
       analytics: {
         startTime: Date.now(),
         interactions: 0,
-        errors: 0
-      }
+        errors: 0,
+      },
     };
 
     this.sessions.set(sessionId, initialState);
     this.trackEvent(sessionId, 'start', { config });
-    
+
     return sessionId;
   }
 
@@ -72,7 +72,7 @@ class DemoIntegrationService {
     session.isActive = true;
     session.loading = false;
     session.currentPreset = preset;
-    
+
     if (preset) {
       session.configuration = { ...preset.configuration };
       this.trackEvent(sessionId, 'preset_change', { preset });
@@ -87,11 +87,11 @@ class DemoIntegrationService {
 
     session.isActive = false;
     session.analytics.completionTime = Date.now();
-    
+
     this.trackEvent(sessionId, 'complete', {
       duration: session.analytics.completionTime - session.analytics.startTime,
       interactions: session.analytics.interactions,
-      errors: session.analytics.errors
+      errors: session.analytics.errors,
     });
 
     // Save analytics
@@ -106,7 +106,11 @@ class DemoIntegrationService {
     this.trackEvent(sessionId, 'configuration_change', { config });
   }
 
-  public trackInteraction(sessionId: string, interaction: string, data?: Record<string, any>): void {
+  public trackInteraction(
+    sessionId: string,
+    interaction: string,
+    data?: Record<string, any>
+  ): void {
     const session = this.sessions.get(sessionId);
     if (!session) return;
 
@@ -128,11 +132,11 @@ class DemoIntegrationService {
       type,
       timestamp: Date.now(),
       data,
-      sessionId
+      sessionId,
     };
 
     console.log('Demo Event:', event);
-    
+
     // In a real implementation, you'd send this to your analytics service
     // this.sendToAnalytics(event);
   }
@@ -148,11 +152,11 @@ class DemoIntegrationService {
       metrics: this.getPerformanceMetrics(),
       userAgent: navigator.userAgent,
       timestamp: Date.now(),
-      duration: session.analytics.completionTime! - session.analytics.startTime
+      duration: session.analytics.completionTime! - session.analytics.startTime,
     };
 
     this.analytics.push(analytics);
-    
+
     // Save to localStorage for persistence
     try {
       const existing = JSON.parse(localStorage.getItem('demo_analytics') || '[]');
@@ -171,7 +175,7 @@ class DemoIntegrationService {
       cpuUsage: 0, // Would require more sophisticated tracking
       networkRequests: 0, // Would be tracked from fetch/XHR
       errors: 0,
-      userInteractions: 0
+      userInteractions: 0,
     };
   }
 
@@ -187,8 +191,8 @@ class DemoIntegrationService {
           files: config.files,
           dependencies: config.dependencies,
           environment: config.environment,
-          template: config.template
-        })
+          template: config.template,
+        }),
       });
 
       if (!response.ok) {
@@ -227,7 +231,9 @@ class DemoIntegrationService {
         </head>
         <body>
           <h1>API Playground</h1>
-          ${config.endpoints.map(endpoint => `
+          ${config.endpoints
+            .map(
+              endpoint => `
             <div class="endpoint">
               <div class="method">${endpoint.method}</div>
               <div class="path">${endpoint.path}</div>
@@ -235,9 +241,14 @@ class DemoIntegrationService {
               <button onclick="testEndpoint('${endpoint.method}', '${endpoint.path}')">
                 Test Endpoint
               </button>
-              <div id="response-${endpoint.path.replace(/[^a-zA-Z0-9]/g, '-')}" class="response"></div>
+              <div id="response-${endpoint.path.replace(
+                /[^a-zA-Z0-9]/g,
+                '-'
+              )}" class="response"></div>
             </div>
-          `).join('')}
+          `
+            )
+            .join('')}
           <script>
             async function testEndpoint(method, path) {
               try {
@@ -261,19 +272,19 @@ class DemoIntegrationService {
     if (config.scoreTracking) {
       this.initializeScoreTracking();
     }
-    
+
     if (config.leaderboard) {
       this.initializeLeaderboard();
     }
-    
+
     if (config.achievements) {
       this.initializeAchievements();
     }
-    
+
     if (config.accessibility.highContrast) {
       this.enableHighContrast();
     }
-    
+
     if (config.accessibility.reducedMotion) {
       this.enableReducedMotion();
     }
@@ -310,10 +321,10 @@ class DemoIntegrationService {
       steps: steps.map((step, index) => ({
         ...step,
         id: step.id || `step-${index}`,
-        completed: false
+        completed: false,
       })),
       progress: 0,
-      completed: false
+      completed: false,
     };
   }
 

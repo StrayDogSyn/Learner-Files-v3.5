@@ -33,8 +33,6 @@ export interface GitHubStats {
   readme: string;
 }
 
-
-
 export interface ProjectCard {
   id: string;
   title: string;

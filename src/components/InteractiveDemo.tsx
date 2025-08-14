@@ -1,5 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FaPlay, FaPause, FaExpand, FaCompress, FaCode, FaCog, FaChartBar, FaQuestionCircle, FaTimes, FaExternalLinkAlt, FaGithub, FaCopy, FaDownload, FaShare, FaVolumeUp, FaVolumeMute, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {
+  FaPlay,
+  FaPause,
+  FaExpand,
+  FaCompress,
+  FaCode,
+  FaCog,
+  FaChartBar,
+  FaQuestionCircle,
+  FaTimes,
+  FaExternalLinkAlt,
+  FaGithub,
+  FaCopy,
+  FaDownload,
+  FaShare,
+  FaVolumeUp,
+  FaVolumeMute,
+  FaEye,
+  FaEyeSlash,
+} from 'react-icons/fa';
 import type { DemoConfiguration, DemoState, DemoPreset, TutorialState } from '../types/demo';
 import { demoIntegration } from '../services/demoIntegration';
 import GlassCard from './GlassCard';
@@ -18,7 +37,7 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
   className = '',
   onDemoStart,
   onDemoComplete,
-  onError
+  onError,
 }) => {
   const [demoState, setDemoState] = useState<DemoState | null>(null);
   const [sessionId, setSessionId] = useState<string>('');
@@ -65,44 +84,47 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
     };
   }, [sessionId]);
 
-  const startDemo = useCallback(async (preset?: DemoPreset) => {
-    if (!sessionId) return;
+  const startDemo = useCallback(
+    async (preset?: DemoPreset) => {
+      if (!sessionId) return;
 
-    try {
-      setIsLoading(true);
-      setError(null);
+      try {
+        setIsLoading(true);
+        setError(null);
 
-      if (preset) {
-        setCurrentPreset(preset);
+        if (preset) {
+          setCurrentPreset(preset);
+        }
+
+        demoIntegration.startDemo(sessionId, preset);
+        onDemoStart?.(sessionId);
+
+        // Handle different demo types
+        switch (config.demoType) {
+          case 'game':
+            await initializeGameDemo();
+            break;
+          case 'api-playground':
+            await initializeAPIPlayground();
+            break;
+          case 'sandbox':
+            await initializeCodeSandbox();
+            break;
+          default:
+            // iframe and component demos are handled by the iframe/component itself
+            break;
+        }
+
+        setIsLoading(false);
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : 'Failed to start demo';
+        setError(errorMsg);
+        onError?.(errorMsg);
+        setIsLoading(false);
       }
-
-      demoIntegration.startDemo(sessionId, preset);
-      onDemoStart?.(sessionId);
-
-      // Handle different demo types
-      switch (config.demoType) {
-        case 'game':
-          await initializeGameDemo();
-          break;
-        case 'api-playground':
-          await initializeAPIPlayground();
-          break;
-        case 'sandbox':
-          await initializeCodeSandbox();
-          break;
-        default:
-          // iframe and component demos are handled by the iframe/component itself
-          break;
-      }
-
-      setIsLoading(false);
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to start demo';
-      setError(errorMsg);
-      onError?.(errorMsg);
-      setIsLoading(false);
-    }
-  }, [sessionId, config.demoType, onDemoStart, onError]);
+    },
+    [sessionId, config.demoType, onDemoStart, onError]
+  );
 
   const initializeGameDemo = async () => {
     // Initialize game-specific features
@@ -116,8 +138,8 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
       accessibility: {
         highContrast: false,
         reducedMotion: false,
-        screenReader: false
-      }
+        screenReader: false,
+      },
     });
   };
 
@@ -130,16 +152,22 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
           path: '/api/characters',
           description: 'Fetch Marvel characters',
           parameters: [
-            { name: 'limit', type: 'number', required: false, description: 'Number of characters to fetch', defaultValue: 20 }
+            {
+              name: 'limit',
+              type: 'number',
+              required: false,
+              description: 'Number of characters to fetch',
+              defaultValue: 20,
+            },
           ],
           response: {
             status: 200,
             contentType: 'application/json',
             schema: { type: 'object', properties: { data: { type: 'array' } } },
-            examples: [{ data: { results: [] } }]
-          }
-        }
-      ]
+            examples: [{ data: { results: [] } }],
+          },
+        },
+      ],
     });
 
     if (iframeRef.current) {
@@ -167,7 +195,7 @@ function App() {
 }
 
 export default App;`,
-            language: 'javascript'
+            language: 'javascript',
           },
           'App.css': {
             content: `.App {
@@ -181,14 +209,14 @@ export default App;`,
   color: white;
   border-radius: 8px;
 }`,
-            language: 'css'
-          }
+            language: 'css',
+          },
         },
         dependencies: {
-          'react': '^18.0.0',
-          'react-dom': '^18.0.0'
+          react: '^18.0.0',
+          'react-dom': '^18.0.0',
         },
-        environment: 'create-react-app'
+        environment: 'create-react-app',
       });
 
       if (iframeRef.current) {
@@ -231,21 +259,21 @@ export default App;`,
         id: 'welcome',
         title: 'Welcome to the Demo',
         content: 'This interactive demo showcases the project features.',
-        action: 'wait'
+        action: 'wait',
       },
       {
         id: 'controls',
         title: 'Demo Controls',
         content: 'Use the control panel to customize your experience.',
         action: 'click',
-        target: '.demo-controls'
+        target: '.demo-controls',
       },
       {
         id: 'interaction',
         title: 'Try It Out',
         content: 'Interact with the demo to see it in action!',
-        action: 'wait'
-      }
+        action: 'wait',
+      },
     ]);
 
     setTutorialState(tutorial);
@@ -260,16 +288,22 @@ export default App;`,
     }
   }, [tutorialState]);
 
-  const handlePresetChange = useCallback((preset: DemoPreset) => {
-    setCurrentPreset(preset);
-    startDemo(preset);
-  }, [startDemo]);
+  const handlePresetChange = useCallback(
+    (preset: DemoPreset) => {
+      setCurrentPreset(preset);
+      startDemo(preset);
+    },
+    [startDemo]
+  );
 
-  const handleInteraction = useCallback((interaction: string, data?: Record<string, any>) => {
-    if (sessionId) {
-      demoIntegration.trackInteraction(sessionId, interaction, data);
-    }
-  }, [sessionId]);
+  const handleInteraction = useCallback(
+    (interaction: string, data?: Record<string, any>) => {
+      if (sessionId) {
+        demoIntegration.trackInteraction(sessionId, interaction, data);
+      }
+    },
+    [sessionId]
+  );
 
   const copyDemoUrl = useCallback(() => {
     if (config.embedUrl) {
@@ -282,7 +316,7 @@ export default App;`,
       navigator.share({
         title: config.projectId,
         text: 'Check out this interactive demo!',
-        url: config.embedUrl
+        url: config.embedUrl,
       });
     } else {
       copyDemoUrl();
@@ -292,14 +326,14 @@ export default App;`,
   if (error) {
     return (
       <GlassCard className={`demo-error ${className}`}>
-        <div className="flex items-center justify-center p-8">
-          <div className="text-center">
-            <FaTimes className="text-red-500 text-4xl mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Demo Error</h3>
-            <p className="text-gray-300 mb-4">{error}</p>
+        <div className='flex items-center justify-center p-8'>
+          <div className='text-center'>
+            <FaTimes className='text-red-500 text-4xl mx-auto mb-4' />
+            <h3 className='text-xl font-semibold mb-2'>Demo Error</h3>
+            <p className='text-gray-300 mb-4'>{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+              className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors'
             >
               Retry Demo
             </button>
@@ -312,28 +346,28 @@ export default App;`,
   return (
     <div ref={demoRef} className={`interactive-demo ${className}`}>
       {/* Demo Header */}
-      <div className="demo-header bg-glass-dark border-b border-glass-border p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h3 className="text-lg font-semibold text-white">{config.projectId}</h3>
+      <div className='demo-header bg-glass-dark border-b border-glass-border p-4'>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center space-x-4'>
+            <h3 className='text-lg font-semibold text-white'>{config.projectId}</h3>
             {currentPreset && (
-              <span className="bg-glass-accent text-white px-2 py-1 rounded text-sm">
+              <span className='bg-glass-accent text-white px-2 py-1 rounded text-sm'>
                 {currentPreset.name}
               </span>
             )}
           </div>
-          
-          <div className="flex items-center space-x-2">
+
+          <div className='flex items-center space-x-2'>
             {config.presets && config.presets.length > 0 && (
               <select
                 value={currentPreset?.id || ''}
-                onChange={(e) => {
+                onChange={e => {
                   const preset = config.presets?.find(p => p.id === e.target.value);
                   if (preset) handlePresetChange(preset);
                 }}
-                className="bg-glass-dark border border-glass-border text-white px-3 py-1 rounded text-sm"
+                className='bg-glass-dark border border-glass-border text-white px-3 py-1 rounded text-sm'
               >
-                <option value="">Select Preset</option>
+                <option value=''>Select Preset</option>
                 {config.presets.map(preset => (
                   <option key={preset.id} value={preset.id}>
                     {preset.name}
@@ -341,27 +375,31 @@ export default App;`,
                 ))}
               </select>
             )}
-            
+
             <button
               onClick={toggleCode}
-              className={`p-2 rounded transition-colors ${showCode ? 'bg-glass-accent text-white' : 'text-gray-300 hover:text-white'}`}
-              title="Toggle Code View"
+              className={`p-2 rounded transition-colors ${
+                showCode ? 'bg-glass-accent text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              title='Toggle Code View'
             >
               <FaCode />
             </button>
-            
+
             <button
               onClick={toggleAnalytics}
-              className={`p-2 rounded transition-colors ${showAnalytics ? 'bg-glass-accent text-white' : 'text-gray-300 hover:text-white'}`}
-              title="Show Analytics"
+              className={`p-2 rounded transition-colors ${
+                showAnalytics ? 'bg-glass-accent text-white' : 'text-gray-300 hover:text-white'
+              }`}
+              title='Show Analytics'
             >
               <FaChartBar />
             </button>
-            
+
             <button
               onClick={startTutorial}
-              className="p-2 rounded text-gray-300 hover:text-white transition-colors"
-              title="Start Tutorial"
+              className='p-2 rounded text-gray-300 hover:text-white transition-colors'
+              title='Start Tutorial'
             >
               <FaQuestionCircle />
             </button>
@@ -370,23 +408,23 @@ export default App;`,
       </div>
 
       {/* Demo Content */}
-      <div className="demo-content relative">
+      <div className='demo-content relative'>
         {isLoading && (
-          <div className="absolute inset-0 bg-glass-dark bg-opacity-90 flex items-center justify-center z-10">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-glass-accent mx-auto mb-4"></div>
-              <p className="text-white">Loading demo...</p>
+          <div className='absolute inset-0 bg-glass-dark bg-opacity-90 flex items-center justify-center z-10'>
+            <div className='text-center'>
+              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-glass-accent mx-auto mb-4'></div>
+              <p className='text-white'>Loading demo...</p>
             </div>
           </div>
         )}
 
         {/* Main Demo Area */}
-        <div className="demo-main" style={{ height: config.height }}>
+        <div className='demo-main' style={{ height: config.height }}>
           {config.demoType === 'iframe' && config.embedUrl && (
             <iframe
               ref={iframeRef}
               src={config.embedUrl}
-              className="w-full h-full border-0"
+              className='w-full h-full border-0'
               title={`${config.projectId} Demo`}
               onLoad={() => setIsLoading(false)}
               onError={() => {
@@ -395,30 +433,32 @@ export default App;`,
               }}
             />
           )}
-          
+
           {config.demoType === 'component' && (
-            <div className="w-full h-full flex items-center justify-center bg-glass-dark">
-              <div className="text-center">
-                <h4 className="text-xl font-semibold mb-4">Component Demo</h4>
-                <p className="text-gray-300 mb-4">Interactive component demo would be rendered here</p>
+            <div className='w-full h-full flex items-center justify-center bg-glass-dark'>
+              <div className='text-center'>
+                <h4 className='text-xl font-semibold mb-4'>Component Demo</h4>
+                <p className='text-gray-300 mb-4'>
+                  Interactive component demo would be rendered here
+                </p>
                 <button
                   onClick={() => handleInteraction('component_click')}
-                  className="bg-glass-accent hover:bg-glass-accent-dark text-white px-6 py-3 rounded-lg transition-colors"
+                  className='bg-glass-accent hover:bg-glass-accent-dark text-white px-6 py-3 rounded-lg transition-colors'
                 >
                   Interact with Component
                 </button>
               </div>
             </div>
           )}
-          
+
           {config.demoType === 'game' && (
-            <div className="w-full h-full flex items-center justify-center bg-glass-dark">
-              <div className="text-center">
-                <h4 className="text-xl font-semibold mb-4">Game Demo</h4>
-                <p className="text-gray-300 mb-4">Interactive game demo would be rendered here</p>
+            <div className='w-full h-full flex items-center justify-center bg-glass-dark'>
+              <div className='text-center'>
+                <h4 className='text-xl font-semibold mb-4'>Game Demo</h4>
+                <p className='text-gray-300 mb-4'>Interactive game demo would be rendered here</p>
                 <button
                   onClick={() => handleInteraction('game_start')}
-                  className="bg-glass-accent hover:bg-glass-accent-dark text-white px-6 py-3 rounded-lg transition-colors"
+                  className='bg-glass-accent hover:bg-glass-accent-dark text-white px-6 py-3 rounded-lg transition-colors'
                 >
                   Start Game
                 </button>
@@ -429,18 +469,18 @@ export default App;`,
 
         {/* Code Panel */}
         {showCode && currentPreset?.code && (
-          <div className="demo-code-panel bg-glass-dark border-t border-glass-border p-4">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-sm font-semibold text-white">Code</h4>
+          <div className='demo-code-panel bg-glass-dark border-t border-glass-border p-4'>
+            <div className='flex items-center justify-between mb-2'>
+              <h4 className='text-sm font-semibold text-white'>Code</h4>
               <button
                 onClick={() => navigator.clipboard.writeText(currentPreset.code!)}
-                className="text-gray-300 hover:text-white transition-colors"
-                title="Copy Code"
+                className='text-gray-300 hover:text-white transition-colors'
+                title='Copy Code'
               >
                 <FaCopy />
               </button>
             </div>
-            <pre className="bg-black text-green-400 p-4 rounded text-sm overflow-x-auto">
+            <pre className='bg-black text-green-400 p-4 rounded text-sm overflow-x-auto'>
               <code>{currentPreset.code}</code>
             </pre>
           </div>
@@ -448,24 +488,25 @@ export default App;`,
 
         {/* Analytics Panel */}
         {showAnalytics && demoState && (
-          <div className="demo-analytics-panel bg-glass-dark border-t border-glass-border p-4">
-            <h4 className="text-sm font-semibold text-white mb-2">Analytics</h4>
-            <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className='demo-analytics-panel bg-glass-dark border-t border-glass-border p-4'>
+            <h4 className='text-sm font-semibold text-white mb-2'>Analytics</h4>
+            <div className='grid grid-cols-2 gap-4 text-sm'>
               <div>
-                <span className="text-gray-300">Interactions:</span>
-                <span className="text-white ml-2">{demoState.analytics.interactions}</span>
+                <span className='text-gray-300'>Interactions:</span>
+                <span className='text-white ml-2'>{demoState.analytics.interactions}</span>
               </div>
               <div>
-                <span className="text-gray-300">Errors:</span>
-                <span className="text-white ml-2">{demoState.analytics.errors}</span>
+                <span className='text-gray-300'>Errors:</span>
+                <span className='text-white ml-2'>{demoState.analytics.errors}</span>
               </div>
               <div>
-                <span className="text-gray-300">Duration:</span>
-                <span className="text-white ml-2">
-                  {demoState.analytics.completionTime 
-                    ? `${Math.round((demoState.analytics.completionTime - demoState.analytics.startTime) / 1000)}s`
-                    : 'Active'
-                  }
+                <span className='text-gray-300'>Duration:</span>
+                <span className='text-white ml-2'>
+                  {demoState.analytics.completionTime
+                    ? `${Math.round(
+                        (demoState.analytics.completionTime - demoState.analytics.startTime) / 1000
+                      )}s`
+                    : 'Active'}
                 </span>
               </div>
             </div>
@@ -475,51 +516,51 @@ export default App;`,
 
       {/* Demo Controls */}
       {showControls && (
-        <div className="demo-controls bg-glass-dark border-t border-glass-border p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
+        <div className='demo-controls bg-glass-dark border-t border-glass-border p-4'>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center space-x-2'>
               <button
                 onClick={() => startDemo()}
                 disabled={isLoading}
-                className="bg-glass-accent hover:bg-glass-accent-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                className='bg-glass-accent hover:bg-glass-accent-dark text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50'
               >
-                <FaPlay className="inline mr-2" />
+                <FaPlay className='inline mr-2' />
                 Start Demo
               </button>
-              
+
               <button
                 onClick={toggleFullscreen}
-                className="bg-glass-dark border border-glass-border text-white px-3 py-2 rounded transition-colors hover:bg-glass-accent"
+                className='bg-glass-dark border border-glass-border text-white px-3 py-2 rounded transition-colors hover:bg-glass-accent'
                 title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
               >
                 {isFullscreen ? <FaCompress /> : <FaExpand />}
               </button>
             </div>
-            
-            <div className="flex items-center space-x-2">
+
+            <div className='flex items-center space-x-2'>
               <button
                 onClick={copyDemoUrl}
-                className="text-gray-300 hover:text-white transition-colors"
-                title="Copy Demo URL"
+                className='text-gray-300 hover:text-white transition-colors'
+                title='Copy Demo URL'
               >
                 <FaCopy />
               </button>
-              
+
               <button
                 onClick={shareDemo}
-                className="text-gray-300 hover:text-white transition-colors"
-                title="Share Demo"
+                className='text-gray-300 hover:text-white transition-colors'
+                title='Share Demo'
               >
                 <FaShare />
               </button>
-              
+
               {config.githubRepo && (
                 <a
                   href={config.githubRepo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-300 hover:text-white transition-colors"
-                  title="View on GitHub"
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='text-gray-300 hover:text-white transition-colors'
+                  title='View on GitHub'
                 >
                   <FaGithub />
                 </a>
@@ -531,28 +572,28 @@ export default App;`,
 
       {/* Tutorial Overlay */}
       {showTutorial && tutorialState && (
-        <div className="tutorial-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-glass-dark border border-glass-border rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-white mb-2">
+        <div className='tutorial-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+          <div className='bg-glass-dark border border-glass-border rounded-lg p-6 max-w-md mx-4'>
+            <h3 className='text-lg font-semibold text-white mb-2'>
               {tutorialState.steps[tutorialState.currentStep]?.title}
             </h3>
-            <p className="text-gray-300 mb-4">
+            <p className='text-gray-300 mb-4'>
               {tutorialState.steps[tutorialState.currentStep]?.content}
             </p>
-            <div className="flex justify-between items-center">
-              <div className="text-sm text-gray-400">
+            <div className='flex justify-between items-center'>
+              <div className='text-sm text-gray-400'>
                 Step {tutorialState.currentStep + 1} of {tutorialState.steps.length}
               </div>
-              <div className="flex space-x-2">
+              <div className='flex space-x-2'>
                 <button
                   onClick={() => setShowTutorial(false)}
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className='text-gray-300 hover:text-white transition-colors'
                 >
                   Skip
                 </button>
                 <button
                   onClick={nextTutorialStep}
-                  className="bg-glass-accent hover:bg-glass-accent-dark text-white px-4 py-2 rounded transition-colors"
+                  className='bg-glass-accent hover:bg-glass-accent-dark text-white px-4 py-2 rounded transition-colors'
                 >
                   {tutorialState.currentStep === tutorialState.steps.length - 1 ? 'Finish' : 'Next'}
                 </button>

@@ -21,7 +21,13 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 import { enhancedProjects, getProjectStats } from '../data/enhancedProjects';
-import type { ProjectCard, ProjectFilter, ProjectSort, ProjectSearch, ViewMode } from '../types/project';
+import type {
+  ProjectCard,
+  ProjectFilter,
+  ProjectSort,
+  ProjectSearch,
+  ViewMode,
+} from '../types/project';
 import { githubApi } from '../services/githubApi';
 import GlassCard from './GlassCard';
 import BrandImage from './BrandImage';
@@ -498,7 +504,9 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
         <div className='fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4'>
           <div className='bg-glass-dark border border-glass-border rounded-lg w-full max-w-6xl max-h-[90vh] overflow-hidden'>
             <div className='flex items-center justify-between p-4 border-b border-glass-border'>
-              <h3 className='text-xl font-semibold text-white'>Interactive Demo: {selectedProject.title}</h3>
+              <h3 className='text-xl font-semibold text-white'>
+                Interactive Demo: {selectedProject.title}
+              </h3>
               <button
                 onClick={() => setShowDemo(false)}
                 className='text-gray-300 hover:text-white transition-colors'
@@ -507,23 +515,26 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
               </button>
             </div>
             <div className='p-4'>
-              {selectedProject.demoConfig && (
-                selectedProject.id === 'marvel-quiz-game' ? (
+              {selectedProject.demoConfig &&
+                (selectedProject.id === 'marvel-quiz-game' ? (
                   <MarvelQuizDemo
                     config={selectedProject.demoConfig}
-                    onDemoStart={(sessionId) => console.log('Demo started:', sessionId)}
-                    onDemoComplete={(sessionId, analytics) => console.log('Demo completed:', analytics)}
-                    onError={(error) => console.error('Demo error:', error)}
+                    onDemoStart={sessionId => console.log('Demo started:', sessionId)}
+                    onDemoComplete={(sessionId, analytics) =>
+                      console.log('Demo completed:', analytics)
+                    }
+                    onError={error => console.error('Demo error:', error)}
                   />
                 ) : (
                   <InteractiveDemo
                     config={selectedProject.demoConfig}
-                    onDemoStart={(sessionId) => console.log('Demo started:', sessionId)}
-                    onDemoComplete={(sessionId, analytics) => console.log('Demo completed:', analytics)}
-                    onError={(error) => console.error('Demo error:', error)}
+                    onDemoStart={sessionId => console.log('Demo started:', sessionId)}
+                    onDemoComplete={(sessionId, analytics) =>
+                      console.log('Demo completed:', analytics)
+                    }
+                    onError={error => console.error('Demo error:', error)}
                   />
-                )
-              )}
+                ))}
             </div>
           </div>
         </div>
@@ -659,39 +670,138 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   // Grid View
   return (
-    <div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <GlassCard
         variant='premium'
         className='overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-hunter-emerald/10'
       >
-      {/* Project Image */}
-      <div className='relative overflow-hidden'>
-        <img
-          src={project.screenshots[0]?.url}
-          alt={project.screenshots[0]?.alt}
-          className='w-full h-48 object-cover transition-transform duration-300'
-          style={{
-            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-          }}
-        />
+        {/* Project Image */}
+        <div className='relative overflow-hidden'>
+          <img
+            src={project.screenshots[0]?.url}
+            alt={project.screenshots[0]?.alt}
+            className='w-full h-48 object-cover transition-transform duration-300'
+            style={{
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+            }}
+          />
 
-        {/* Overlay */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-t from-charcoal-dark/80 via-transparent to-transparent transition-opacity duration-300 ${
-            isHovered ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className='absolute bottom-4 left-4 right-4'>
+          {/* Overlay */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-t from-charcoal-dark/80 via-transparent to-transparent transition-opacity duration-300 ${
+              isHovered ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className='absolute bottom-4 left-4 right-4'>
+              <div className='flex space-x-2'>
+                {project.liveDemo && (
+                  <a
+                    href={project.liveDemo}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='flex items-center px-3 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300'
+                  >
+                    <FaPlay className='mr-1' />
+                    Demo
+                  </a>
+                )}
+                {project.githubRepo && (
+                  <a
+                    href={project.githubRepo}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='flex items-center px-3 py-2 bg-glass-subtle border border-glass-border text-metallic-silver rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300'
+                  >
+                    <FaGithub className='mr-1' />
+                    Code
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Featured Badge */}
+          {project.featured && (
+            <div className='absolute top-4 right-4'>
+              <span className='px-2 py-1 bg-hunter-emerald text-charcoal-dark text-xs font-semibold rounded'>
+                Featured
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Project Content */}
+        <div className='p-6'>
+          {/* Header */}
+          <div className='flex items-start justify-between mb-3'>
+            <div>
+              <h3 className='text-xl font-bold text-glass-light mb-1'>{project.title}</h3>
+              <div className='flex items-center space-x-3 text-sm'>
+                <span className='flex items-center text-hunter-sage'>
+                  {getCategoryIcon(project.category)}
+                  <span className='ml-1'>{project.category}</span>
+                </span>
+                <span className={`flex items-center ${getDifficultyColor(project.difficulty)}`}>
+                  <span className='w-2 h-2 rounded-full bg-current mr-1'></span>
+                  {project.difficulty}
+                </span>
+              </div>
+            </div>
+
+            {/* GitHub Stats */}
+            {githubStats && (
+              <div className='flex items-center space-x-2 text-sm'>
+                <span className='flex items-center text-hunter-sage'>
+                  <FaStar className='mr-1' />
+                  {githubStats.stars || 0}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          <p className='text-hunter-sage mb-4 line-clamp-2'>{project.description}</p>
+
+          {/* Tech Stack */}
+          <div className='flex flex-wrap gap-2 mb-4'>
+            {project.techStack.slice(0, 4).map((tech, index) => (
+              <span
+                key={index}
+                className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-emerald'
+              >
+                {tech}
+              </span>
+            ))}
+            {project.techStack.length > 4 && (
+              <span className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-sage'>
+                +{project.techStack.length - 4}
+              </span>
+            )}
+          </div>
+
+          {/* Metrics */}
+          {project.metrics && (
+            <div className='grid grid-cols-2 gap-2 mb-4 text-xs'>
+              <div className='flex items-center justify-between'>
+                <span className='text-hunter-sage'>Performance:</span>
+                <span className='text-hunter-emerald'>{project.metrics.performance}</span>
+              </div>
+              <div className='flex items-center justify-between'>
+                <span className='text-hunter-sage'>Lighthouse:</span>
+                <span className='text-hunter-emerald'>{project.metrics.lighthouseScore}</span>
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className='flex items-center justify-between'>
             <div className='flex space-x-2'>
               {project.liveDemo && (
                 <a
                   href={project.liveDemo}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center px-3 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300'
+                  className='flex items-center px-3 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300 text-sm'
                 >
                   <FaPlay className='mr-1' />
                   Demo
@@ -702,129 +812,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   href={project.githubRepo}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center px-3 py-2 bg-glass-subtle border border-glass-border text-metallic-silver rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300'
+                  className='flex items-center px-3 py-2 border border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 text-sm'
                 >
                   <FaGithub className='mr-1' />
                   Code
                 </a>
               )}
             </div>
-          </div>
-        </div>
 
-        {/* Featured Badge */}
-        {project.featured && (
-          <div className='absolute top-4 right-4'>
-            <span className='px-2 py-1 bg-hunter-emerald text-charcoal-dark text-xs font-semibold rounded'>
-              Featured
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Project Content */}
-      <div className='p-6'>
-        {/* Header */}
-        <div className='flex items-start justify-between mb-3'>
-          <div>
-            <h3 className='text-xl font-bold text-glass-light mb-1'>{project.title}</h3>
-            <div className='flex items-center space-x-3 text-sm'>
-              <span className='flex items-center text-hunter-sage'>
-                {getCategoryIcon(project.category)}
-                <span className='ml-1'>{project.category}</span>
-              </span>
-              <span className={`flex items-center ${getDifficultyColor(project.difficulty)}`}>
-                <span className='w-2 h-2 rounded-full bg-current mr-1'></span>
-                {project.difficulty}
-              </span>
+            {/* Brand Watermark */}
+            <div className='opacity-20'>
+              <BrandImage
+                assetKey='circa2024'
+                alt='StrayDog Syndications 2024'
+                width={24}
+                height={24}
+                className='filter brightness-0 invert'
+                lazy={false}
+              />
             </div>
           </div>
-
-          {/* GitHub Stats */}
-          {githubStats && (
-            <div className='flex items-center space-x-2 text-sm'>
-              <span className='flex items-center text-hunter-sage'>
-                <FaStar className='mr-1' />
-                {githubStats.stars || 0}
-              </span>
-            </div>
-          )}
         </div>
-
-        {/* Description */}
-        <p className='text-hunter-sage mb-4 line-clamp-2'>{project.description}</p>
-
-        {/* Tech Stack */}
-        <div className='flex flex-wrap gap-2 mb-4'>
-          {project.techStack.slice(0, 4).map((tech, index) => (
-            <span
-              key={index}
-              className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-emerald'
-            >
-              {tech}
-            </span>
-          ))}
-          {project.techStack.length > 4 && (
-            <span className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-sage'>
-              +{project.techStack.length - 4}
-            </span>
-          )}
-        </div>
-
-        {/* Metrics */}
-        {project.metrics && (
-          <div className='grid grid-cols-2 gap-2 mb-4 text-xs'>
-            <div className='flex items-center justify-between'>
-              <span className='text-hunter-sage'>Performance:</span>
-              <span className='text-hunter-emerald'>{project.metrics.performance}</span>
-            </div>
-            <div className='flex items-center justify-between'>
-              <span className='text-hunter-sage'>Lighthouse:</span>
-              <span className='text-hunter-emerald'>{project.metrics.lighthouseScore}</span>
-            </div>
-          </div>
-        )}
-
-        {/* Action Buttons */}
-        <div className='flex items-center justify-between'>
-          <div className='flex space-x-2'>
-            {project.liveDemo && (
-              <a
-                href={project.liveDemo}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='flex items-center px-3 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300 text-sm'
-              >
-                <FaPlay className='mr-1' />
-                Demo
-              </a>
-            )}
-            {project.githubRepo && (
-              <a
-                href={project.githubRepo}
-                target='_blank'
-                rel='noopener noreferrer'
-                className='flex items-center px-3 py-2 border border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300 text-sm'
-              >
-                <FaGithub className='mr-1' />
-                Code
-              </a>
-            )}
-          </div>
-
-          {/* Brand Watermark */}
-          <div className='opacity-20'>
-            <BrandImage
-              assetKey='circa2024'
-              alt='StrayDog Syndications 2024'
-              width={24}
-              height={24}
-              className='filter brightness-0 invert'
-              lazy={false}
-            />
-          </div>
-        </div>
-      </div>
       </GlassCard>
     </div>
   );
