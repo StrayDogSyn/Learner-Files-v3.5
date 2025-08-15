@@ -21,6 +21,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'marvel-quiz-game/package-lock.json'
+      
+      - name: Build Marvel Quiz Game
+        run: |
+          cd marvel-quiz-game
+          npm ci
+          npm run build
+      
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
@@ -31,6 +44,9 @@ jobs:
           cp -r assets _site/ 2>/dev/null || echo "No assets directory found"
           cp -r public _site/ 2>/dev/null || echo "No public directory found"
           cp favicon.ico _site/ 2>/dev/null || cp assets/brands/favicon.png _site/favicon.ico 2>/dev/null || echo "No favicon found"
+          # Copy Marvel Quiz Game
+          mkdir -p _site/marvel-quiz-game
+          cp -r marvel-quiz-game/dist/* _site/marvel-quiz-game/ 2>/dev/null || echo "Marvel Quiz Game not built"
           ls -la _site/
       
       - name: Upload artifact
