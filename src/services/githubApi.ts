@@ -1,4 +1,4 @@
-import { GitHubRepository, GitHubCommit, GitHubLanguage, GitHubStats } from '../types/project';
+import type { GitHubRepository, GitHubCommit, GitHubLanguage, GitHubStats } from '../types/project';
 
 class GitHubApiService {
   private readonly baseUrl = 'https://api.github.com';

@@ -228,7 +228,7 @@ export const getBrandAsset = (key: string): BrandAsset => {
 };
 
 export const getBrandConfig = (key: string) => {
-  return BRAND_CONFIGS[key] || BRAND_ASSETS[key];
+  return (BRAND_CONFIGS as any)[key] || (BRAND_ASSETS as any)[key];
 };
 
 // Domain utilities
