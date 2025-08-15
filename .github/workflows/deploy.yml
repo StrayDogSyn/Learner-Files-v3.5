@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy Static Portfolio to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 permissions:
@@ -20,14 +20,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+      
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
+        uses: actions/configure-pages@v5
+      
+      - name: Create deployment directory
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r assets _site/ 2>/dev/null || echo "No assets directory found"
+          cp -r public _site/ 2>/dev/null || echo "No public directory found"
+          cp favicon.ico _site/ 2>/dev/null || cp assets/brands/favicon.png _site/favicon.ico 2>/dev/null || echo "No favicon found"
+          ls -la _site/
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '_site'
 
   deploy:
     environment:

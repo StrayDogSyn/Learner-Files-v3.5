@@ -945,18 +945,15 @@
         observer.observe(el);
       });
 
-      // Enhanced mobile navigation
-      document.querySelector('.mobile-menu-btn')?.addEventListener('click', () => {
-        const nav = document.querySelector('.nav-links');
-        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-        nav.style.position = 'absolute';
-        nav.style.top = '60px';
-        nav.style.right = '20px';
-        nav.style.background = 'rgba(11, 11, 11, 0.95)';
-        nav.style.padding = '20px';
-        nav.style.borderRadius = '15px';
-        nav.style.flexDirection = 'column';
-      });
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+
+      if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', () => {
+          navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+      }
 
       // Add scroll effect to header
       window.addEventListener('scroll', () => {
