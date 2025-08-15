@@ -12,13 +12,11 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Font Loading with Fallback -->
+    <style>
+      /* Optional: Load Inter font asynchronously without blocking */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    </style>
 
     <!-- Professional Glassmorphic Styles -->
     <style>
@@ -39,9 +37,11 @@
         --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
         --blur: blur(10px);
 
-        /* Typography */
-        --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        /* Typography - Using System Fonts for Performance */
+        --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui,
+          sans-serif;
+        --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+          monospace;
       }
 
       * {

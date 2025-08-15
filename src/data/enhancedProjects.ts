@@ -1,5 +1,5 @@
-import { ProjectCard, DemoConfiguration, DemoPreset } from '../types/project';
-import type { DemoConfiguration as DemoConfig } from '../types/demo';
+import type { ProjectCard } from '../types/project';
+import type { DemoPreset } from '../types/demo';
 
 // Demo presets for interactive projects
 const marvelQuizPresets: DemoPreset[] = [
@@ -123,12 +123,13 @@ export const enhancedProjects: ProjectCard[] = [
   },
   {
     id: 'portfolio-v3',
-    title: 'Multi-Domain Portfolio System',
-    description: 'Comprehensive portfolio showcasing across three domains with unified branding',
-    longDescription: `A sophisticated multi-domain portfolio system built with React 19, TypeScript, 
-    and Tailwind CSS. Features automated deployment, glassmorphic design, and optimized performance 
-    across all three domains: straydog-syndications-llc.com, straydogsyndicationsllc.biz, and 
-    straydog-secondstory.org. Demonstrates advanced React patterns, performance optimization, 
+    title: 'Multi-Domain Portfolio',
+    description:
+      'Professional business website showcasing Stray Dog Syndications LLC services and expertise.',
+    longDescription: `The official website for Stray Dog Syndications LLC, featuring professional 
+    services, business portfolio, and company information. Built with modern web technologies 
+    including React 19, TypeScript, and Tailwind CSS with glassmorphic design elements and 
+    optimized performance. Demonstrates advanced React patterns, performance optimization, 
     and modern web development best practices.`,
     techStack: [
       'React 19',
@@ -146,24 +147,24 @@ export const enhancedProjects: ProjectCard[] = [
     screenshots: [
       {
         id: 'portfolio-1',
-        url: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Modern%20developer%20portfolio%20website%20with%20glassmorphic%20design%2C%20dark%20theme%2C%20green%20accents%2C%20clean%20layout%2C%20professional%20coding%20interface&image_size=landscape_16_9',
-        alt: 'Portfolio Homepage',
-        caption: 'Glassmorphic design with dark theme',
+        url: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20business%20website%20for%20Stray%20Dog%20Syndications%20LLC%2C%20modern%20corporate%20design%2C%20glassmorphic%20elements%2C%20green%20branding%2C%20business%20services%20layout%2C%20clean%20professional%20interface&image_size=landscape_16_9',
+        alt: 'Stray Dog Syndications LLC Business Website',
+        caption: 'Professional business website with modern design',
         width: 1920,
         height: 1080,
       },
     ],
     keyFeatures: [
-      'Multi-domain deployment system with unified branding',
-      'Dark/Light theme toggle with smooth transitions',
-      'Glassmorphic design system with custom CSS variables',
-      'Mobile-first responsive design with touch optimization',
-      'SEO optimized for all domains with structured data',
-      'Automated CI/CD pipeline with GitHub Actions',
-      'Performance monitoring with Core Web Vitals',
-      'Brand asset management with centralized system',
-      'Advanced navigation with search and filtering',
-      'Interactive project showcases with live demos',
+      'Professional business presentation and services',
+      'Company portfolio and expertise showcase',
+      'Modern glassmorphic design with green branding',
+      'Mobile-responsive layout optimized for all devices',
+      'SEO optimized content for business visibility',
+      'Fast loading performance and Core Web Vitals',
+      'Professional contact and inquiry system',
+      'Brand-consistent design across all pages',
+      'Clean navigation and user experience',
+      'Business-focused content and messaging',
     ],
     metrics: {
       accuracy: '100%',

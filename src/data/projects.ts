@@ -41,27 +41,27 @@ export const projects: Project[] = [
   },
   {
     id: 'portfolio-v3',
-    title: 'Multi-Domain Portfolio System',
-    description: 'Comprehensive portfolio showcasing across three domains with unified branding',
-    longDescription: `A sophisticated multi-domain portfolio system built with React 19, TypeScript, 
-    and Tailwind CSS. Features automated deployment, glassmorphic design, and optimized performance 
-    across all three domains: straydog-syndications-llc.com, straydogsyndicationsllc.biz, and 
-    straydog-secondstory.org.`,
+    title: 'Multi-Domain Portfolio',
+    description:
+      'Professional business website showcasing Stray Dog Syndications LLC services and expertise.',
+    longDescription: `The official website for Stray Dog Syndications LLC, featuring professional 
+    services, business portfolio, and company information. Built with modern web technologies 
+    including React 19, TypeScript, and Tailwind CSS with glassmorphic design elements and 
+    optimized performance across multiple domains.`,
     techStack: ['React 19', 'TypeScript', 'Tailwind CSS', 'Vite', 'GitHub Actions', 'Vercel'],
     features: [
-      'Multi-domain deployment system',
-      'Dark/Light theme toggle',
-      'Glassmorphic design system',
-      'Mobile-first responsive design',
-      'SEO optimized for all domains',
-      'Automated CI/CD pipeline',
-      'Performance monitoring',
-      'Brand asset management',
+      'Professional business presentation',
+      'Service portfolio showcase',
+      'Company information and contact',
+      'Modern glassmorphic design',
+      'Mobile-responsive layout',
+      'SEO optimized content',
+      'Fast loading performance',
+      'Professional branding system',
     ],
     liveUrl: 'https://straydog-syndications-llc.com/',
-    githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
     image:
-      'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Modern%20developer%20portfolio%20website%20with%20glassmorphic%20design%2C%20dark%20theme%2C%20green%20accents%2C%20clean%20layout%2C%20professional%20coding%20interface&image_size=landscape_16_9',
+      'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20business%20website%20for%20Stray%20Dog%20Syndications%20LLC%2C%20modern%20corporate%20design%2C%20glassmorphic%20elements%2C%20green%20branding%2C%20business%20services%20layout%2C%20clean%20professional%20interface&image_size=landscape_16_9',
     category: 'featured',
     status: 'live',
     priority: 2,
