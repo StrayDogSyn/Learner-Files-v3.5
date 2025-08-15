@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/homepage.tsx","./src/components/quizgame.tsx","./src/components/results.tsx","./src/context/gamecontext.tsx","./src/data/questions.ts"],"version":"5.8.3"}
