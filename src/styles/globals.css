@@ -1056,3 +1056,222 @@
     }
   }
 }
+
+/* EMERGENCY LAYOUT FIX - Green Space Elimination */
+/* 1. FORCE FULL WIDTH CONTAINER RESET */
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+/* 2. MAIN CONTAINER FIXES */
+.main-container,
+.portfolio-container,
+.content-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 20px !important; /* Only small side padding */
+  box-sizing: border-box;
+}
+
+/* 3. GRID LAYOUT RESET */
+.layout-grid,
+.main-grid,
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: 1fr !important; /* Single column on mobile */
+  width: 100% !important;
+  gap: 20px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .layout-grid,
+  .main-grid,
+  .portfolio-grid {
+    grid-template-columns: 1fr 2fr !important; /* 1/3 + 2/3 split on desktop */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+}
+
+/* 4. ELIMINATE PHANTOM CONTAINERS */
+.green-space,
+.empty-container,
+.spacer-div,
+div[style*="width: 70%"],
+div[style*="width: 60%"] {
+  display: none !important;
+}
+
+/* 5. CONTENT SECTION FIXES */
+.about-section,
+.timeline-section,
+.projects-section {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 20px !important;
+}
+
+/* 6. TIMELINE SPECIFIC FIXES */
+.career-timeline {
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.timeline-item {
+  width: 100% !important;
+  margin-bottom: 30px;
+}
+
+/* 7. PROJECT CARDS LAYOUT FIX */
+.project-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+/* 8. NAVIGATION BAR FIX */
+.navigation-container {
+  width: 100% !important;
+  padding: 0 20px;
+}
+
+/* 9. HERO SECTION FIX */
+.hero-section {
+  width: 100% !important;
+  padding: 40px 20px !important;
+  text-align: center;
+}
+
+/* 10. FOOTER FULL WIDTH */
+.footer-container {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 40px 20px !important;
+}
+
+/* 11. DEBUG BORDERS (TEMPORARY - REMOVE AFTER FIXING) */
+.debug-layout {
+  border: 2px solid red !important;
+}
+
+.debug-container {
+  border: 2px solid blue !important;
+}
+
+.debug-content {
+  border: 2px solid green !important;
+}
+
+/* Apply debug classes to identify problem containers */
+/* Add these classes to suspect elements to see boundaries */
+
+/* 12. FORCE REMOVE ANY FIXED POSITIONING CAUSING ISSUES */
+div[style*="position: fixed"],
+div[style*="position: absolute"] {
+  position: static !important;
+}
+
+/* 13. FLEX CONTAINER FIXES */
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .flex-container {
+    flex-direction: row;
+  }
+
+  .flex-sidebar {
+    flex: 0 0 300px; /* Fixed sidebar width */
+  }
+
+  .flex-main {
+    flex: 1; /* Take remaining space */
+    min-width: 0; /* Prevent flex item overflow */
+  }
+}
+
+/* 14. SPECIFIC GLASSMORPHISM CONTAINER FIXES */
+.glass-container {
+  width: 100% !important;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+/* 15. RESPONSIVE BREAKPOINT OVERRIDES */
+@media (max-width: 767px) {
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-full-width {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+}
+
+/* 16. CRITICAL - OVERRIDE ANY INLINE STYLES */
+[style*="width"] {
+  width: auto !important;
+}
+
+[style*="margin-left"] {
+  margin-left: 0 !important;
+}
+
+[style*="margin-right"] {
+  margin-right: 0 !important;
+}
+
+/* 17. EMERGENCY RESET FOR COMMON CULPRITS */
+.row,
+.col,
+.container-fluid {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 15px !important;
+}
+
+/* 18. PORTFOLIO SPECIFIC FIXES */
+.portfolio-header {
+  width: 100% !important;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.portfolio-content {
+  width: 100% !important;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 19. FINAL CATCH-ALL */
+.layout-fix {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}

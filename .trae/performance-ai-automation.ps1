@@ -55,7 +55,7 @@ function Initialize-Cortana {
 }
 
 function Start-PerformanceOptimization {
-    Write-AILog "🎯 Starting Autonomous Performance Optimization..."
+    Write-AILog "Starting Autonomous Performance Optimization..."
     
     # Run Lighthouse audit
     Write-AILog "Running Lighthouse performance audit..."
@@ -91,14 +91,14 @@ function Start-PerformanceOptimization {
                 $report = Get-Content $lighthouseReport | ConvertFrom-Json
                 $performanceScore = [math]::Round($report.categories.performance.score * 100, 1)
                 
-                Write-AILog "📊 Performance Score: $performanceScore/100" $(if($performanceScore -ge 90) {"SUCCESS"} elseif($performanceScore -ge 70) {"WARN"} else {"ERROR"})
+                Write-AILog "Performance Score: $performanceScore/100" $(if($performanceScore -ge 90) {"SUCCESS"} elseif($performanceScore -ge 70) {"WARN"} else {"ERROR"})
                 
                 # Analyze Core Web Vitals
                 $lcp = $report.audits.'largest-contentful-paint'.numericValue
                 $fid = $report.audits.'max-potential-fid'.numericValue
                 $cls = $report.audits.'cumulative-layout-shift'.numericValue
                 
-                Write-AILog "🎯 Core Web Vitals Analysis:"
+                Write-AILog "Core Web Vitals Analysis:"
                 Write-AILog "   LCP: $([math]::Round($lcp/1000, 2))s" $(if($lcp -le 2500) {"SUCCESS"} else {"WARN"})
                 Write-AILog "   FID: $([math]::Round($fid, 2))ms" $(if($fid -le 100) {"SUCCESS"} else {"WARN"})
                 Write-AILog "   CLS: $([math]::Round($cls, 3))" $(if($cls -le 0.1) {"SUCCESS"} else {"WARN"})
@@ -116,7 +116,7 @@ function Start-PerformanceOptimization {
                 }
                 
                 if ($recommendations.Count -gt 0) {
-                    Write-AILog "🔧 AI Recommendations:"
+                    Write-AILog "AI Recommendations:"
                     foreach ($rec in $recommendations) {
                         Write-AILog "   • $rec" "WARN"
                     }
@@ -130,99 +130,99 @@ function Start-PerformanceOptimization {
     }
     
     # Analyze bundle size
-    Write-AILog "📦 Analyzing bundle size..."
+    Write-AILog "Analyzing bundle size..."
     $distPath = "$ProjectRoot/dist"
     if (Test-Path $distPath) {
         $jsFiles = Get-ChildItem -Path $distPath -Recurse -Filter "*.js" | Where-Object { $_.Name -notlike "*vendor*" }
         $totalSize = ($jsFiles | Measure-Object -Property Length -Sum).Sum
         $totalSizeKB = [math]::Round($totalSize / 1024, 2)
         
-        Write-AILog "📊 Total JS Bundle Size: $totalSizeKB KB" $(if($totalSizeKB -le 500) {"SUCCESS"} else {"WARN"})
+        Write-AILog "Total JS Bundle Size: $totalSizeKB KB" $(if($totalSizeKB -le 500) {"SUCCESS"} else {"WARN"})
         
         if ($totalSizeKB -gt 500) {
-            Write-AILog "🔧 Bundle size exceeds 500KB - consider code splitting" "WARN"
+            Write-AILog "Bundle size exceeds 500KB - consider code splitting" "WARN"
         }
     }
 }
 
 function Start-BehaviorAnalysis {
-    Write-AILog "📊 Starting User Behavior Analysis..."
+    Write-AILog "Starting User Behavior Analysis..."
     
     # Simulate behavior analysis (in real implementation, this would connect to analytics)
     Write-AILog "Analyzing navigation patterns..."
-    Write-AILog "📈 Average session duration: 4.2 minutes" "SUCCESS"
-    Write-AILog "🔄 Bounce rate: 23%" "SUCCESS"
-    Write-AILog "📱 Mobile usage: 67%" "INFO"
+    Write-AILog "Average session duration: 4.2 minutes" "SUCCESS"
+    Write-AILog "Bounce rate: 23%" "SUCCESS"
+    Write-AILog "Mobile usage: 67%" "INFO"
     
-    Write-AILog "🎯 User engagement insights:"
+    Write-AILog "User engagement insights:"
     Write-AILog "   • High engagement on interactive components" "SUCCESS"
     Write-AILog "   • Users prefer visual content over text" "INFO"
     Write-AILog "   • Mobile users have shorter attention spans" "WARN"
 }
 
 function Start-ConversionAnalysis {
-    Write-AILog "💰 Starting Business Conversion Intelligence..."
+    Write-AILog "Starting Business Conversion Intelligence..."
     
     # Simulate conversion analysis
     Write-AILog "Analyzing conversion funnels..."
-    Write-AILog "📊 Conversion rate: 3.4%" "SUCCESS"
-    Write-AILog "🛒 Cart abandonment: 68%" "WARN"
-    Write-AILog "💳 Payment completion: 94%" "SUCCESS"
+    Write-AILog "Conversion rate: 3.4%" "SUCCESS"
+    Write-AILog "Cart abandonment: 68%" "WARN"
+    Write-AILog "Payment completion: 94%" "SUCCESS"
     
-    Write-AILog "🎯 Conversion optimization recommendations:"
+    Write-AILog "Conversion optimization recommendations:"
     Write-AILog "   • Simplify checkout process" "WARN"
     Write-AILog "   • Add trust badges" "INFO"
     Write-AILog "   • Implement exit-intent popups" "INFO"
 }
 
 function Start-TechnicalDebtAnalysis {
-    Write-AILog "🔧 Starting Technical Debt Analysis..."
+    Write-AILog "Starting Technical Debt Analysis..."
     
     # Check for common technical debt indicators
     $packageJsonExists = Test-Path "$ProjectRoot/package.json"
     $tsConfigExists = Test-Path "$ProjectRoot/tsconfig.json"
     $eslintConfigExists = Test-Path "$ProjectRoot/eslint.config.js"
     
-    Write-AILog "TypeScript config: $(if($tsConfigExists) {'✅ Found'} else {'❌ Missing'})" $(if($tsConfigExists) {"SUCCESS"} else {"WARN"})
-    Write-AILog "ESLint config: $(if($eslintConfigExists) {'✅ Found'} else {'❌ Missing'})" $(if($eslintConfigExists) {"SUCCESS"} else {"WARN"})
+    Write-AILog "TypeScript config: $(if($tsConfigExists) {'Found'} else {'Missing'})" $(if($tsConfigExists) {"SUCCESS"} else {"WARN"})
+    Write-AILog "ESLint config: $(if($eslintConfigExists) {'Found'} else {'Missing'})" $(if($eslintConfigExists) {"SUCCESS"} else {"WARN"})
 }
 
 function Generate-AIReport {
     if (-not $GenerateReport) { return }
     
-    Write-AILog "📋 Generating AI Performance Report..."
+    Write-AILog "Generating AI Performance Report..."
     
-    $reportContent = "# AI Performance Analysis Report`n" +
-                      "Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n" +
-                      "## Performance Optimization`n" +
-                      "- Lighthouse audit completed`n" +
-                      "- Core Web Vitals analyzed`n" +
-                      "- Bundle size optimization reviewed`n`n" +
-                      "## User Behavior Analysis`n" +
-                      "- Navigation patterns analyzed`n" +
-                      "- Engagement metrics collected`n" +
-                      "- Mobile usage patterns identified`n`n" +
-                      "## Business Conversion Intelligence`n" +
-                      "- Conversion funnels analyzed`n" +
-                      "- Revenue optimization opportunities identified`n" +
-                      "- User journey mapping completed`n`n" +
-                      "## Technical Debt Analysis`n" +
-                      "- Code quality metrics reviewed`n" +
-                      "- Configuration files validated`n" +
-                      "- Dependency analysis completed`n`n" +
-                      "## AI Recommendations`n" +
-                      "- Performance optimizations suggested`n" +
-                      "- User experience improvements identified`n" +
-                      "- Business growth opportunities highlighted`n"
+    $reportContent = "# AI Performance Analysis Report`n"
+    $reportContent += "Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n"
+    $reportContent += "## Performance Optimization`n"
+    $reportContent += "- Lighthouse audit completed`n"
+    $reportContent += "- Core Web Vitals analyzed`n"
+    $reportContent += "- Bundle size optimization reviewed`n`n"
+    $reportContent += "## User Behavior Analysis`n"
+    $reportContent += "- Navigation patterns analyzed`n"
+    $reportContent += "- Engagement metrics collected`n"
+    $reportContent += "- Mobile usage patterns identified`n`n"
+    $reportContent += "## Business Conversion Intelligence`n"
+    $reportContent += "- Conversion funnels analyzed`n"
+    $reportContent += "- Revenue optimization opportunities identified`n"
+    $reportContent += "- User journey mapping completed`n`n"
+    $reportContent += "## Technical Debt Analysis`n"
+    $reportContent += "- Code quality metrics reviewed`n"
+    $reportContent += "- Configuration files validated`n"
+    $reportContent += "- Dependency analysis completed`n`n"
+    $reportContent += "## AI Recommendations`n"
+    $reportContent += "- Performance optimizations suggested`n"
+    $reportContent += "- User experience improvements identified`n"
+    $reportContent += "- Business growth opportunities highlighted`n"
     
     $reportPath = "$OutputPath/ai-performance-report-$ReportTimestamp.md"
     $reportContent | Out-File -FilePath $reportPath -Encoding UTF8
     
-    Write-AILog "📄 Report saved to: $reportPath" "SUCCESS"
+    Write-AILog "Report saved to: $reportPath" "SUCCESS"
 }
 
 function Start-ContinuousMonitoring {
-    Write-AILog "🔄 Starting Continuous AI Monitoring..."
+    Write-AILog "Starting Continuous AI Monitoring..."
     
     while ($true) {
         switch ($AnalysisType) {
@@ -240,7 +240,7 @@ function Start-ContinuousMonitoring {
         
         Generate-AIReport
         
-        Write-AILog "⏱️ Analysis complete. Waiting 30 seconds before next cycle..." "INFO"
+        Write-AILog "Analysis complete. Waiting 30 seconds before next cycle..." "INFO"
         Start-Sleep -Seconds 30
     }
 }
@@ -251,7 +251,7 @@ try {
     
     # Check prerequisites
     if (-not (Get-Command "lighthouse" -ErrorAction SilentlyContinue)) {
-        Write-AILog "❌ Lighthouse not found. Please install: npm install -g lighthouse" "ERROR"
+        Write-AILog "Lighthouse not found. Please install: npm install -g lighthouse" "ERROR"
         exit 1
     }
     
@@ -269,16 +269,16 @@ try {
             Start-TechnicalDebtAnalysis
         }
         default {
-            Write-AILog "❌ Unknown analysis type: $AnalysisType" "ERROR"
+            Write-AILog "Unknown analysis type: $AnalysisType" "ERROR"
             Write-AILog "Available types: performance, behavior, conversion, technical, monitor, all" "INFO"
             exit 1
         }
     }
     
     Generate-AIReport
-    Write-AILog "✅ AI Performance Analysis Complete" "SUCCESS"
+    Write-AILog "AI Performance Analysis Complete" "SUCCESS"
     
 } catch {
-    Write-AILog "❌ Critical error: $($_.Exception.Message)" "ERROR"
+    Write-AILog "Critical error: $($_.Exception.Message)" "ERROR"
     exit 1
 }
