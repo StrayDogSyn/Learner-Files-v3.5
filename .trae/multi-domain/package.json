@@ -71,7 +71,6 @@
     "reset": "trae reset --confirm",
     "update": "npm update && trae update",
     "security:audit": "npm audit && snyk test",
-    "security:fix": "npm audit fix && snyk wizard",
     "dev": "trae dev --watch --hot-reload",
     "dev:primary": "trae dev --target primary --watch",
     "dev:business": "trae dev --target business --watch",
