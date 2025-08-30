@@ -1,14 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦸</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marvel Quiz Game</title>
-    <meta name="description" content="Test your Marvel knowledge with this interactive quiz game!" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦸</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-screen {
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 107, 107, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(78, 205, 196, 0.8)); }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .description {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .quiz-screen {
+            display: none;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .question-counter {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+        }
+
+        .score {
+            font-size: 1.2rem;
+            color: #4ecdc4;
+        }
+
+        .question {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            padding: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(78, 205, 196, 0.5);
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: rgba(78, 205, 196, 0.3);
+            border-color: #4ecdc4;
+        }
+
+        .option.correct {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: #4caf50;
+        }
+
+        .option.incorrect {
+            background: rgba(244, 67, 54, 0.3);
+            border-color: #f44336;
+        }
+
+        .results-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            margin: 2rem 0;
+            color: #4ecdc4;
+            text-shadow: 0 0 20px rgba(78, 205, 196, 0.5);
+        }
+
+        .performance {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+
+            .quiz-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .question h2 {
+                font-size: 1.2rem;
+            }
+
+            .final-score {
+                font-size: 2rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="welcome-screen">
+            <div class="logo">🦸‍♂️</div>
+            <h1>Marvel Quiz Game</h1>
+            <p class="description">
+                Test your knowledge of the Marvel Universe! Answer 8 challenging questions about your favorite superheroes, villains, and epic storylines. You have 30 seconds per question. Are you ready to prove you're a true Marvel fan?
+            </p>
+            <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="quiz-screen">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            
+            <div class="quiz-header">
+                <div id="question-counter" class="question-counter">Question 1 of 8</div>
+                <div id="timer" class="timer">30</div>
+                <div id="score" class="score">Score: 0</div>
+            </div>
+
+            <div id="question-container" class="question">
+                <h2 id="question-text"></h2>
+                <div id="options" class="options"></div>
+            </div>
+
+            <button id="next-btn" class="btn" onclick="nextQuestion()" style="display: none; margin-top: 1rem;">Next Question</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="results-screen">
+            <div class="logo">🏆</div>
+            <h1>Quiz Complete!</h1>
+            <div id="final-score" class="final-score">0</div>
+            <div id="performance" class="performance"></div>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div id="correct-answers" class="stat-value">0</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="stat">
+                    <div id="total-time" class="stat-value">0s</div>
+                    <div class="stat-label">Total Time</div>
+                </div>
+                <div class="stat">
+                    <div id="accuracy" class="stat-value">0%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat">
+                    <div id="avg-time" class="stat-value">0s</div>
+                    <div class="stat-label">Avg Time/Question</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="restartQuiz()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the real name of the superhero known as Iron Man?",
+                options: ["Tony Stark", "Bruce Wayne", "Peter Parker", "Steve Rogers"],
+                correct: 0,
+                difficulty: "easy"
+            },
+            {
+                question: "Which Infinity Stone is hidden on Vormir?",
+                options: ["Power Stone", "Soul Stone", "Reality Stone", "Time Stone"],
+                correct: 1,
+                difficulty: "medium"
+            },
+            {
+                question: "What is the name of Thor's hammer?",
+                options: ["Stormbreaker", "Gungnir", "Mjolnir", "Hofund"],
+                correct: 2,
+                difficulty: "easy"
+            },
+            {
+                question: "Who is the leader of the Guardians of the Galaxy?",
+                options: ["Rocket Raccoon", "Star-Lord", "Gamora", "Drax"],
+                correct: 1,
+                difficulty: "easy"
+            },
+            {
+                question: "What is the name of the AI that helps Tony Stark?",
+                options: ["FRIDAY", "KAREN", "JARVIS", "EDITH"],
+                correct: 2,
+                difficulty: "medium"
+            },
+            {
+                question: "Which planet is Thanos from?",
+                options: ["Asgard", "Titan", "Xandar", "Sakaar"],
+                correct: 1,
+                difficulty: "medium"
+            },
+            {
+                question: "What is the real name of the Winter Soldier?",
+                options: ["Sam Wilson", "Bucky Barnes", "Clint Barton", "Scott Lang"],
+                correct: 1,
+                difficulty: "easy"
+            },
+            {
+                question: "In which movie did Spider-Man first appear in the MCU?",
+                options: ["Spider-Man: Homecoming", "Avengers: Infinity War", "Captain America: Civil War", "Spider-Man: Far From Home"],
+                correct: 2,
+                difficulty: "hard"
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+        let selectedAnswer = null;
+        let startTime;
+        let totalTime = 0;
+        let correctAnswers = 0;
+        let questionTimes = [];
+
+        function startQuiz() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            correctAnswers = 0;
+            totalTime = 0;
+            questionTimes = [];
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = questions[currentQuestion];
+            selectedAnswer = null;
+            timeLeft = 30;
+            startTime = Date.now();
+
+            document.getElementById('question-counter').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('score').textContent = `Score: ${score}`;
+            document.getElementById('next-btn').style.display = 'none';
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            updateProgress();
+            startTimer();
+        }
+
+        function selectAnswer(answerIndex) {
+            if (selectedAnswer !== null) return;
+
+            selectedAnswer = answerIndex;
+            const questionTime = (Date.now() - startTime) / 1000;
+            questionTimes.push(questionTime);
+            totalTime += questionTime;
+
+            clearInterval(timer);
+
+            const options = document.querySelectorAll('.option');
+            const question = questions[currentQuestion];
+
+            options.forEach((option, index) => {
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === answerIndex) {
+                    option.classList.add('incorrect');
+                }
+                option.style.pointerEvents = 'none';
+            });
+
+            if (answerIndex === question.correct) {
+                correctAnswers++;
+                const timeBonus = Math.max(0, timeLeft * 2);
+                const difficultyBonus = question.difficulty === 'hard' ? 50 : question.difficulty === 'medium' ? 30 : 20;
+                score += difficultyBonus + timeBonus;
+            }
+
+            document.getElementById('score').textContent = `Score: ${score}`;
+            document.getElementById('next-btn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            showQuestion();
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (selectedAnswer === null) {
+                        const questionTime = 30;
+                        questionTimes.push(questionTime);
+                        totalTime += questionTime;
+                        
+                        const options = document.querySelectorAll('.option');
+                        const question = questions[currentQuestion];
+                        options[question.correct].classList.add('correct');
+                        options.forEach(option => option.style.pointerEvents = 'none');
+                        
+                        document.getElementById('next-btn').style.display = 'block';
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+
+            const accuracy = Math.round((correctAnswers / questions.length) * 100);
+            const avgTime = Math.round(totalTime / questions.length);
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('correct-answers').textContent = correctAnswers;
+            document.getElementById('total-time').textContent = Math.round(totalTime) + 's';
+            document.getElementById('accuracy').textContent = accuracy + '%';
+            document.getElementById('avg-time').textContent = avgTime + 's';
+
+            let performance = '';
+            if (accuracy >= 90) {
+                performance = '🌟 Marvel Master! You know your stuff!';
+            } else if (accuracy >= 70) {
+                performance = '⚡ Great job! You\'re a true Marvel fan!';
+            } else if (accuracy >= 50) {
+                performance = '🎯 Not bad! Keep studying the Marvel universe!';
+            } else {
+                performance = '📚 Time to brush up on your Marvel knowledge!';
+            }
+
+            document.getElementById('performance').textContent = performance;
+        }
+
+        function restartQuiz() {
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'block';
+            currentQuestion = 0;
+            score = 0;
+            selectedAnswer = null;
+            clearInterval(timer);
+        }
+    </script>
+</body>
 </html>
