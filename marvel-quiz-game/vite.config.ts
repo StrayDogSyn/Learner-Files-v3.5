@@ -5,6 +5,7 @@ import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/Learner-Files-v3.5/marvel-quiz-game/',
   plugins: [
     react({
       babel: {

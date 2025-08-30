@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Star, Zap, Volume2, BarChart3, Target, Award, TrendingUp, Trophy, Crown, Play, Pause, RotateCcw } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Clock, Star, Zap, Volume2, BarChart3, Target, Trophy, Crown, Play, Pause, RotateCcw } from 'lucide-react';
 import { 
   QuizQuestion, 
   GameStats, 
   QuizConfig, 
-  DifficultyLevel, 
-  QuizCategory,
   PowerUp,
   Achievement,
   GameSession,
@@ -14,8 +12,7 @@ import {
 } from '../types/marvel';
 import { marvelApi } from '../services/marvelApi';
 import QuestionGenerator from './MarvelQuiz/QuestionGenerator';
-import GameStatsComponent from './MarvelQuiz/GameStats';
-import PowerUpSystem from './MarvelQuiz/PowerUpSystem';
+
 import SoundManager, { audioManager } from './MarvelQuiz/SoundManager';
 import AnimationSystem, { animationUtils } from './MarvelQuiz/AnimationSystem';
 import AchievementSystem from './MarvelQuiz/AchievementSystem';
@@ -39,17 +36,11 @@ const defaultConfig: QuizConfig = {
   animationsEnabled: true
 };
 
-const difficultySettings = {
-  easy: { timeBonus: 1.2, pointsMultiplier: 1.0, questionComplexity: 0.3 },
-  medium: { timeBonus: 1.0, pointsMultiplier: 1.5, questionComplexity: 0.6 },
-  hard: { timeBonus: 0.8, pointsMultiplier: 2.0, questionComplexity: 0.8 },
-  expert: { timeBonus: 0.6, pointsMultiplier: 3.0, questionComplexity: 1.0 }
-};
+
 
 const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   onGameComplete,
-  initialConfig = {},
-  className = ''
+  initialConfig = {}
 }) => {
   // Merge config with defaults
   const config = useMemo(() => ({ ...defaultConfig, ...initialConfig }), [initialConfig]);
@@ -64,12 +55,13 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   const [timeLeft, setTimeLeft] = useState(config.timePerQuestion);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+
   
   // Game data
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [characters, setCharacters] = useState<any[]>([]);
   const [gameSession, setGameSession] = useState<GameSession | null>(null);
+  const [characters, setCharacters] = useState<any[]>([]);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   
   // UI state
   const [uiState, setUIState] = useState<{
@@ -142,7 +134,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   });
   
   // Animation state
-  const [animationState, setAnimationState] = useState({
+  const [animationState] = useState({
     isActive: false,
     type: 'idle' as const,
     particles: [],
@@ -161,195 +153,14 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     animationUtils.showFloatingText(text, x, y, color);
   }, []);
   
-  const triggerParticles = useCallback((type: 'success' | 'error' | 'powerup' | 'achievement', x: number, y: number, count: number = 20) => {
+  const triggerParticles = useCallback((type: 'success' | 'error' | 'powerup' | 'achievement', x: number, y: number) => {
     animationUtils.triggerParticles(x, y, type);
   }, []);
   
   const triggerScreenShake = useCallback((intensity: number = 1) => {
     animationUtils.triggerScreenShake(intensity);
   }, []);
-  
-  // Timer effect
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    
-    if (gameState === 'playing' && timeLeft > 0 && !showResult) {
-      timer = setTimeout(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1) {
-            handleTimeUp();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    
-    return () => clearTimeout(timer);
-  }, [gameState, timeLeft, showResult]);
-  
-  // Initialize game session
-  const initializeGame = useCallback(async () => {
-    setUIState(prev => ({ ...prev, isLoading: true, error: null }));
-    
-    try {
-      // Test API connection
-      const isConnected = await marvelApi.testConnection();
-      
-      if (!isConnected && import.meta.env.VITE_MOCK_API !== 'true') {
-        throw new Error('Unable to connect to Marvel API. Please check your API keys.');
-      }
-      
-      // Fetch random characters for questions
-      const fetchedCharacters = await marvelApi.getRandomCharacters(20);
-      
-      if (fetchedCharacters.length < 10) {
-        throw new Error('Insufficient character data. Please try again.');
-      }
-      
-      setCharacters(fetchedCharacters);
-      
-      // Generate questions
-      const questionGenerator = new QuestionGenerator(marvelApi);
-      const generatedQuestions = await questionGenerator.generateQuestions(config.questionCount, {
-        difficulty: config.difficulty === 'mixed' ? 'medium' : config.difficulty,
-        categories: config.categories
-      });
-      setQuestions(generatedQuestions);
-      
-      // Initialize game session
-      const session: GameSession = {
-        id: `session_${Date.now()}`,
-        startTime: Date.now(),
-        endTime: 0,
-        score: 0,
-        questionsAnswered: 0,
-        correctAnswers: 0,
-        difficulty,
-        powerUpsUsed: [],
-        achievements: [],
-        timeSpent: 0
-      };
-      
-      setGameSession(session);
-      setGameStats(prev => ({ ...prev, totalTimeSpent: Date.now() }));
-      
-      // Start first question
-      setCurrentQuestion(generatedQuestions[0]);
-      setQuestionIndex(0);
-      setGameState('playing');
-      setTimeLeft(config.timePerQuestion);
-      
-    } catch (error) {
-      console.error('Failed to initialize game:', error);
-      setUIState(prev => ({ 
-        ...prev, 
-        error: error instanceof Error ? error.message : 'Failed to start game'
-      }));
-    } finally {
-      setUIState(prev => ({ ...prev, isLoading: false }));
-    }
-  }, [difficulty]);
-  
 
-  
-  // Handle answer selection
-  const handleAnswerSelect = useCallback((answer: string) => {
-    if (showResult || !currentQuestion) return;
-    
-    setSelectedAnswer(answer);
-    const correct = answer === currentQuestion.correctAnswer;
-    setIsCorrect(correct);
-    setShowResult(true);
-    
-    // Play sound effects
-    playSound(correct ? 'correct' : 'incorrect');
-    
-    // Trigger particles and animations
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    
-    if (correct) {
-      triggerParticles('success', centerX, centerY);
-      showFloatingText(`+${currentQuestion.points || 100}`, centerX, centerY - 50, '#10b981');
-    } else {
-      triggerParticles('error', centerX, centerY);
-      showFloatingText('Wrong!', centerX, centerY - 50, '#ef4444');
-      triggerScreenShake(0.5);
-    }
-    
-    // Update game stats
-    const responseTime = config.timePerQuestion - timeLeft;
-    setGameStats(prev => ({
-      ...prev,
-      totalQuestions: prev.totalQuestions + 1,
-      correctAnswers: correct ? prev.correctAnswers + 1 : prev.correctAnswers,
-      wrongAnswers: correct ? prev.wrongAnswers : prev.wrongAnswers + 1,
-      averageResponseTime: prev.averageResponseTime ? (prev.averageResponseTime + responseTime) / 2 : responseTime
-    }));
-    
-    // Update score and streak
-    if (correct) {
-      const basePoints = currentQuestion.points || 100;
-      const timeBonus = Math.floor((timeLeft / config.timePerQuestion) * 50);
-      const streakBonus = streak >= 3 ? 50 : 0;
-      const totalPoints = basePoints + timeBonus + streakBonus;
-      
-      setScore(prev => prev + totalPoints);
-      setStreak(prev => prev + 1);
-      
-      // Show streak effects
-      if (streak + 1 >= 3) {
-        triggerScreenShake(0.3);
-        showFloatingText(`${streak + 1}x Streak!`, centerX, centerY - 100, '#f59e0b');
-      }
-      
-      // Check for achievements
-      checkAchievements(streak + 1, score + totalPoints);
-    } else {
-      setStreak(0);
-    }
-    
-    // Auto-advance after 2 seconds
-    setTimeout(() => {
-      nextQuestion();
-    }, 2000);
-  }, [currentQuestion, showResult, timeLeft, streak, score, playSound, triggerParticles, showFloatingText, triggerScreenShake]);
-  
-  // Handle time up
-  const handleTimeUp = useCallback(() => {
-    if (showResult) return;
-    
-    setIsCorrect(false);
-    setShowResult(true);
-    setStreak(0);
-    
-    setGameStats(prev => ({
-      ...prev,
-      totalQuestions: prev.totalQuestions + 1,
-      wrongAnswers: prev.wrongAnswers + 1
-    }));
-    
-    setTimeout(() => {
-      nextQuestion();
-    }, 2000);
-  }, [showResult]);
-  
-  // Move to next question
-  const nextQuestion = useCallback(() => {
-    if (questionIndex + 1 >= questions.length) {
-      endGame();
-      return;
-    }
-    
-    setQuestionIndex(prev => prev + 1);
-    setCurrentQuestion(questions[questionIndex + 1]);
-    setSelectedAnswer(null);
-    setShowResult(false);
-    setIsCorrect(null);
-    setTimeLeft(config.timePerQuestion);
-  }, [questionIndex, questions]);
-  
   // End game
   const endGame = useCallback(() => {
     setGameState('finished');
@@ -368,40 +179,11 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       
       setGameSession(finalSession);
       
-      const finalStats: GameStats = {
-          ...gameStats,
-          score,
-          questionsAnswered: gameStats.questionsAnswered,
-          correctAnswers: gameStats.correctAnswers,
-          incorrectAnswers: gameStats.incorrectAnswers,
-          accuracy: gameStats.questionsAnswered > 0 ? (gameStats.correctAnswers / gameStats.questionsAnswered) * 100 : 0,
-          averageResponseTime: gameStats.averageResponseTime,
-          powerUpsUsed: gameStats.powerUpsUsed,
-          hintsUsed: gameStats.hintsUsed,
-          totalTimeSpent: Date.now() - (gameStats.totalTime || Date.now()),
-          difficulty,
-          achievements: achievements.map(a => a.id)
-        };
-      
       onGameComplete?.(finalSession);
     }
-  }, [gameSession, score, gameStats, streak, achievements, difficulty, onGameComplete]);
-  
-  // Handle achievement unlocked
-  const handleAchievementUnlocked = useCallback((achievement: Achievement) => {
-    setAchievements(prev => [...prev, achievement]);
-    
-    // Show achievement notification
-    const centerX = window.innerWidth / 2;
-     const centerY = window.innerHeight / 2;
-     animationUtils.showFloatingText(`Achievement: ${achievement.name}`, centerX, centerY - 100, '#ffd700');
-     audioManager.playSound('achievement');
-     
-     // Trigger celebration animation
-     animationUtils.triggerParticles(centerX, centerY, 'achievement');
-  }, []);
-  
-  // Check for achievements
+  }, [gameSession, score, gameStats, achievements, onGameComplete]);
+
+  // Check achievements
   const checkAchievements = useCallback((currentStreak: number, currentScore: number) => {
     const newAchievements: Achievement[] = [];
     
@@ -473,7 +255,202 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     if (newAchievements.length > 0) {
       setAchievements(prev => [...prev, ...newAchievements]);
     }
-  }, [achievements]);
+  }, [achievements, playSound, triggerParticles, triggerScreenShake, showFloatingText, setAchievements]);
+
+  // Move to next question
+  const nextQuestion = useCallback(() => {
+    if (questionIndex + 1 >= questions.length) {
+      endGame();
+      return;
+    }
+    
+    setQuestionIndex(prev => prev + 1);
+    setCurrentQuestion(questions[questionIndex + 1]);
+    setSelectedAnswer(null);
+    setShowResult(false);
+    setIsCorrect(null);
+    setTimeLeft(config.timePerQuestion);
+  }, [questionIndex, questions, config.timePerQuestion, endGame]);
+
+  // Handle time up
+  const handleTimeUp = useCallback(() => {
+    if (showResult) return;
+    
+    setIsCorrect(false);
+    setShowResult(true);
+    setStreak(0);
+    
+    setGameStats(prev => ({
+      ...prev,
+      totalQuestions: prev.totalQuestions + 1,
+      wrongAnswers: prev.wrongAnswers + 1
+    }));
+    
+    setTimeout(() => {
+      nextQuestion();
+    }, 2000);
+  }, [showResult, nextQuestion]);
+  
+  // Timer effect
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (gameState === 'playing' && timeLeft > 0 && !showResult) {
+      timer = setTimeout(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            handleTimeUp();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    
+    return () => clearTimeout(timer);
+  }, [gameState, timeLeft, showResult, handleTimeUp]);
+  
+  // Initialize game session
+  const initializeGame = useCallback(async () => {
+    setUIState(prev => ({ ...prev, isLoading: true, error: null }));
+    
+    try {
+      // Test API connection
+      const isConnected = await marvelApi.testConnection();
+      
+      if (!isConnected && import.meta.env.VITE_MOCK_API !== 'true') {
+        throw new Error('Unable to connect to Marvel API. Please check your API keys.');
+      }
+      
+      // Fetch random characters for questions
+      const fetchedCharacters = await marvelApi.getRandomCharacters(20);
+      
+      if (fetchedCharacters.length < 10) {
+        throw new Error('Insufficient character data. Please try again.');
+      }
+      
+      setCharacters(fetchedCharacters);
+      
+      // Generate questions
+      const questionGenerator = new QuestionGenerator(marvelApi);
+      const generatedQuestions = await questionGenerator.generateQuestions(config.questionCount, {
+        difficulty: config.difficulty === 'mixed' ? 'medium' : config.difficulty,
+        categories: config.categories
+      });
+      setQuestions(generatedQuestions);
+      
+      // Initialize game session
+      const session: GameSession = {
+        id: `session_${Date.now()}`,
+        startTime: Date.now(),
+        endTime: 0,
+        score: 0,
+        questionsAnswered: 0,
+        correctAnswers: 0,
+        difficulty,
+        powerUpsUsed: [],
+        achievements: [],
+        timeSpent: 0
+      };
+      
+      setGameSession(session);
+      setGameStats(prev => ({ ...prev, totalTimeSpent: Date.now() }));
+      
+      // Start first question
+      setCurrentQuestion(generatedQuestions[0]);
+      setQuestionIndex(0);
+      setGameState('playing');
+      setTimeLeft(config.timePerQuestion);
+      
+    } catch (error) {
+      console.error('Failed to initialize game:', error);
+      setUIState(prev => ({ 
+        ...prev, 
+        error: error instanceof Error ? error.message : 'Failed to start game'
+      }));
+    } finally {
+      setUIState(prev => ({ ...prev, isLoading: false }));
+    }
+  }, [difficulty, config.categories, config.difficulty, config.questionCount, config.timePerQuestion]);
+  
+
+  
+  // Handle answer selection
+  const handleAnswerSelect = useCallback((answer: string) => {
+    if (showResult || !currentQuestion) return;
+    
+    setSelectedAnswer(answer);
+    const correct = answer === currentQuestion.correctAnswer;
+    setIsCorrect(correct);
+    setShowResult(true);
+    
+    // Play sound effects
+    playSound(correct ? 'correct' : 'incorrect');
+    
+    // Trigger particles and animations
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    
+    if (correct) {
+      triggerParticles('success', centerX, centerY);
+      showFloatingText(`+${currentQuestion.points || 100}`, centerX, centerY - 50, '#10b981');
+    } else {
+      triggerParticles('error', centerX, centerY);
+      showFloatingText('Wrong!', centerX, centerY - 50, '#ef4444');
+      triggerScreenShake(0.5);
+    }
+    
+    // Update game stats
+    const responseTime = config.timePerQuestion - timeLeft;
+    setGameStats(prev => ({
+      ...prev,
+      totalQuestions: prev.totalQuestions + 1,
+      correctAnswers: correct ? prev.correctAnswers + 1 : prev.correctAnswers,
+      wrongAnswers: correct ? prev.wrongAnswers : prev.wrongAnswers + 1,
+      averageResponseTime: prev.averageResponseTime ? (prev.averageResponseTime + responseTime) / 2 : responseTime
+    }));
+    
+    // Update score and streak
+    if (correct) {
+      const basePoints = currentQuestion.points || 100;
+      const timeBonus = Math.floor((timeLeft / config.timePerQuestion) * 50);
+      const streakBonus = streak >= 3 ? 50 : 0;
+      const totalPoints = basePoints + timeBonus + streakBonus;
+      
+      setScore(prev => prev + totalPoints);
+      setStreak(prev => prev + 1);
+      
+      // Show streak effects
+      if (streak + 1 >= 3) {
+        triggerScreenShake(0.3);
+        showFloatingText(`${streak + 1}x Streak!`, centerX, centerY - 100, '#f59e0b');
+      }
+      
+      // Check for achievements
+      checkAchievements(streak + 1, score + totalPoints);
+    } else {
+      setStreak(0);
+    }
+    
+    // Auto-advance after 2 seconds
+    setTimeout(() => {
+      nextQuestion();
+    }, 2000);
+  }, [currentQuestion, showResult, timeLeft, streak, score, playSound, triggerParticles, showFloatingText, triggerScreenShake, checkAchievements, config.timePerQuestion, nextQuestion]);
+  
+  // Handle achievement unlocked
+  const handleAchievementUnlocked = useCallback((achievement: Achievement) => {
+    setAchievements(prev => [...prev, achievement]);
+    
+    // Show achievement notification
+    const centerX = window.innerWidth / 2;
+     const centerY = window.innerHeight / 2;
+     animationUtils.showFloatingText(`Achievement: ${achievement.name}`, centerX, centerY - 100, '#ffd700');
+     audioManager.playSound('achievement');
+     
+     // Trigger celebration animation
+     animationUtils.triggerParticles(centerX, centerY, 'achievement');
+  }, []);
   
   // Use power-up
   const usePowerUp = useCallback((powerUpId: string) => {
@@ -645,6 +622,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               <button
                 onClick={() => setGameState('paused')}
                 className="bg-gray-700 hover:bg-gray-600 p-2 rounded-lg transition-colors"
+                aria-label="Pause game"
+                title="Pause game"
               >
                 <Pause className="w-5 h-5" />
               </button>
@@ -676,8 +655,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
           {/* Progress bar */}
           <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
             <div 
-              className="bg-gradient-to-r from-red-500 to-blue-500 h-2 rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
+              className="bg-gradient-to-r from-red-500 to-blue-500 h-2 rounded-full progress-bar"
+              style={{"--progress-width": `${progress}%`} as React.CSSProperties & {"--progress-width": string}}
             ></div>
           </div>
         </div>
@@ -831,7 +810,11 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
             {powerUps.map((powerUp) => (
               <button
                 key={powerUp.id}
-                onClick={() => usePowerUp(powerUp.id)}
+                onClick={() => {
+                  if (score >= powerUp.cost && powerUp.available && !showResult) {
+                    usePowerUp(powerUp.id);
+                  }
+                }}
                 disabled={score < powerUp.cost || !powerUp.available || showResult}
                 className="bg-purple-700 hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2"
                 title={`${powerUp.description} (${powerUp.cost} points)`}

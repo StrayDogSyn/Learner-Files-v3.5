@@ -50,7 +50,7 @@ class MarvelApiClient {
       const hashBuffer = await crypto.subtle.digest('SHA-256', data);
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
-    } catch (error) {
+    } catch {
       // Fallback hash for demo purposes
       return this.simpleHash(message).substring(0, 32);
     }
@@ -118,7 +118,7 @@ class MarvelApiClient {
     // Use mock data if API keys are not properly configured
     if (!this.publicKey || !this.privateKey) {
       console.warn('Marvel API keys not configured. Using mock data.');
-      return this.getMockData<T>(endpoint);
+      return this.getMockData<T>();
     }
 
     try {
@@ -143,12 +143,12 @@ class MarvelApiClient {
       
       // Return mock data for development if API fails
       console.warn('Falling back to mock data due to API error.');
-      return this.getMockData<T>(endpoint);
+      return this.getMockData<T>();
     }
   }
 
   // Mock data for development
-  private getMockData<T>(endpoint: string): MarvelApiResponse<T> {
+  private getMockData<T>(): MarvelApiResponse<T> {
     const mockCharacters = [
       {
         id: 1009610,
