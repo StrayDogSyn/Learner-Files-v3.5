@@ -1,0 +1,260 @@
+# claude-solo-performance-ai.yml
+name: "Autonomous Performance Intelligence System"
+trigger: "CONTINUOUS_MONITORING"
+priority: "HIGH_IMPACT"
+agents:
+  - performance_optimizer
+  - user_behavior_analyst
+  - conversion_optimizer
+  - technical_debt_hunter
+
+performance_optimizer:
+  prompt: |
+    AUTONOMOUS PERFORMANCE OPTIMIZATION ENGINE:
+    
+    With the sophisticated navigation and project showcase now live, implement 
+    intelligent performance monitoring and optimization:
+    
+    1. REAL-TIME PERFORMANCE INTELLIGENCE:
+       - Monitor Core Web Vitals continuously across all devices
+       - Detect performance regressions automatically
+       - Analyze bundle size growth and suggest optimizations
+       - Track API response times and database query performance
+       - Monitor memory usage and detect potential leaks
+    
+    2. AUTOMATED OPTIMIZATION DEPLOYMENT:
+       - Implement automatic image compression for new assets
+       - Deploy lazy loading optimizations dynamically
+       - Optimize CSS delivery based on user behavior patterns
+       - Implement intelligent preloading for predicted user journeys
+       - Auto-generate WebP/AVIF versions of uploaded images
+    
+    3. LIGHTHOUSE CI AUTOMATION:
+       - Run Lighthouse audits on every deployment
+       - Generate performance reports with trend analysis
+       - Automatically create GitHub issues for performance regressions
+       - Track performance budget violations and auto-alert
+       - Generate weekly performance summary reports
+    
+    4. MOBILE PERFORMANCE SPECIALIZATION:
+       - Monitor 3G/4G performance specifically
+       - Optimize touch interactions and gesture responsiveness
+       - Implement progressive enhancement for slower connections
+       - Auto-detect and optimize for common mobile devices
+       - Track and optimize battery usage impact
+    
+    Success Metrics:
+    - Lighthouse Performance Score: >95 (currently tracking)
+    - First Contentful Paint: <1.2s (mobile 3G)
+    - Time to Interactive: <2.5s (mobile 3G)
+    - Cumulative Layout Shift: <0.1
+    - Bundle size optimization: 15% reduction monthly
+  
+  automation_triggers:
+    performance_regression:
+      threshold: "lighthouse_score < 90"
+      action: "auto_optimize_critical_path"
+    
+    bundle_size_alert:
+      threshold: "bundle_size > 500kb"
+      action: "analyze_and_tree_shake"
+    
+    mobile_performance:
+      threshold: "mobile_score < desktop_score - 10"
+      action: "mobile_specific_optimization"
+
+user_behavior_analyst:
+  prompt: |
+    ADVANCED USER BEHAVIOR INTELLIGENCE:
+    
+    Analyze visitor interactions with the new navigation and project showcase
+    to continuously improve user experience:
+    
+    1. NAVIGATION PATTERN ANALYSIS:
+       - Track search query patterns and optimize suggestions
+       - Analyze breadcrumb usage and navigation flows
+       - Monitor keyboard shortcut adoption and usage patterns
+       - Detect common user journey pain points
+       - Identify most popular projects and optimize their presentation
+    
+    2. SEARCH INTELLIGENCE OPTIMIZATION:
+       - Analyze search queries that return no results
+       - Optimize search algorithm based on user behavior
+       - Implement auto-complete improvements
+       - Track search-to-action conversion rates
+       - Generate content suggestions based on failed searches
+    
+    3. PROJECT ENGAGEMENT METRICS:
+       - Monitor time spent on each project showcase
+       - Track which technical details users engage with most
+       - Analyze GitHub link click-through rates
+       - Monitor demo interaction patterns
+       - Identify which projects drive the most inquiries
+    
+    4. CONVERSION OPTIMIZATION:
+       - Track visitor-to-contact conversion rates
+       - Analyze which pages drive the most business inquiries
+       - Monitor social proof effectiveness (GitHub stars, etc.)
+       - Optimize call-to-action placement and messaging
+       - A/B test project presentation formats
+    
+    AI-Powered Insights:
+    - Generate weekly user behavior reports
+    - Suggest content improvements based on engagement
+    - Recommend navigation optimizations
+    - Predict successful project presentations
+    - Auto-generate user persona insights
+  
+  actions:
+    - track_navigation_patterns
+    - analyze_search_effectiveness
+    - monitor_project_engagement
+    - optimize_conversion_funnels
+    - generate_ux_improvement_suggestions
+
+conversion_optimizer:
+  prompt: |
+    BUSINESS CONVERSION INTELLIGENCE:
+    
+    Transform portfolio traffic into business opportunities through
+    intelligent conversion optimization:
+    
+    1. LEAD GENERATION AUTOMATION:
+       - Track visitor engagement levels and score lead quality
+       - Implement intelligent contact form optimization
+       - Auto-generate personalized follow-up email sequences
+       - Monitor inquiry types and optimize service positioning
+       - Track conversion paths from project showcase to contact
+    
+    2. DOMAIN-SPECIFIC CONVERSION STRATEGIES:
+       - PRIMARY DOMAIN: Optimize for executive-level inquiries
+       - BUSINESS DOMAIN: Focus on service package conversions
+       - NONPROFIT DOMAIN: Optimize for partnership opportunities
+       - GITHUB DOMAIN: Convert developers to collaboration inquiries
+    
+    3. SOCIAL PROOF AUTOMATION:
+       - Auto-update GitHub statistics across all domains
+       - Generate and display testimonial carousels
+       - Implement dynamic project metrics (uptime, performance)
+       - Auto-post project updates to social media
+       - Track and display portfolio visitor statistics
+    
+    4. CONTENT MARKETING INTELLIGENCE:
+       - Generate blog post ideas based on visitor interests
+       - Auto-create case studies from successful projects
+       - Optimize content for SEO based on search patterns
+       - Track content performance and engagement metrics
+       - Generate personalized content recommendations
+    
+    5. MULTI-DOMAIN ORCHESTRATION:
+       - Synchronize conversion strategies across all domains
+       - Cross-promote services between domain audiences
+       - Track cross-domain visitor journeys
+       - Optimize domain-specific messaging and positioning
+       - Implement unified analytics and reporting
+  
+  automation_triggers:
+    low_conversion_rate:
+      threshold: "conversion_rate < 2%"
+      action: "optimize_cta_placement"
+    
+    high_bounce_rate:
+      threshold: "bounce_rate > 70%"
+      action: "improve_landing_page_relevance"
+    
+    engagement_drop:
+      threshold: "avg_session_duration < 2min"
+      action: "enhance_content_engagement"
+
+technical_debt_hunter:
+  prompt: |
+    AUTONOMOUS TECHNICAL DEBT DETECTION AND RESOLUTION:
+    
+    Continuously monitor and resolve technical debt to maintain
+    optimal portfolio performance and maintainability:
+    
+    1. CODE QUALITY MONITORING:
+       - Analyze code complexity and suggest refactoring opportunities
+       - Detect unused dependencies and suggest removal
+       - Monitor TypeScript/ESLint violations and auto-fix when possible
+       - Track test coverage and suggest areas for improvement
+       - Identify performance bottlenecks in React components
+    
+    2. DEPENDENCY MANAGEMENT:
+       - Monitor for security vulnerabilities in dependencies
+       - Suggest dependency updates and compatibility checks
+       - Detect duplicate dependencies and suggest consolidation
+       - Track bundle size impact of new dependencies
+       - Auto-generate dependency update PRs with impact analysis
+    
+    3. ARCHITECTURE OPTIMIZATION:
+       - Analyze component coupling and suggest decoupling strategies
+       - Identify opportunities for code splitting and lazy loading
+       - Monitor API usage patterns and suggest optimizations
+       - Detect anti-patterns and suggest modern alternatives
+       - Track technical debt accumulation over time
+    
+    4. AUTOMATED MAINTENANCE:
+       - Schedule regular dependency audits and updates
+       - Auto-format code according to project standards
+       - Generate technical debt reports with prioritized action items
+       - Implement automated testing for critical user journeys
+       - Monitor and alert on build performance degradation
+  
+  automation_triggers:
+    security_vulnerability:
+      threshold: "vulnerability_severity >= medium"
+      action: "create_security_update_pr"
+    
+    outdated_dependencies:
+      threshold: "dependencies_behind > 30_days"
+      action: "generate_update_recommendations"
+    
+    code_complexity:
+      threshold: "cyclomatic_complexity > 10"
+      action: "suggest_refactoring_opportunities"
+
+# Integration with existing TRAE systems
+integrations:
+  emergency_system:
+    - performance_monitoring
+    - automated_rollback_triggers
+    - health_check_automation
+  
+  multi_domain:
+    - cross_domain_analytics
+    - unified_performance_tracking
+    - coordinated_optimization_strategies
+  
+  monitoring:
+    - real_time_alerts
+    - performance_dashboards
+    - automated_reporting
+
+# Execution Schedule
+schedule:
+  continuous_monitoring: "every_5_minutes"
+  performance_audits: "daily_at_2am"
+  behavior_analysis: "weekly_sunday_midnight"
+  technical_debt_scan: "monthly_first_sunday"
+  conversion_optimization: "bi_weekly_wednesday"
+
+# Success Metrics and KPIs
+kpis:
+  performance:
+    lighthouse_score: ">95"
+    core_web_vitals: "all_green"
+    bundle_size: "<500kb"
+    load_time_mobile: "<2.5s"
+  
+  business:
+    conversion_rate: ">3%"
+    bounce_rate: "<60%"
+    session_duration: ">3min"
+    lead_quality_score: ">7/10"
+  
+  technical:
+    test_coverage: ">90%"
+    security_vulnerabilities: "0_high_severity"
+    code_quality_score: ">8/10"
+    dependency_freshness: "<30_days_behind"

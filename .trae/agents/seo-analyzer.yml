@@ -1,0 +1,459 @@
+# SEO Analysis SOLO Agent
+name: SEO Analyzer
+version: "1.0"
+description: "Autonomous agent for comprehensive SEO analysis and optimization"
+
+# Agent Configuration
+agent_type: "solo"
+runtime: "node"
+autonomous: true
+learning_enabled: true
+
+# Triggers
+triggers:
+  file_patterns:
+    - "**/*.html"
+    - "**/*.tsx"
+    - "**/*.jsx"
+    - "**/index.html"
+    - "**/sitemap.xml"
+    - "**/robots.txt"
+  events:
+    - "content_update"
+    - "page_creation"
+    - "build_complete"
+    - "deployment_success"
+  schedule:
+    daily_audit: "0 2 * * *"  # 2 AM daily
+    weekly_comprehensive: "0 1 * * 0"  # 1 AM Sunday
+
+# SEO Analysis Rules
+seo_rules:
+  meta_tags:
+    title_tag:
+      required: true
+      min_length: 30
+      max_length: 60
+      unique: true
+      pattern: "^[A-Za-z0-9\s\-|:()]+$"
+      keywords_included: true
+    
+    meta_description:
+      required: true
+      min_length: 120
+      max_length: 160
+      unique: true
+      call_to_action: true
+      keywords_included: true
+    
+    meta_keywords:
+      deprecated: true
+      warn_if_present: true
+    
+    viewport:
+      required: true
+      content: "width=device-width, initial-scale=1"
+    
+    charset:
+      required: true
+      value: "UTF-8"
+    
+    robots:
+      required: false
+      default: "index, follow"
+      validate_directives: true
+
+  open_graph:
+    og_title:
+      required: true
+      max_length: 60
+      fallback_to_title: true
+    
+    og_description:
+      required: true
+      max_length: 160
+      fallback_to_meta_description: true
+    
+    og_image:
+      required: true
+      min_width: 1200
+      min_height: 630
+      aspect_ratio: "1.91:1"
+      format: ["jpg", "png", "webp"]
+    
+    og_url:
+      required: true
+      canonical_match: true
+    
+    og_type:
+      required: true
+      default: "website"
+      valid_types: ["website", "article", "profile"]
+
+  twitter_cards:
+    twitter_card:
+      required: true
+      type: "summary_large_image"
+    
+    twitter_title:
+      required: true
+      max_length: 70
+    
+    twitter_description:
+      required: true
+      max_length: 200
+    
+    twitter_image:
+      required: true
+      min_width: 1200
+      min_height: 600
+
+  structured_data:
+    json_ld:
+      required: true
+      schemas: ["Organization", "Person", "WebSite", "BreadcrumbList"]
+      validate_syntax: true
+    
+    microdata:
+      optional: true
+      validate_vocabulary: true
+    
+    rdfa:
+      optional: true
+      validate_properties: true
+
+# Content Analysis
+content_analysis:
+  heading_structure:
+    h1_count:
+      min: 1
+      max: 1
+      required: true
+    
+    heading_hierarchy:
+      validate_order: true
+      no_skipping: true
+      descriptive: true
+    
+    keyword_optimization:
+      h1_keywords: true
+      h2_keywords: true
+      natural_distribution: true
+
+  content_quality:
+    word_count:
+      min: 300
+      recommended: 1000
+      max: 5000
+    
+    readability:
+      flesch_reading_ease: ">= 60"
+      avg_sentence_length: "<= 20"
+      complex_words_ratio: "<= 15%"
+    
+    keyword_density:
+      primary_keyword: "1-3%"
+      secondary_keywords: "0.5-1%"
+      keyword_stuffing_threshold: "5%"
+    
+    content_freshness:
+      last_modified: true
+      update_frequency: "monthly"
+      evergreen_content: true
+
+  internal_linking:
+    anchor_text:
+      descriptive: true
+      keyword_rich: true
+      avoid_generic: ["click here", "read more", "learn more"]
+    
+    link_distribution:
+      deep_linking: true
+      orphan_pages: false
+      link_equity_flow: true
+    
+    navigation:
+      breadcrumbs: true
+      sitemap_linked: true
+      footer_links: true
+
+# Technical SEO
+technical_seo:
+  url_structure:
+    clean_urls: true
+    descriptive: true
+    lowercase: true
+    hyphens_over_underscores: true
+    max_length: 100
+    no_dynamic_parameters: true
+  
+  canonicalization:
+    canonical_tags: true
+    self_referencing: true
+    cross_domain_canonical: false
+    canonical_chain_length: 1
+  
+  redirects:
+    301_redirects: true
+    redirect_chains: false
+    max_redirect_hops: 3
+    redirect_loops: false
+  
+  sitemap:
+    xml_sitemap: true
+    html_sitemap: true
+    sitemap_index: true
+    lastmod_dates: true
+    priority_values: true
+    changefreq_values: true
+  
+  robots_txt:
+    exists: true
+    sitemap_reference: true
+    crawl_directives: true
+    user_agent_specific: true
+
+# Performance SEO
+performance_seo:
+  page_speed:
+    core_web_vitals: true
+    lighthouse_score: ">= 90"
+    mobile_speed: ">= 85"
+    desktop_speed: ">= 90"
+  
+  mobile_optimization:
+    mobile_friendly: true
+    responsive_design: true
+    touch_elements: true
+    viewport_configuration: true
+  
+  https:
+    ssl_certificate: true
+    mixed_content: false
+    hsts_header: true
+    secure_cookies: true
+
+# Accessibility SEO
+accessibility:
+  images:
+    alt_text:
+      required: true
+      descriptive: true
+      keyword_optimization: true
+      max_length: 125
+    
+    title_attributes:
+      optional: true
+      additional_context: true
+  
+  links:
+    descriptive_text: true
+    skip_links: true
+    focus_indicators: true
+  
+  forms:
+    label_association: true
+    error_messages: true
+    fieldset_legends: true
+  
+  multimedia:
+    video_captions: true
+    audio_transcripts: true
+    autoplay_restrictions: true
+
+# Local SEO (if applicable)
+local_seo:
+  business_info:
+    name_consistency: true
+    address_format: true
+    phone_number_format: true
+    business_hours: true
+  
+  schema_markup:
+    local_business: true
+    address_schema: true
+    contact_schema: true
+  
+  google_my_business:
+    profile_optimization: true
+    review_management: true
+    post_frequency: true
+
+# Competitive Analysis
+competitive_analysis:
+  enabled: true
+  competitors:
+    - "competitor1.com"
+    - "competitor2.com"
+    - "competitor3.com"
+  
+  analysis_areas:
+    - "keyword_rankings"
+    - "content_gaps"
+    - "backlink_opportunities"
+    - "technical_advantages"
+  
+  reporting:
+    monthly_comparison: true
+    ranking_changes: true
+    opportunity_identification: true
+
+# Keyword Analysis
+keyword_analysis:
+  primary_keywords:
+    - "portfolio developer"
+    - "full stack developer"
+    - "web development"
+    - "react developer"
+  
+  secondary_keywords:
+    - "javascript developer"
+    - "typescript developer"
+    - "frontend developer"
+    - "backend developer"
+  
+  long_tail_keywords:
+    - "experienced full stack developer portfolio"
+    - "react typescript developer projects"
+    - "web development portfolio showcase"
+  
+  keyword_tracking:
+    search_volume: true
+    ranking_position: true
+    click_through_rate: true
+    conversion_rate: true
+
+# Auto-Optimization
+auto_optimization:
+  enabled: true
+  confidence_threshold: 0.85
+  
+  fixes:
+    missing_meta_tags:
+      auto_generate: true
+      template_based: true
+      keyword_integration: true
+    
+    image_alt_text:
+      ai_generated: true
+      context_aware: true
+      seo_optimized: true
+    
+    heading_structure:
+      auto_fix_hierarchy: true
+      keyword_optimization: true
+      readability_improvement: true
+    
+    internal_linking:
+      suggest_opportunities: true
+      anchor_text_optimization: true
+      link_placement: true
+
+# Monitoring and Alerts
+monitoring:
+  ranking_tracking:
+    frequency: "daily"
+    search_engines: ["google", "bing"]
+    locations: ["global", "us", "uk"]
+    devices: ["desktop", "mobile"]
+  
+  technical_monitoring:
+    crawl_errors: true
+    indexation_status: true
+    site_speed: true
+    mobile_usability: true
+  
+  content_monitoring:
+    duplicate_content: true
+    thin_content: true
+    content_freshness: true
+
+# Reporting
+reporting:
+  seo_audit:
+    frequency: "weekly"
+    format: ["html", "pdf", "json"]
+    sections:
+      - "executive_summary"
+      - "technical_issues"
+      - "content_analysis"
+      - "keyword_performance"
+      - "recommendations"
+  
+  ranking_reports:
+    frequency: "daily"
+    format: ["csv", "json"]
+    metrics:
+      - "position_changes"
+      - "visibility_score"
+      - "traffic_impact"
+  
+  competitive_reports:
+    frequency: "monthly"
+    format: ["html", "pdf"]
+    analysis:
+      - "market_share"
+      - "content_gaps"
+      - "opportunity_matrix"
+
+# Integration
+integration:
+  search_console:
+    enabled: true
+    auto_submit_sitemaps: true
+    performance_tracking: true
+  
+  analytics:
+    google_analytics: true
+    organic_traffic_tracking: true
+    conversion_tracking: true
+  
+  third_party_tools:
+    semrush: false
+    ahrefs: false
+    moz: false
+    screaming_frog: true
+
+# Custom Rules for Portfolio
+custom_rules:
+  portfolio_specific:
+    developer_portfolio:
+      title_templates:
+        homepage: "{name} - Full Stack Developer Portfolio"
+        about: "About {name} - Experienced Developer"
+        projects: "Projects by {name} - Web Development Portfolio"
+        contact: "Contact {name} - Hire Full Stack Developer"
+      
+      schema_markup:
+        person_schema: true
+        portfolio_schema: true
+        skill_schema: true
+      
+      content_optimization:
+        technical_keywords: true
+        experience_highlights: true
+        project_descriptions: true
+    
+    project_pages:
+      meta_optimization:
+        project_specific_titles: true
+        technology_keywords: true
+        demo_links: true
+      
+      structured_data:
+        creative_work_schema: true
+        software_application_schema: true
+    
+    blog_content:
+      technical_articles: true
+      tutorial_optimization: true
+      code_snippet_markup: true
+
+# Success Criteria
+success_criteria:
+  seo_score: ">= 95"
+  organic_traffic_growth: ">= 25%"
+  keyword_rankings_top_10: ">= 70%"
+  technical_issues: "0"
+  content_quality_score: ">= 90"
+  mobile_seo_score: ">= 95%"

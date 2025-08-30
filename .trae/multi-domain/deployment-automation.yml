@@ -1,0 +1,660 @@
+# Multi-Domain Deployment Automation
+name: Multi-Domain Deployment System
+version: "2.0"
+description: "Automated deployment pipeline for multiple portfolio domains"
+
+# Deployment Orchestration
+deployment_orchestration:
+  enabled: true
+  
+  execution_strategy:
+    type: "sequential_with_validation"
+    parallel_limit: 2
+    failure_handling: "stop_on_critical"
+    rollback_strategy: "cascade"
+  
+  deployment_order:
+    - domain: "straydog-syndications-llc.com"
+      priority: "critical"
+      validation_required: true
+      rollback_dependent: ["straydogsyndicationsllc.biz", "straydog-secondstory.org"]
+    
+    - domain: "straydogsyndicationsllc.biz"
+      priority: "high"
+      validation_required: true
+      depends_on: "straydog-syndications-llc.com"
+    
+    - domain: "straydog-secondstory.org"
+      priority: "high"
+      validation_required: true
+      depends_on: "straydog-syndications-llc.com"
+    
+    - domain: "straydogsyndications.github.io"
+      priority: "medium"
+      validation_required: false
+      depends_on: "straydog-syndications-llc.com"
+
+# Build Configuration
+build_configuration:
+  base_build:
+    command: "npm run build:base"
+    output: "dist/base"
+    timeout: "10m"
+    
+    environment:
+      NODE_ENV: "production"
+      BUILD_TARGET: "multi-domain"
+      OPTIMIZATION_LEVEL: "aggressive"
+  
+  domain_specific_builds:
+    primary:
+      command: "npm run build:primary"
+      output: "dist/primary"
+      environment:
+        DOMAIN_TYPE: "primary"
+        CANONICAL_DOMAIN: "true"
+        SEO_PRIORITY: "high"
+        ANALYTICS_ID: "${GA_PRIMARY_ID}"
+      
+      customizations:
+        - "primary_branding"
+        - "full_feature_set"
+        - "advanced_analytics"
+        - "premium_seo"
+    
+    business:
+      command: "npm run build:business"
+      output: "dist/business"
+      environment:
+        DOMAIN_TYPE: "business"
+        BUSINESS_FOCUS: "true"
+        SEO_PRIORITY: "medium"
+        ANALYTICS_ID: "${GA_BUSINESS_ID}"
+      
+      customizations:
+        - "business_branding"
+        - "business_features"
+        - "b2b_analytics"
+        - "business_seo"
+    
+    organization:
+      command: "npm run build:organization"
+      output: "dist/organization"
+      environment:
+        DOMAIN_TYPE: "organization"
+        ORG_FOCUS: "true"
+        SEO_PRIORITY: "medium"
+        ANALYTICS_ID: "${GA_ORG_ID}"
+      
+      customizations:
+        - "org_branding"
+        - "community_features"
+        - "nonprofit_analytics"
+        - "community_seo"
+    
+    github:
+      command: "npm run build:github"
+      output: "dist/github"
+      environment:
+        DOMAIN_TYPE: "github"
+        BASE_PATH: "/portfolio"
+        SEO_PRIORITY: "low"
+        ANALYTICS_ID: "${GA_GITHUB_ID}"
+      
+      customizations:
+        - "minimal_branding"
+        - "technical_features"
+        - "basic_analytics"
+        - "technical_seo"
+
+# Provider-Specific Deployment
+deployment_providers:
+  vercel:
+    enabled: true
+    
+    configuration:
+      api_token: "${VERCEL_TOKEN}"
+      team_id: "${VERCEL_TEAM_ID}"
+      project_settings:
+        framework: "vite"
+        node_version: "18.x"
+        install_command: "npm ci"
+    
+    domains:
+      - name: "straydog-syndications-llc.com"
+        project_name: "straydog-primary"
+        production_branch: "main"
+        
+        environment_variables:
+          NODE_ENV: "production"
+          DOMAIN_TYPE: "primary"
+          VERCEL_URL: "straydog-syndications-llc.com"
+        
+        build_settings:
+          build_command: "npm run build:primary"
+          output_directory: "dist"
+          install_command: "npm ci"
+        
+        deployment_hooks:
+          pre_deploy: "npm run pre-deploy:primary"
+          post_deploy: "npm run post-deploy:primary"
+      
+      - name: "straydogsyndicationsllc.biz"
+        project_name: "straydog-business"
+        production_branch: "main"
+        
+        environment_variables:
+          NODE_ENV: "production"
+          DOMAIN_TYPE: "business"
+          VERCEL_URL: "straydogsyndicationsllc.biz"
+        
+        build_settings:
+          build_command: "npm run build:business"
+          output_directory: "dist"
+          install_command: "npm ci"
+        
+        deployment_hooks:
+          pre_deploy: "npm run pre-deploy:business"
+          post_deploy: "npm run post-deploy:business"
+      
+      - name: "straydog-secondstory.org"
+        project_name: "straydog-organization"
+        production_branch: "main"
+        
+        environment_variables:
+          NODE_ENV: "production"
+          DOMAIN_TYPE: "organization"
+          VERCEL_URL: "straydog-secondstory.org"
+        
+        build_settings:
+          build_command: "npm run build:organization"
+          output_directory: "dist"
+          install_command: "npm ci"
+        
+        deployment_hooks:
+          pre_deploy: "npm run pre-deploy:organization"
+          post_deploy: "npm run post-deploy:organization"
+  
+  github_pages:
+    enabled: true
+    
+    configuration:
+      token: "${GITHUB_TOKEN}"
+      repository: "${GITHUB_REPOSITORY}"
+      
+      pages_settings:
+        source_branch: "gh-pages"
+        source_path: "/"
+        custom_domain: "straydogsyndications.github.io"
+        enforce_https: true
+    
+    deployment:
+      build_command: "npm run build:github"
+      output_directory: "dist"
+      
+      github_actions:
+        workflow_file: ".github/workflows/github-pages.yml"
+        
+        steps:
+          - name: "Checkout"
+            uses: "actions/checkout@v4"
+          
+          - name: "Setup Node.js"
+            uses: "actions/setup-node@v4"
+            with:
+              node-version: "18"
+              cache: "npm"
+          
+          - name: "Install Dependencies"
+            run: "npm ci"
+          
+          - name: "Build for GitHub Pages"
+            run: "npm run build:github"
+            env:
+              NODE_ENV: "production"
+              DOMAIN_TYPE: "github"
+              BASE_PATH: "/portfolio"
+          
+          - name: "Deploy to GitHub Pages"
+            uses: "peaceiris/actions-gh-pages@v3"
+            with:
+              github_token: "${{ secrets.GITHUB_TOKEN }}"
+              publish_dir: "./dist"
+              cname: "straydogsyndications.github.io"
+
+# Deployment Validation
+deployment_validation:
+  enabled: true
+  
+  validation_stages:
+    pre_deployment:
+      - name: "Build Validation"
+        type: "build_test"
+        command: "npm run build:all"
+        timeout: "15m"
+        required: true
+      
+      - name: "Unit Tests"
+        type: "test"
+        command: "npm run test"
+        timeout: "10m"
+        required: true
+      
+      - name: "Integration Tests"
+        type: "test"
+        command: "npm run test:integration"
+        timeout: "15m"
+        required: true
+      
+      - name: "Security Scan"
+        type: "security"
+        command: "npm audit --audit-level moderate"
+        timeout: "5m"
+        required: true
+      
+      - name: "Performance Budget Check"
+        type: "performance"
+        command: "npm run performance:budget"
+        timeout: "10m"
+        required: true
+    
+    post_deployment:
+      - name: "Health Check"
+        type: "health"
+        endpoints:
+          - "https://straydog-syndications-llc.com/health"
+          - "https://straydogsyndicationsllc.biz/health"
+          - "https://straydog-secondstory.org/health"
+          - "https://straydogsyndications.github.io/health"
+        timeout: "2m"
+        retry_count: 3
+        required: true
+      
+      - name: "SSL Certificate Validation"
+        type: "ssl"
+        command: "node scripts/validate-ssl.js"
+        timeout: "5m"
+        required: true
+      
+      - name: "Cross-Domain Link Validation"
+        type: "links"
+        command: "node scripts/validate-cross-domain-links.js"
+        timeout: "10m"
+        required: true
+      
+      - name: "SEO Validation"
+        type: "seo"
+        command: "node scripts/validate-seo.js"
+        timeout: "15m"
+        required: false
+      
+      - name: "Performance Validation"
+        type: "performance"
+        command: "node scripts/validate-performance.js"
+        timeout: "20m"
+        required: false
+      
+      - name: "Analytics Validation"
+        type: "analytics"
+        command: "node scripts/validate-analytics.js"
+        timeout: "5m"
+        required: false
+
+# Rollback Procedures
+rollback_procedures:
+  enabled: true
+  
+  automatic_rollback:
+    triggers:
+      - "deployment_failure"
+      - "health_check_failure"
+      - "ssl_validation_failure"
+      - "critical_performance_degradation"
+    
+    conditions:
+      error_threshold: 3
+      time_window: "5m"
+      performance_degradation: "50%"
+      uptime_threshold: "95%"
+  
+  rollback_strategy:
+    type: "blue_green"
+    
+    steps:
+      - name: "Stop Traffic"
+        action: "traffic_stop"
+        timeout: "1m"
+      
+      - name: "Backup Current State"
+        action: "backup_create"
+        timeout: "5m"
+      
+      - name: "Restore Previous Version"
+        action: "version_restore"
+        timeout: "10m"
+      
+      - name: "Validate Rollback"
+        action: "validation_run"
+        timeout: "5m"
+      
+      - name: "Resume Traffic"
+        action: "traffic_resume"
+        timeout: "2m"
+      
+      - name: "Notify Team"
+        action: "notification_send"
+        timeout: "1m"
+  
+  manual_rollback:
+    enabled: true
+    approval_required: true
+    
+    procedures:
+      emergency_rollback:
+        description: "Immediate rollback for critical issues"
+        approval_bypass: true
+        notification_required: true
+      
+      planned_rollback:
+        description: "Planned rollback with full validation"
+        approval_required: true
+        validation_required: true
+
+# Error Handling
+error_handling:
+  enabled: true
+  
+  error_categories:
+    build_errors:
+      retry_count: 2
+      retry_delay: "1m"
+      escalation: "immediate"
+      rollback_trigger: false
+    
+    deployment_errors:
+      retry_count: 3
+      retry_delay: "2m"
+      escalation: "5m"
+      rollback_trigger: true
+    
+    validation_errors:
+      retry_count: 2
+      retry_delay: "30s"
+      escalation: "2m"
+      rollback_trigger: true
+    
+    ssl_errors:
+      retry_count: 1
+      retry_delay: "5m"
+      escalation: "immediate"
+      rollback_trigger: false
+    
+    performance_errors:
+      retry_count: 1
+      retry_delay: "1m"
+      escalation: "5m"
+      rollback_trigger: true
+  
+  recovery_procedures:
+    automatic_recovery:
+      enabled: true
+      max_attempts: 3
+      cooldown_period: "10m"
+      
+      recovery_steps:
+        - "error_analysis"
+        - "dependency_check"
+        - "environment_validation"
+        - "retry_deployment"
+        - "validation_rerun"
+    
+    manual_intervention:
+      triggers:
+        - "max_retry_exceeded"
+        - "critical_error"
+        - "security_issue"
+      
+      notification_channels:
+        - "slack_critical"
+        - "email_emergency"
+        - "webhook_alert"
+      
+      escalation_contacts:
+        - "${DEVELOPER_EMAIL}"
+        - "${TEAM_LEAD_EMAIL}"
+        - "${EMERGENCY_CONTACT}"
+
+# Monitoring and Alerting
+deployment_monitoring:
+  enabled: true
+  
+  real_time_monitoring:
+    deployment_progress: true
+    build_logs: true
+    error_tracking: true
+    performance_metrics: true
+  
+  post_deployment_monitoring:
+    duration: "24h"
+    
+    metrics:
+      - "response_times"
+      - "error_rates"
+      - "traffic_patterns"
+      - "user_experience"
+      - "conversion_rates"
+  
+  alerting:
+    channels:
+      slack:
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+        channels:
+          deployments: "#deployments"
+          critical: "#critical-alerts"
+          warnings: "#dev-alerts"
+      
+      email:
+        recipients:
+          success: ["${DEVELOPER_EMAIL}"]
+          failure: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+          critical: ["${EMERGENCY_CONTACT}"]
+    
+    message_templates:
+      deployment_started: |
+        🚀 Multi-Domain Deployment Started
+        
+        **Trigger:** {trigger}
+        **Commit:** {commit_hash}
+        **Domains:** {target_domains}
+        **Estimated Duration:** {estimated_duration}
+        
+        [View Progress]({deployment_url})
+      
+      deployment_success: |
+        ✅ Multi-Domain Deployment Successful!
+        
+        **Domains Deployed:** {deployed_domains}
+        **Total Duration:** {total_duration}
+        **Build Time:** {build_time}
+        **Deployment Time:** {deployment_time}
+        
+        **Performance Summary:**
+        {performance_metrics}
+        
+        **Next Steps:**
+        - Monitor performance for 24h
+        - Review analytics data
+        - Update documentation
+        
+        [View Analytics]({analytics_url})
+      
+      deployment_failure: |
+        🚨 Multi-Domain Deployment Failed!
+        
+        **Failed Domain:** {failed_domain}
+        **Error Stage:** {failed_stage}
+        **Error Message:** {error_message}
+        
+        **Rollback Status:** {rollback_status}
+        **Affected Domains:** {affected_domains}
+        
+        **Immediate Actions:**
+        - {immediate_action_1}
+        - {immediate_action_2}
+        
+        **Investigation Required:**
+        - {investigation_item_1}
+        - {investigation_item_2}
+        
+        [View Logs]({logs_url})
+        [Emergency Procedures]({emergency_url})
+
+# Performance Optimization
+performance_optimization:
+  enabled: true
+  
+  build_optimization:
+    code_splitting: true
+    tree_shaking: true
+    minification: true
+    compression: true
+    
+    asset_optimization:
+      images:
+        format_conversion: true
+        compression: "aggressive"
+        responsive_images: true
+        lazy_loading: true
+      
+      fonts:
+        subsetting: true
+        preloading: true
+        font_display: "swap"
+      
+      css:
+        purging: true
+        critical_css: true
+        minification: true
+      
+      javascript:
+        minification: true
+        compression: true
+        module_federation: false
+  
+  deployment_optimization:
+    cdn_integration:
+      enabled: true
+      provider: "vercel"
+      cache_strategy: "aggressive"
+      edge_locations: "global"
+    
+    caching_strategy:
+      static_assets: "1y"
+      html_files: "1h"
+      api_responses: "5m"
+      images: "30d"
+    
+    preloading:
+      critical_resources: true
+      dns_prefetch: true
+      preconnect: true
+
+# Security Configuration
+security:
+  enabled: true
+  
+  deployment_security:
+    secret_scanning: true
+    dependency_scanning: true
+    code_scanning: true
+    
+    access_control:
+      deployment_approval: true
+      multi_factor_auth: true
+      ip_restrictions: true
+    
+    secrets_management:
+      provider: "github_secrets"
+      encryption: "AES-256"
+      rotation_schedule: "90d"
+  
+  runtime_security:
+    ssl_enforcement: true
+    security_headers: true
+    content_security_policy: true
+    
+    headers:
+      strict_transport_security: "max-age=31536000; includeSubDomains"
+      x_frame_options: "DENY"
+      x_content_type_options: "nosniff"
+      referrer_policy: "strict-origin-when-cross-origin"
+
+# Compliance and Auditing
+compliance:
+  enabled: true
+  
+  audit_logging:
+    deployment_logs: true
+    access_logs: true
+    error_logs: true
+    performance_logs: true
+    
+    retention_policy:
+      deployment_logs: "1y"
+      access_logs: "6m"
+      error_logs: "1y"
+      performance_logs: "3m"
+  
+  compliance_checks:
+    gdpr_compliance: true
+    accessibility_compliance: true
+    security_compliance: true
+    
+    automated_testing:
+      accessibility: "WCAG 2.1 AA"
+      security: "OWASP Top 10"
+      privacy: "GDPR Article 25"
+
+# Integration Configuration
+integrations:
+  github:
+    enabled: true
+    webhook_events: ["push", "pull_request", "release"]
+    status_checks: true
+    deployment_status: true
+  
+  vercel:
+    enabled: true
+    webhook_events: ["deployment.created", "deployment.ready", "deployment.error"]
+    integration_type: "git"
+  
+  analytics:
+    google_analytics: true
+    google_search_console: true
+    custom_analytics: true
+  
+  monitoring:
+    uptime_monitoring: true
+    performance_monitoring: true
+    error_tracking: true
+    log_aggregation: true
+
+# Environment Variables
+environment_variables:
+  required:
+    - "VERCEL_TOKEN"
+    - "GITHUB_TOKEN"
+    - "SLACK_WEBHOOK_URL"
+    - "DEVELOPER_EMAIL"
+    - "GA_PRIMARY_ID"
+    - "GA_BUSINESS_ID"
+    - "GA_ORG_ID"
+    - "GA_GITHUB_ID"
+  
+  optional:
+    - "VERCEL_TEAM_ID"
+    - "TEAM_LEAD_EMAIL"
+    - "EMERGENCY_CONTACT"
+    - "CUSTOM_WEBHOOK_URL"
+    - "SMTP_SERVER"
+    - "ANALYTICS_API_KEY"

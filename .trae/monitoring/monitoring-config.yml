@@ -1,0 +1,450 @@
+# Trae 2.0 Portfolio Monitoring Configuration
+name: Portfolio Monitoring System
+version: "2.0"
+description: "Comprehensive monitoring for portfolio performance and reliability"
+
+# Global Configuration
+global:
+  monitoring_interval: "30s"
+  data_retention: "90d"
+  alert_cooldown: "5m"
+  timezone: "UTC"
+  
+  endpoints:
+    base_url: "https://straydogsyndications.com"
+    staging_url: "https://staging.straydogsyndications.com"
+    local_url: "http://localhost:5173"
+
+# Page Load Time Monitoring
+page_load_monitoring:
+  enabled: true
+  frequency: "2m"
+  timeout: "30s"
+  
+  pages:
+    homepage:
+      path: "/"
+      name: "Homepage"
+      priority: "critical"
+      thresholds:
+        warning: "2s"
+        critical: "4s"
+        target: "1.5s"
+      metrics:
+        - "first_contentful_paint"
+        - "largest_contentful_paint"
+        - "time_to_interactive"
+        - "dom_content_loaded"
+    
+    about:
+      path: "/about"
+      name: "About Page"
+      priority: "high"
+      thresholds:
+        warning: "2.5s"
+        critical: "5s"
+        target: "2s"
+      metrics:
+        - "career_timeline_render"
+        - "skills_section_load"
+        - "glassmorphism_effects"
+    
+    projects:
+      path: "/projects"
+      name: "Projects Page"
+      priority: "high"
+      thresholds:
+        warning: "3s"
+        critical: "6s"
+        target: "2.5s"
+      metrics:
+        - "project_cards_render"
+        - "image_loading_time"
+        - "interactive_elements"
+    
+    contact:
+      path: "/contact"
+      name: "Contact Page"
+      priority: "medium"
+      thresholds:
+        warning: "2s"
+        critical: "4s"
+        target: "1.5s"
+      metrics:
+        - "form_render_time"
+        - "validation_response"
+    
+    marvel_quiz:
+      path: "/marvel-quiz"
+      name: "Marvel Quiz Game"
+      priority: "high"
+      thresholds:
+        warning: "3s"
+        critical: "7s"
+        target: "2s"
+      metrics:
+        - "game_initialization"
+        - "asset_loading"
+        - "first_interaction"
+
+  devices:
+    desktop:
+      user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      viewport: "1920x1080"
+      connection: "4g"
+      cpu_throttling: 1
+    
+    tablet:
+      user_agent: "Mozilla/5.0 (iPad; CPU OS 14_0 like Mac OS X) AppleWebKit/605.1.15"
+      viewport: "768x1024"
+      connection: "3g"
+      cpu_throttling: 2
+    
+    mobile:
+      user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15"
+      viewport: "375x667"
+      connection: "slow-3g"
+      cpu_throttling: 4
+
+  locations:
+    - name: "US East"
+      region: "us-east-1"
+      city: "Virginia"
+    - name: "Europe"
+      region: "eu-west-1"
+      city: "Ireland"
+    - name: "Asia Pacific"
+      region: "ap-southeast-1"
+      city: "Singapore"
+
+# Asset Loading Monitoring
+asset_loading_monitoring:
+  enabled: true
+  frequency: "1m"
+  retry_attempts: 3
+  retry_delay: "2s"
+  
+  critical_assets:
+    stylesheets:
+      - path: "/assets/index.css"
+        name: "Main Stylesheet"
+        max_size: "100KB"
+        timeout: "5s"
+      - path: "/assets/globals.css"
+        name: "Global Styles"
+        max_size: "50KB"
+        timeout: "3s"
+    
+    javascript:
+      - path: "/assets/index.js"
+        name: "Main Bundle"
+        max_size: "500KB"
+        timeout: "10s"
+      - path: "/assets/vendor.js"
+        name: "Vendor Bundle"
+        max_size: "300KB"
+        timeout: "8s"
+    
+    images:
+      - path: "/assets/brand/mainLogo.png"
+        name: "Main Logo"
+        max_size: "50KB"
+        timeout: "5s"
+      - path: "/assets/brand/banner.png"
+        name: "Banner Image"
+        max_size: "200KB"
+        timeout: "8s"
+    
+    fonts:
+      - path: "/assets/fonts/inter.woff2"
+        name: "Inter Font"
+        max_size: "100KB"
+        timeout: "5s"
+      - path: "/assets/fonts/jetbrains-mono.woff2"
+        name: "JetBrains Mono"
+        max_size: "80KB"
+        timeout: "5s"
+
+  failure_detection:
+    http_errors: [404, 500, 502, 503, 504]
+    network_errors: ["ECONNREFUSED", "ETIMEDOUT", "ENOTFOUND"]
+    content_validation:
+      min_size: "1KB"
+      content_type_validation: true
+      integrity_check: true
+    
+    cascade_failure_detection:
+      enabled: true
+      threshold: 3  # Number of failed assets to trigger cascade alert
+      time_window: "5m"
+
+  performance_tracking:
+    download_time: true
+    first_byte_time: true
+    dns_lookup_time: true
+    connection_time: true
+    ssl_handshake_time: true
+    
+    compression_analysis:
+      gzip_enabled: true
+      brotli_enabled: true
+      compression_ratio: true
+    
+    caching_analysis:
+      cache_headers: true
+      etag_validation: true
+      last_modified: true
+      cache_hit_ratio: true
+
+# Mobile Responsiveness Monitoring
+mobile_responsiveness:
+  enabled: true
+  frequency: "10m"
+  
+  test_devices:
+    smartphones:
+      - name: "iPhone 12"
+        viewport: "390x844"
+        user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)"
+        pixel_ratio: 3
+      
+      - name: "Samsung Galaxy S21"
+        viewport: "384x854"
+        user_agent: "Mozilla/5.0 (Linux; Android 11; SM-G991B)"
+        pixel_ratio: 2.75
+      
+      - name: "Google Pixel 5"
+        viewport: "393x851"
+        user_agent: "Mozilla/5.0 (Linux; Android 11; Pixel 5)"
+        pixel_ratio: 2.75
+    
+    tablets:
+      - name: "iPad Pro"
+        viewport: "1024x1366"
+        user_agent: "Mozilla/5.0 (iPad; CPU OS 14_0 like Mac OS X)"
+        pixel_ratio: 2
+      
+      - name: "Samsung Galaxy Tab"
+        viewport: "800x1280"
+        user_agent: "Mozilla/5.0 (Linux; Android 10; SM-T870)"
+        pixel_ratio: 2
+
+  responsive_tests:
+    viewport_meta_tag:
+      required: true
+      content: "width=device-width, initial-scale=1"
+    
+    horizontal_scrolling:
+      allowed: false
+      tolerance: "5px"
+    
+    touch_targets:
+      min_size: "44px"
+      spacing: "8px"
+      elements: ["button", "a", "input", "[role='button']"]
+    
+    text_readability:
+      min_font_size: "16px"
+      line_height: ">= 1.4"
+      contrast_ratio: ">= 4.5:1"
+    
+    layout_stability:
+      cumulative_layout_shift: "<= 0.1"
+      element_positioning: "stable"
+    
+    navigation_usability:
+      hamburger_menu: true
+      touch_friendly_navigation: true
+      swipe_gestures: true
+    
+    form_usability:
+      input_zoom_prevention: false
+      keyboard_accessibility: true
+      error_message_visibility: true
+
+  performance_on_mobile:
+    load_time_threshold: "3s"
+    first_input_delay: "<= 100ms"
+    interaction_responsiveness: "<= 200ms"
+    
+    resource_optimization:
+      image_optimization: true
+      lazy_loading: true
+      critical_css_inline: true
+      javascript_defer: true
+
+# Layout Issue Detection
+layout_issue_detection:
+  enabled: true
+  frequency: "5m"
+  
+  green_box_detection:
+    description: "Detect excessive spacing causing layout issues"
+    selectors:
+      - ".career-timeline"
+      - "[class*='timeline']"
+      - "section[class*='py-']"
+    
+    checks:
+      excessive_padding:
+        pattern: "py-[2-9][0-9]"
+        threshold: "py-20"
+        severity: "warning"
+      
+      large_margins:
+        pattern: "m[tblr]?-[2-9][0-9]"
+        threshold: "mt-16"
+        severity: "info"
+      
+      spacing_inconsistency:
+        pattern: "space-y-[8-9]|space-y-[1-9][0-9]"
+        threshold: "space-y-8"
+        severity: "warning"
+    
+    auto_suggestions:
+      - "Replace py-20 with py-8 for better spacing"
+      - "Use space-y-4 instead of space-y-8"
+      - "Consider removing section wrapper for embedded components"
+      - "Add max-width constraints to prevent overflow"
+
+  overflow_detection:
+    horizontal_overflow: true
+    vertical_overflow: false
+    content_clipping: true
+    
+    elements_to_check:
+      - "body"
+      - "main"
+      - ".container"
+      - "section"
+      - "article"
+
+  responsive_breakpoint_issues:
+    breakpoints: ["640px", "768px", "1024px", "1280px", "1536px"]
+    
+    checks:
+      - "element_visibility"
+      - "text_overflow"
+      - "image_scaling"
+      - "navigation_collapse"
+      - "grid_layout_adaptation"
+
+# Alert Configuration
+alerting:
+  channels:
+    slack:
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channels:
+        critical: "#critical-alerts"
+        warning: "#dev-alerts"
+        info: "#monitoring"
+      
+      message_format:
+        include_screenshots: true
+        include_metrics: true
+        include_suggestions: true
+    
+    email:
+      smtp_server: "${SMTP_SERVER}"
+      recipients:
+        critical: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+        warning: ["${DEVELOPER_EMAIL}"]
+        info: ["${MONITORING_EMAIL}"]
+      
+      templates:
+        page_load_slow: "page_load_alert.html"
+        asset_failure: "asset_failure_alert.html"
+        mobile_issue: "mobile_responsiveness_alert.html"
+        layout_issue: "layout_issue_alert.html"
+    
+    webhook:
+      endpoints:
+        - url: "${CUSTOM_WEBHOOK_URL}"
+          method: "POST"
+          headers:
+            "Content-Type": "application/json"
+            "Authorization": "Bearer ${WEBHOOK_TOKEN}"
+
+  escalation:
+    levels:
+      - level: 1
+        delay: "0m"
+        channels: ["slack"]
+      
+      - level: 2
+        delay: "5m"
+        channels: ["slack", "email"]
+      
+      - level: 3
+        delay: "15m"
+        channels: ["slack", "email", "webhook"]
+    
+    conditions:
+      critical_threshold_breach: "level_3"
+      multiple_failures: "level_2"
+      single_warning: "level_1"
+
+# Reporting and Analytics
+reporting:
+  dashboards:
+    real_time:
+      refresh_interval: "30s"
+      metrics:
+        - "current_page_load_times"
+        - "asset_loading_status"
+        - "mobile_responsiveness_score"
+        - "active_alerts"
+    
+    daily:
+      generation_time: "06:00"
+      metrics:
+        - "average_load_times"
+        - "asset_failure_rate"
+        - "mobile_performance_trends"
+        - "layout_issue_summary"
+    
+    weekly:
+      generation_day: "monday"
+      generation_time: "08:00"
+      metrics:
+        - "performance_trends"
+        - "reliability_statistics"
+        - "optimization_opportunities"
+        - "comparative_analysis"
+
+  data_export:
+    formats: ["json", "csv", "pdf"]
+    retention: "1y"
+    compression: true
+    
+    scheduled_exports:
+      daily_metrics: "json"
+      weekly_reports: "pdf"
+      monthly_analysis: "csv"
+
+# Integration
+integration:
+  ci_cd:
+    github_actions: true
+    deployment_hooks: true
+    performance_gates: true
+  
+  monitoring_tools:
+    lighthouse: true
+    web_vitals: true
+    pingdom: false
+    new_relic: false
+  
+  analytics:
+    google_analytics: true
+    custom_events: true
+    user_journey_tracking: true
+
+# Success Metrics
+success_metrics:
+  availability: ">= 99.9%"
+  average_load_time: "<= 2s"
+  mobile_performance_score: ">= 90"
+  asset_failure_rate: "<= 0.1%"
+  layout_issue_count: "0"
+  user_satisfaction: ">= 4.5/5"

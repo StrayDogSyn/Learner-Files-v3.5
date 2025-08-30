@@ -1,0 +1,782 @@
+# Multi-Domain Content Synchronization
+name: Content Synchronization System
+version: "2.0"
+description: "Automated content synchronization across multiple portfolio domains"
+
+# Global Synchronization Configuration
+sync_configuration:
+  enabled: true
+  
+  sync_strategy:
+    type: "master_slave"
+    master_domain: "straydog-syndications-llc.com"
+    sync_frequency: "real_time"
+    conflict_resolution: "master_wins"
+    
+  sync_triggers:
+    - "content_update"
+    - "file_change"
+    - "deployment_complete"
+    - "manual_trigger"
+    - "scheduled_sync"
+  
+  sync_modes:
+    real_time:
+      enabled: true
+      debounce_delay: "5s"
+      batch_size: 10
+      max_retries: 3
+    
+    scheduled:
+      enabled: true
+      cron: "0 */6 * * *"  # Every 6 hours
+      full_sync: true
+      validation: true
+    
+    manual:
+      enabled: true
+      approval_required: false
+      validation_required: true
+
+# Content Sources and Targets
+content_mapping:
+  master_source:
+    domain: "straydog-syndications-llc.com"
+    repository: "${GITHUB_REPOSITORY}"
+    branch: "main"
+    content_path: "src/content"
+    
+    content_types:
+      - "portfolio_items"
+      - "blog_posts"
+      - "project_data"
+      - "testimonials"
+      - "skills_data"
+      - "experience_data"
+      - "education_data"
+      - "certifications"
+      - "contact_info"
+      - "social_links"
+      - "meta_data"
+      - "seo_data"
+  
+  sync_targets:
+    business_domain:
+      domain: "straydogsyndicationsllc.biz"
+      content_path: "src/content"
+      
+      content_filters:
+        include:
+          - "portfolio_items"
+          - "testimonials"
+          - "skills_data"
+          - "experience_data"
+          - "contact_info"
+          - "social_links"
+        
+        exclude:
+          - "personal_blog"
+          - "hobby_projects"
+        
+        transformations:
+          - type: "business_focus"
+            apply_to: ["portfolio_items", "testimonials"]
+            rules:
+              - "highlight_business_value"
+              - "emphasize_roi"
+              - "professional_tone"
+          
+          - type: "contact_customization"
+            apply_to: ["contact_info"]
+            rules:
+              - "business_email_primary"
+              - "business_phone_display"
+              - "linkedin_emphasis"
+    
+    organization_domain:
+      domain: "straydog-secondstory.org"
+      content_path: "src/content"
+      
+      content_filters:
+        include:
+          - "portfolio_items"
+          - "blog_posts"
+          - "project_data"
+          - "skills_data"
+          - "contact_info"
+          - "social_links"
+        
+        exclude:
+          - "commercial_projects"
+          - "business_testimonials"
+        
+        transformations:
+          - type: "community_focus"
+            apply_to: ["portfolio_items", "project_data"]
+            rules:
+              - "highlight_social_impact"
+              - "emphasize_community_benefit"
+              - "nonprofit_tone"
+          
+          - type: "mission_alignment"
+            apply_to: ["blog_posts"]
+            rules:
+              - "community_relevance"
+              - "social_responsibility"
+              - "educational_value"
+    
+    github_pages:
+      domain: "straydogsyndications.github.io"
+      content_path: "src/content"
+      
+      content_filters:
+        include:
+          - "portfolio_items"
+          - "project_data"
+          - "skills_data"
+          - "contact_info"
+        
+        exclude:
+          - "personal_info"
+          - "business_details"
+          - "organization_content"
+        
+        transformations:
+          - type: "technical_focus"
+            apply_to: ["portfolio_items", "project_data"]
+            rules:
+              - "highlight_technical_details"
+              - "emphasize_code_quality"
+              - "developer_audience"
+          
+          - type: "github_optimization"
+            apply_to: ["contact_info"]
+            rules:
+              - "github_profile_primary"
+              - "technical_contact_methods"
+              - "open_source_emphasis"
+
+# Content Transformation Rules
+transformation_rules:
+  business_focus:
+    portfolio_items:
+      title_prefix: "Business Solution: "
+      description_enhancement:
+        - "ROI: {calculated_roi}"
+        - "Business Impact: {business_impact}"
+        - "Client Satisfaction: {satisfaction_score}"
+      
+      field_mappings:
+        tags: "business_tags"
+        category: "business_category"
+        priority: "business_priority"
+      
+      content_filters:
+        remove_sections: ["personal_notes", "hobby_aspects"]
+        enhance_sections: ["business_value", "client_results"]
+    
+    testimonials:
+      filter_criteria:
+        - "business_related: true"
+        - "professional_context: true"
+        - "measurable_results: exists"
+      
+      enhancement:
+        add_business_context: true
+        highlight_metrics: true
+        professional_formatting: true
+  
+  community_focus:
+    portfolio_items:
+      title_prefix: "Community Project: "
+      description_enhancement:
+        - "Social Impact: {social_impact}"
+        - "Community Benefit: {community_benefit}"
+        - "Accessibility Score: {accessibility_score}"
+      
+      field_mappings:
+        tags: "community_tags"
+        category: "social_category"
+        priority: "impact_priority"
+      
+      content_filters:
+        remove_sections: ["commercial_aspects", "profit_metrics"]
+        enhance_sections: ["social_impact", "community_feedback"]
+    
+    project_data:
+      filter_criteria:
+        - "social_impact: exists"
+        - "community_benefit: true"
+        - "open_source: preferred"
+      
+      enhancement:
+        add_impact_metrics: true
+        highlight_accessibility: true
+        community_formatting: true
+  
+  technical_focus:
+    portfolio_items:
+      title_prefix: "Technical Project: "
+      description_enhancement:
+        - "Tech Stack: {tech_stack}"
+        - "Code Quality: {code_quality_score}"
+        - "Performance: {performance_metrics}"
+      
+      field_mappings:
+        tags: "tech_tags"
+        category: "tech_category"
+        priority: "complexity_priority"
+      
+      content_filters:
+        remove_sections: ["business_context", "client_details"]
+        enhance_sections: ["technical_implementation", "code_examples"]
+    
+    project_data:
+      filter_criteria:
+        - "github_repo: exists"
+        - "technical_complexity: high"
+        - "code_quality: good"
+      
+      enhancement:
+        add_github_links: true
+        highlight_tech_stack: true
+        developer_formatting: true
+
+# Synchronization Workflows
+sync_workflows:
+  real_time_sync:
+    name: "Real-time Content Synchronization"
+    
+    triggers:
+      file_watcher:
+        paths:
+          - "src/content/**/*.md"
+          - "src/content/**/*.json"
+          - "src/data/**/*.yml"
+        
+        events: ["created", "modified", "deleted"]
+        debounce: "5s"
+      
+      git_hooks:
+        pre_commit:
+          - "validate_content_structure"
+          - "check_required_fields"
+          - "validate_cross_references"
+        
+        post_commit:
+          - "trigger_content_sync"
+          - "update_sync_manifest"
+          - "notify_sync_status"
+    
+    workflow_steps:
+      - name: "Content Validation"
+        action: "validate_content"
+        timeout: "2m"
+        required: true
+        
+        validation_rules:
+          - "schema_compliance"
+          - "required_fields_present"
+          - "cross_reference_integrity"
+          - "content_quality_check"
+      
+      - name: "Content Transformation"
+        action: "transform_content"
+        timeout: "5m"
+        required: true
+        
+        transformation_steps:
+          - "apply_domain_filters"
+          - "execute_transformations"
+          - "validate_transformed_content"
+          - "generate_domain_variants"
+      
+      - name: "Content Distribution"
+        action: "distribute_content"
+        timeout: "10m"
+        required: true
+        
+        distribution_steps:
+          - "update_target_repositories"
+          - "commit_changes"
+          - "trigger_deployments"
+          - "validate_sync_completion"
+      
+      - name: "Sync Verification"
+        action: "verify_sync"
+        timeout: "5m"
+        required: true
+        
+        verification_steps:
+          - "check_content_consistency"
+          - "validate_transformations"
+          - "verify_deployment_status"
+          - "update_sync_log"
+  
+  scheduled_sync:
+    name: "Scheduled Full Synchronization"
+    
+    schedule:
+      cron: "0 2 * * *"  # Daily at 2 AM
+      timezone: "UTC"
+      enabled: true
+    
+    workflow_steps:
+      - name: "Full Content Audit"
+        action: "audit_content"
+        timeout: "15m"
+        required: true
+        
+        audit_checks:
+          - "content_integrity"
+          - "cross_domain_consistency"
+          - "missing_content_detection"
+          - "orphaned_content_cleanup"
+      
+      - name: "Comprehensive Sync"
+        action: "full_sync"
+        timeout: "30m"
+        required: true
+        
+        sync_operations:
+          - "sync_all_content_types"
+          - "update_all_transformations"
+          - "rebuild_content_indexes"
+          - "refresh_content_cache"
+      
+      - name: "Post-Sync Validation"
+        action: "validate_full_sync"
+        timeout: "10m"
+        required: true
+        
+        validation_operations:
+          - "verify_content_completeness"
+          - "check_transformation_accuracy"
+          - "validate_cross_references"
+          - "generate_sync_report"
+  
+  manual_sync:
+    name: "Manual Content Synchronization"
+    
+    triggers:
+      api_endpoint: "/api/sync/manual"
+      webhook: "${MANUAL_SYNC_WEBHOOK}"
+      cli_command: "trae sync manual"
+    
+    workflow_steps:
+      - name: "Pre-Sync Validation"
+        action: "pre_sync_check"
+        timeout: "5m"
+        required: true
+        
+        validation_checks:
+          - "content_lock_status"
+          - "ongoing_sync_detection"
+          - "system_health_check"
+          - "dependency_availability"
+      
+      - name: "Selective Sync"
+        action: "selective_sync"
+        timeout: "20m"
+        required: true
+        
+        sync_options:
+          content_types: "configurable"
+          target_domains: "configurable"
+          transformation_level: "configurable"
+          validation_level: "configurable"
+      
+      - name: "Manual Verification"
+        action: "manual_verify"
+        timeout: "10m"
+        required: false
+        
+        verification_options:
+          interactive_review: true
+          approval_required: false
+          rollback_available: true
+          detailed_reporting: true
+
+# Content Validation
+content_validation:
+  enabled: true
+  
+  validation_levels:
+    strict:
+      schema_validation: true
+      required_fields: true
+      cross_references: true
+      content_quality: true
+      transformation_integrity: true
+    
+    standard:
+      schema_validation: true
+      required_fields: true
+      cross_references: true
+      content_quality: false
+      transformation_integrity: true
+    
+    minimal:
+      schema_validation: true
+      required_fields: true
+      cross_references: false
+      content_quality: false
+      transformation_integrity: false
+  
+  validation_rules:
+    schema_validation:
+      portfolio_items:
+        required_fields: ["title", "description", "tech_stack", "category"]
+        optional_fields: ["github_url", "demo_url", "images", "testimonials"]
+        field_types:
+          title: "string"
+          description: "string"
+          tech_stack: "array"
+          category: "string"
+          github_url: "url"
+          demo_url: "url"
+      
+      blog_posts:
+        required_fields: ["title", "content", "date", "author", "category"]
+        optional_fields: ["tags", "featured_image", "excerpt", "seo_title"]
+        field_types:
+          title: "string"
+          content: "markdown"
+          date: "date"
+          author: "string"
+          category: "string"
+      
+      project_data:
+        required_fields: ["name", "description", "status", "tech_stack"]
+        optional_fields: ["start_date", "end_date", "team_size", "role"]
+        field_types:
+          name: "string"
+          description: "string"
+          status: "enum"
+          tech_stack: "array"
+    
+    content_quality:
+      minimum_description_length: 50
+      maximum_description_length: 500
+      required_image_alt_text: true
+      link_validation: true
+      spelling_check: true
+      grammar_check: false
+    
+    cross_reference_validation:
+      internal_links: true
+      image_references: true
+      data_references: true
+      category_references: true
+      tag_references: true
+
+# Conflict Resolution
+conflict_resolution:
+  enabled: true
+  
+  resolution_strategies:
+    master_wins:
+      description: "Master domain content always takes precedence"
+      automatic: true
+      backup_conflicted: true
+    
+    timestamp_based:
+      description: "Most recently modified content wins"
+      automatic: true
+      backup_conflicted: true
+    
+    manual_review:
+      description: "Conflicts require manual resolution"
+      automatic: false
+      notification_required: true
+    
+    content_merge:
+      description: "Attempt to merge non-conflicting changes"
+      automatic: true
+      fallback_strategy: "master_wins"
+  
+  conflict_detection:
+    file_level_conflicts:
+      enabled: true
+      detection_method: "content_hash"
+      ignore_whitespace: true
+      ignore_formatting: false
+    
+    field_level_conflicts:
+      enabled: true
+      detection_method: "field_comparison"
+      sensitive_fields: ["title", "description", "tech_stack"]
+      ignore_fields: ["last_modified", "sync_timestamp"]
+    
+    semantic_conflicts:
+      enabled: false
+      detection_method: "ai_analysis"
+      confidence_threshold: 0.8
+      manual_review_required: true
+  
+  conflict_handling:
+    automatic_resolution:
+      enabled: true
+      max_auto_resolve: 10
+      escalation_threshold: 5
+      notification_required: true
+    
+    manual_resolution:
+      notification_channels: ["slack", "email"]
+      resolution_timeout: "24h"
+      escalation_contacts: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+      
+      resolution_interface:
+        web_ui: true
+        cli_tool: true
+        api_endpoint: true
+        git_workflow: true
+
+# Performance Optimization
+performance_optimization:
+  enabled: true
+  
+  sync_optimization:
+    incremental_sync:
+      enabled: true
+      change_detection: "file_hash"
+      batch_processing: true
+      parallel_processing: true
+    
+    content_caching:
+      enabled: true
+      cache_duration: "1h"
+      cache_invalidation: "content_change"
+      cache_compression: true
+    
+    network_optimization:
+      compression: true
+      connection_pooling: true
+      retry_strategy: "exponential_backoff"
+      timeout_configuration:
+        connection_timeout: "30s"
+        read_timeout: "60s"
+        total_timeout: "300s"
+  
+  resource_management:
+    memory_limits:
+      max_memory_usage: "512MB"
+      memory_monitoring: true
+      garbage_collection: "aggressive"
+    
+    cpu_limits:
+      max_cpu_usage: "80%"
+      cpu_monitoring: true
+      process_throttling: true
+    
+    disk_management:
+      temp_file_cleanup: true
+      log_rotation: true
+      cache_size_limit: "1GB"
+
+# Monitoring and Logging
+monitoring:
+  enabled: true
+  
+  sync_monitoring:
+    real_time_status: true
+    sync_progress_tracking: true
+    error_rate_monitoring: true
+    performance_metrics: true
+    
+    metrics:
+      sync_frequency: true
+      sync_duration: true
+      content_volume: true
+      error_count: true
+      success_rate: true
+      transformation_time: true
+  
+  alerting:
+    sync_failure_alerts:
+      enabled: true
+      threshold: 1
+      notification_delay: "immediate"
+      escalation_time: "5m"
+    
+    performance_alerts:
+      enabled: true
+      sync_duration_threshold: "10m"
+      error_rate_threshold: "5%"
+      notification_channels: ["slack", "email"]
+    
+    content_alerts:
+      enabled: true
+      missing_content_alert: true
+      content_quality_alert: true
+      transformation_failure_alert: true
+  
+  logging:
+    log_level: "info"
+    log_format: "json"
+    log_rotation: true
+    
+    log_categories:
+      sync_operations: true
+      content_transformations: true
+      validation_results: true
+      error_details: true
+      performance_metrics: true
+    
+    log_retention:
+      sync_logs: "30d"
+      error_logs: "90d"
+      performance_logs: "7d"
+      audit_logs: "1y"
+
+# Security and Access Control
+security:
+  enabled: true
+  
+  access_control:
+    sync_permissions:
+      read_access: ["developer", "content_manager", "admin"]
+      write_access: ["content_manager", "admin"]
+      admin_access: ["admin"]
+    
+    api_security:
+      authentication_required: true
+      api_key_rotation: "30d"
+      rate_limiting: true
+      ip_whitelisting: false
+    
+    content_security:
+      content_encryption: false
+      secure_transmission: true
+      audit_logging: true
+      change_tracking: true
+  
+  data_protection:
+    sensitive_data_handling:
+      personal_info_filtering: true
+      contact_info_masking: false
+      api_key_protection: true
+    
+    backup_security:
+      encrypted_backups: true
+      secure_storage: true
+      access_logging: true
+      retention_policy: "90d"
+
+# Integration Configuration
+integrations:
+  github:
+    enabled: true
+    
+    repositories:
+      primary:
+        url: "${GITHUB_REPOSITORY}"
+        branch: "main"
+        access_token: "${GITHUB_TOKEN}"
+        webhook_secret: "${GITHUB_WEBHOOK_SECRET}"
+      
+      business:
+        url: "${GITHUB_BUSINESS_REPO}"
+        branch: "main"
+        access_token: "${GITHUB_TOKEN}"
+      
+      organization:
+        url: "${GITHUB_ORG_REPO}"
+        branch: "main"
+        access_token: "${GITHUB_TOKEN}"
+      
+      github_pages:
+        url: "${GITHUB_PAGES_REPO}"
+        branch: "gh-pages"
+        access_token: "${GITHUB_TOKEN}"
+    
+    webhook_configuration:
+      events: ["push", "pull_request", "release"]
+      content_type: "json"
+      ssl_verification: true
+  
+  cms_integration:
+    enabled: false
+    
+    supported_cms:
+      - "contentful"
+      - "strapi"
+      - "sanity"
+      - "forestry"
+    
+    sync_direction: "bidirectional"
+    conflict_resolution: "cms_wins"
+  
+  notification_services:
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channels:
+        sync_updates: "#content-sync"
+        errors: "#dev-alerts"
+        success: "#deployments"
+    
+    email:
+      enabled: true
+      smtp_server: "${SMTP_SERVER}"
+      from_address: "${SYNC_EMAIL_FROM}"
+      recipients:
+        sync_reports: ["${DEVELOPER_EMAIL}"]
+        error_alerts: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+
+# Environment Configuration
+environment_variables:
+  required:
+    - "GITHUB_TOKEN"
+    - "GITHUB_REPOSITORY"
+    - "SLACK_WEBHOOK_URL"
+    - "DEVELOPER_EMAIL"
+  
+  optional:
+    - "GITHUB_WEBHOOK_SECRET"
+    - "GITHUB_BUSINESS_REPO"
+    - "GITHUB_ORG_REPO"
+    - "GITHUB_PAGES_REPO"
+    - "TEAM_LEAD_EMAIL"
+    - "SMTP_SERVER"
+    - "SYNC_EMAIL_FROM"
+    - "MANUAL_SYNC_WEBHOOK"
+
+# Backup and Recovery
+backup_recovery:
+  enabled: true
+  
+  backup_strategy:
+    automatic_backups:
+      enabled: true
+      frequency: "daily"
+      retention: "30d"
+      compression: true
+    
+    pre_sync_backups:
+      enabled: true
+      retention: "7d"
+      quick_restore: true
+    
+    conflict_backups:
+      enabled: true
+      retention: "90d"
+      detailed_metadata: true
+  
+  recovery_procedures:
+    point_in_time_recovery:
+      enabled: true
+      granularity: "1h"
+      max_recovery_time: "24h"
+    
+    selective_recovery:
+      enabled: true
+      content_type_level: true
+      domain_level: true
+      file_level: true
+    
+    disaster_recovery:
+      enabled: true
+      recovery_time_objective: "4h"
+      recovery_point_objective: "1h"
+      automated_failover: false

@@ -1,0 +1,747 @@
+# Trae Multi-Domain Portfolio Management System
+name: Multi-Domain Portfolio Manager
+version: "2.0"
+description: "Comprehensive automation for managing multiple portfolio domains"
+
+# Global Configuration
+global:
+  project_root: "./"
+  build_output: "./dist"
+  backup_retention: "30d"
+  deployment_timeout: "15m"
+  
+  environments:
+    development:
+      auto_deploy: false
+      testing_enabled: true
+      debug_mode: true
+    
+    staging:
+      auto_deploy: true
+      testing_enabled: true
+      ssl_validation: true
+    
+    production:
+      auto_deploy: false
+      manual_approval: true
+      rollback_enabled: true
+
+# Domain Configuration
+domains:
+  primary:
+    name: "straydog-syndications-llc.com"
+    type: "primary"
+    provider: "vercel"
+    ssl_provider: "letsencrypt"
+    cdn_enabled: true
+    
+    deployment:
+      branch: "main"
+      build_command: "npm run build"
+      output_directory: "dist"
+      environment_variables:
+        NODE_ENV: "production"
+        DOMAIN_TYPE: "primary"
+    
+    seo_config:
+      canonical_domain: true
+      sitemap_priority: 1.0
+      robots_txt: "allow_all"
+      structured_data: true
+    
+    monitoring:
+      uptime_check: true
+      performance_budget: "strict"
+      ssl_expiry_alert: "30d"
+      response_time_threshold: "2s"
+  
+  business:
+    name: "straydogsyndicationsllc.biz"
+    type: "business"
+    provider: "vercel"
+    ssl_provider: "letsencrypt"
+    cdn_enabled: true
+    
+    deployment:
+      branch: "main"
+      build_command: "npm run build:business"
+      output_directory: "dist"
+      environment_variables:
+        NODE_ENV: "production"
+        DOMAIN_TYPE: "business"
+        BUSINESS_FOCUS: "true"
+    
+    seo_config:
+      canonical_domain: false
+      canonical_reference: "straydog-syndications-llc.com"
+      sitemap_priority: 0.8
+      robots_txt: "allow_all"
+      structured_data: true
+      business_schema: true
+    
+    monitoring:
+      uptime_check: true
+      performance_budget: "standard"
+      ssl_expiry_alert: "30d"
+      response_time_threshold: "3s"
+  
+  organization:
+    name: "straydog-secondstory.org"
+    type: "organization"
+    provider: "vercel"
+    ssl_provider: "letsencrypt"
+    cdn_enabled: true
+    
+    deployment:
+      branch: "main"
+      build_command: "npm run build:org"
+      output_directory: "dist"
+      environment_variables:
+        NODE_ENV: "production"
+        DOMAIN_TYPE: "organization"
+        ORG_FOCUS: "true"
+    
+    seo_config:
+      canonical_domain: false
+      canonical_reference: "straydog-syndications-llc.com"
+      sitemap_priority: 0.7
+      robots_txt: "allow_all"
+      structured_data: true
+      organization_schema: true
+    
+    monitoring:
+      uptime_check: true
+      performance_budget: "standard"
+      ssl_expiry_alert: "30d"
+      response_time_threshold: "3s"
+  
+  github_pages:
+    name: "straydogsyndications.github.io"
+    type: "github_pages"
+    provider: "github"
+    ssl_provider: "github"
+    cdn_enabled: false
+    
+    deployment:
+      branch: "gh-pages"
+      build_command: "npm run build:github"
+      output_directory: "dist"
+      environment_variables:
+        NODE_ENV: "production"
+        DOMAIN_TYPE: "github"
+        BASE_PATH: "/portfolio"
+    
+    seo_config:
+      canonical_domain: false
+      canonical_reference: "straydog-syndications-llc.com"
+      sitemap_priority: 0.5
+      robots_txt: "noindex"
+      structured_data: false
+    
+    monitoring:
+      uptime_check: true
+      performance_budget: "relaxed"
+      ssl_expiry_alert: "60d"
+      response_time_threshold: "5s"
+
+# Automated Deployment Pipeline
+deployment_pipeline:
+  enabled: true
+  
+  triggers:
+    git_push:
+      branches: ["main", "develop"]
+      paths: ["src/**", "public/**", "package.json"]
+    
+    manual_trigger:
+      enabled: true
+      approval_required: true
+    
+    scheduled:
+      enabled: false
+      cron: "0 2 * * 0"  # Weekly on Sunday at 2 AM
+  
+  stages:
+    pre_deployment:
+      - name: "Code Quality Check"
+        command: "npm run lint && npm run type-check"
+        timeout: "5m"
+        required: true
+      
+      - name: "Unit Tests"
+        command: "npm run test"
+        timeout: "10m"
+        required: true
+      
+      - name: "Build Validation"
+        command: "npm run build:all"
+        timeout: "15m"
+        required: true
+      
+      - name: "Security Scan"
+        command: "npm audit --audit-level moderate"
+        timeout: "5m"
+        required: true
+    
+    deployment:
+      parallel: false
+      order: ["primary", "business", "organization", "github_pages"]
+      
+      domain_deployment:
+        - name: "Build for Domain"
+          command: "npm run build:{domain_type}"
+          timeout: "10m"
+        
+        - name: "Deploy to Provider"
+          provider_specific: true
+          timeout: "10m"
+        
+        - name: "Verify Deployment"
+          command: "curl -f {domain_url}/health"
+          timeout: "2m"
+          retry_count: 3
+        
+        - name: "Warm Cache"
+          command: "node scripts/warm-cache.js {domain_url}"
+          timeout: "5m"
+    
+    post_deployment:
+      - name: "Link Validation"
+        command: "node scripts/validate-links.js"
+        timeout: "10m"
+        required: true
+      
+      - name: "SEO Validation"
+        command: "node scripts/seo-check.js"
+        timeout: "15m"
+        required: false
+      
+      - name: "Performance Test"
+        command: "node scripts/performance-test.js"
+        timeout: "20m"
+        required: false
+      
+      - name: "Update Analytics"
+        command: "node scripts/update-analytics.js"
+        timeout: "5m"
+        required: false
+  
+  rollback:
+    enabled: true
+    automatic_triggers:
+      - "deployment_failure"
+      - "health_check_failure"
+      - "performance_degradation"
+    
+    manual_trigger: true
+    
+    strategy: "blue_green"
+    backup_retention: "7d"
+    
+    rollback_steps:
+      - "stop_traffic"
+      - "restore_previous_version"
+      - "verify_rollback"
+      - "resume_traffic"
+      - "notify_team"
+
+# Content Synchronization
+content_synchronization:
+  enabled: true
+  
+  sync_strategy: "master_slave"
+  master_domain: "straydog-syndications-llc.com"
+  
+  content_types:
+    shared_content:
+      - "about"
+      - "skills"
+      - "projects"
+      - "contact"
+    
+    domain_specific:
+      business:
+        - "business_services"
+        - "client_testimonials"
+        - "business_contact"
+      
+      organization:
+        - "mission_statement"
+        - "community_projects"
+        - "volunteer_opportunities"
+      
+      github_pages:
+        - "technical_documentation"
+        - "code_samples"
+  
+  sync_rules:
+    automatic_sync:
+      enabled: true
+      triggers: ["content_update", "deployment"]
+      delay: "5m"
+    
+    manual_sync:
+      enabled: true
+      approval_required: false
+    
+    conflict_resolution:
+      strategy: "master_wins"
+      backup_conflicts: true
+      notify_on_conflict: true
+  
+  content_transformation:
+    domain_specific_urls:
+      enabled: true
+      transform_internal_links: true
+      update_canonical_urls: true
+    
+    domain_specific_branding:
+      enabled: true
+      logo_variants: true
+      color_schemes: true
+      messaging_variants: true
+
+# SEO Optimization
+seo_optimization:
+  enabled: true
+  
+  global_seo:
+    meta_tags:
+      author: "StrayDog Syndications LLC"
+      generator: "Trae Multi-Domain System"
+      viewport: "width=device-width, initial-scale=1"
+    
+    open_graph:
+      site_name: "StrayDog Syndications"
+      type: "website"
+      locale: "en_US"
+    
+    twitter_cards:
+      card: "summary_large_image"
+      site: "@straydogsyndications"
+    
+    structured_data:
+      organization: true
+      website: true
+      breadcrumbs: true
+      local_business: true
+  
+  domain_specific_seo:
+    primary:
+      title_suffix: " | StrayDog Syndications LLC"
+      description_template: "Professional {service} services by StrayDog Syndications LLC"
+      keywords_focus: ["web development", "portfolio", "professional services"]
+    
+    business:
+      title_suffix: " | Business Services - StrayDog Syndications"
+      description_template: "Business-focused {service} solutions from StrayDog Syndications"
+      keywords_focus: ["business solutions", "enterprise services", "consulting"]
+    
+    organization:
+      title_suffix: " | Community Projects - StrayDog Second Story"
+      description_template: "Community-driven {service} initiatives by StrayDog Second Story"
+      keywords_focus: ["community projects", "non-profit", "social impact"]
+    
+    github_pages:
+      title_suffix: " | Technical Portfolio"
+      description_template: "Technical documentation and {service} examples"
+      keywords_focus: ["technical documentation", "code samples", "development"]
+  
+  seo_automation:
+    sitemap_generation:
+      enabled: true
+      update_frequency: "daily"
+      include_images: true
+      include_videos: false
+    
+    robots_txt_management:
+      enabled: true
+      domain_specific: true
+      crawl_delay: 1
+    
+    canonical_url_management:
+      enabled: true
+      cross_domain_canonicals: true
+      automatic_updates: true
+    
+    schema_markup:
+      enabled: true
+      auto_generate: true
+      validation: true
+
+# Performance Monitoring
+performance_monitoring:
+  enabled: true
+  
+  monitoring_frequency:
+    uptime: "1m"
+    performance: "5m"
+    ssl_check: "1h"
+    content_check: "15m"
+  
+  monitoring_locations:
+    - name: "US East"
+      region: "us-east-1"
+    - name: "US West"
+      region: "us-west-1"
+    - name: "Europe"
+      region: "eu-west-1"
+    - name: "Asia Pacific"
+      region: "ap-southeast-1"
+  
+  performance_budgets:
+    strict:  # For primary domain
+      first_contentful_paint: "1.5s"
+      largest_contentful_paint: "2.5s"
+      time_to_interactive: "3s"
+      cumulative_layout_shift: "0.1"
+      lighthouse_performance: 90
+    
+    standard:  # For business and org domains
+      first_contentful_paint: "2s"
+      largest_contentful_paint: "3s"
+      time_to_interactive: "4s"
+      cumulative_layout_shift: "0.15"
+      lighthouse_performance: 85
+    
+    relaxed:  # For GitHub Pages
+      first_contentful_paint: "3s"
+      largest_contentful_paint: "4s"
+      time_to_interactive: "5s"
+      cumulative_layout_shift: "0.2"
+      lighthouse_performance: 80
+  
+  alerts:
+    uptime:
+      threshold: "99.9%"
+      window: "5m"
+      escalation: "immediate"
+    
+    performance_degradation:
+      threshold: "20%"
+      window: "10m"
+      escalation: "5m"
+    
+    ssl_expiry:
+      warning: "30d"
+      critical: "7d"
+      escalation: "daily"
+    
+    error_rate:
+      threshold: "1%"
+      window: "5m"
+      escalation: "immediate"
+
+# SSL Certificate Management
+ssl_management:
+  enabled: true
+  
+  providers:
+    letsencrypt:
+      auto_renewal: true
+      renewal_threshold: "30d"
+      challenge_type: "http-01"
+      key_size: 2048
+    
+    github:
+      auto_managed: true
+      custom_domain_support: true
+  
+  monitoring:
+    expiry_check: true
+    check_frequency: "daily"
+    
+    alerts:
+      expiry_warning: "30d"
+      expiry_critical: "7d"
+      renewal_failure: "immediate"
+      invalid_certificate: "immediate"
+  
+  automation:
+    auto_renewal: true
+    renewal_testing: true
+    rollback_on_failure: true
+    
+    renewal_process:
+      - "backup_current_cert"
+      - "request_new_cert"
+      - "validate_new_cert"
+      - "deploy_new_cert"
+      - "verify_deployment"
+      - "cleanup_old_cert"
+
+# Link Validation
+link_validation:
+  enabled: true
+  
+  validation_scope:
+    internal_links: true
+    external_links: true
+    cross_domain_links: true
+    asset_links: true
+  
+  validation_frequency:
+    scheduled: "daily"
+    on_deployment: true
+    on_content_change: true
+  
+  validation_rules:
+    http_status_codes:
+      allowed: [200, 301, 302]
+      warning: [404, 403]
+      error: [500, 502, 503, 504]
+    
+    response_time:
+      warning_threshold: "5s"
+      error_threshold: "10s"
+    
+    ssl_validation:
+      required_for_https: true
+      check_certificate_validity: true
+  
+  cross_domain_validation:
+    validate_canonical_links: true
+    check_redirect_chains: true
+    verify_cross_references: true
+  
+  error_handling:
+    retry_failed_links: true
+    retry_count: 3
+    retry_delay: "30s"
+    
+    reporting:
+      create_issues: true
+      email_reports: true
+      slack_notifications: true
+
+# Analytics and Reporting
+analytics:
+  enabled: true
+  
+  providers:
+    google_analytics:
+      enabled: true
+      tracking_ids:
+        primary: "${GA_PRIMARY_ID}"
+        business: "${GA_BUSINESS_ID}"
+        organization: "${GA_ORG_ID}"
+        github_pages: "${GA_GITHUB_ID}"
+    
+    google_search_console:
+      enabled: true
+      properties:
+        - "straydog-syndications-llc.com"
+        - "straydogsyndicationsllc.biz"
+        - "straydog-secondstory.org"
+        - "straydogsyndications.github.io"
+    
+    custom_analytics:
+      enabled: true
+      endpoint: "${CUSTOM_ANALYTICS_ENDPOINT}"
+      api_key: "${CUSTOM_ANALYTICS_KEY}"
+  
+  data_collection:
+    page_views: true
+    user_sessions: true
+    bounce_rate: true
+    conversion_tracking: true
+    performance_metrics: true
+    error_tracking: true
+  
+  cross_domain_tracking:
+    enabled: true
+    shared_user_id: true
+    cross_domain_attribution: true
+  
+  reporting:
+    daily_reports:
+      enabled: true
+      time: "09:00"
+      recipients: ["${ANALYTICS_EMAIL}"]
+      
+      metrics:
+        - "traffic_overview"
+        - "performance_summary"
+        - "error_summary"
+        - "conversion_summary"
+    
+    weekly_reports:
+      enabled: true
+      day: "monday"
+      time: "08:00"
+      recipients: ["${STAKEHOLDER_EMAIL}"]
+      
+      metrics:
+        - "traffic_trends"
+        - "domain_comparison"
+        - "seo_performance"
+        - "technical_health"
+        - "business_insights"
+    
+    monthly_reports:
+      enabled: true
+      day: 1
+      time: "10:00"
+      recipients: ["${EXECUTIVE_EMAIL}"]
+      format: "pdf"
+      
+      metrics:
+        - "comprehensive_analysis"
+        - "roi_analysis"
+        - "growth_metrics"
+        - "competitive_analysis"
+        - "strategic_recommendations"
+
+# Error Handling and Recovery
+error_handling:
+  enabled: true
+  
+  error_categories:
+    deployment_errors:
+      retry_count: 3
+      retry_delay: "2m"
+      escalation_threshold: 3
+      auto_rollback: true
+    
+    ssl_errors:
+      retry_count: 2
+      retry_delay: "1h"
+      escalation_threshold: 2
+      fallback_certificate: true
+    
+    performance_errors:
+      retry_count: 1
+      retry_delay: "5m"
+      escalation_threshold: 1
+      auto_optimization: true
+    
+    content_sync_errors:
+      retry_count: 5
+      retry_delay: "30s"
+      escalation_threshold: 5
+      manual_intervention: true
+  
+  recovery_procedures:
+    automatic_recovery:
+      enabled: true
+      max_attempts: 3
+      cooldown_period: "10m"
+    
+    manual_recovery:
+      enabled: true
+      approval_required: true
+      documentation_required: true
+    
+    disaster_recovery:
+      enabled: true
+      backup_restoration: true
+      emergency_contacts: ["${EMERGENCY_EMAIL}"]
+  
+  logging_and_monitoring:
+    error_logging: true
+    performance_impact_tracking: true
+    recovery_time_tracking: true
+    
+    alerting:
+      immediate: ["deployment_failure", "ssl_failure", "uptime_failure"]
+      delayed: ["performance_degradation", "content_sync_failure"]
+      summary: ["link_validation_errors", "seo_issues"]
+
+# Notification Configuration
+notifications:
+  channels:
+    slack:
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channels:
+        critical: "#critical-alerts"
+        warnings: "#dev-alerts"
+        deployments: "#deployments"
+        analytics: "#analytics"
+    
+    email:
+      smtp_server: "${SMTP_SERVER}"
+      recipients:
+        critical: ["${DEVELOPER_EMAIL}", "${TEAM_LEAD_EMAIL}"]
+        warnings: ["${DEVELOPER_EMAIL}"]
+        reports: ["${STAKEHOLDER_EMAIL}"]
+    
+    webhook:
+      endpoints:
+        - url: "${CUSTOM_WEBHOOK_URL}"
+          method: "POST"
+          headers:
+            "Content-Type": "application/json"
+            "Authorization": "Bearer ${WEBHOOK_TOKEN}"
+  
+  message_templates:
+    deployment_success: |
+      ✅ Multi-Domain Deployment Successful!
+      
+      **Domains Updated:**
+      {deployed_domains}
+      
+      **Build Time:** {build_time}
+      **Deployment Time:** {deployment_time}
+      
+      **Performance Scores:**
+      {performance_summary}
+      
+      [View Analytics]({analytics_url})
+    
+    deployment_failure: |
+      🚨 Multi-Domain Deployment Failed!
+      
+      **Failed Domain:** {failed_domain}
+      **Error:** {error_message}
+      **Stage:** {failed_stage}
+      
+      **Rollback Status:** {rollback_status}
+      
+      **Action Required:** {action_required}
+      
+      [View Logs]({logs_url})
+    
+    ssl_expiry_warning: |
+      ⚠️ SSL Certificate Expiring Soon!
+      
+      **Domain:** {domain}
+      **Expires:** {expiry_date}
+      **Days Remaining:** {days_remaining}
+      
+      **Auto-Renewal:** {auto_renewal_status}
+      
+      [Manage Certificates]({ssl_management_url})
+
+# Security Configuration
+security:
+  access_control:
+    deployment_approval: true
+    multi_factor_auth: true
+    ip_whitelist: ["${ALLOWED_IPS}"]
+  
+  secrets_management:
+    provider: "github_secrets"
+    rotation_schedule: "90d"
+    encryption: "AES-256"
+  
+  audit_logging:
+    enabled: true
+    retention: "1y"
+    compliance: "SOC2"
+
+# Environment Variables
+environment_variables:
+  required:
+    - "SLACK_WEBHOOK_URL"
+    - "DEVELOPER_EMAIL"
+    - "SMTP_SERVER"
+    - "GA_PRIMARY_ID"
+    - "VERCEL_TOKEN"
+    - "GITHUB_TOKEN"
+  
+  optional:
+    - "TEAM_LEAD_EMAIL"
+    - "STAKEHOLDER_EMAIL"
+    - "CUSTOM_WEBHOOK_URL"
+    - "CUSTOM_ANALYTICS_ENDPOINT"
+    - "EMERGENCY_EMAIL"

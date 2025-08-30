@@ -1,0 +1,236 @@
+# CSS Layout Validation SOLO Agent
+name: CSS Layout Validator
+version: "1.0"
+description: "Autonomous agent for detecting and fixing CSS layout issues"
+
+# Agent Configuration
+agent_type: "solo"
+runtime: "node"
+autonomous: true
+learning_enabled: true
+
+# Triggers
+triggers:
+  file_patterns:
+    - "**/*.css"
+    - "**/*.scss"
+    - "**/*.tsx"
+    - "**/*.jsx"
+  events:
+    - "file_save"
+    - "git_commit"
+    - "build_start"
+
+# Detection Rules
+detection_rules:
+  excessive_spacing:
+    pattern: "py-([2-9][0-9]|[1-9][0-9]{2,})|mt-([2-9][0-9]|[1-9][0-9]{2,})|mb-([2-9][0-9]|[1-9][0-9]{2,})"
+    severity: "warning"
+    description: "Excessive padding or margin detected"
+    auto_fix: true
+    suggestions:
+      - "Replace py-20 with py-8 for better spacing"
+      - "Use py-6 instead of py-16 for moderate spacing"
+      - "Consider py-4 for tight layouts"
+
+  large_gaps:
+    pattern: "space-y-([8-9]|[1-9][0-9])|gap-([8-9]|[1-9][0-9])"
+    severity: "info"
+    description: "Large gaps between elements detected"
+    auto_fix: true
+    suggestions:
+      - "Use space-y-4 instead of space-y-8 for tighter layouts"
+      - "Consider space-y-6 for moderate spacing"
+      - "Use gap-4 instead of gap-8 for grid layouts"
+
+  layout_overflow:
+    pattern: "overflow-hidden(?!.*intentional)"
+    severity: "warning"
+    description: "Potential layout overflow issue"
+    auto_fix: false
+    suggestions:
+      - "Verify if overflow-hidden is intentional"
+      - "Consider using overflow-auto for scrollable content"
+      - "Check if content exceeds container bounds"
+
+  missing_responsive:
+    pattern: "(?<!sm:|md:|lg:|xl:|2xl:)(w-|h-|p-|m-)"
+    severity: "info"
+    description: "Missing responsive variants"
+    auto_fix: false
+    suggestions:
+      - "Add responsive variants: sm:, md:, lg:"
+      - "Consider mobile-first approach"
+      - "Use responsive padding: p-4 md:p-8"
+
+  green_box_issue:
+    component_patterns:
+      - "CareerTimeline"
+      - "Timeline"
+    css_patterns:
+      - "section.*py-20"
+      - "div.*py-16.*space-y-8"
+    severity: "error"
+    description: "Green box layout issue detected in timeline components"
+    auto_fix: true
+    fix_actions:
+      - action: "replace_section_with_div"
+        pattern: "<section([^>]*)>"
+        replacement: "<div$1>"
+      - action: "reduce_padding"
+        pattern: "py-20"
+        replacement: "py-8"
+      - action: "tighten_spacing"
+        pattern: "space-y-8"
+        replacement: "space-y-4"
+      - action: "reduce_margins"
+        pattern: "mt-16"
+        replacement: "mt-8"
+
+# Auto-Fix Configuration
+auto_fix:
+  enabled: true
+  confidence_threshold: 0.8
+  backup_original: true
+  dry_run_first: true
+  
+  fix_strategies:
+    spacing_optimization:
+      - pattern: "py-([2-9][0-9])"
+        replacement: "py-8"
+        condition: "value > 20"
+      - pattern: "space-y-([8-9]|[1-9][0-9])"
+        replacement: "space-y-4"
+        condition: "value >= 8"
+      - pattern: "mt-([1-9][0-9])"
+        replacement: "mt-8"
+        condition: "value >= 16"
+    
+    layout_structure:
+      - pattern: "<section([^>]*class=\"[^\"]*timeline[^\"]*\")>"
+        replacement: "<div$1>"
+        description: "Replace section with div for embedded timeline components"
+      - pattern: "</section>(?=.*timeline)"
+        replacement: "</div>"
+        description: "Close div instead of section for timeline components"
+
+# Learning Configuration
+learning:
+  enabled: true
+  feedback_collection: true
+  pattern_recognition: true
+  
+  training_data:
+    positive_examples:
+      - "py-4 md:py-6 lg:py-8"
+      - "space-y-4"
+      - "mt-6 mb-4"
+    
+    negative_examples:
+      - "py-20"
+      - "space-y-12"
+      - "mt-24"
+  
+  improvement_metrics:
+    - "layout_consistency_score"
+    - "spacing_efficiency_ratio"
+    - "responsive_coverage_percentage"
+
+# Validation Rules
+validation:
+  flexbox_layouts:
+    - rule: "flex_direction_consistency"
+      check: "flex-col items-center vs flex-row justify-between"
+    - rule: "flex_wrap_usage"
+      check: "flex-wrap when content might overflow"
+  
+  grid_layouts:
+    - rule: "grid_template_definition"
+      check: "grid-cols-* with proper gap settings"
+    - rule: "grid_responsive_behavior"
+      check: "responsive grid column changes"
+  
+  spacing_consistency:
+    - rule: "consistent_spacing_scale"
+      check: "using 4, 6, 8, 12, 16 spacing scale"
+    - rule: "logical_spacing_hierarchy"
+      check: "larger elements have more spacing"
+
+# Reporting
+reporting:
+  generate_reports: true
+  report_format: "json"
+  include_suggestions: true
+  include_before_after: true
+  
+  metrics:
+    - "issues_detected"
+    - "auto_fixes_applied"
+    - "manual_review_required"
+    - "layout_improvement_score"
+
+# Integration
+integration:
+  vscode_extension: true
+  git_hooks: true
+  ci_cd_pipeline: true
+  
+  notifications:
+    slack:
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channel: "#dev-layout-alerts"
+    
+    email:
+      recipients: ["${DEVELOPER_EMAIL}"]
+      template: "layout_issue_detected"
+
+# Performance
+performance:
+  max_file_size: "1MB"
+  timeout: "30s"
+  parallel_processing: true
+  cache_results: true
+  
+  optimization:
+    skip_node_modules: true
+    skip_build_files: true
+    focus_on_components: true
+
+# Error Handling
+error_handling:
+  retry_attempts: 3
+  fallback_to_manual: true
+  log_errors: true
+  
+  recovery_strategies:
+    - "revert_changes"
+    - "notify_developer"
+    - "create_backup"
+
+# Custom Rules for Portfolio
+custom_rules:
+  portfolio_specific:
+    career_timeline_optimization:
+      description: "Optimize Career Timeline component layout"
+      target_files: ["**/CareerTimeline.tsx"]
+      fixes:
+        - "Remove section wrapper for embedded components"
+        - "Reduce excessive vertical padding"
+        - "Optimize spacing between timeline items"
+        - "Ensure responsive behavior"
+    
+    glass_container_spacing:
+      description: "Optimize glass container spacing"
+      target_files: ["**/GlassContainer.tsx", "**/GlassCard.tsx"]
+      fixes:
+        - "Consistent internal padding"
+        - "Proper margin relationships"
+        - "Responsive spacing adjustments"
+
+# Success Criteria
+success_criteria:
+  layout_score_improvement: ">= 20%"
+  spacing_consistency: ">= 90%"
+  responsive_coverage: ">= 95%"
+  zero_layout_overflow: true
+  green_box_issue_resolved: true

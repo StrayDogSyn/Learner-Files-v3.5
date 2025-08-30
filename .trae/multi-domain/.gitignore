@@ -1,0 +1,668 @@
+# Trae Multi-Domain Portfolio - Git Ignore Configuration
+# This file specifies intentionally untracked files that Git should ignore
+
+# ============================================================================
+# Environment and Configuration
+# ============================================================================
+
+# Environment variables (contains sensitive data)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.staging
+.env.*.local
+
+# Trae configuration overrides
+trae.local.yml
+trae.override.yml
+*.local.yml
+*.override.yml
+
+# Secrets and credentials
+secrets/
+credentials/
+keys/
+certs/
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+*.truststore
+
+# API keys and tokens
+api-keys.json
+tokens.json
+service-account.json
+google-credentials.json
+aws-credentials.json
+azure-credentials.json
+
+# ============================================================================
+# Dependencies and Package Managers
+# ============================================================================
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Package manager lock files (keep only one)
+# npm
+package-lock.json
+# yarn
+yarn.lock
+# pnpm
+pnpm-lock.yaml
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# ============================================================================
+# Build and Distribution
+# ============================================================================
+
+# Build outputs
+build/
+dist/
+out/
+public/build/
+.next/
+.nuxt/
+.vuepress/dist/
+.serverless/
+.fusebox/
+.dynamodb/
+
+# Webpack bundles
+bundle.js
+bundle.*.js
+*.bundle.js
+*.chunk.js
+*.chunk.css
+
+# Rollup bundles
+rollup.config.*.js
+
+# Parcel cache
+.cache/
+.parcel-cache/
+
+# Vite cache
+.vite/
+vite.config.*.timestamp-*
+
+# SvelteKit build
+.svelte-kit/
+
+# Remix build
+/build
+/public/build
+
+# ============================================================================
+# Testing and Coverage
+# ============================================================================
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Jest cache
+.jest/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+
+# Test artifacts
+*.tgz
+*.tar.gz
+test-output/
+test-reports/
+
+# ============================================================================
+# Logs and Monitoring
+# ============================================================================
+
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Trae logs
+.trae/logs/
+.trae/cache/
+.trae/temp/
+.trae/runtime/
+.trae/state/
+.trae/backups/
+
+# Monitoring data
+monitoring-data/
+metrics/
+traces/
+
+# Performance reports
+lighthouse-reports/
+performance-reports/
+
+# ============================================================================
+# Development Tools
+# ============================================================================
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*.swn
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+# ============================================================================
+# Operating System
+# ============================================================================
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# Temporary and Cache Files
+# ============================================================================
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.backup
+*.orig
+
+# Cache directories
+.cache/
+.npm/
+.yarn/
+.pnpm/
+.eslintcache
+.stylelintcache
+.parcel-cache/
+.next/cache/
+.nuxt/cache/
+
+# Runtime caches
+.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# ============================================================================
+# Deployment and Cloud
+# ============================================================================
+
+# Vercel
+.vercel
+.vercel.json
+
+# Netlify
+.netlify/
+
+# AWS
+.aws/
+aws-exports.js
+
+# Google Cloud
+.gcloud/
+gcloud-credentials.json
+
+# Azure
+.azure/
+
+# Heroku
+.heroku/
+
+# Docker
+.dockerignore
+Dockerfile.local
+docker-compose.override.yml
+docker-compose.local.yml
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# ============================================================================
+# Database and Storage
+# ============================================================================
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+*.db3
+*.s3db
+*.sl3
+
+# Database dumps
+*.sql
+*.dump
+
+# Redis dumps
+dump.rdb
+
+# MongoDB
+*.bson
+
+# ============================================================================
+# Security and Compliance
+# ============================================================================
+
+# Security scan results
+security-reports/
+vulnerability-reports/
+.snyk
+
+# Audit logs
+audit-logs/
+compliance-reports/
+
+# GDPR/Privacy data
+privacy-data/
+personal-data/
+
+# ============================================================================
+# Analytics and Reporting
+# ============================================================================
+
+# Analytics data
+analytics-data/
+reports/
+exports/
+
+# Generated reports
+*.pdf
+*.xlsx
+*.csv
+*.json.gz
+
+# Chart images
+charts/
+graphs/
+
+# ============================================================================
+# Backup and Archive
+# ============================================================================
+
+# Backup files
+*.backup
+*.bak
+*.old
+*.orig
+*.save
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.bz2
+*.xz
+
+# ============================================================================
+# Media and Assets
+# ============================================================================
+
+# Large media files (should be in LFS or CDN)
+*.mov
+*.mp4
+*.avi
+*.wmv
+*.flv
+*.webm
+*.mkv
+*.m4v
+*.3gp
+*.3g2
+*.rm
+*.swf
+*.fla
+
+# High-resolution images (should be optimized)
+*.psd
+*.ai
+*.eps
+*.sketch
+*.fig
+*.xd
+
+# Audio files
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+*.wma
+*.m4a
+
+# ============================================================================
+# Documentation Build
+# ============================================================================
+
+# Generated documentation
+docs/build/
+docs/dist/
+docs/_build/
+docs/.vuepress/dist/
+docs/.docusaurus/
+
+# Sphinx documentation
+docs/_build/
+
+# MkDocs
+site/
+
+# GitBook
+_book/
+
+# ============================================================================
+# Miscellaneous
+# ============================================================================
+
+# Runtime configuration
+runtime.json
+config.local.json
+settings.local.json
+
+# User-specific files
+.user
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Benchmark results
+benchmark-results/
+performance-data/
+
+# Profiling data
+*.prof
+*.cpuprofile
+*.heapprofile
+*.heapsnapshot
+
+# Lock files for tools
+.tool-versions
+.nvmrc.local
+.python-version.local
+
+# ============================================================================
+# Project-Specific Ignores
+# ============================================================================
+
+# Trae-specific temporary files
+.trae-temp/
+.trae-cache/
+.trae-state/
+
+# Domain-specific build outputs
+straydog-syndications-llc/
+straydogsyndicationsllc/
+straydog-secondstory/
+straydogsyndications-github/
+
+# Deployment artifacts
+deployment-artifacts/
+rollback-data/
+
+# Monitoring configuration overrides
+monitoring.local.yml
+analytics.local.yml
+ssl.local.yml
+
+# Link validation cache
+link-validation-cache/
+broken-links-cache/
+
+# Content synchronization temporary files
+content-sync-temp/
+content-backup/
+
+# Performance optimization cache
+optimization-cache/
+image-cache/
+static-cache/
+
+# SEO analysis results
+seo-analysis/
+sitemap-cache/
+robots-cache/
+
+# SSL certificate temporary files
+ssl-temp/
+cert-requests/
+
+# Analytics export files
+analytics-exports/
+report-exports/
+
+# Error tracking data
+error-logs/
+crash-reports/
+
+# A/B testing data
+ab-test-data/
+experiment-results/
+
+# Feature flags
+feature-flags.local.json
+
+# ============================================================================
+# Keep These Files (Negation Patterns)
+# ============================================================================
+
+# Keep essential configuration files
+!.gitkeep
+!.gitignore
+!.editorconfig
+!.prettierrc*
+!.eslintrc*
+!.stylelintrc*
+!.babelrc*
+!.browserslistrc
+!.nvmrc
+!.node-version
+!.tool-versions
+
+# Keep documentation
+!README.md
+!CHANGELOG.md
+!LICENSE
+!CONTRIBUTING.md
+!CODE_OF_CONDUCT.md
+!SECURITY.md
+
+# Keep CI/CD configuration
+!.github/
+!.gitlab-ci.yml
+!.travis.yml
+!.circleci/
+!.jenkins/
+!azure-pipelines.yml
+
+# Keep Docker configuration
+!Dockerfile
+!docker-compose.yml
+!.dockerignore
+
+# Keep package configuration
+!package.json
+!tsconfig.json
+!webpack.config.js
+!rollup.config.js
+!vite.config.js
+!jest.config.js
+!playwright.config.js
+
+# Keep Trae configuration files
+!trae*.yml
+!*.trae.yml
+!.trae/config/
+
+# Keep example files
+!*.example
+!*.sample
+!*.template
+
+# ============================================================================
+# End of .gitignore
+# ============================================================================
+
+# Note: This .gitignore file is comprehensive and covers most scenarios
+# for a Trae multi-domain portfolio management system. Adjust as needed
+# based on your specific requirements and tools.
+#
+# Remember to:
+# 1. Review and customize for your specific needs
+# 2. Test with 'git status' to ensure correct behavior
+# 3. Use 'git check-ignore <file>' to debug ignore rules
+# 4. Keep sensitive data out of version control
+# 5. Document any custom ignore patterns for your team
+#
+# For more information:
+# - Git documentation: https://git-scm.com/docs/gitignore
+# - GitHub's gitignore templates: https://github.com/github/gitignore
+# - Trae documentation: https://docs.trae.dev

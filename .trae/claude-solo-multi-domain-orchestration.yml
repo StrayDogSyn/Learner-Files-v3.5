@@ -1,0 +1,454 @@
+# TRAE Multi-Domain Portfolio Orchestration
+name: "Multi-Domain Portfolio Orchestration"
+trigger: "AFTER_EMERGENCY_FIXES"
+priority: "HIGH"
+version: "1.0.0"
+
+# Global Configuration
+global:
+  claude_api:
+    model: "claude-3-5-sonnet-20241022"
+    max_tokens: 4000
+    temperature: 0.1
+  
+  orchestration_mode: "parallel_deployment"
+  sync_enabled: true
+  cross_domain_analytics: true
+
+# Domain Configuration
+domains:
+  primary:
+    name: "straydog-syndications-llc.com"
+    type: "primary_business"
+    priority: 1
+    description: "Main business presence and professional portfolio"
+    features:
+      - "Technical expertise showcase"
+      - "Project highlights and case studies"
+      - "Primary contact point for business inquiries"
+      - "Professional blog and thought leadership"
+    
+  business:
+    name: "straydogsyndicationsllc.biz"
+    type: "business_variant"
+    priority: 2
+    description: "Business-focused variant with commercial emphasis"
+    features:
+      - "Service offerings and pricing"
+      - "Client testimonials and case studies"
+      - "Business contact and consultation booking"
+      - "Commercial project portfolio"
+    
+  nonprofit:
+    name: "straydog-secondstory.org"
+    type: "nonprofit_initiative"
+    priority: 3
+    description: "Nonprofit and community-focused initiatives"
+    features:
+      - "Community projects and social impact"
+      - "Volunteer opportunities and partnerships"
+      - "Educational resources and tutorials"
+      - "Open source contributions"
+    
+  github:
+    name: "straydogsyn.github.io/Learner-Files-v3.5"
+    type: "development_showcase"
+    priority: 4
+    description: "Technical portfolio and development showcase"
+    features:
+      - "Live project demonstrations"
+      - "Code repositories and documentation"
+      - "Technical blog posts and tutorials"
+      - "Development process and methodologies"
+
+# Multi-Domain Orchestration Agents
+agents:
+  domain_orchestrator:
+    type: "multi_domain_coordinator"
+    priority: "high"
+    
+    prompt: |
+      MULTI-DOMAIN PORTFOLIO MANAGEMENT ORCHESTRATION:
+      
+      Coordinate deployment, content synchronization, and user experience across all 4 portfolio domains
+      to create a cohesive professional presence that showcases different aspects of expertise.
+      
+      **Domain Strategy & Content Distribution:**
+      
+      1. **PRIMARY DOMAIN (straydog-syndications-llc.com):**
+         - **Purpose**: Main business presence and professional portfolio
+         - **Content Focus**: Technical expertise, project highlights, professional credibility
+         - **Target Audience**: Potential clients, employers, professional network
+         - **Key Features**:
+           * Comprehensive project portfolio with case studies
+           * Technical skills and expertise showcase
+           * Professional blog with industry insights
+           * Contact forms and business inquiry handling
+           * Client testimonials and success stories
+         
+      2. **BUSINESS VARIANT (straydogsyndicationsllc.biz):**
+         - **Purpose**: Commercial-focused business presence
+         - **Content Focus**: Services, pricing, commercial offerings
+         - **Target Audience**: Business clients, commercial partnerships
+         - **Key Features**:
+           * Service packages and pricing information
+           * Commercial project portfolio
+           * Business consultation booking system
+           * ROI-focused case studies
+           * Partnership and collaboration opportunities
+         
+      3. **NONPROFIT INITIATIVE (straydog-secondstory.org):**
+         - **Purpose**: Community impact and social responsibility
+         - **Content Focus**: Community projects, education, open source
+         - **Target Audience**: Community members, volunteers, educators
+         - **Key Features**:
+           * Community project showcases
+           * Educational resources and tutorials
+           * Volunteer opportunity listings
+           * Open source contribution highlights
+           * Social impact metrics and stories
+         
+      4. **GITHUB PORTFOLIO (straydogsyn.github.io/Learner-Files-v3.5):**
+         - **Purpose**: Technical demonstration and development showcase
+         - **Content Focus**: Live demos, code quality, technical process
+         - **Target Audience**: Developers, technical recruiters, peers
+         - **Key Features**:
+           * Live project demonstrations (Marvel Quiz, etc.)
+           * Interactive portfolio components
+           * Technical documentation and code samples
+           * Development process and methodology showcase
+           * Real-time project updates and progress
+      
+      **Cross-Domain Integration Strategy:**
+      
+      1. **Unified Navigation System:**
+         - Create consistent navigation menu across all domains
+         - Implement clear domain switching with context preservation
+         - Add breadcrumb navigation showing current domain and section
+         - Ensure mobile-responsive navigation across all properties
+      
+      2. **Content Synchronization:**
+         - Sync core portfolio projects across relevant domains
+         - Maintain consistent branding and visual identity
+         - Update contact information and social links globally
+         - Coordinate blog posts and content publication
+      
+      3. **Analytics & Performance Tracking:**
+         - Implement unified analytics across all domains
+         - Track user journeys between domains
+         - Monitor conversion rates and engagement metrics
+         - Set up cross-domain goal tracking
+      
+      4. **SEO & Discovery Optimization:**
+         - Create domain-specific SEO strategies
+         - Implement proper canonical URLs and cross-references
+         - Optimize for different keyword sets per domain
+         - Set up structured data markup for each domain type
+      
+      **Technical Implementation Requirements:**
+      - Deploy consistent codebase with domain-specific configurations
+      - Implement environment-based content switching
+      - Set up automated deployment pipelines for all domains
+      - Create shared component library for consistency
+      - Implement proper SSL certificates and security headers
+      
+      **Success Criteria:**
+      ✅ All 4 domains operational with unique value propositions
+      ✅ Seamless navigation and user experience between domains
+      ✅ Consistent branding and professional presentation
+      ✅ Domain-specific content optimized for target audiences
+      ✅ Unified analytics and performance monitoring
+      ✅ Cross-domain SEO optimization and discovery
+    
+    actions:
+      - analyze_domain_requirements
+      - create_deployment_strategy
+      - implement_cross_domain_navigation
+      - setup_content_synchronization
+      - configure_analytics_tracking
+      - optimize_seo_across_domains
+    
+    outputs:
+      - domain_deployment_plan
+      - cross_domain_navigation_system
+      - content_sync_configuration
+      - analytics_setup
+
+  content_synchronizer:
+    type: "content_coordination"
+    priority: "medium"
+    
+    prompt: |
+      CROSS-DOMAIN CONTENT SYNCHRONIZATION:
+      
+      Manage content distribution and synchronization across all portfolio domains
+      while maintaining domain-specific focus and avoiding duplicate content issues.
+      
+      **Content Distribution Strategy:**
+      
+      1. **Core Portfolio Projects:**
+         - **Primary Domain**: Full case studies with business impact
+         - **Business Domain**: ROI-focused summaries and commercial value
+         - **Nonprofit Domain**: Community impact and educational value
+         - **GitHub Domain**: Technical implementation and live demos
+      
+      2. **Blog Content Distribution:**
+         - **Technical Posts**: Primary on GitHub, referenced on Primary
+         - **Business Insights**: Primary on Business, summarized on Primary
+         - **Community Content**: Primary on Nonprofit, cross-referenced
+         - **Industry Analysis**: Primary on Primary, adapted for others
+      
+      3. **Contact & About Information:**
+         - Maintain consistent core information across all domains
+         - Adapt messaging for domain-specific audiences
+         - Ensure contact forms route to appropriate channels
+         - Update social media links and professional profiles
+      
+      4. **Project Showcases:**
+         - **Marvel Quiz Game**: Full demo on GitHub, business case on Primary
+         - **Portfolio Architecture**: Technical details on GitHub, overview on Primary
+         - **Community Projects**: Full showcase on Nonprofit, mentions on others
+         - **Commercial Work**: Detailed case studies on Business and Primary
+      
+      **Content Management Workflow:**
+      1. Create master content repository with domain-specific variations
+      2. Implement automated content distribution system
+      3. Set up content approval workflow for cross-domain publishing
+      4. Create content calendar coordinating across all domains
+      5. Implement version control for content updates
+      
+      **SEO & Duplicate Content Prevention:**
+      - Use canonical URLs to indicate primary content source
+      - Implement proper cross-domain linking strategies
+      - Create unique meta descriptions and titles for each domain
+      - Set up structured data markup appropriate for each domain type
+      
+      **Success Criteria:**
+      ✅ Consistent core information across all domains
+      ✅ Domain-specific content optimization
+      ✅ No duplicate content penalties
+      ✅ Efficient content update and distribution process
+      ✅ Proper SEO optimization for each domain
+    
+    actions:
+      - audit_existing_content
+      - create_content_distribution_matrix
+      - implement_sync_mechanisms
+      - setup_seo_optimization
+      - create_content_management_workflow
+    
+    dependencies:
+      - domain_orchestrator
+    
+    outputs:
+      - content_distribution_plan
+      - sync_automation_scripts
+      - seo_optimization_config
+      - content_calendar
+
+  deployment_coordinator:
+    type: "deployment_automation"
+    priority: "high"
+    
+    prompt: |
+      AUTOMATED MULTI-DOMAIN DEPLOYMENT COORDINATION:
+      
+      Orchestrate simultaneous deployment across all 4 portfolio domains
+      with proper testing, rollback capabilities, and monitoring.
+      
+      **Deployment Strategy:**
+      
+      1. **Staging Environment Setup:**
+         - Create staging versions of all 4 domains
+         - Implement automated testing pipelines
+         - Set up cross-domain integration testing
+         - Configure performance monitoring for each domain
+      
+      2. **Production Deployment Pipeline:**
+         - **Phase 1**: Deploy to GitHub Pages (lowest risk)
+         - **Phase 2**: Deploy to Primary domain (main business presence)
+         - **Phase 3**: Deploy to Business and Nonprofit domains
+         - **Phase 4**: Verify cross-domain functionality
+      
+      3. **Rollback & Recovery:**
+         - Maintain previous version backups for all domains
+         - Implement automated rollback triggers
+         - Set up health monitoring and alerting
+         - Create manual override capabilities
+      
+      4. **Domain-Specific Configurations:**
+         - **GitHub Pages**: Static site deployment with GitHub Actions
+         - **Primary Domain**: Full-featured deployment with backend services
+         - **Business Domain**: E-commerce and booking system integration
+         - **Nonprofit Domain**: Community features and volunteer management
+      
+      **Technical Implementation:**
+      - Set up CI/CD pipelines for each domain
+      - Configure environment-specific variables and secrets
+      - Implement automated testing and quality gates
+      - Set up monitoring and alerting systems
+      - Create deployment status dashboards
+      
+      **Monitoring & Validation:**
+      - Health checks for all domains post-deployment
+      - Performance monitoring and optimization
+      - User experience validation across domains
+      - SEO and accessibility compliance checks
+      
+      **Success Criteria:**
+      ✅ All 4 domains deploy successfully and simultaneously
+      ✅ Cross-domain functionality verified
+      ✅ Performance meets established benchmarks
+      ✅ Rollback capabilities tested and functional
+      ✅ Monitoring and alerting operational
+    
+    actions:
+      - setup_deployment_pipelines
+      - configure_staging_environments
+      - implement_testing_automation
+      - setup_monitoring_systems
+      - create_rollback_procedures
+    
+    dependencies:
+      - domain_orchestrator
+      - content_synchronizer
+    
+    outputs:
+      - deployment_pipelines
+      - monitoring_dashboards
+      - rollback_procedures
+      - health_check_systems
+
+# Automation & Monitoring
+automation_triggers:
+  deployment_coordination:
+    schedule: "after emergency fixes completed"
+    condition: "all_emergency_agents_successful"
+    actions:
+      - trigger_domain_orchestrator
+      - initialize_content_sync
+      - start_deployment_pipeline
+  
+  cross_domain_monitoring:
+    schedule: "every 15 minutes"
+    checks:
+      - "All domains accessible"
+      - "Cross-domain navigation functional"
+      - "Content synchronization status"
+      - "Analytics tracking operational"
+    alerts:
+      - domain_downtime
+      - navigation_failures
+      - sync_errors
+  
+  performance_monitoring:
+    schedule: "every 30 minutes"
+    metrics:
+      - page_load_times
+      - user_experience_scores
+      - conversion_rates
+      - seo_rankings
+    thresholds:
+      - page_load_time: "<3 seconds"
+      - user_experience_score: ">90"
+      - uptime: ">99.9%"
+
+# Integration Points
+integrations:
+  domains:
+    primary:
+      hosting: "custom_hosting_provider"
+      ssl: "letsencrypt_auto"
+      cdn: "cloudflare"
+      analytics: "google_analytics_4"
+    
+    business:
+      hosting: "custom_hosting_provider"
+      ssl: "letsencrypt_auto"
+      cdn: "cloudflare"
+      analytics: "google_analytics_4"
+      ecommerce: "stripe_integration"
+    
+    nonprofit:
+      hosting: "custom_hosting_provider"
+      ssl: "letsencrypt_auto"
+      cdn: "cloudflare"
+      analytics: "google_analytics_4"
+      donations: "paypal_integration"
+    
+    github:
+      hosting: "github_pages"
+      ssl: "github_pages_ssl"
+      cdn: "github_pages_cdn"
+      analytics: "google_analytics_4"
+  
+  monitoring:
+    uptime_monitoring: "uptimerobot"
+    performance_monitoring: "lighthouse_ci"
+    error_tracking: "sentry"
+    analytics: "google_analytics_4"
+  
+  notifications:
+    slack:
+      webhook_url: "${SLACK_DEPLOYMENT_WEBHOOK}"
+      channels:
+        - "#deployment-alerts"
+        - "#multi-domain-monitoring"
+    
+    email:
+      recipients:
+        - "${DEVELOPER_EMAIL}"
+        - "${BUSINESS_EMAIL}"
+      severity_threshold: "medium"
+
+# Security & Compliance
+security:
+  ssl_certificates:
+    auto_renewal: true
+    monitoring: true
+    backup_certificates: true
+  
+  access_control:
+    deployment_permissions: ["admin", "developer"]
+    content_management: ["admin", "content_manager"]
+    monitoring_access: ["admin", "developer", "viewer"]
+  
+  data_protection:
+    gdpr_compliance: true
+    privacy_policy_sync: true
+    cookie_consent_management: true
+
+# Performance Optimization
+performance:
+  cdn_configuration:
+    cache_headers: "optimized"
+    compression: "gzip_brotli"
+    image_optimization: true
+  
+  database_optimization:
+    connection_pooling: true
+    query_optimization: true
+    caching_strategy: "redis"
+  
+  frontend_optimization:
+    code_splitting: true
+    lazy_loading: true
+    service_workers: true
+
+# Success Metrics
+metrics:
+  deployment_success:
+    target_deployment_time: "<30 minutes"
+    success_rate: ">99%"
+    rollback_time: "<5 minutes"
+  
+  cross_domain_performance:
+    navigation_success_rate: ">99%"
+    content_sync_accuracy: "100%"
+    user_journey_completion: ">85%"
+  
+  business_impact:
+    lead_generation_increase: ">25%"
+    user_engagement_improvement: ">30%"
+    seo_ranking_improvement: ">20%"
+    conversion_rate_optimization: ">15%"
