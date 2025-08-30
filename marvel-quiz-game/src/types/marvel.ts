@@ -334,9 +334,10 @@ export interface AnimationState {
   screenShake: boolean;
   backgroundEffect?: string;
   type?: 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'correctAnswer' | 'incorrectAnswer' | 'achievementUnlocked';
-  message?: string;
-  duration?: number;
-  isActive?: boolean;
+   message?: string;
+   duration?: number;
+   isActive?: boolean;
+   id?: string;
 }
 
 export interface Particle {
