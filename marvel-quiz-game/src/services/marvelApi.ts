@@ -31,11 +31,11 @@ class MarvelApiClient {
 
   constructor() {
     this.publicKey = import.meta.env.VITE_MARVEL_PUBLIC_KEY || '';
-    this.privateKey = import.meta.env.MARVEL_PRIVATE_KEY || '';
+    this.privateKey = ''; // Private key should never be in frontend code
     this.cacheDuration = parseInt(import.meta.env.VITE_MARVEL_CACHE_DURATION) || 3600000; // 1 hour default
 
     if (!this.publicKey) {
-      console.warn('Marvel API public key not found. Please set VITE_MARVEL_PUBLIC_KEY in your environment variables.');
+      console.warn('Marvel API public key not found. Using mock data mode.');
     }
   }
 
@@ -69,6 +69,11 @@ class MarvelApiClient {
 
   // Build authenticated URL with required parameters
   private async buildAuthenticatedUrl(endpoint: string, params: Record<string, string> = {}): Promise<string> {
+    // If no private key available, we can't authenticate properly
+    if (!this.privateKey || !this.publicKey) {
+      throw new Error('Marvel API authentication not available - missing keys');
+    }
+    
     const timestamp = Date.now().toString();
     const hash = await this.generateHash(timestamp);
     
@@ -110,12 +115,18 @@ class MarvelApiClient {
       return cachedData;
     }
 
+    // Use mock data if API keys are not properly configured
+    if (!this.publicKey || !this.privateKey) {
+      console.warn('Marvel API keys not configured. Using mock data.');
+      return this.getMockData<T>(endpoint);
+    }
+
     try {
       const url = await this.buildAuthenticatedUrl(endpoint, params);
       const response = await fetch(url);
       
       if (!response.ok) {
-        throw new Error(`Marvel API request failed: ${response.status} ${response.statusText}`);
+        throw new Error(`Marvel API request failed: ${response.status}`);
       }
 
       const data: MarvelApiResponse<T> = await response.json();
@@ -131,11 +142,8 @@ class MarvelApiClient {
       console.error('Marvel API request failed:', error);
       
       // Return mock data for development if API fails
-      if (import.meta.env.VITE_MOCK_API === 'true' || !this.publicKey) {
-        return this.getMockData<T>(endpoint);
-      }
-      
-      throw error;
+      console.warn('Falling back to mock data due to API error.');
+      return this.getMockData<T>(endpoint);
     }
   }
 
