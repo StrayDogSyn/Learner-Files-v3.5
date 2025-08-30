@@ -13,6 +13,10 @@ const HomePage: React.FC = () => {
     navigate('/quiz');
   };
 
+  const handleStartMarvelQuiz = () => {
+    navigate('/marvel-quiz');
+  };
+
   const handleBackToPortfolio = () => {
     window.location.href = '../index.html';
   };
@@ -56,10 +60,17 @@ const HomePage: React.FC = () => {
         {/* Action Buttons */}
         <div className="space-y-4">
           <button
-            onClick={handleStartQuiz}
-            className="marvel-button px-12 py-4 text-2xl font-bold rounded-lg transform transition-all duration-300 hover:scale-105 pulse-animation"
+            onClick={handleStartMarvelQuiz}
+            className="marvel-button px-12 py-4 text-2xl font-bold rounded-lg transform transition-all duration-300 hover:scale-105 pulse-animation mb-4"
           >
-            START QUIZ
+            🚀 MARVEL API QUIZ
+          </button>
+          
+          <button
+            onClick={handleStartQuiz}
+            className="bg-gray-700 hover:bg-gray-600 text-white px-12 py-4 text-xl font-bold rounded-lg transform transition-all duration-300 hover:scale-105"
+          >
+            CLASSIC QUIZ
           </button>
           
           <div className="mt-8">
@@ -74,13 +85,17 @@ const HomePage: React.FC = () => {
 
         {/* Instructions */}
         <div className="mt-12 quiz-card p-6 rounded-lg max-w-2xl mx-auto">
-          <h3 className="text-xl font-bold mb-4">How to Play</h3>
-          <ul className="text-left space-y-2 text-gray-300">
-            <li>• Answer 10 multiple-choice questions about Marvel characters and movies</li>
-            <li>• You have 5 minutes to complete the entire quiz</li>
-            <li>• Each correct answer earns you points</li>
-            <li>• Get your final score and see how you rank among Marvel fans</li>
-          </ul>
+          <h3 className="text-xl font-bold mb-4">Choose Your Challenge</h3>
+          <div className="text-left space-y-3 text-gray-300">
+            <div className="border-l-4 border-red-500 pl-4">
+              <h4 className="font-bold text-red-400">🚀 Marvel API Quiz (Recommended)</h4>
+              <p className="text-sm">Real-time data from Marvel's official API • Dynamic questions • Advanced features • Achievements & Leaderboard</p>
+            </div>
+            <div className="border-l-4 border-gray-500 pl-4">
+              <h4 className="font-bold text-gray-400">Classic Quiz</h4>
+              <p className="text-sm">Static questions • 5-minute timer • Basic scoring system</p>
+            </div>
+          </div>
         </div>
 
         {/* Marvel Characters Animation */}

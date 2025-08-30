@@ -358,4 +358,93 @@ const AnimationSystem: React.FC<AnimationSystemProps> = ({
   );
 };
 
+// Animation utilities for external components
+export const animationUtils = {
+  showFloatingText: (text: string, x: number, y: number, color: string = '#ffffff') => {
+    // Create floating text element
+    const textElement = document.createElement('div');
+    textElement.textContent = text;
+    textElement.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      color: ${color};
+      font-size: 24px;
+      font-weight: bold;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      animation: floatUp 2s ease-out forwards;
+    `;
+    
+    document.body.appendChild(textElement);
+    
+    // Remove element after animation
+    setTimeout(() => {
+      if (textElement.parentNode) {
+        textElement.parentNode.removeChild(textElement);
+      }
+    }, 2000);
+  },
+  
+  triggerParticles: (x: number, y: number, type: 'success' | 'error' | 'powerup' | 'achievement') => {
+    // Create particle container
+    const container = document.createElement('div');
+    container.style.cssText = `
+      position: fixed;
+      left: ${x}px;
+      top: ${y}px;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+    `;
+    
+    const colors = {
+      success: ['#10B981', '#34D399', '#6EE7B7'],
+      error: ['#EF4444', '#F87171', '#FCA5A5'],
+      powerup: ['#3B82F6', '#60A5FA', '#93C5FD'],
+      achievement: ['#F59E0B', '#FBBF24', '#FCD34D']
+    };
+    
+    // Create multiple particles
+    for (let i = 0; i < 15; i++) {
+      const particle = document.createElement('div');
+      const color = colors[type][Math.floor(Math.random() * colors[type].length)];
+      const angle = (Math.PI * 2 * i) / 15;
+      const distance = 50 + Math.random() * 50;
+      
+      particle.style.cssText = `
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: ${color};
+        border-radius: 50%;
+        animation: particleExplode 1s ease-out forwards;
+        --dx: ${Math.cos(angle) * distance}px;
+        --dy: ${Math.sin(angle) * distance}px;
+      `;
+      
+      container.appendChild(particle);
+    }
+    
+    document.body.appendChild(container);
+    
+    // Remove container after animation
+    setTimeout(() => {
+      if (container.parentNode) {
+        container.parentNode.removeChild(container);
+      }
+    }, 1000);
+  },
+  
+  triggerScreenShake: (intensity: number = 1) => {
+    const body = document.body;
+    body.style.animation = `shake ${0.5 * intensity}s ease-in-out`;
+    
+    setTimeout(() => {
+      body.style.animation = '';
+    }, 500 * intensity);
+  }
+};
+
 export default AnimationSystem;

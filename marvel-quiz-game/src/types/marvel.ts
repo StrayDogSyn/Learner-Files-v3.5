@@ -1,51 +1,7 @@
-// Marvel API Response Types
-export interface MarvelApiResponse<T> {
-  code: number;
-  status: string;
-  copyright: string;
-  attributionText: string;
-  attributionHTML: string;
-  etag: string;
-  data: {
-    offset: number;
-    limit: number;
-    total: number;
-    count: number;
-    results: T[];
-  };
-}
-
-// Marvel Character Types
-export interface MarvelCharacter {
-  id: number;
-  name: string;
-  description: string;
-  modified: string;
-  thumbnail: MarvelImage;
-  resourceURI: string;
-  comics: MarvelResourceList;
-  series: MarvelResourceList;
-  stories: MarvelResourceList;
-  events: MarvelResourceList;
-  urls: MarvelUrl[];
-}
-
-export interface MarvelImage {
+// Marvel API Data Structures
+export interface MarvelThumbnail {
   path: string;
   extension: string;
-}
-
-export interface MarvelResourceList {
-  available: number;
-  collectionURI: string;
-  items: MarvelResourceSummary[];
-  returned: number;
-}
-
-export interface MarvelResourceSummary {
-  resourceURI: string;
-  name: string;
-  type?: string;
 }
 
 export interface MarvelUrl {
@@ -53,43 +9,9 @@ export interface MarvelUrl {
   url: string;
 }
 
-// Marvel Comic Types
-export interface MarvelComic {
-  id: number;
-  digitalId: number;
-  title: string;
-  issueNumber: number;
-  variantDescription: string;
-  description: string;
-  modified: string;
-  isbn: string;
-  upc: string;
-  diamondCode: string;
-  ean: string;
-  issn: string;
-  format: string;
-  pageCount: number;
-  textObjects: MarvelTextObject[];
-  resourceURI: string;
-  urls: MarvelUrl[];
-  series: MarvelResourceSummary;
-  variants: MarvelResourceSummary[];
-  collections: MarvelResourceSummary[];
-  collectedIssues: MarvelResourceSummary[];
-  dates: MarvelDate[];
-  prices: MarvelPrice[];
-  thumbnail: MarvelImage;
-  images: MarvelImage[];
-  creators: MarvelResourceList;
-  characters: MarvelResourceList;
-  stories: MarvelResourceList;
-  events: MarvelResourceList;
-}
-
-export interface MarvelTextObject {
-  type: string;
-  language: string;
-  text: string;
+export interface MarvelImage {
+  path: string;
+  extension: string;
 }
 
 export interface MarvelDate {
@@ -102,249 +24,367 @@ export interface MarvelPrice {
   price: number;
 }
 
-// Quiz Game Types
+export interface MarvelTextObject {
+  type: string;
+  language: string;
+  text: string;
+}
+
+export interface MarvelCreatorSummary {
+  resourceURI: string;
+  name: string;
+  role: string;
+}
+
+export interface MarvelCreatorList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelCreatorSummary[];
+}
+
+export interface MarvelCharacterSummary {
+  resourceURI: string;
+  name: string;
+  role?: string;
+}
+
+export interface MarvelCharacterList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelCharacterSummary[];
+}
+
+export interface MarvelComicSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface MarvelComicList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelComicSummary[];
+}
+
+export interface MarvelSeriesSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface MarvelSeriesList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelSeriesSummary[];
+}
+
+export interface MarvelStorySummary {
+  resourceURI: string;
+  name: string;
+  type: string;
+}
+
+export interface MarvelStoryList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelStorySummary[];
+}
+
+export interface MarvelEventSummary {
+  resourceURI: string;
+  name: string;
+}
+
+export interface MarvelEventList {
+  available: number;
+  returned: number;
+  collectionURI: string;
+  items: MarvelEventSummary[];
+}
+
+// Main Character Interface
+export interface MarvelCharacter {
+  id: number;
+  name: string;
+  description: string;
+  modified: string;
+  resourceURI: string;
+  urls: MarvelUrl[];
+  thumbnail: MarvelThumbnail;
+  comics: MarvelComicList;
+  stories: MarvelStoryList;
+  events: MarvelEventList;
+  series: MarvelSeriesList;
+}
+
+// Main Comic Interface
+export interface MarvelComic {
+  id: number;
+  digitalId: number;
+  title: string;
+  issueNumber: number;
+  variantDescription: string;
+  description: string | null;
+  modified: string;
+  isbn: string;
+  upc: string;
+  diamondCode: string;
+  ean: string;
+  issn: string;
+  format: string;
+  pageCount: number;
+  textObjects: MarvelTextObject[];
+  resourceURI: string;
+  urls: MarvelUrl[];
+  series: MarvelSeriesSummary;
+  variants: MarvelComicSummary[];
+  collections: MarvelComicSummary[];
+  collectedIssues: MarvelComicSummary[];
+  dates: MarvelDate[];
+  prices: MarvelPrice[];
+  thumbnail: MarvelThumbnail;
+  images: MarvelImage[];
+  creators: MarvelCreatorList;
+  characters: MarvelCharacterList;
+  stories: MarvelStoryList;
+  events: MarvelEventList;
+}
+
+// Main Series Interface
+export interface MarvelSeries {
+  id: number;
+  title: string;
+  description: string | null;
+  resourceURI: string;
+  urls: MarvelUrl[];
+  startYear: number;
+  endYear: number;
+  rating: string;
+  modified: string;
+  thumbnail: MarvelThumbnail;
+  comics: MarvelComicList;
+  stories: MarvelStoryList;
+  events: MarvelEventList;
+  characters: MarvelCharacterList;
+  creators: MarvelCreatorList;
+  next: MarvelSeriesSummary | null;
+  previous: MarvelSeriesSummary | null;
+}
+
+// API Response Wrapper
+export interface MarvelApiResponse<T> {
+  code: number;
+  status: string;
+  copyright: string;
+  attributionText: string;
+  attributionHTML: string;
+  data: {
+    offset: number;
+    limit: number;
+    total: number;
+    count: number;
+    results: T[];
+  };
+  etag: string;
+}
+
+// Quiz-specific interfaces
 export interface QuizQuestion {
   id: string;
-  type: 'multiple-choice' | 'true-false' | 'fill-blank';
-  category: 'character' | 'comic' | 'movie' | 'general';
+  type: 'character' | 'comic' | 'series' | 'power' | 'origin' | 'team' | 'villain' | 'multiple-choice';
   difficulty: 'easy' | 'medium' | 'hard';
+  category: string;
   question: string;
   options: string[];
   correctAnswer: string;
   explanation?: string;
-  imageUrl?: string;
-  character?: MarvelCharacter;
-  comic?: MarvelComic;
   points: number;
   timeLimit: number;
+  character?: MarvelCharacter;
+  comic?: MarvelComic;
+  series?: MarvelSeries;
+  imageUrl?: string;
   hints?: string[];
 }
 
-// Game Statistics
+export interface QuizConfig {
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
+  categories: string[];
+  questionCount: number;
+  timeLimit: number;
+  powerUpsEnabled: boolean;
+  soundEnabled: boolean;
+  animationsEnabled: boolean;
+}
+
 export interface GameStats {
-  totalGames: number;
-  totalQuestions: number;
+  score: number;
+  totalScore: number;
+  accuracy: number;
+  questionsAnswered: number;
   correctAnswers: number;
   incorrectAnswers: number;
-  averageScore: number;
-  bestScore: number;
   currentStreak: number;
-  longestStreak: number;
-  totalPlayTime: number;
-  averageResponseTime: number;
-  difficultyStats: {
-    easy: DifficultyStats;
-    medium: DifficultyStats;
-    hard: DifficultyStats;
-  };
-  categoryStats: {
-    character: CategoryStats;
-    comic: CategoryStats;
-    movie: CategoryStats;
-    general: CategoryStats;
-  };
-  achievements: Achievement[];
+  highestStreak: number;
+  averageTime: number;
+  totalTime: number;
+  fastAnswers: number;
+  gamesPlayed: number;
+  rank: string;
   powerUpsUsed: number;
   hintsUsed: number;
-  perfectGames: number;
-  lastPlayed: Date;
+  uniqueHeroes?: number;
+  uniqueVillains?: number;
+  perfectQuizzes?: number;
+  achievements: string[];
+  totalQuestions: number;
+  wrongAnswers: number;
+  timePerQuestion: number;
+  streak: number;
+  maxStreak: number;
+  fastestAnswer: number;
+  slowestAnswer: number;
+  categoriesPlayed: string[];
+  characterMatch?: number;
+  difficulty?: string;
+  totalTimeSpent?: number;
+  averageResponseTime?: number;
+  bonusPoints?: number;
 }
 
-export interface DifficultyStats {
-  gamesPlayed: number;
-  questionsAnswered: number;
-  correctAnswers: number;
-  averageScore: number;
-  bestScore: number;
+export interface PowerUp {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  icon?: string;
+  cost: number;
+  quantity?: number;
+  cooldown?: number;
+  duration?: number;
+  effect?: 'skip' | 'hint' | 'time' | 'double-points' | 'freeze-time' | 'eliminate-two';
+  rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  available?: boolean;
 }
 
-export interface CategoryStats {
-  questionsAnswered: number;
-  correctAnswers: number;
-  averageResponseTime: number;
-  accuracy: number;
-}
-
-// Achievement System
 export interface Achievement {
   id: string;
   name: string;
   description: string;
   icon: string;
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  category: 'score' | 'streak' | 'speed' | 'knowledge' | 'special';
-  requirement: {
-    type: 'score' | 'streak' | 'games' | 'accuracy' | 'time' | 'special';
-    value: number;
-    condition?: string;
+  points: number;
+  category: string;
+  unlockedAt?: string;
+  requirements: {
+    gamesPlayed?: number;
+    accuracy?: number;
+    streak?: number;
+    totalScore?: number;
+    totalTime?: number;
+    perfectQuiz?: boolean;
+    fastAnswers?: number;
+    uniqueHeroes?: number;
+    uniqueVillains?: number;
+    powerUpsUsed?: number;
   };
-  reward?: {
-    type: 'points' | 'powerup' | 'title';
-    value: number | string;
-  };
-  unlockedAt?: Date;
-  progress?: number;
-  maxProgress?: number;
 }
 
-// Power-up System
-export interface PowerUp {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  type: 'hint' | 'time' | 'score' | 'skip' | 'shield';
-  cost: number;
-  duration?: number;
-  cooldown?: number;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-  effect: {
-    type: 'remove-options' | 'add-time' | 'double-points' | 'skip-question' | 'prevent-penalty';
-    value: number;
-  };
-  available: boolean;
-  usageCount?: number;
-  lastUsed?: Date;
-}
-
-// Game Session
-export interface GameSession {
-  id: string;
-  startTime: number;
-  endTime?: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-  category?: 'character' | 'comic' | 'movie' | 'general' | 'mixed';
-  questions: QuizQuestion[];
-  answers: GameAnswer[];
-  score: number;
-  finalStats: {
-    correctAnswers: number;
-    incorrectAnswers: number;
-    totalTime: number;
-    averageResponseTime: number;
-    accuracy: number;
-    streak: number;
-    powerUpsUsed: PowerUp[];
-    hintsUsed: number;
-    achievements: Achievement[];
-  };
-  completed: boolean;
-}
-
-export interface GameAnswer {
-  questionId: string;
-  selectedAnswer: string;
-  correctAnswer: string;
-  isCorrect: boolean;
-  responseTime: number;
-  pointsEarned: number;
-  hintsUsed: number;
-  powerUpsUsed: string[];
-  timestamp: number;
-}
-
-// Performance Metrics
-export interface PerformanceMetrics {
-  averageResponseTime: number;
-  totalResponseTime: number;
-  questionsAnswered: number;
-  correctAnswers: number;
-  incorrectAnswers: number;
-  hintsUsed: number;
-  powerUpsUsed: number;
-  gameStartTime: number;
-  gameEndTime: number;
-  peakStreak: number;
-  accuracyTrend: number[];
-  speedTrend: number[];
-}
-
-// UI State Management
-export interface UIState {
-  isLoading: boolean;
-  error: string | null;
-  showHint: boolean;
-  showPowerUps: boolean;
-  showAchievements: boolean;
-  showLeaderboard: boolean;
-  showSettings: boolean;
-  animationState: AnimationState;
-  theme: 'light' | 'dark' | 'marvel';
-  soundEnabled: boolean;
-  musicEnabled: boolean;
-  effectsEnabled: boolean;
-}
-
-export interface AnimationState {
-  type: 'idle' | 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'loading';
-  intensity: 'low' | 'medium' | 'high';
-  duration: number;
-  particles?: ParticleConfig[];
-}
-
-export interface ParticleConfig {
-  type: 'star' | 'explosion' | 'sparkle' | 'fire' | 'lightning';
-  count: number;
-  color: string;
-  size: number;
-  velocity: number;
-  lifetime: number;
-  gravity: number;
-}
-
-// Sound Configuration
-export interface SoundConfig {
-  masterVolume: number;
-  musicVolume: number;
-  effectsVolume: number;
-  muted: boolean;
-}
-
-// Leaderboard
 export interface LeaderboardEntry {
   id: string;
   playerName: string;
   score: number;
   accuracy: number;
   gamesPlayed: number;
-  averageScore: number;
-  bestStreak: number;
-  totalPlayTime: number;
-  achievements: number;
+  averageTime: number;
   rank: number;
-  lastPlayed: Date;
+  achievements: number;
+  lastPlayed: string;
   avatar?: string;
 }
 
-// Game Configuration
-export interface GameConfig {
-  questionsPerGame: number;
-  timePerQuestion: number;
-  pointsPerCorrect: number;
-  pointsPerIncorrect: number;
-  streakBonus: number;
-  timeBonus: number;
-  difficultyMultiplier: {
-    easy: number;
-    medium: number;
-    hard: number;
-  };
-  powerUpCosts: {
-    hint: number;
-    time: number;
-    skip: number;
-    shield: number;
-  };
-  achievementPoints: {
-    common: number;
-    uncommon: number;
-    rare: number;
-    epic: number;
-    legendary: number;
-  };
+export interface QuizSession {
+  id: string;
+  startTime: string;
+  endTime?: string;
+  config: QuizConfig;
+  questions: QuizQuestion[];
+  currentQuestionIndex: number;
+  answers: {
+    questionId: string;
+    selectedAnswer: string;
+    isCorrect: boolean;
+    timeSpent: number;
+    pointsEarned: number;
+    powerUpsUsed: string[];
+  }[];
+  stats: GameStats;
+  powerUps: PowerUp[];
+  isCompleted: boolean;
+  isPaused: boolean;
 }
 
-// API Configuration
+// Animation and Sound interfaces
+export interface AnimationState {
+  particles: Particle[];
+  floatingTexts: FloatingText[];
+  screenShake: boolean;
+  backgroundEffect?: string;
+  type?: 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'correctAnswer' | 'incorrectAnswer' | 'achievementUnlocked';
+  message?: string;
+  duration?: number;
+  isActive?: boolean;
+}
+
+export interface Particle {
+  id: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  size: number;
+  color: string;
+  type: 'star' | 'explosion' | 'sparkle' | 'confetti';
+}
+
+export interface FloatingText {
+  id: string;
+  text: string;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number;
+  maxLife: number;
+  fontSize: number;
+  color: string;
+  type: 'score' | 'combo' | 'achievement' | 'powerup';
+}
+
+export interface SoundEffect {
+  id: string;
+  name: string;
+  url: string;
+  volume: number;
+  category: 'music' | 'effect' | 'ambient' | 'transition' | 'reward' | 'ui' | 'alert' | 'feedback' | 'action';
+  loop?: boolean;
+  preload?: boolean;
+}
+
+export interface SoundConfig {
+  masterVolume: number;
+  musicVolume: number;
+  effectsVolume: number;
+  enabled: boolean;
+  musicEnabled: boolean;
+}
+
+// API Client interfaces
 export interface MarvelApiConfig {
   publicKey: string;
   privateKey: string;
@@ -355,170 +395,96 @@ export interface MarvelApiConfig {
   cacheDuration: number;
 }
 
-// Error Types
-export interface GameError {
-  code: string;
-  message: string;
-  details?: any;
-  timestamp: Date;
-  recoverable: boolean;
-}
-
-// Utility Types
-export type QuestionDifficulty = 'easy' | 'medium' | 'hard';
-export type QuestionCategory = 'character' | 'comic' | 'movie' | 'general';
-export type GameState = 'menu' | 'loading' | 'playing' | 'paused' | 'finished' | 'error';
-export type AchievementRarity = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
-export type PowerUpType = 'hint' | 'time' | 'score' | 'skip' | 'shield';
-export type SoundType = 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'button' | 'timer' | 'background';
-
-// Component Props
-export interface MarvelQuizProps {
-  onGameComplete?: (session: GameSession) => void;
-  difficulty?: QuestionDifficulty;
-  category?: QuestionCategory;
-  theme?: 'light' | 'dark' | 'marvel';
-  config?: Partial<GameConfig>;
-  enableSound?: boolean;
-  enableAnimations?: boolean;
-  showLeaderboard?: boolean;
-  customQuestions?: QuizQuestion[];
-}
-
-export interface QuestionCardProps {
-  question: QuizQuestion;
-  selectedAnswer: string | null;
-  showResult: boolean;
-  onAnswerSelect: (answer: string) => void;
-  timeLeft: number;
-  disabled: boolean;
-  showHint: boolean;
-}
-
-export interface GameStatsProps {
-  stats: GameStats;
-  currentSession?: GameSession;
-  showDetailed?: boolean;
-  onClose?: () => void;
-}
-
-export interface PowerUpCardProps {
-  powerUp: PowerUp;
-  onActivate: (powerUpId: string) => void;
-  disabled: boolean;
-  currentPoints: number;
-}
-
-export interface AchievementCardProps {
-  achievement: Achievement;
-  unlocked: boolean;
-  showProgress?: boolean;
-  size?: 'small' | 'medium' | 'large';
-}
-
-export interface LeaderboardProps {
-  entries: LeaderboardEntry[];
-  currentPlayer?: LeaderboardEntry;
-  onClose?: () => void;
-  timeframe?: 'daily' | 'weekly' | 'monthly' | 'all-time';
-}
-
-// Animation and Effects
-export interface FloatingTextOptions {
-  color?: string;
-  size?: number;
-  duration?: number;
-  direction?: 'up' | 'down' | 'left' | 'right';
-  curve?: boolean;
-}
-
-export interface ScreenShakeOptions {
-  intensity?: number;
-  duration?: number;
-  direction?: 'horizontal' | 'vertical' | 'both';
-}
-
-export interface ParticleSystemOptions {
-  type: 'success' | 'error' | 'powerup' | 'achievement' | 'streak';
-  count?: number;
-  duration?: number;
-  spread?: number;
-  colors?: string[];
-}
-
-// Local Storage Types
-export interface StoredGameData {
-  stats: GameStats;
-  achievements: Achievement[];
-  settings: {
-    sound: SoundConfig;
-    ui: Partial<UIState>;
-    difficulty: QuestionDifficulty;
-    category: QuestionCategory;
-  };
-  sessions: GameSession[];
-  lastUpdated: Date;
-  version: string;
-}
-
-// API Cache Types
 export interface CachedApiResponse<T> {
   data: T;
   timestamp: number;
-  expiry: number;
-  etag?: string;
+  expiresAt: number;
 }
 
-export interface ApiCache {
-  characters: Map<string, CachedApiResponse<MarvelCharacter[]>>;
-  comics: Map<string, CachedApiResponse<MarvelComic[]>>;
-  images: Map<string, CachedApiResponse<string>>;
+export interface ApiError {
+  code: number;
+  message: string;
+  details?: any;
 }
 
-// Event Types
-export interface GameEvent {
-  type: 'question-answered' | 'powerup-used' | 'achievement-unlocked' | 'game-completed' | 'streak-achieved';
-  data: any;
-  timestamp: number;
-  sessionId: string;
+// Utility types
+export type QuestionType = QuizQuestion['type'];
+export type Difficulty = QuizQuestion['difficulty'];
+export type PowerUpEffect = PowerUp['effect'];
+export type AchievementCategory = Achievement['category'];
+export type Rarity = Achievement['rarity'];
+
+// Response types for specific endpoints
+export type CharactersResponse = MarvelApiResponse<MarvelCharacter>;
+export type ComicsResponse = MarvelApiResponse<MarvelComic>;
+export type SeriesResponse = MarvelApiResponse<MarvelSeries>;
+
+// Search and filter interfaces
+export interface SearchFilters {
+  name?: string;
+  nameStartsWith?: string;
+  modifiedSince?: string;
+  comics?: number[];
+  series?: number[];
+  events?: number[];
+  stories?: number[];
+  orderBy?: string;
+  limit?: number;
+  offset?: number;
 }
 
-export interface AnalyticsEvent {
-  event: string;
-  properties: Record<string, any>;
-  timestamp: number;
-  sessionId: string;
-  userId?: string;
+export interface QuizFilters {
+  difficulty?: Difficulty[];
+  categories?: string[];
+  types?: QuestionType[];
+  minPoints?: number;
+  maxPoints?: number;
+  timeLimit?: number;
 }
 
-// Validation Types
-export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
+// Game mode interfaces
+export interface GameMode {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  config: Partial<QuizConfig>;
+  unlockRequirements?: {
+    gamesPlayed?: number;
+    achievements?: string[];
+    rank?: string;
+  };
 }
 
-export interface QuestionValidation extends ValidationResult {
-  question: QuizQuestion;
-  suggestions: string[];
+// Theme and customization
+export interface ThemeConfig {
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  backgroundColor: string;
+  textColor: string;
+  borderColor: string;
+  gradients: {
+    primary: string;
+    secondary: string;
+    accent: string;
+  };
+  animations: {
+    duration: number;
+    easing: string;
+  };
 }
 
-// Export all types for easy importing
-export type {
-  MarvelApiResponse,
-  MarvelCharacter,
-  MarvelComic,
-  QuizQuestion,
-  GameStats,
-  Achievement,
-  PowerUp,
-  GameSession,
-  PerformanceMetrics,
-  UIState,
-  AnimationState,
-  SoundConfig,
-  LeaderboardEntry,
-  GameConfig,
-  MarvelApiConfig,
-  GameError
-};
+// Export all interfaces as a namespace for easier importing
+export namespace Marvel {
+  export type Character = MarvelCharacter;
+  export type Comic = MarvelComic;
+  export type Series = MarvelSeries;
+  export type ApiResponse<T> = MarvelApiResponse<T>;
+  export type Question = QuizQuestion;
+  export type Config = QuizConfig;
+  export type Stats = GameStats;
+  export type PowerUpItem = PowerUp;
+  export type AchievementItem = Achievement;
+  export type Session = QuizSession;
+}

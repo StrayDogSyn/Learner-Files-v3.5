@@ -1,33 +1,37 @@
-import { MarvelCharacter, MarvelComic, MarvelSeries, QuizQuestion, QuizFilters } from '../../types/marvel';
+import { MarvelCharacter, MarvelComic, MarvelSeries, QuizQuestion } from '../../types/marvel';
 import { marvelApi } from '../../services/marvelApi';
 
+interface QuizFilters {
+  categories?: string[];
+  difficulty?: 'easy' | 'medium' | 'hard';
+}
+
 export class QuestionGenerator {
+  private apiClient: typeof marvelApi;
+  private characterCache: Map<string, MarvelCharacter[]> = new Map();
+  private comicCache: Map<string, MarvelComic[]> = new Map();
+  private seriesCache: Map<string, MarvelSeries[]> = new Map();
   private characters: MarvelCharacter[] = [];
   private comics: MarvelComic[] = [];
   private series: MarvelSeries[] = [];
   private questionTemplates: QuestionTemplate[] = [];
-  private difficultyWeights = {
-    easy: 0.4,
-    medium: 0.4,
-    hard: 0.2
-  };
+  private difficultyWeights = { easy: 0.4, medium: 0.4, hard: 0.2 };
 
-  constructor() {
-    this.initializeTemplates();
+  constructor(apiClient: typeof marvelApi) {
+    this.apiClient = apiClient;
   }
 
   async initialize(): Promise<void> {
     try {
       // Load initial data from Marvel API
-      const [charactersResponse, comicsResponse, seriesResponse] = await Promise.all([
-        marvelApi.getCharacters({ limit: 100, offset: 0 }),
-        marvelApi.getComics({ limit: 50, offset: 0 }),
-        marvelApi.getSeries({ limit: 50, offset: 0 })
+      const [charactersResponse, comicsResponse] = await Promise.all([
+        this.apiClient.getCharacters({ limit: 100, offset: 0 }),
+        this.apiClient.getComics({ limit: 50, offset: 0 })
       ]);
 
       this.characters = charactersResponse.data.results;
       this.comics = comicsResponse.data.results;
-      this.series = seriesResponse.data.results;
+      this.series = []; // Initialize empty series array
     } catch (error) {
       console.error('Failed to initialize question generator:', error);
       throw error;
@@ -71,8 +75,8 @@ export class QuestionGenerator {
       if (question) {
         questions.push(question);
         // Track used resources to avoid duplicates
-        if (question.characterId) usedCharacters.add(question.characterId);
-        if (question.comicId) usedComics.add(question.comicId);
+        if (question.character) usedCharacters.add(question.character.id);
+        if (question.comic) usedComics.add(question.comic.id);
       }
     }
 
@@ -185,8 +189,8 @@ export class QuestionGenerator {
       options,
       correctAnswer: correctCharacter.name,
       explanation: `This is ${correctCharacter.name}. ${correctCharacter.description || 'A Marvel character.'}`,
-      imageUrl: marvelApi.getImageUrl(correctCharacter.thumbnail, 'standard_large'),
-      characterId: correctCharacter.id,
+      imageUrl: this.apiClient.getImageUrl(correctCharacter.thumbnail, 'standard_large'),
+      character: correctCharacter,
       points: 10,
       timeLimit: 15
     };
@@ -227,7 +231,7 @@ export class QuestionGenerator {
       options,
       correctAnswer: correctPower,
       explanation: `${character.name} is known for ${correctPower.toLowerCase()}.`,
-      characterId: character.id,
+      character: character,
       points: 15,
       timeLimit: 20
     };
@@ -258,7 +262,7 @@ export class QuestionGenerator {
       options,
       correctAnswer: origin,
       explanation: `${character.name} ${this.getOriginExplanation(character.name)}.`,
-      characterId: character.id,
+      character: character,
       points: 25,
       timeLimit: 30
     };
@@ -297,7 +301,7 @@ export class QuestionGenerator {
       options,
       correctAnswer: correctCharacter,
       explanation: `${correctCharacter} is a main character in ${comic.title}.`,
-      comicId: comic.id,
+      comic: comic,
       points: 15,
       timeLimit: 20
     };
@@ -450,4 +454,4 @@ interface QuestionTemplate {
   generator: (usedCharacters: Set<number>, usedComics: Set<number>) => Promise<QuizQuestion | null>;
 }
 
-export const questionGenerator = new QuestionGenerator();
+export default QuestionGenerator;

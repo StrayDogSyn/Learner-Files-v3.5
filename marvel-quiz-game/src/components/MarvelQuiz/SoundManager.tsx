@@ -464,4 +464,33 @@ const SoundManager: React.FC<SoundManagerProps> = ({
   );
 };
 
+// Audio manager utility functions
+export const audioManager = {
+  playSound: (soundId: string, options?: { volume?: number; loop?: boolean }) => {
+    if ((window as any).marvelQuizSounds) {
+      return (window as any).marvelQuizSounds.playSound(soundId, options);
+    }
+  },
+  stopSound: (soundId: string) => {
+    if ((window as any).marvelQuizSounds) {
+      return (window as any).marvelQuizSounds.stopSound(soundId);
+    }
+  },
+  stopAllSounds: () => {
+    if ((window as any).marvelQuizSounds) {
+      return (window as any).marvelQuizSounds.stopAllSounds();
+    }
+  },
+  playBackgroundMusic: () => {
+    if ((window as any).marvelQuizSounds) {
+      return (window as any).marvelQuizSounds.playBackgroundMusic();
+    }
+  },
+  stopBackgroundMusic: () => {
+    if ((window as any).marvelQuizSounds) {
+      return (window as any).marvelQuizSounds.stopBackgroundMusic();
+    }
+  }
+};
+
 export default SoundManager;

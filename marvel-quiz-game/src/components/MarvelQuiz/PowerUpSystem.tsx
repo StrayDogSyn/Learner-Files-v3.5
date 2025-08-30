@@ -78,7 +78,7 @@ const PowerUpSystem: React.FC<PowerUpSystemProps> = ({
   };
 
   const canUsePowerUp = (powerUp: PowerUp) => {
-    if (!isGameActive || powerUp.quantity <= 0) return false;
+    if (!isGameActive || (powerUp.quantity || 0) <= 0) return false;
     
     // Some power-ups require a current question
     const questionRequiredTypes = ['fifty_fifty', 'hint', 'extra_time', 'skip_question'];
@@ -176,7 +176,7 @@ const PowerUpSystem: React.FC<PowerUpSystemProps> = ({
           </div>
 
           {/* Quantity badge */}
-          {powerUp.quantity > 0 && (
+          {(powerUp.quantity || 0) > 0 && (
             <div className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
               {powerUp.quantity}
             </div>
@@ -222,7 +222,7 @@ const PowerUpSystem: React.FC<PowerUpSystemProps> = ({
           <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap border border-gray-700">
             <div className="font-semibold">{powerUp.name}</div>
             <div className="text-gray-400">{getPowerUpDescription(powerUp.type)}</div>
-            {powerUp.cooldown > 0 && (
+            {(powerUp.cooldown || 0) > 0 && (
               <div className="text-yellow-400">Cooldown: {powerUp.cooldown}s</div>
             )}
           </div>
@@ -281,13 +281,13 @@ const PowerUpSystem: React.FC<PowerUpSystemProps> = ({
                       <span className="text-gray-400">Remaining:</span>
                       <span className="text-white">{powerUp.quantity}</span>
                     </div>
-                    {powerUp.duration > 0 && (
+                    {(powerUp.duration || 0) > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-400">Duration:</span>
-                        <span className="text-white">{powerUp.duration / 1000}s</span>
+                        <span className="text-white">{(powerUp.duration || 0) / 1000}s</span>
                       </div>
                     )}
-                    {powerUp.cooldown > 0 && (
+                    {(powerUp.cooldown || 0) > 0 && (
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-400">Cooldown:</span>
                         <span className="text-white">{powerUp.cooldown}s</span>
@@ -310,9 +310,8 @@ const PowerUpSystem: React.FC<PowerUpSystemProps> = ({
                     </button>
                   </div>
                 </>
-              ) : null;
-            })()
-            )}
+              ) : null
+            })()}
           </div>
         </div>
       )}

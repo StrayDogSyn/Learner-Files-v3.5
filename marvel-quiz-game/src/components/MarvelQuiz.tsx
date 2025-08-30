@@ -1,66 +1,77 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { marvelApi } from '../services/marvelApi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Clock, Star, Zap, Volume2, BarChart3, Target, Award, TrendingUp, Trophy, Crown, Play, Pause, RotateCcw } from 'lucide-react';
 import { 
-  MarvelCharacter, 
   QuizQuestion, 
   GameStats, 
-  Achievement, 
-  PowerUp, 
+  QuizConfig, 
+  DifficultyLevel, 
+  QuizCategory,
+  PowerUp,
+  Achievement,
   GameSession,
-  PerformanceMetrics,
-  AnimationState,
-  UIState,
   SoundConfig
 } from '../types/marvel';
-import { Play, Pause, RotateCcw, Trophy, Zap, Star, Clock, Target } from 'lucide-react';
-import SoundManager from './SoundManager';
-import AnimationSystem from './AnimationSystem';
-import { audioManager } from './SoundManager';
-import { animationUtils } from './AnimationSystem';
+import { marvelApi } from '../services/marvelApi';
+import QuestionGenerator from './MarvelQuiz/QuestionGenerator';
+import { GameStats as GameStatsComponent } from './MarvelQuiz/GameStats';
+import { PowerUpSystem } from './MarvelQuiz/PowerUpSystem';
+import SoundManager, { audioManager } from './MarvelQuiz/SoundManager';
+import AnimationSystem, { animationUtils } from './MarvelQuiz/AnimationSystem';
+import AchievementSystem from './MarvelQuiz/AchievementSystem';
+import Leaderboard from './MarvelQuiz/Leaderboard';
 import './MarvelQuiz.css';
 
-// Game configuration
-const GAME_CONFIG = {
-  questionsPerGame: 10,
-  timePerQuestion: 15, // seconds
-  pointsPerCorrect: 100,
-  bonusMultiplier: 1.5,
-  streakBonus: 50,
-  powerUpCost: 200
-};
-
-// Question types for variety
-type QuestionType = 'character-name' | 'character-description' | 'character-comics' | 'character-powers';
-
 interface MarvelQuizProps {
-  onGameComplete?: (stats: GameStats) => void;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  theme?: 'dark' | 'light';
+  onGameComplete?: (session: GameSession) => void;
+  initialConfig?: Partial<QuizConfig>;
+  className?: string;
 }
 
-const MarvelQuiz: React.FC<MarvelQuizProps> = ({ 
-  onGameComplete, 
-  difficulty = 'medium',
-  theme = 'dark'
+const defaultConfig: QuizConfig = {
+  totalQuestions: 10,
+  timePerQuestion: 30,
+  difficulty: 'medium',
+  categories: ['heroes', 'villains', 'teams'],
+  enablePowerUps: true,
+  enableSound: true,
+  enableAnimations: true
+};
+
+const difficultySettings = {
+  easy: { timeBonus: 1.2, pointsMultiplier: 1.0, questionComplexity: 0.3 },
+  medium: { timeBonus: 1.0, pointsMultiplier: 1.5, questionComplexity: 0.6 },
+  hard: { timeBonus: 0.8, pointsMultiplier: 2.0, questionComplexity: 0.8 },
+  expert: { timeBonus: 0.6, pointsMultiplier: 3.0, questionComplexity: 1.0 }
+};
+
+const MarvelQuiz: React.FC<MarvelQuizProps> = ({
+  onGameComplete,
+  initialConfig = {},
+  className = ''
 }) => {
+  // Merge config with defaults
+  const config = useMemo(() => ({ ...defaultConfig, ...initialConfig }), [initialConfig]);
+  const { difficulty } = config;
+  
   // Core game state
   const [gameState, setGameState] = useState<'menu' | 'loading' | 'playing' | 'paused' | 'finished'>('menu');
   const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(null);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(GAME_CONFIG.timePerQuestion);
+  const [timeLeft, setTimeLeft] = useState(config.timePerQuestion);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   
   // Game data
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [characters, setCharacters] = useState<MarvelCharacter[]>([]);
+  const [characters, setCharacters] = useState<any[]>([]);
   const [gameSession, setGameSession] = useState<GameSession | null>(null);
   
   // UI state
-  const [uiState, setUIState] = useState<UIState>({
+  const [uiState, setUIState] = useState({
     isLoading: false,
     error: null,
     showHint: false,
@@ -68,8 +79,14 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     animationState: 'idle'
   });
   
+  const [showStats, setShowStats] = useState(false);
+  const [showPowerUps, setShowPowerUps] = useState(false);
+  const [showSound, setShowSound] = useState(false);
+  const [showAchievements, setShowAchievements] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  
   // Performance metrics
-  const [metrics, setMetrics] = useState<PerformanceMetrics>({
+  const [metrics, setMetrics] = useState({
     averageResponseTime: 0,
     totalResponseTime: 0,
     questionsAnswered: 0,
@@ -159,7 +176,11 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       setCharacters(fetchedCharacters);
       
       // Generate questions
-      const generatedQuestions = generateQuestions(fetchedCharacters);
+      const questionGenerator = new QuestionGenerator(marvelApi);
+      const generatedQuestions = await questionGenerator.generateQuestions(config.totalQuestions, {
+        difficulty: config.difficulty,
+        categories: config.categories
+      });
       setQuestions(generatedQuestions);
       
       // Initialize game session
@@ -183,7 +204,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       setCurrentQuestion(generatedQuestions[0]);
       setQuestionIndex(0);
       setGameState('playing');
-      setTimeLeft(GAME_CONFIG.timePerQuestion);
+      setTimeLeft(config.timePerQuestion);
       
     } catch (error) {
       console.error('Failed to initialize game:', error);
@@ -196,111 +217,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     }
   }, [difficulty]);
   
-  // Generate quiz questions from characters
-  const generateQuestions = useCallback((chars: MarvelCharacter[]): QuizQuestion[] => {
-    const questionTypes: QuestionType[] = ['character-name', 'character-description', 'character-comics'];
-    const generatedQuestions: QuizQuestion[] = [];
-    
-    for (let i = 0; i < GAME_CONFIG.questionsPerGame && i < chars.length; i++) {
-      const character = chars[i];
-      const questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
-      
-      let question: QuizQuestion;
-      
-      switch (questionType) {
-        case 'character-name':
-          question = {
-            id: `q_${i}_name`,
-            type: 'multiple-choice',
-            question: 'Who is this character?',
-            imageUrl: marvelApi.getImageUrl(character.thumbnail, 'portrait_xlarge'),
-            options: generateNameOptions(character, chars),
-            correctAnswer: character.name,
-            explanation: character.description || `This is ${character.name}, a Marvel character.`,
-            difficulty: getDifficultyFromCharacter(character),
-            points: GAME_CONFIG.pointsPerCorrect,
-            timeLimit: GAME_CONFIG.timePerQuestion,
-            character
-          };
-          break;
-          
-        case 'character-description':
-          if (character.description && character.description.length > 20) {
-            question = {
-              id: `q_${i}_desc`,
-              type: 'multiple-choice',
-              question: `Which character matches this description: "${character.description.substring(0, 100)}..."?`,
-              options: generateNameOptions(character, chars),
-              correctAnswer: character.name,
-              explanation: `This description belongs to ${character.name}.`,
-              difficulty: getDifficultyFromCharacter(character),
-              points: GAME_CONFIG.pointsPerCorrect * 1.2,
-              timeLimit: GAME_CONFIG.timePerQuestion + 5,
-              character
-            };
-          } else {
-            // Fallback to name question
-            question = {
-              id: `q_${i}_name_fallback`,
-              type: 'multiple-choice',
-              question: 'Who is this character?',
-              imageUrl: marvelApi.getImageUrl(character.thumbnail, 'portrait_xlarge'),
-              options: generateNameOptions(character, chars),
-              correctAnswer: character.name,
-              explanation: character.description || `This is ${character.name}, a Marvel character.`,
-              difficulty: getDifficultyFromCharacter(character),
-              points: GAME_CONFIG.pointsPerCorrect,
-              timeLimit: GAME_CONFIG.timePerQuestion,
-              character
-            };
-          }
-          break;
-          
-        default:
-          question = {
-            id: `q_${i}_default`,
-            type: 'multiple-choice',
-            question: 'Who is this character?',
-            imageUrl: marvelApi.getImageUrl(character.thumbnail, 'portrait_xlarge'),
-            options: generateNameOptions(character, chars),
-            correctAnswer: character.name,
-            explanation: character.description || `This is ${character.name}, a Marvel character.`,
-            difficulty: getDifficultyFromCharacter(character),
-            points: GAME_CONFIG.pointsPerCorrect,
-            timeLimit: GAME_CONFIG.timePerQuestion,
-            character
-          };
-      }
-      
-      generatedQuestions.push(question);
-    }
-    
-    return generatedQuestions;
-  }, []);
-  
-  // Generate multiple choice options
-  const generateNameOptions = (correctCharacter: MarvelCharacter, allCharacters: MarvelCharacter[]): string[] => {
-    const options = [correctCharacter.name];
-    const otherCharacters = allCharacters.filter(c => c.id !== correctCharacter.id);
-    
-    while (options.length < 4 && otherCharacters.length > 0) {
-      const randomIndex = Math.floor(Math.random() * otherCharacters.length);
-      const randomCharacter = otherCharacters.splice(randomIndex, 1)[0];
-      options.push(randomCharacter.name);
-    }
-    
-    // Shuffle options
-    return options.sort(() => Math.random() - 0.5);
-  };
-  
-  // Determine difficulty based on character popularity
-  const getDifficultyFromCharacter = (character: MarvelCharacter): 'easy' | 'medium' | 'hard' => {
-    const comicsCount = character.comics?.available || 0;
-    
-    if (comicsCount > 500) return 'easy';
-    if (comicsCount > 100) return 'medium';
-    return 'hard';
-  };
+
   
   // Handle answer selection
   const handleAnswerSelect = useCallback((answer: string) => {
@@ -320,7 +237,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     
     if (correct) {
       triggerParticles('success', centerX, centerY, 30);
-      showFloatingText(`+${currentQuestion.points || GAME_CONFIG.pointsPerCorrect}`, centerX, centerY - 50, '#10b981');
+      showFloatingText(`+${currentQuestion.points || 100}`, centerX, centerY - 50, '#10b981');
     } else {
       triggerParticles('error', centerX, centerY, 15);
       showFloatingText('Wrong!', centerX, centerY - 50, '#ef4444');
@@ -328,7 +245,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     }
     
     // Update metrics
-    const responseTime = GAME_CONFIG.timePerQuestion - timeLeft;
+    const responseTime = config.timePerQuestion - timeLeft;
     setMetrics(prev => ({
       ...prev,
       totalResponseTime: prev.totalResponseTime + responseTime,
@@ -340,9 +257,9 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     
     // Update score and streak
     if (correct) {
-      const basePoints = currentQuestion.points || GAME_CONFIG.pointsPerCorrect;
-      const timeBonus = Math.floor((timeLeft / GAME_CONFIG.timePerQuestion) * 50);
-      const streakBonus = streak >= 3 ? GAME_CONFIG.streakBonus : 0;
+      const basePoints = currentQuestion.points || 100;
+      const timeBonus = Math.floor((timeLeft / config.timePerQuestion) * 50);
+      const streakBonus = streak >= 3 ? 50 : 0;
       const totalPoints = basePoints + timeBonus + streakBonus;
       
       setScore(prev => prev + totalPoints);
@@ -397,7 +314,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setSelectedAnswer(null);
     setShowResult(false);
     setIsCorrect(null);
-    setTimeLeft(GAME_CONFIG.timePerQuestion);
+    setTimeLeft(config.timePerQuestion);
   }, [questionIndex, questions]);
   
   // End game
@@ -436,6 +353,18 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       onGameComplete?.(finalStats);
     }
   }, [gameSession, score, metrics, streak, achievements, difficulty, onGameComplete]);
+  
+  // Handle achievement unlocked
+  const handleAchievementUnlocked = useCallback((achievement: Achievement) => {
+    setAchievements(prev => [...prev, achievement]);
+    
+    // Show achievement notification
+    animationUtils.showFloatingText(`Achievement: ${achievement.name}`, 'achievement');
+    audioManager.playSound('achievement');
+    
+    // Trigger celebration animation
+    animationUtils.triggerParticles('achievement');
+  }, []);
   
   // Check for achievements
   const checkAchievements = useCallback((currentStreak: number, currentScore: number) => {
@@ -550,7 +479,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setQuestionIndex(0);
     setScore(0);
     setStreak(0);
-    setTimeLeft(GAME_CONFIG.timePerQuestion);
+    setTimeLeft(config.timePerQuestion);
     setSelectedAnswer(null);
     setShowResult(false);
     setIsCorrect(null);
@@ -593,19 +522,19 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
           Marvel Universe Quiz
         </h1>
         <p className="text-xl text-gray-300 mb-8">
-          Test your knowledge of the Marvel Universe with real Marvel API data!
+          Test your knowledge of the Marvel Universe!
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
             <Target className="w-8 h-8 text-red-400 mx-auto mb-2" />
-            <h3 className="font-semibold mb-2">10 Questions</h3>
+            <h3 className="font-semibold mb-2">{config.totalQuestions} Questions</h3>
             <p className="text-sm text-gray-400">Challenge yourself with diverse Marvel trivia</p>
           </div>
           <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
             <Clock className="w-8 h-8 text-blue-400 mx-auto mb-2" />
             <h3 className="font-semibold mb-2">Timed Challenge</h3>
-            <p className="text-sm text-gray-400">15 seconds per question</p>
+            <p className="text-sm text-gray-400">{config.timePerQuestion} seconds per question</p>
           </div>
           <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
             <Zap className="w-8 h-8 text-yellow-400 mx-auto mb-2" />
@@ -637,7 +566,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         <div className="mt-6 p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200">
           <p className="font-semibold">Error:</p>
           <p>{uiState.error}</p>
-          <p className="text-sm mt-2">Make sure your Marvel API keys are configured correctly.</p>
+          <p className="text-sm mt-2">Please try again later.</p>
         </div>
       )}
     </div>
@@ -694,6 +623,45 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         
         {/* Question */}
         <div className="max-w-4xl mx-auto">
+          {/* Control buttons */}
+          <div className="flex justify-center gap-4 mb-6">
+            <button
+              onClick={() => setShowStats(!showStats)}
+              className="p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+              title="Game Stats"
+            >
+              <BarChart3 className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowPowerUps(!showPowerUps)}
+              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+              title="Power-ups"
+            >
+              <Zap className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowSound(!showSound)}
+              className="p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+              title="Sound Settings"
+            >
+              <Volume2 className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowAchievements(!showAchievements)}
+              className="p-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors"
+              title="Achievements"
+            >
+              <Trophy className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowLeaderboard(!showLeaderboard)}
+              className="p-3 bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+              title="Leaderboard"
+            >
+              <Crown className="w-5 h-5" />
+            </button>
+          </div>
+          
           <div className="bg-black/30 rounded-xl p-8 backdrop-blur-sm mb-8">
             <h2 className="text-2xl font-bold mb-6 text-center">{currentQuestion.question}</h2>
             
@@ -754,6 +722,45 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               </div>
             )}
           </div>
+          
+          {/* Sound Manager */}
+          {showSound && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mb-6"
+            >
+              <SoundManager />
+            </motion.div>
+          )}
+
+          {/* Achievement System */}
+          {showAchievements && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mb-6"
+            >
+              <AchievementSystem
+                gameStats={metrics}
+                onAchievementUnlocked={handleAchievementUnlocked}
+              />
+            </motion.div>
+          )}
+
+          {/* Leaderboard */}
+          {showLeaderboard && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="mb-6"
+            >
+              <Leaderboard currentStats={metrics} />
+            </motion.div>
+          )}
           
           {/* Power-ups */}
           <div className="flex justify-center gap-4">
@@ -834,11 +841,20 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   );
   
   // Main render
-  if (gameState === 'menu') return renderMenu();
-  if (gameState === 'finished') return renderResults();
-  if (gameState === 'playing' || gameState === 'paused') return renderGame();
-  
-  return null;
+  return (
+    <AnimationSystem>
+      <div className="marvel-quiz">
+        <SoundManager 
+          config={soundConfig}
+          onConfigChange={setSoundConfig}
+        />
+        {gameState === 'menu' && renderMenu()}
+        {gameState === 'playing' && renderGame()}
+        {gameState === 'paused' && renderGame()}
+        {gameState === 'finished' && renderResults()}
+      </div>
+    </AnimationSystem>
+  );
 };
 
 export default MarvelQuiz;

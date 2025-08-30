@@ -1,4 +1,25 @@
-import { MarvelApiResponse, MarvelCharacter, MarvelComic, MarvelSeries, CacheEntry, MarvelApiError } from '../_backup/types/marvel';
+import { MarvelApiResponse, MarvelCharacter, MarvelComic, CachedApiResponse } from '../types/marvel';
+
+// Define missing types locally
+interface MarvelSeries {
+  id: number;
+  title: string;
+  description: string;
+  thumbnail: { path: string; extension: string };
+}
+
+interface CacheEntry<T> {
+  data: T;
+  timestamp: number;
+  expiresAt: number;
+}
+
+class MarvelApiError extends Error {
+  constructor(message: string, public code?: number) {
+    super(message);
+    this.name = 'MarvelApiError';
+  }
+}
 
 // Marvel API Client with authentication and caching
 class MarvelApiClient {
