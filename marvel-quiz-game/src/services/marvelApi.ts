@@ -181,6 +181,134 @@ class MarvelApiClient {
         urls: [],
         resourceURI: "",
         modified: new Date().toISOString()
+      },
+      {
+        id: 1009220,
+        name: "Captain America",
+        description: "Vowing to serve his country any way he could, young Steve Rogers took the super soldier serum to become America's one-man army.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/3/50/537ba56d31087",
+          extension: "jpg"
+        },
+        comics: { available: 2500, collectionURI: "", items: [] },
+        series: { available: 300, collectionURI: "", items: [] },
+        stories: { available: 3500, collectionURI: "", items: [] },
+        events: { available: 90, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009664,
+        name: "Thor",
+        description: "As the Norse God of thunder and lightning, Thor wields one of the greatest weapons ever made, the enchanted hammer Mjolnir.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/d/d0/5269657a74350",
+          extension: "jpg"
+        },
+        comics: { available: 2200, collectionURI: "", items: [] },
+        series: { available: 280, collectionURI: "", items: [] },
+        stories: { available: 3200, collectionURI: "", items: [] },
+        events: { available: 75, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009189,
+        name: "Black Widow",
+        description: "Despite super spy Natasha Romanoff's checkered past, she's become one of S.H.I.E.L.D.'s most deadly assassins and a frequent member of the Avengers.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/f/30/50fecad1f395e",
+          extension: "jpg"
+        },
+        comics: { available: 1800, collectionURI: "", items: [] },
+        series: { available: 200, collectionURI: "", items: [] },
+        stories: { available: 2500, collectionURI: "", items: [] },
+        events: { available: 60, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009351,
+        name: "Hulk",
+        description: "Caught in a gamma bomb explosion while trying to save the life of a teenager, Dr. Bruce Banner was transformed into the incredibly powerful creature called the Hulk.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0",
+          extension: "jpg"
+        },
+        comics: { available: 2800, collectionURI: "", items: [] },
+        series: { available: 350, collectionURI: "", items: [] },
+        stories: { available: 4000, collectionURI: "", items: [] },
+        events: { available: 85, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009282,
+        name: "Doctor Strange",
+        description: "Once a brilliant but arrogant neurosurgeon, Doctor Stephen Strange's life changed forever in a car accident which severely damaged his hands.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/5/f0/5261a85a501fe",
+          extension: "jpg"
+        },
+        comics: { available: 1500, collectionURI: "", items: [] },
+        series: { available: 180, collectionURI: "", items: [] },
+        stories: { available: 2200, collectionURI: "", items: [] },
+        events: { available: 45, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009378,
+        name: "Loki",
+        description: "Loki, born of Frost Giants, was taken as an infant by Odin following Odin's victory over the Frost Giants in battle.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/d/90/526547f509313",
+          extension: "jpg"
+        },
+        comics: { available: 1200, collectionURI: "", items: [] },
+        series: { available: 150, collectionURI: "", items: [] },
+        stories: { available: 1800, collectionURI: "", items: [] },
+        events: { available: 40, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009268,
+        name: "Deadpool",
+        description: "Wade Wilson is a former test subject of the Weapon X program, where he received his regenerative healing factor through the scientific experiments.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/9/90/5261a86cacb99",
+          extension: "jpg"
+        },
+        comics: { available: 1000, collectionURI: "", items: [] },
+        series: { available: 120, collectionURI: "", items: [] },
+        stories: { available: 1500, collectionURI: "", items: [] },
+        events: { available: 30, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
+      },
+      {
+        id: 1009257,
+        name: "Cyclops",
+        description: "Scott Summers is a mutant capable of generating concussive force-based, red-colored beams from his eyes.",
+        thumbnail: {
+          path: "https://i.annihil.us/u/prod/marvel/i/mg/6/70/526547e2d90ad",
+          extension: "jpg"
+        },
+        comics: { available: 1800, collectionURI: "", items: [] },
+        series: { available: 200, collectionURI: "", items: [] },
+        stories: { available: 2500, collectionURI: "", items: [] },
+        events: { available: 55, collectionURI: "", items: [] },
+        urls: [],
+        resourceURI: "",
+        modified: new Date().toISOString()
       }
     ];
 
