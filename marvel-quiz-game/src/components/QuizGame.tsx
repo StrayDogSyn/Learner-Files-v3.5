@@ -109,8 +109,8 @@ const QuizGame: React.FC = () => {
         {/* Progress Bar */}
         <div className="w-full bg-gray-700 rounded-full h-3 mb-8">
           <div 
-            className="bg-gradient-to-r from-red-500 to-yellow-500 h-3 rounded-full transition-all duration-500"
-            style={{ width: `${progress}%` }}
+            className="bg-gradient-to-r from-red-500 to-yellow-500 h-3 rounded-full progress-bar"
+            data-progress={Math.round(progress / 10) * 10}
           ></div>
         </div>
 

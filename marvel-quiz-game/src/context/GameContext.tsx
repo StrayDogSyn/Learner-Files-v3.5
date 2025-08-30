@@ -54,7 +54,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         timeRemaining: 300,
       };
     
-    case 'ANSWER_QUESTION':
+    case 'ANSWER_QUESTION': {
       const currentQuestion = state.questions[state.currentQuestionIndex];
       const isCorrect = action.payload === currentQuestion.correctAnswer;
       const newScore = isCorrect ? state.score + 1 : state.score;
@@ -64,8 +64,9 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         score: newScore,
         answers: [...state.answers, action.payload],
       };
+    }
     
-    case 'NEXT_QUESTION':
+    case 'NEXT_QUESTION': {
       const nextIndex = state.currentQuestionIndex + 1;
       const isLastQuestion = nextIndex >= state.questions.length;
       
@@ -74,6 +75,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
         currentQuestionIndex: nextIndex,
         isGameFinished: isLastQuestion,
       };
+    }
     
     case 'FINISH_GAME':
       return {

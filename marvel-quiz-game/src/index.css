@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
 * {
   margin: 0;
@@ -26,6 +26,7 @@ body {
 }
 
 .quiz-card {
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -67,3 +68,20 @@ body {
     transform: scale(1);
   }
 }
+
+.progress-bar {
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.progress-bar[data-progress="0"] { width: 0%; }
+.progress-bar[data-progress="10"] { width: 10%; }
+.progress-bar[data-progress="20"] { width: 20%; }
+.progress-bar[data-progress="30"] { width: 30%; }
+.progress-bar[data-progress="40"] { width: 40%; }
+.progress-bar[data-progress="50"] { width: 50%; }
+.progress-bar[data-progress="60"] { width: 60%; }
+.progress-bar[data-progress="70"] { width: 70%; }
+.progress-bar[data-progress="80"] { width: 80%; }
+.progress-bar[data-progress="90"] { width: 90%; }
+.progress-bar[data-progress="100"] { width: 100%; }
