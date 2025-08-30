@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import QuizGame from './components/QuizGame';
 import Results from './components/Results';
+import MarvelQuiz from './components/MarvelQuiz';
 import { GameProvider } from './context/GameContext';
 import './App.css';
 
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizGame />} />
+            <Route path="/marvel-quiz" element={<MarvelQuiz />} />
             <Route path="/results" element={<Results />} />
           </Routes>
         </div>
