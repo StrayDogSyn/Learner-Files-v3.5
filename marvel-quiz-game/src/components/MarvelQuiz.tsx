@@ -14,8 +14,8 @@ import {
 } from '../types/marvel';
 import { marvelApi } from '../services/marvelApi';
 import QuestionGenerator from './MarvelQuiz/QuestionGenerator';
-import { GameStats as GameStatsComponent } from './MarvelQuiz/GameStats';
-import { PowerUpSystem } from './MarvelQuiz/PowerUpSystem';
+import GameStatsComponent from './MarvelQuiz/GameStats';
+import PowerUpSystem from './MarvelQuiz/PowerUpSystem';
 import SoundManager, { audioManager } from './MarvelQuiz/SoundManager';
 import AnimationSystem, { animationUtils } from './MarvelQuiz/AnimationSystem';
 import AchievementSystem from './MarvelQuiz/AchievementSystem';
@@ -29,13 +29,14 @@ interface MarvelQuizProps {
 }
 
 const defaultConfig: QuizConfig = {
-  totalQuestions: 10,
-  timePerQuestion: 30,
   difficulty: 'medium',
   categories: ['heroes', 'villains', 'teams'],
-  enablePowerUps: true,
-  enableSound: true,
-  enableAnimations: true
+  questionCount: 10,
+  timeLimit: 300,
+  timePerQuestion: 30,
+  powerUpsEnabled: true,
+  soundEnabled: true,
+  animationsEnabled: true
 };
 
 const difficultySettings = {
@@ -71,7 +72,13 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   const [gameSession, setGameSession] = useState<GameSession | null>(null);
   
   // UI state
-  const [uiState, setUIState] = useState({
+  const [uiState, setUIState] = useState<{
+    isLoading: boolean;
+    error: string | null;
+    showHint: boolean;
+    showPowerUps: boolean;
+    animationState: string;
+  }>({
     isLoading: false,
     error: null,
     showHint: false,
@@ -85,24 +92,41 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   const [showAchievements, setShowAchievements] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   
-  // Performance metrics
-  const [metrics, setMetrics] = useState({
-    averageResponseTime: 0,
-    totalResponseTime: 0,
+  // Game statistics
+  const [gameStats, setGameStats] = useState<GameStats>({
+    score: 0,
+    totalScore: 0,
+    accuracy: 0,
+    currentStreak: 0,
+    highestStreak: 0,
+    gamesPlayed: 0,
     questionsAnswered: 0,
     correctAnswers: 0,
     incorrectAnswers: 0,
     hintsUsed: 0,
     powerUpsUsed: 0,
-    gameStartTime: 0,
-    gameEndTime: 0
+    totalTime: 0,
+    averageTime: 0,
+    rank: 'Rookie',
+    achievements: [],
+    totalQuestions: 0,
+    wrongAnswers: 0,
+    timePerQuestion: 0,
+    streak: 0,
+    maxStreak: 0,
+    fastestAnswer: 0,
+    slowestAnswer: 0,
+    categoriesPlayed: [],
+    averageResponseTime: 0,
+    bonusPoints: 0,
+    fastAnswers: 0
   });
   
   // Power-ups
   const [powerUps, setPowerUps] = useState<PowerUp[]>([
-    { id: 'hint', name: '50/50', description: 'Remove two wrong answers', cost: 150, available: true },
-    { id: 'time', name: 'Extra Time', description: 'Add 10 seconds', cost: 100, available: true },
-    { id: 'skip', name: 'Skip Question', description: 'Skip current question', cost: 200, available: true }
+    { id: 'hint', name: '50/50', description: 'Remove two wrong answers', cost: 150, available: true, type: 'hint' },
+    { id: 'time', name: 'Extra Time', description: 'Add 10 seconds', cost: 100, available: true, type: 'time' },
+    { id: 'skip', name: 'Skip Question', description: 'Skip current question', cost: 200, available: true, type: 'skip' }
   ]);
   
   // Achievements
@@ -113,13 +137,23 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     masterVolume: 0.7,
     musicVolume: 0.5,
     effectsVolume: 0.8,
-    muted: false
+    enabled: true,
+    musicEnabled: true
+  });
+  
+  // Animation state
+  const [animationState, setAnimationState] = useState({
+    isActive: false,
+    type: 'idle' as const,
+    particles: [],
+    floatingTexts: [],
+    screenShake: false
   });
   
   // Sound and animation handlers
   const playSound = useCallback((soundType: string, volume?: number) => {
-    if (!soundConfig.muted) {
-      audioManager.playSound(soundType, volume || soundConfig.effectsVolume);
+    if (soundConfig.enabled) {
+      audioManager.playSound(soundType, { volume: volume || soundConfig.effectsVolume });
     }
   }, [soundConfig]);
   
@@ -127,8 +161,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     animationUtils.showFloatingText(text, x, y, color);
   }, []);
   
-  const triggerParticles = useCallback((type: string, x: number, y: number, count: number = 20) => {
-    animationUtils.triggerParticles(type, x, y, count);
+  const triggerParticles = useCallback((type: 'success' | 'error' | 'powerup' | 'achievement', x: number, y: number, count: number = 20) => {
+    animationUtils.triggerParticles(x, y, type);
   }, []);
   
   const triggerScreenShake = useCallback((intensity: number = 1) => {
@@ -177,8 +211,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       
       // Generate questions
       const questionGenerator = new QuestionGenerator(marvelApi);
-      const generatedQuestions = await questionGenerator.generateQuestions(config.totalQuestions, {
-        difficulty: config.difficulty,
+      const generatedQuestions = await questionGenerator.generateQuestions(config.questionCount, {
+        difficulty: config.difficulty === 'mixed' ? 'medium' : config.difficulty,
         categories: config.categories
       });
       setQuestions(generatedQuestions);
@@ -198,7 +232,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       };
       
       setGameSession(session);
-      setMetrics(prev => ({ ...prev, gameStartTime: Date.now() }));
+      setGameStats(prev => ({ ...prev, totalTimeSpent: Date.now() }));
       
       // Start first question
       setCurrentQuestion(generatedQuestions[0]);
@@ -236,23 +270,22 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     const centerY = window.innerHeight / 2;
     
     if (correct) {
-      triggerParticles('success', centerX, centerY, 30);
+      triggerParticles('success', centerX, centerY);
       showFloatingText(`+${currentQuestion.points || 100}`, centerX, centerY - 50, '#10b981');
     } else {
-      triggerParticles('error', centerX, centerY, 15);
+      triggerParticles('error', centerX, centerY);
       showFloatingText('Wrong!', centerX, centerY - 50, '#ef4444');
       triggerScreenShake(0.5);
     }
     
-    // Update metrics
+    // Update game stats
     const responseTime = config.timePerQuestion - timeLeft;
-    setMetrics(prev => ({
+    setGameStats(prev => ({
       ...prev,
-      totalResponseTime: prev.totalResponseTime + responseTime,
-      questionsAnswered: prev.questionsAnswered + 1,
+      totalQuestions: prev.totalQuestions + 1,
       correctAnswers: correct ? prev.correctAnswers + 1 : prev.correctAnswers,
-      incorrectAnswers: correct ? prev.incorrectAnswers : prev.incorrectAnswers + 1,
-      averageResponseTime: (prev.totalResponseTime + responseTime) / (prev.questionsAnswered + 1)
+      wrongAnswers: correct ? prev.wrongAnswers : prev.wrongAnswers + 1,
+      averageResponseTime: prev.averageResponseTime ? (prev.averageResponseTime + responseTime) / 2 : responseTime
     }));
     
     // Update score and streak
@@ -291,10 +324,10 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setShowResult(true);
     setStreak(0);
     
-    setMetrics(prev => ({
+    setGameStats(prev => ({
       ...prev,
-      questionsAnswered: prev.questionsAnswered + 1,
-      incorrectAnswers: prev.incorrectAnswers + 1
+      totalQuestions: prev.totalQuestions + 1,
+      wrongAnswers: prev.wrongAnswers + 1
     }));
     
     setTimeout(() => {
@@ -320,15 +353,15 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   // End game
   const endGame = useCallback(() => {
     setGameState('finished');
-    setMetrics(prev => ({ ...prev, gameEndTime: Date.now() }));
+    setGameStats(prev => ({ ...prev, totalTimeSpent: Date.now() - (prev.totalTimeSpent || Date.now()) }));
     
     if (gameSession) {
       const finalSession: GameSession = {
         ...gameSession,
         endTime: Date.now(),
         score,
-        questionsAnswered: metrics.questionsAnswered,
-        correctAnswers: metrics.correctAnswers,
+        questionsAnswered: gameStats.questionsAnswered,
+        correctAnswers: gameStats.correctAnswers,
         timeSpent: Date.now() - gameSession.startTime,
         achievements
       };
@@ -336,34 +369,36 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       setGameSession(finalSession);
       
       const finalStats: GameStats = {
-        score,
-        questionsAnswered: metrics.questionsAnswered,
-        correctAnswers: metrics.correctAnswers,
-        incorrectAnswers: metrics.incorrectAnswers,
-        accuracy: metrics.questionsAnswered > 0 ? (metrics.correctAnswers / metrics.questionsAnswered) * 100 : 0,
-        averageResponseTime: metrics.averageResponseTime,
-        streak: streak,
-        powerUpsUsed: metrics.powerUpsUsed,
-        hintsUsed: metrics.hintsUsed,
-        timeSpent: Date.now() - metrics.gameStartTime,
-        difficulty,
-        achievements
-      };
+          ...gameStats,
+          score,
+          questionsAnswered: gameStats.questionsAnswered,
+          correctAnswers: gameStats.correctAnswers,
+          incorrectAnswers: gameStats.incorrectAnswers,
+          accuracy: gameStats.questionsAnswered > 0 ? (gameStats.correctAnswers / gameStats.questionsAnswered) * 100 : 0,
+          averageResponseTime: gameStats.averageResponseTime,
+          powerUpsUsed: gameStats.powerUpsUsed,
+          hintsUsed: gameStats.hintsUsed,
+          totalTimeSpent: Date.now() - (gameStats.totalTime || Date.now()),
+          difficulty,
+          achievements: achievements.map(a => a.id)
+        };
       
-      onGameComplete?.(finalStats);
+      onGameComplete?.(finalSession);
     }
-  }, [gameSession, score, metrics, streak, achievements, difficulty, onGameComplete]);
+  }, [gameSession, score, gameStats, streak, achievements, difficulty, onGameComplete]);
   
   // Handle achievement unlocked
   const handleAchievementUnlocked = useCallback((achievement: Achievement) => {
     setAchievements(prev => [...prev, achievement]);
     
     // Show achievement notification
-    animationUtils.showFloatingText(`Achievement: ${achievement.name}`, 'achievement');
-    audioManager.playSound('achievement');
-    
-    // Trigger celebration animation
-    animationUtils.triggerParticles('achievement');
+    const centerX = window.innerWidth / 2;
+     const centerY = window.innerHeight / 2;
+     animationUtils.showFloatingText(`Achievement: ${achievement.name}`, centerX, centerY - 100, '#ffd700');
+     audioManager.playSound('achievement');
+     
+     // Trigger celebration animation
+     animationUtils.triggerParticles(centerX, centerY, 'achievement');
   }, []);
   
   // Check for achievements
@@ -377,8 +412,12 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         description: 'Answer 5 questions correctly in a row',
         icon: '🔥',
         rarity: 'common',
-        unlockedAt: Date.now(),
-        points: 100
+        unlockedAt: new Date().toISOString(),
+        points: 100,
+        category: 'streak',
+        requirements: {
+          streak: 5
+        }
       });
     }
     
@@ -392,11 +431,12 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       
       newAchievements.forEach((achievement, index) => {
         setTimeout(() => {
-          triggerParticles('achievement', centerX, centerY - (index * 50), 40);
+          triggerParticles('achievement', centerX, centerY - (index * 50));
           triggerScreenShake(0.8);
           
           const rarityColors = {
             common: '#10b981',
+            uncommon: '#06b6d4',
             rare: '#3b82f6',
             epic: '#8b5cf6',
             legendary: '#f59e0b'
@@ -421,8 +461,12 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         description: 'Score 1000 points in a single game',
         icon: '🏆',
         rarity: 'rare',
-        unlockedAt: Date.now(),
-        points: 200
+        unlockedAt: new Date().toISOString(),
+        points: 200,
+        category: 'score',
+        requirements: {
+          totalScore: 1000
+        }
       });
     }
     
@@ -442,11 +486,11 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     playSound('powerup');
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
-    triggerParticles('powerup', centerX, centerY, 25);
+    triggerParticles('powerup', centerX, centerY);
     showFloatingText('Power-Up Activated!', centerX, centerY - 100, '#8b5cf6');
     
     setScore(prev => prev - powerUp.cost);
-    setMetrics(prev => ({ ...prev, powerUpsUsed: prev.powerUpsUsed + 1 }));
+    setGameStats(prev => ({ ...prev, bonusPoints: (prev.bonusPoints || 0) + 50 }));
     
     switch (powerUpId) {
       case 'hint':
@@ -487,21 +531,38 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setCharacters([]);
     setGameSession(null);
     setAchievements([]);
-    setMetrics({
-      averageResponseTime: 0,
-      totalResponseTime: 0,
+    setGameStats({
+      score: 0,
+      totalScore: 0,
+      accuracy: 0,
+      currentStreak: 0,
+      highestStreak: 0,
+      gamesPlayed: 0,
       questionsAnswered: 0,
       correctAnswers: 0,
       incorrectAnswers: 0,
       hintsUsed: 0,
       powerUpsUsed: 0,
-      gameStartTime: 0,
-      gameEndTime: 0
+      totalTime: 0,
+      averageTime: 0,
+      fastAnswers: 0,
+      rank: 'Rookie',
+      achievements: [],
+      totalQuestions: 0,
+      wrongAnswers: 0,
+      timePerQuestion: 0,
+      streak: 0,
+      maxStreak: 0,
+      fastestAnswer: 0,
+      slowestAnswer: 0,
+      categoriesPlayed: [],
+      averageResponseTime: 0,
+      bonusPoints: 0
     });
     setPowerUps([
-      { id: 'hint', name: '50/50', description: 'Remove two wrong answers', cost: 150, available: true },
-      { id: 'time', name: 'Extra Time', description: 'Add 10 seconds', cost: 100, available: true },
-      { id: 'skip', name: 'Skip Question', description: 'Skip current question', cost: 200, available: true }
+      { id: 'hint', name: '50/50', description: 'Remove two wrong answers', cost: 150, available: true, type: 'hint' },
+      { id: 'time', name: 'Extra Time', description: 'Add 10 seconds', cost: 100, available: true, type: 'time' },
+      { id: 'skip', name: 'Skip Question', description: 'Skip current question', cost: 200, available: true, type: 'skip' }
     ]);
   }, []);
   
@@ -511,8 +572,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   }, [questionIndex, questions.length]);
   
   const accuracy = useMemo(() => {
-    return metrics.questionsAnswered > 0 ? (metrics.correctAnswers / metrics.questionsAnswered) * 100 : 0;
-  }, [metrics.correctAnswers, metrics.questionsAnswered]);
+    return gameStats.questionsAnswered > 0 ? (gameStats.correctAnswers / gameStats.questionsAnswered) * 100 : 0;
+  }, [gameStats.correctAnswers, gameStats.questionsAnswered]);
   
   // Render methods
   const renderMenu = () => (
@@ -528,7 +589,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
             <Target className="w-8 h-8 text-red-400 mx-auto mb-2" />
-            <h3 className="font-semibold mb-2">{config.totalQuestions} Questions</h3>
+            <h3 className="font-semibold mb-2">{config.questionCount} Questions</h3>
             <p className="text-sm text-gray-400">Challenge yourself with diverse Marvel trivia</p>
           </div>
           <div className="bg-black/30 rounded-lg p-6 backdrop-blur-sm">
@@ -731,7 +792,10 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               exit={{ opacity: 0, y: 20 }}
               className="mb-6"
             >
-              <SoundManager />
+              <SoundManager 
+                soundConfig={soundConfig}
+                onConfigChange={setSoundConfig}
+              />
             </motion.div>
           )}
 
@@ -744,7 +808,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               className="mb-6"
             >
               <AchievementSystem
-                gameStats={metrics}
+                gameStats={gameStats}
                 onAchievementUnlocked={handleAchievementUnlocked}
               />
             </motion.div>
@@ -758,7 +822,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               exit={{ opacity: 0, y: 20 }}
               className="mb-6"
             >
-              <Leaderboard currentStats={metrics} />
+              <Leaderboard currentStats={gameStats} />
             </motion.div>
           )}
           
@@ -803,11 +867,11 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
               <div className="text-gray-400">Accuracy</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-400">{metrics.correctAnswers}</div>
+              <div className="text-3xl font-bold text-blue-400">{gameStats.correctAnswers}</div>
               <div className="text-gray-400">Correct Answers</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-400">{(metrics.averageResponseTime || 0).toFixed(1)}s</div>
+              <div className="text-3xl font-bold text-purple-400">{(gameStats.averageResponseTime || 0).toFixed(1)}s</div>
               <div className="text-gray-400">Avg Response Time</div>
             </div>
           </div>
@@ -842,18 +906,17 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   
   // Main render
   return (
-    <AnimationSystem>
-      <div className="marvel-quiz">
-        <SoundManager 
-          config={soundConfig}
-          onConfigChange={setSoundConfig}
-        />
-        {gameState === 'menu' && renderMenu()}
-        {gameState === 'playing' && renderGame()}
-        {gameState === 'paused' && renderGame()}
-        {gameState === 'finished' && renderResults()}
-      </div>
-    </AnimationSystem>
+    <div className="marvel-quiz">
+      <AnimationSystem animationState={animationState} />
+      <SoundManager 
+        soundConfig={soundConfig}
+        onConfigChange={setSoundConfig}
+      />
+      {gameState === 'menu' && renderMenu()}
+      {gameState === 'playing' && renderGame()}
+      {gameState === 'paused' && renderGame()}
+      {gameState === 'finished' && renderResults()}
+    </div>
   );
 };
 

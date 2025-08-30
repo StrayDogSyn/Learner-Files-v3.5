@@ -191,6 +191,23 @@ export interface MarvelApiResponse<T> {
   etag: string;
 }
 
+// Quiz-specific types
+export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'mixed';
+export type QuizCategory = 'characters' | 'comics' | 'series' | 'events' | 'creators' | 'mixed';
+
+export interface GameSession {
+  id: string;
+  startTime: number;
+  endTime: number;
+  score: number;
+  questionsAnswered: number;
+  correctAnswers: number;
+  difficulty: DifficultyLevel;
+  powerUpsUsed: string[];
+  achievements: Achievement[];
+  timeSpent: number;
+}
+
 // Quiz-specific interfaces
 export interface QuizQuestion {
   id: string;
@@ -215,6 +232,7 @@ export interface QuizConfig {
   categories: string[];
   questionCount: number;
   timeLimit: number;
+  timePerQuestion: number;
   powerUpsEnabled: boolean;
   soundEnabled: boolean;
   animationsEnabled: boolean;
@@ -333,7 +351,7 @@ export interface AnimationState {
   floatingTexts: FloatingText[];
   screenShake: boolean;
   backgroundEffect?: string;
-  type?: 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'correctAnswer' | 'incorrectAnswer' | 'achievementUnlocked';
+  type?: 'idle' | 'correct' | 'incorrect' | 'powerup' | 'achievement' | 'correctAnswer' | 'incorrectAnswer' | 'achievementUnlocked';
    message?: string;
    duration?: number;
    isActive?: boolean;

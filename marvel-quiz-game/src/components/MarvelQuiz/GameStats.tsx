@@ -9,7 +9,7 @@ interface GameStatsProps {
   className?: string;
 }
 
-const GameStats: React.FC<GameStatsProps> = ({ stats, achievements, className = '' }) => {
+const GameStatsComponent: React.FC<GameStatsProps> = ({ stats, achievements, className = '' }) => {
   const getRankColor = (rank: string) => {
     switch (rank.toLowerCase()) {
       case 'rookie': return 'text-gray-400';
@@ -224,4 +224,6 @@ const GameStats: React.FC<GameStatsProps> = ({ stats, achievements, className = 
       </motion.div>
     </motion.div>
   );
-}
+};
+
+export default GameStatsComponent;
