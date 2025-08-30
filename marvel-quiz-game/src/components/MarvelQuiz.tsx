@@ -60,8 +60,6 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   // Game data
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [gameSession, setGameSession] = useState<GameSession | null>(null);
-  const [characters, setCharacters] = useState<any[]>([]);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   
   // UI state
   const [uiState, setUIState] = useState<{
@@ -268,7 +266,6 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setCurrentQuestion(questions[questionIndex + 1]);
     setSelectedAnswer(null);
     setShowResult(false);
-    setIsCorrect(null);
     setTimeLeft(config.timePerQuestion);
   }, [questionIndex, questions, config.timePerQuestion, endGame]);
 
@@ -276,7 +273,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   const handleTimeUp = useCallback(() => {
     if (showResult) return;
     
-    setIsCorrect(false);
+    // Answer was incorrect due to timeout
     setShowResult(true);
     setStreak(0);
     
@@ -329,7 +326,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
         throw new Error('Insufficient character data. Please try again.');
       }
       
-      setCharacters(fetchedCharacters);
+      // Characters fetched successfully
       
       // Generate questions
       const questionGenerator = new QuestionGenerator(marvelApi);
@@ -381,7 +378,8 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     
     setSelectedAnswer(answer);
     const correct = answer === currentQuestion.correctAnswer;
-    setIsCorrect(correct);
+    // Track if answer was correct locally
+    const isCorrect = correct;
     setShowResult(true);
     
     // Play sound effects
@@ -453,7 +451,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
   }, []);
   
   // Use power-up
-  const usePowerUp = useCallback((powerUpId: string) => {
+  const activatePowerUp = useCallback((powerUpId: string) => {
     if (score < (powerUps.find(p => p.id === powerUpId)?.cost || 0)) return;
     
     const powerUp = powerUps.find(p => p.id === powerUpId);
@@ -503,9 +501,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     setTimeLeft(config.timePerQuestion);
     setSelectedAnswer(null);
     setShowResult(false);
-    setIsCorrect(null);
     setQuestions([]);
-    setCharacters([]);
     setGameSession(null);
     setAchievements([]);
     setGameStats({
@@ -541,7 +537,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       { id: 'time', name: 'Extra Time', description: 'Add 10 seconds', cost: 100, available: true, type: 'time' },
       { id: 'skip', name: 'Skip Question', description: 'Skip current question', cost: 200, available: true, type: 'skip' }
     ]);
-  }, []);
+  }, [config.timePerQuestion]);
   
   // Computed values
   const progress = useMemo(() => {
@@ -656,7 +652,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
           <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
             <div 
               className="bg-gradient-to-r from-red-500 to-blue-500 h-2 rounded-full progress-bar"
-              style={{"--progress-width": `${progress}%`} as React.CSSProperties & {"--progress-width": string}}
+              data-progress={Math.round(progress / 10) * 10}
             ></div>
           </div>
         </div>
@@ -812,7 +808,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
                 key={powerUp.id}
                 onClick={() => {
                   if (score >= powerUp.cost && powerUp.available && !showResult) {
-                    usePowerUp(powerUp.id);
+                    activatePowerUp(powerUp.id);
                   }
                 }}
                 disabled={score < powerUp.cost || !powerUp.available || showResult}
