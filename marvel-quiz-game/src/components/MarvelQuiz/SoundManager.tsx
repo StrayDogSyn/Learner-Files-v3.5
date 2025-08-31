@@ -326,6 +326,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                 <button
                   onClick={() => setShowControls(false)}
                   className="text-gray-400 hover:text-white transition-colors duration-200"
+                  aria-label="Close sound settings panel"
+                  title="Close sound settings"
                 >
                   ×
                 </button>
@@ -339,6 +341,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                   className={`w-12 h-6 rounded-full transition-colors duration-200 ${
                     soundConfig.enabled ? 'bg-blue-600' : 'bg-gray-600'
                   }`}
+                  aria-label={`${soundConfig.enabled ? 'Disable' : 'Enable'} sound`}
+                  title={`${soundConfig.enabled ? 'Disable' : 'Enable'} sound`}
                 >
                   <div className={`w-5 h-5 bg-white rounded-full transition-transform duration-200 ${
                     soundConfig.enabled ? 'translate-x-6' : 'translate-x-0.5'
@@ -362,6 +366,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                       value={soundConfig.masterVolume}
                       onChange={(e) => handleMasterVolumeChange(parseFloat(e.target.value))}
                       className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      aria-label="Master volume control"
+                      title="Adjust master volume"
                     />
                   </div>
 
@@ -377,6 +383,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                         className={`w-10 h-5 rounded-full transition-colors duration-200 ${
                           soundConfig.musicEnabled ? 'bg-blue-600' : 'bg-gray-600'
                         }`}
+                        aria-label={`${soundConfig.musicEnabled ? 'Disable' : 'Enable'} background music`}
+                        title={`${soundConfig.musicEnabled ? 'Disable' : 'Enable'} background music`}
                       >
                         <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-200 ${
                           soundConfig.musicEnabled ? 'translate-x-5' : 'translate-x-0.5'
@@ -397,6 +405,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                           value={soundConfig.musicVolume}
                           onChange={(e) => handleMusicVolumeChange(parseFloat(e.target.value))}
                           className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                          aria-label="Music volume control"
+                          title="Adjust background music volume"
                         />
                       </div>
                     )}
@@ -416,6 +426,8 @@ const SoundManager: React.FC<SoundManagerProps> = ({
                       value={soundConfig.effectsVolume}
                       onChange={(e) => handleEffectsVolumeChange(parseFloat(e.target.value))}
                       className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
+                      aria-label="Sound effects volume control"
+                      title="Adjust sound effects volume"
                     />
                   </div>
 
