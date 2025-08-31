@@ -365,6 +365,11 @@
         .hidden {
             display: none !important;
         }
+
+        .next-btn-hidden {
+            display: none;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -410,7 +415,7 @@
                 <div id="options" class="options"></div>
             </div>
 
-            <button id="next-btn" class="btn" onclick="nextQuestion()" style="display: none; margin-top: 1rem;">Next Question</button>
+            <button id="next-btn" class="btn next-btn-hidden" onclick="nextQuestion()">Next Question</button>
         </div>
 
         <!-- Results Screen -->

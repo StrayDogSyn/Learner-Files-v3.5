@@ -238,12 +238,12 @@ class MarvelApiClient {
   // Utility methods
   getImageUrl(thumbnail: { path: string; extension: string }, size: 'portrait_small' | 'portrait_medium' | 'portrait_xlarge' | 'standard_medium' | 'standard_large' | 'standard_xlarge' = 'standard_medium'): string {
     if (!thumbnail || !thumbnail.path) {
-      return '/placeholder-character.jpg';
+      return './placeholder-character.jpg';
     }
     
     // Handle image_not_available cases
     if (thumbnail.path.includes('image_not_available')) {
-      return '/placeholder-character.jpg';
+      return './placeholder-character.jpg';
     }
     
     return `${thumbnail.path}/${size}.${thumbnail.extension}`;

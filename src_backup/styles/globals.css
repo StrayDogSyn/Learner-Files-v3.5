@@ -735,7 +735,7 @@
 
   /* Brand banner background styles */
   .brand-banner-bg {
-    background-image: url("/assets/brand/banner.png");
+    background-image: url("../../../assets/brands/banner.png");
     background-size: 400px 200px;
     filter: brightness(0.3) contrast(1.2);
   }

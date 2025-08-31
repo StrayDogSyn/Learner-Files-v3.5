@@ -33,56 +33,56 @@ const SoundManager: React.FC<SoundManagerProps> = ({
     correct: {
       id: 'correct',
       name: 'Correct Answer',
-      url: '/sounds/correct.mp3',
+      url: './sounds/correct.mp3',
       volume: 0.7,
       category: 'feedback'
     },
     incorrect: {
       id: 'incorrect',
       name: 'Incorrect Answer',
-      url: '/sounds/incorrect.mp3',
+      url: './sounds/incorrect.mp3',
       volume: 0.6,
       category: 'feedback'
     },
     powerup: {
       id: 'powerup',
       name: 'Power-up Activated',
-      url: '/sounds/powerup.mp3',
+      url: './sounds/powerup.mp3',
       volume: 0.8,
       category: 'action'
     },
     achievement: {
       id: 'achievement',
       name: 'Achievement Unlocked',
-      url: '/sounds/achievement.mp3',
+      url: './sounds/achievement.mp3',
       volume: 0.9,
       category: 'reward'
     },
     tick: {
       id: 'tick',
       name: 'Timer Tick',
-      url: '/sounds/tick.mp3',
+      url: './sounds/tick.mp3',
       volume: 0.3,
       category: 'ui'
     },
     warning: {
       id: 'warning',
       name: 'Time Warning',
-      url: '/sounds/warning.mp3',
+      url: './sounds/warning.mp3',
       volume: 0.8,
       category: 'alert'
     },
     gameStart: {
       id: 'gameStart',
       name: 'Game Start',
-      url: '/sounds/game-start.mp3',
+      url: './sounds/game-start.mp3',
       volume: 0.7,
       category: 'transition'
     },
     gameEnd: {
       id: 'gameEnd',
       name: 'Game End',
-      url: '/sounds/game-end.mp3',
+      url: './sounds/game-end.mp3',
       volume: 0.8,
       category: 'transition'
     }
