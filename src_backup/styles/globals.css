@@ -951,6 +951,7 @@
 
   .demo-header {
     background: linear-gradient(135deg, rgba(53, 94, 59, 0.9), rgba(80, 200, 120, 0.1));
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
 
@@ -964,6 +965,7 @@
 
   .demo-controls {
     background: linear-gradient(135deg, rgba(53, 94, 59, 0.8), rgba(80, 200, 120, 0.05));
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
 
@@ -984,10 +986,12 @@
 
   .quiz-stats {
     background: linear-gradient(135deg, rgba(53, 94, 59, 0.9), rgba(80, 200, 120, 0.1));
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }
 
   .tutorial-overlay {
+    -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
   }
 
@@ -1210,13 +1214,14 @@ div[style*="position: absolute"] {
 
 /* 14. SPECIFIC GLASSMORPHISM CONTAINER FIXES */
 .glass-container {
-  width: 100% !important;
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 20px;
-  margin: 20px 0;
-}
+    width: 100% !important;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px 0;
+  }
 
 /* 15. RESPONSIVE BREAKPOINT OVERRIDES */
 @media (max-width: 767px) {
