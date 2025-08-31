@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
+    "axios": "^1.6.0",
     "dotenv": "^17.2.1",
     "express": "^4.21.2",
     "framer-motion": "^11.0.0",
