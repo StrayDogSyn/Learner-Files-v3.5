@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StrayDog Syndications | Elite Development & AI Solutions</title>
+    <meta
+      name="description"
+      content="From Kitchen to Code: 20+ Years of Excellence. Full-stack development, AI/ML engineering, and technical innovation."
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!-- Font Loading with Fallback -->
+    <style>
+      /* Optional: Load Inter font asynchronously without blocking */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    </style>
+
+    <!-- Professional Glassmorphic Styles -->
+    <style>
+      /* CSS Variables */
+      :root {
+        --primary: #355e3b;
+        --primary-rgb: 53, 94, 59;
+        --accent-black: #0b0b0b;
+        --dark-gray: #1e1e1e;
+        --light-contrast: #f5f5f5;
+        --secondary-accent: #a3b9a4;
+        --utility-gray: #3f3f3f;
+        --highlight: #c2c2c2;
+
+        /* Glassmorphism */
+        --glass-bg: rgba(255, 255, 255, 0.1);
+        --glass-border: rgba(255, 255, 255, 0.2);
+        --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        --blur: blur(10px);
+
+        /* Typography - Using System Fonts for Performance */
+        --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui,
+          sans-serif;
+        --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New',
+          monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(135deg, #0b0b0b 0%, #1e1e1e 50%, #0b0b0b 100%);
+        color: var(--light-contrast);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Animated Background */
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(
+            circle at 20% 30%,
+            rgba(53, 94, 59, 0.3) 0%,
+            transparent 50%
+          ),
+          radial-gradient(circle at 80% 70%, rgba(163, 185, 164, 0.2) 0%, transparent 50%),
+          radial-gradient(circle at 50% 50%, rgba(53, 94, 59, 0.1) 0%, transparent 70%);
+        z-index: -1;
+        animation: floatingGradient 20s ease infinite;
+      }
+
+      @keyframes floatingGradient {
+        0%,
+        100% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(180deg) scale(1.1);
+        }
+      }
+
+      /* Glass Container */
+      .glass {
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        box-shadow: var(--glass-shadow);
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 1rem 0;
+        background: rgba(11, 11, 11, 0.8);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      nav {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+        align-items: center;
+      }
+
+      .nav-links a {
+        color: var(--light-contrast);
+        text-decoration: none;
+        font-weight: 500;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary) 0%, var(--secondary-accent) 100%);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        margin-top: 80px;
+        padding: 6rem 2rem;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hero-content {
+        max-width: 1200px;
+        text-align: center;
+      }
+
+      .hero-title {
+        font-size: clamp(2.5rem, 8vw, 5rem);
+        font-weight: 900;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary) 0%,
+          var(--secondary-accent) 50%,
+          var(--light-contrast) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradientShift 5s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .hero-subtitle {
+        font-size: 1.8rem;
+        color: var(--secondary-accent);
+        margin-bottom: 2rem;
+        font-weight: 300;
+      }
+
+      .hero-description {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-rgb) 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(53, 94, 59, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(53, 94, 59, 0.6);
+      }
+
+      .btn-glass {
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        color: var(--light-contrast);
+        border: 2px solid var(--glass-border);
+      }
+
+      .btn-glass:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+      }
+
+      /* Section Styles */
+      section {
+        padding: 5rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: 3rem;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 4rem;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Projects Grid */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        padding: 2rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary) 0%, var(--secondary-accent) 100%);
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(53, 94, 59, 0.3);
+        border-color: var(--primary);
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--light-contrast);
+      }
+
+      .project-status {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        background: rgba(53, 94, 59, 0.2);
+        color: var(--secondary-accent);
+        border: 1px solid var(--primary);
+      }
+
+      .project-description {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tech-tag {
+        padding: 0.3rem 0.8rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        font-size: 0.85rem;
+        color: var(--secondary-accent);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .project-link {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: gap 0.3s ease;
+      }
+
+      .project-link:hover {
+        gap: 1rem;
+      }
+
+      /* Skills Section */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+
+      .skill-card {
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        border-radius: 20px;
+        border: 1px solid var(--glass-border);
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .skill-card:hover {
+        transform: scale(1.05);
+        border-color: var(--primary);
+      }
+
+      .skill-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .skill-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+
+      .skill-list {
+        list-style: none;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+      }
+
+      /* External Links */
+      .websites-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .website-card {
+        background: linear-gradient(
+          135deg,
+          rgba(53, 94, 59, 0.3) 0%,
+          rgba(163, 185, 164, 0.1) 100%
+        );
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        border-radius: 20px;
+        border: 2px solid var(--primary);
+        padding: 2.5rem;
+        text-align: center;
+        text-decoration: none;
+        color: var(--light-contrast);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .website-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(53, 94, 59, 0.3) 0%, transparent 70%);
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+
+      .website-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        box-shadow: 0 20px 40px rgba(53, 94, 59, 0.4);
+      }
+
+      .website-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .website-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .website-description {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Footer */
+      footer {
+        background: rgba(11, 11, 11, 0.9);
+        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(20px);
+        padding: 4rem 2rem 2rem;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .contact-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .contact-description {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2rem;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+
+      .social-link {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--glass-bg);
+        -webkit-backdrop-filter: var(--blur);
+        backdrop-filter: var(--blur);
+        border: 2px solid var(--glass-border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: var(--light-contrast);
+        transition: all 0.3s ease;
+      }
+
+      .social-link:hover {
+        background: var(--primary);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(53, 94, 59, 0.4);
+      }
+
+      .copyright {
+        color: rgba(255, 255, 255, 0.5);
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      /* Mobile Menu */
+      .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--light-contrast);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1.3rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .projects-grid,
+        .skills-grid,
+        .websites-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Loading Animation */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s ease forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Scroll Indicator */
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        40% {
+          transform: translateX(-50%) translateY(-10px);
+        }
+        60% {
+          transform: translateX(-50%) translateY(-5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav>
+        <a href="#" class="logo">
+          <div class="logo-icon">🐕</div>
+          <span>StrayDog Syndications</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#websites">Platforms</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="mobile-menu-btn">☰</button>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="hero-content fade-in">
+        <h1 class="hero-title">Eric "Hunter" Petross</h1>
+        <p class="hero-subtitle">From Kitchen to Code</p>
+        <p class="hero-description">
+          20+ years of fine dining excellence transformed into innovative software development.
+          AI/ML specialist, full-stack developer, and technical writer at Outlier AI.
+        </p>
+        <div class="hero-buttons">
+          <a href="https://github.com/StrayDogSyn" class="btn btn-primary" target="_blank" rel="noopener">
+            View GitHub Profile
+          </a>
+          <a href="#projects" class="btn btn-glass"> Explore Projects </a>
+        </div>
+      </div>
+      <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2 class="section-title fade-in">Featured Projects</h2>
+      <div class="projects-grid">
+        <!-- AI Performance Automation -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">AI Performance Automation</h3>
+          <span class="project-status">Current</span>
+          <p class="project-description">
+            Cortana-style AI automation system for performance monitoring, Lighthouse audits, and
+            intelligent optimization recommendations.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">PowerShell</span>
+            <span class="tech-tag">Lighthouse</span>
+            <span class="tech-tag">AI Analytics</span>
+            <span class="tech-tag">Performance Monitoring</span>
+          </div>
+          <a href="#" class="project-link">View Project →</a>
+        </div>
+
+        <!-- Marvel Quiz Game -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">Marvel Quiz Game</h3>
+          <span class="project-status">In Development</span>
+          <p class="project-description">
+            Interactive Marvel universe quiz game with 3D models, real-time scoring, and immersive
+            user experience.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Three.js</span>
+            <span class="tech-tag">Marvel API</span>
+          </div>
+          <a href="./marvel-quiz-game/index.html" class="project-link" target="_blank"
+            >View Project →</a
+          >
+        </div>
+
+        <!-- Multi-Domain Portfolio -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">Multi-Domain Portfolio</h3>
+          <span class="project-status">Completed</span>
+          <p class="project-description">
+            Professional portfolio system with glassmorphic design, responsive layout, and optimized
+            performance.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Vite</span>
+            <span class="tech-tag">CSS3</span>
+            <span class="tech-tag">GitHub Pages</span>
+          </div>
+          <a href="https://straydogsyn.github.io/Learner-Files-v3.5" class="project-link"
+            >View Live Site →</a
+          >
+        </div>
+
+        <!-- Technical Writing Portfolio -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">Technical Writing Portfolio</h3>
+          <span class="project-status">Ongoing</span>
+          <p class="project-description">
+            Comprehensive collection of technical documentation, AI/ML tutorials, and content
+            creation for Outlier AI.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Technical Writing</span>
+            <span class="tech-tag">AI/ML</span>
+            <span class="tech-tag">Documentation</span>
+            <span class="tech-tag">Content Strategy</span>
+          </div>
+          <a href="https://outlier.ai" class="project-link" target="_blank" rel="noopener">View Work →</a>
+        </div>
+
+        <!-- Claude 4.1 Integration -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">Claude 4.1 Integration Hub</h3>
+          <span class="project-status">Active</span>
+          <p class="project-description">
+            Advanced AI integration system leveraging Claude 4.1 API for automated workflows, code
+            generation, and intelligent assistance.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Claude API</span>
+            <span class="tech-tag">VS Code</span>
+            <span class="tech-tag">Cursor Pro</span>
+            <span class="tech-tag">GitHub Copilot</span>
+          </div>
+          <a href="#" class="project-link">Documentation →</a>
+        </div>
+
+        <!-- Second Story Initiative -->
+        <div class="project-card fade-in glass">
+          <h3 class="project-title">Second Story Platform</h3>
+          <span class="project-status">In Progress</span>
+          <p class="project-description">
+            Non-profit platform helping justice-impacted individuals transition into tech careers
+            through mentorship and training.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Next.js</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Social Impact</span>
+          </div>
+          <a href="https://straydog-secondstory.org" class="project-link" target="_blank" rel="noopener"
+            >Visit Site →</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <h2 class="section-title fade-in">Technical Expertise</h2>
+      <div class="skills-grid">
+        <div class="skill-card fade-in glass">
+          <div class="skill-icon">⚡</div>
+          <h3 class="skill-title">Frontend Development</h3>
+          <ul class="skill-list">
+            <li>React & Next.js</li>
+            <li>TypeScript</li>
+            <li>Tailwind CSS</li>
+            <li>Three.js & WebGL</li>
+            <li>Responsive Design</li>
+          </ul>
+        </div>
+
+        <div class="skill-card fade-in glass">
+          <div class="skill-icon">🔧</div>
+          <h3 class="skill-title">Backend & Infrastructure</h3>
+          <ul class="skill-list">
+            <li>Node.js & Express</li>
+            <li>MongoDB & PostgreSQL</li>
+            <li>RESTful APIs</li>
+            <li>GitHub Actions</li>
+            <li>Docker & CI/CD</li>
+          </ul>
+        </div>
+
+        <div class="skill-card fade-in glass">
+          <div class="skill-icon">🤖</div>
+          <h3 class="skill-title">AI & Automation</h3>
+          <ul class="skill-list">
+            <li>Claude 4.1 Integration</li>
+            <li>GitHub Copilot Pro</li>
+            <li>Cursor Pro</li>
+            <li>Trae 2.0 Builder</li>
+            <li>Performance Automation</li>
+          </ul>
+        </div>
+
+        <div class="skill-card fade-in glass">
+          <div class="skill-icon">📝</div>
+          <h3 class="skill-title">Technical Writing</h3>
+          <ul class="skill-list">
+            <li>AI Training Content</li>
+            <li>API Documentation</li>
+            <li>Technical Tutorials</li>
+            <li>Code Documentation</li>
+            <li>Content Strategy</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Websites Section -->
+    <section id="websites">
+      <h2 class="section-title fade-in">Our Digital Ecosystem</h2>
+      <div class="websites-grid">
+        <a
+          href="https://straydog-syndications-llc.com"
+          class="website-card fade-in"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="website-icon">🏢</div>
+          <h3 class="website-title">StrayDog Syndications LLC</h3>
+          <p class="website-description">Main company portal and professional services</p>
+        </a>
+
+        <a href="https://www.straydogsyndicationsllc.tech" class="website-card fade-in" target="_blank" rel="noopener">
+          <div class="website-icon">💻</div>
+          <h3 class="website-title">Tech Division</h3>
+          <p class="website-description">Development services and technology solutions</p>
+        </a>
+
+        <a href="https://straydogsyndicationsllc.biz" class="website-card fade-in" target="_blank" rel="noopener">
+          <div class="website-icon">📊</div>
+          <h3 class="website-title">Business Portal</h3>
+          <p class="website-description">Business consulting and strategic services</p>
+        </a>
+
+        <a href="https://straydog-secondstory.org" class="website-card fade-in" target="_blank" rel="noopener">
+          <div class="website-icon">🤝</div>
+          <h3 class="website-title">Second Story</h3>
+          <p class="website-description">Non-profit for justice-impacted individuals in tech</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact">
+      <div class="footer-content">
+        <h2 class="contact-title">Let's Build Something Amazing</h2>
+        <p class="contact-description">
+          Ready to transform your vision into reality with cutting-edge technology
+        </p>
+        <div class="social-links">
+          <a href="https://github.com/StrayDogSyn" class="social-link glass" target="_blank" rel="noopener" title="Visit GitHub Profile">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+          </a>
+          <a href="mailto:hello@straydog-syndications-llc.com" class="social-link glass" title="Send Email">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h.727L12 13.64 22.637 3.82h.727c.904 0 1.636.732 1.636 1.636z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://linkedin.com/in/straydog-syndications"
+            class="social-link glass"
+            target="_blank"
+            rel="noopener"
+            title="Visit LinkedIn Profile"
+          >
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+          </a>
+        </div>
+        <div class="copyright">
+          <p>&copy; 2024 StrayDog Syndications LLC. All rights reserved.</p>
+          <p>From Kitchen to Code - Transforming Excellence</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript for smooth scrolling and animations -->
+    <script>
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const href = this.getAttribute('href');
+          // Check if href is valid and not just '#'
+          if (href && href !== '#' && href.length > 1) {
+            try {
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+              }
+            } catch (error) {
+              console.warn('Invalid selector:', href);
+            }
+          }
+        });
+      });
+
+      // Intersection Observer for fade-in animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      };
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationDelay = '0.1s';
+            entry.target.style.animationPlayState = 'running';
+          }
+        });
+      }, observerOptions);
+
+      // Observe all fade-in elements
+      document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Enhanced mobile navigation
+      document.querySelector('.mobile-menu-btn')?.addEventListener('click', () => {
+        const nav = document.querySelector('.nav-links');
+        nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        nav.style.position = 'absolute';
+        nav.style.top = '60px';
+        nav.style.right = '20px';
+        nav.style.background = 'rgba(11, 11, 11, 0.95)';
+        nav.style.padding = '20px';
+        nav.style.borderRadius = '15px';
+        nav.style.flexDirection = 'column';
+      });
+
+      // Add scroll effect to header
+      window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+          header.style.background = 'rgba(11, 11, 11, 0.95)';
+        } else {
+          header.style.background = 'rgba(11, 11, 11, 0.8)';
+        }
+      });
+    </script>
+  </body>
+</html>
