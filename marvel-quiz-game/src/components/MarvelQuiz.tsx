@@ -883,9 +883,51 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     </div>
   );
   
+  // Function to determine theme based on current question
+  const getThemeClass = () => {
+    if (!currentQuestion) return '';
+    
+    const questionText = currentQuestion.question.toLowerCase();
+    const correctAnswer = currentQuestion.correctAnswer.toLowerCase();
+    
+    // Check for specific characters/themes
+    if (questionText.includes('spider') || correctAnswer.includes('spider') || correctAnswer.includes('peter parker')) {
+      return 'theme-spiderman';
+    }
+    if (questionText.includes('iron') || correctAnswer.includes('iron') || correctAnswer.includes('tony stark')) {
+      return 'theme-ironman';
+    }
+    if (questionText.includes('thor') || correctAnswer.includes('thor') || correctAnswer.includes('asgard')) {
+      return 'theme-thor';
+    }
+    if (questionText.includes('hulk') || correctAnswer.includes('hulk') || correctAnswer.includes('bruce banner')) {
+      return 'theme-hulk';
+    }
+    if (questionText.includes('captain') || correctAnswer.includes('captain') || correctAnswer.includes('steve rogers')) {
+      return 'theme-captain';
+    }
+    if (questionText.includes('widow') || correctAnswer.includes('widow') || correctAnswer.includes('natasha')) {
+      return 'theme-blackwidow';
+    }
+    if (questionText.includes('strange') || correctAnswer.includes('strange') || questionText.includes('magic')) {
+      return 'theme-strange';
+    }
+    if (questionText.includes('panther') || correctAnswer.includes('panther') || correctAnswer.includes('wakanda')) {
+      return 'theme-panther';
+    }
+    if (questionText.includes('cosmic') || questionText.includes('galaxy') || correctAnswer.includes('guardians')) {
+      return 'theme-cosmic';
+    }
+    if (questionText.includes('villain') || questionText.includes('thanos') || questionText.includes('loki')) {
+      return 'theme-villain';
+    }
+    
+    return '';
+  };
+
   // Main render
   return (
-    <div className="marvel-quiz">
+    <div className={`marvel-quiz ${getThemeClass()}`}>
       <AnimationSystem animationState={animationState} />
       <SoundManager 
         soundConfig={soundConfig}

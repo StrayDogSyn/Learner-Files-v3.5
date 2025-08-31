@@ -91,6 +91,48 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   position: relative;
   overflow-x: hidden;
+  transition: background 0.8s ease;
+}
+
+/* Comic-Themed Gradient Backgrounds */
+.marvel-quiz.theme-spiderman {
+  background: linear-gradient(135deg, #dc2626 0%, #1e40af 30%, #dc2626 70%, #000000 100%);
+}
+
+.marvel-quiz.theme-ironman {
+  background: linear-gradient(135deg, #fbbf24 0%, #dc2626 30%, #fbbf24 70%, #374151 100%);
+}
+
+.marvel-quiz.theme-thor {
+  background: linear-gradient(135deg, #3b82f6 0%, #f59e0b 30%, #6b7280 70%, #1f2937 100%);
+}
+
+.marvel-quiz.theme-hulk {
+  background: linear-gradient(135deg, #16a34a 0%, #065f46 30%, #84cc16 70%, #1c1917 100%);
+}
+
+.marvel-quiz.theme-captain {
+  background: linear-gradient(135deg, #1e40af 0%, #dc2626 30%, #f8fafc 50%, #1e40af 80%, #dc2626 100%);
+}
+
+.marvel-quiz.theme-blackwidow {
+  background: linear-gradient(135deg, #000000 0%, #dc2626 30%, #000000 70%, #374151 100%);
+}
+
+.marvel-quiz.theme-strange {
+  background: linear-gradient(135deg, #7c2d12 0%, #f59e0b 30%, #7c3aed 70%, #1e1b4b 100%);
+}
+
+.marvel-quiz.theme-panther {
+  background: linear-gradient(135deg, #1f2937 0%, #8b5cf6 30%, #1f2937 70%, #374151 100%);
+}
+
+.marvel-quiz.theme-cosmic {
+  background: linear-gradient(135deg, #1e1b4b 0%, #7c3aed 20%, #ec4899 40%, #f59e0b 60%, #3b82f6 80%, #1e1b4b 100%);
+}
+
+.marvel-quiz.theme-villain {
+  background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 30%, #000000 70%, #374151 100%);
 }
 
 /* Question Card */
