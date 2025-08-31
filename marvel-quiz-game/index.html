@@ -45,6 +45,40 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             animation: glow 2s ease-in-out infinite alternate;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .brand-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand-logos img {
+            height: 40px;
+            object-fit: contain;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-logos img:hover {
+            opacity: 1;
         }
 
         @keyframes glow {
@@ -265,7 +299,14 @@
     <div class="container">
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="welcome-screen">
-            <div class="logo">🦸‍♂️</div>
+            <div class="brand-logos">
+                <img src="./assets/brand/StrayDogSyn.png" alt="StrayDog Syndications" />
+                <img src="./assets/brand/Marvel_Unlimited_logo.webp" alt="Marvel Unlimited" />
+            </div>
+            <div class="logo">
+                <img src="./assets/brand/stray-gear.png" alt="StrayDog Gear" />
+                🦸‍♂️
+            </div>
             <h1>Marvel Quiz Game</h1>
             <p class="description">
                 Test your knowledge of the Marvel Universe! Answer 8 challenging questions about your favorite superheroes, villains, and epic storylines. You have 30 seconds per question. Are you ready to prove you're a true Marvel fan?
@@ -295,7 +336,10 @@
 
         <!-- Results Screen -->
         <div id="results-screen" class="results-screen">
-            <div class="logo">🏆</div>
+            <div class="logo">
+                <img src="./assets/brand/StrayDogSyn.png" alt="StrayDog Syndications" />
+                🏆
+            </div>
             <h1>Quiz Complete!</h1>
             <div id="final-score" class="final-score">0</div>
             <div id="performance" class="performance"></div>
