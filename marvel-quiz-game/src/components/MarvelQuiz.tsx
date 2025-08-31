@@ -378,8 +378,6 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     
     setSelectedAnswer(answer);
     const correct = answer === currentQuestion.correctAnswer;
-    // Track if answer was correct locally
-    const isCorrect = correct;
     setShowResult(true);
     
     // Play sound effects

@@ -101,19 +101,16 @@
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('./assets/brands/banner.png'),
-                              radial-gradient(circle at 20% 30%, rgba(53, 94, 59, 0.3) 0%, transparent 50%),
-                              radial-gradient(circle at 80% 70%, rgba(163, 185, 164, 0.2) 0%, transparent 50%),
-                              radial-gradient(circle at 50% 50%, rgba(53, 94, 59, 0.1) 0%, transparent 70%);
-            background-size: cover, auto, auto, auto;
-            background-position: center, 20% 30%, 80% 70%, 50% 50%;
-            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/brands/mainLogo.png');
+            background-size: 200px 200px;
+            background-repeat: repeat;
             background-blend-mode: overlay;
-            opacity: 0.4;
+            opacity: 0.15;
+            animation: spin 60s linear infinite;
             z-index: -1;
-            animation: floatingGradient 20s ease infinite;
+            pointer-events: none;
         }
 
         @keyframes floatingGradient {
@@ -239,6 +236,8 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: gradientShift 5s ease infinite;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(53, 94, 59, 0.5);
+            letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
@@ -246,6 +245,8 @@
             color: var(--primary);
             margin-bottom: 1rem;
             font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.01em;
         }
 
         .hero-tagline {
@@ -261,6 +262,7 @@
             max-width: 800px;
             margin: 0 auto 3rem;
             color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.9);
         }
 
         .hero-achievements {
@@ -358,24 +360,30 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(53, 94, 59, 0.3);
+            letter-spacing: -0.005em;
         }
 
         .flagship-subtitle {
             font-size: 1.3rem;
             color: var(--secondary-accent);
             margin-bottom: 3rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            letter-spacing: 0.005em;
         }
 
         .demo-showcase {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
+            background: linear-gradient(135deg, rgba(163, 185, 164, 0.12), rgba(53, 94, 59, 0.06));
+            -webkit-backdrop-filter: blur(12px) saturate(1.1);
+            backdrop-filter: blur(12px) saturate(1.1);
             border-radius: 20px;
-            border: 2px solid var(--primary);
+            border: 1px solid rgba(163, 185, 164, 0.15);
             padding: 3rem;
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 32px rgba(53, 94, 59, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .demo-showcase::before {
@@ -414,6 +422,13 @@
         /* Skills Hierarchy */
         .skills-section {
             padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(163, 185, 164, 0.12), rgba(53, 94, 59, 0.06));
+            border-radius: 1.5rem;
+            margin: 2rem;
+            backdrop-filter: blur(12px) saturate(1.1);
+            -webkit-backdrop-filter: blur(12px) saturate(1.1);
+            box-shadow: 0 8px 32px rgba(53, 94, 59, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(163, 185, 164, 0.15);
         }
 
         .skills-content {
@@ -430,6 +445,9 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(53, 94, 59, 0.4);
+            letter-spacing: -0.01em;
+            position: relative;
         }
 
         .skills-hierarchy {
@@ -469,6 +487,8 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.01em;
         }
 
         .skill-level.expert .skill-level-title {
@@ -543,11 +563,15 @@
             font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--primary);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.005em;
         }
 
         .ecosystem-description {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(255, 255, 255, 0.9);
+            font-weight: 400;
         }
 
         /* Footer */
