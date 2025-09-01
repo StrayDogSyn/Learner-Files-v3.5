@@ -314,3 +314,11 @@ export const getQuestionsByTags = (tags: string[]): EnhancedQuizQuestion[] => {
     tags.some(tag => q.tags.includes(tag))
   );
 };
+
+export const getQuestionsByType = (type: QuestionType): EnhancedQuizQuestion[] => {
+  return enhancedQuestions.filter(q => q.type === type);
+};
+
+export const getQuestionsByDifficulty = (difficulty: 'easy' | 'medium' | 'hard' | 'expert'): EnhancedQuizQuestion[] => {
+  return enhancedQuestions.filter(q => q.difficulty === difficulty);
+};

@@ -442,9 +442,13 @@ export const SkillRadar: React.FC<SkillRadarProps> = ({
   );
 };
 
+// Alias for CircularProgress to maintain compatibility
+export const ProgressRing = CircularProgress;
+
 export default {
   ProgressBar,
   CircularProgress,
+  ProgressRing,
   StatisticsDisplay,
   SkillRadar
 };

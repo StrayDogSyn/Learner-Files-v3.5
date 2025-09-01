@@ -7,38 +7,47 @@ import {
 } from 'lucide-react';
 
 // Import existing components
-import SoundManager from './SoundManager';
-import AchievementSystem from './AchievementSystem';
-import Leaderboard from './Leaderboard';
-import AnimationSystem from './AnimationSystem';
+import SoundManager from './MarvelQuiz/SoundManager';
+import AchievementSystem from './MarvelQuiz/AchievementSystem';
+import Leaderboard from './MarvelQuiz/Leaderboard';
+import AnimationSystem from './MarvelQuiz/AnimationSystem';
 
 // Import new enhanced components
 import { marvelCharacters, getCharacterById, searchCharacters } from '../data/characters';
 import { enhancedQuestions, getQuestionsByType, getQuestionsByDifficulty } from '../data/enhancedQuestions';
-import { AdaptiveDifficultyManager } from '../components/AdaptiveDifficultyManager';
-import { GameModeSelector } from '../components/GameModeSelector';
-import { GameModeManager } from '../components/GameModeManager';
-import { DailyChallengeSystem } from '../components/DailyChallengeSystem';
-import { EnhancedVisualFeedback } from '../components/EnhancedVisualFeedback';
-import { CharacterThemedBackground } from '../components/CharacterThemedBackground';
-import { ProgressIndicators } from '../components/ProgressIndicators';
-import { EnhancedAnimations } from '../components/EnhancedAnimations';
-import { EnhancedLeaderboard } from '../components/EnhancedLeaderboard';
-import { AchievementSharing } from '../components/AchievementSharing';
-import { PlayerProfile } from '../components/PlayerProfile';
+import { GameModeSelector } from './GameModes/GameModeSelector';
+import { GameModeManager } from './GameModes/GameModeManager';
+import { DailyChallengeSystem } from './GameModes/DailyChallengeSystem';
+import { EnhancedVisualFeedback } from './UI/EnhancedVisualFeedback';
+import { CharacterThemedBackground } from './UI/CharacterThemedBackground';
+import { ProgressIndicators } from './UI/ProgressIndicators';
+import { EnhancedAnimations } from './UI/EnhancedAnimations';
+import { EnhancedLeaderboard } from './Social/EnhancedLeaderboard';
+import { AchievementSharing } from './Social/AchievementSharing';
+import { PlayerProfile } from './Social/PlayerProfile';
+
+// Import image enhancement components
+import { OptimizedImage, ImageGallery, useImagePreloader } from '../components/ImageOptimization';
+import { CharacterImageGallery } from '../components/CharacterImageGallery';
+import { EnhancedQuestionDisplay } from '../components/EnhancedQuestionDisplay';
+
+// Import enhanced types
+import { EnhancedQuizQuestion, QuestionType } from '../data/enhancedQuestions';
+import { GameStats as MarvelGameStats, Achievement as MarvelAchievement, PowerUp as MarvelPowerUp } from '../types/marvel';
 
 interface Question {
   id: string;
   question: string;
-  options: string[];
-  correctAnswer: string;
+  options?: string[];
+  correctAnswer: string | number;
   explanation?: string;
   imageUrl?: string;
   difficulty?: 'easy' | 'medium' | 'hard' | 'expert';
   category?: string;
-  type?: string;
-  characterId?: string;
+  type?: QuestionType;
+  characterId?: number;
   timeLimit?: number;
+  points?: number;
 }
 
 interface GameStats {
@@ -80,8 +89,8 @@ const EnhancedMarvelQuiz: React.FC = () => {
   // Core game state
   const [gameState, setGameState] = useState<GameState>('menu');
   const [gameMode, setGameMode] = useState<GameMode>('classic');
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [currentQuestion, setCurrentQuestion] = useState<EnhancedQuizQuestion | null>(null);
+  const [questions, setQuestions] = useState<EnhancedQuizQuestion[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [showResult, setShowResult] = useState(false);
@@ -170,6 +179,13 @@ const EnhancedMarvelQuiz: React.FC = () => {
     initialized: false
   });
 
+  // Image handling state
+  const [showCharacterGallery, setShowCharacterGallery] = useState(false);
+  const [selectedCharacterForGallery, setSelectedCharacterForGallery] = useState<string>('');
+  
+  // Image preloader hook
+  const { preloadImages, isPreloading } = useImagePreloader();
+
   // Computed values
   const progress = useMemo(() => {
     if (questions.length === 0) return 0;
@@ -186,7 +202,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
     setUiState(prev => ({ ...prev, loading: true, error: '' }));
     
     try {
-      let selectedQuestions: Question[] = [];
+      let selectedQuestions: EnhancedQuizQuestion[] = [];
       
       switch (mode) {
         case 'classic':
@@ -202,8 +218,9 @@ const EnhancedMarvelQuiz: React.FC = () => {
           break;
         case 'characterSpecific':
           if (character) {
+            const characterId = parseInt(character);
             selectedQuestions = enhancedQuestions.filter(q => 
-              q.characterId === character || 
+              q.characterId === characterId || 
               q.question.toLowerCase().includes(character.toLowerCase())
             ).slice(0, 15);
           }
@@ -222,6 +239,15 @@ const EnhancedMarvelQuiz: React.FC = () => {
 
       // Shuffle questions
       const shuffledQuestions = selectedQuestions.sort(() => Math.random() - 0.5);
+      
+      // Preload images for better performance
+      const imageUrls = shuffledQuestions
+        .map(q => q.imageUrl)
+        .filter(Boolean) as string[];
+      
+      if (imageUrls.length > 0) {
+        preloadImages(imageUrls);
+      }
       
       setQuestions(shuffledQuestions);
       setCurrentQuestion(shuffledQuestions[0]);
@@ -248,7 +274,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
         error: error instanceof Error ? error.message : 'Failed to start game' 
       }));
     }
-  }, []);
+  }, [updateTheme, preloadImages]);
 
   // Update theme based on current question
   const updateTheme = useCallback((question: Question) => {
@@ -736,72 +762,24 @@ const EnhancedMarvelQuiz: React.FC = () => {
             />
           </div>
           
-          {/* Question */}
+          {/* Enhanced Question Display */}
           <div className="max-w-4xl mx-auto">
-            <div className="bg-black/40 rounded-xl p-8 backdrop-blur-sm mb-8 border border-white/10">
-              <h2 className="text-2xl font-bold mb-6 text-center">{currentQuestion.question}</h2>
-              
-              {currentQuestion.imageUrl && (
-                <div className="flex justify-center mb-8">
-                  <img
-                    src={currentQuestion.imageUrl}
-                    alt="Marvel Character"
-                    className="max-w-sm max-h-80 object-cover rounded-lg shadow-2xl"
-                    onError={(e) => {
-                      e.currentTarget.src = 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Marvel%20superhero%20silhouette%20placeholder&image_size=square';
-                    }}
-                  />
-                </div>
-              )}
-              
-              {/* Answer options */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {currentQuestion.options.map((option, index) => {
-                  let buttonClass = "p-4 rounded-lg border-2 transition-all duration-300 text-left font-semibold ";
-                  
-                  if (showResult) {
-                    if (option === currentQuestion.correctAnswer) {
-                      buttonClass += "bg-green-600/80 border-green-400 text-white";
-                    } else if (option === selectedAnswer && option !== currentQuestion.correctAnswer) {
-                      buttonClass += "bg-red-600/80 border-red-400 text-white";
-                    } else {
-                      buttonClass += "bg-gray-700/50 border-gray-600 text-gray-300";
-                    }
-                  } else {
-                    if (selectedAnswer === option) {
-                      buttonClass += "bg-blue-600/80 border-blue-400 text-white";
-                    } else {
-                      buttonClass += "bg-gray-800/50 border-gray-600 text-white hover:bg-gray-700/50 hover:border-gray-500 cursor-pointer backdrop-blur-sm";
-                    }
-                  }
-                  
-                  return (
-                    <button
-                      key={index}
-                      onClick={() => handleAnswerSelect(option)}
-                      disabled={showResult}
-                      className={buttonClass}
-                    >
-                      <span className="text-blue-400 font-bold mr-3">{String.fromCharCode(65 + index)}.</span>
-                      {option}
-                    </button>
-                  );
-                })}
-              </div>
-              
-              {/* Result explanation */}
-              {showResult && currentQuestion.explanation && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-6 p-4 bg-blue-900/30 border border-blue-500 rounded-lg backdrop-blur-sm"
-                >
-                  <p className="text-blue-200">
-                    <strong>Explanation:</strong> {currentQuestion.explanation}
-                  </p>
-                </motion.div>
-              )}
-            </div>
+            <EnhancedQuestionDisplay
+              question={currentQuestion}
+              selectedAnswer={selectedAnswer}
+              showResult={showResult}
+              onAnswerSelect={handleAnswerSelect}
+              onShowCharacterGallery={(characterId) => {
+                setSelectedCharacterForGallery(characterId);
+                setShowCharacterGallery(true);
+              }}
+              progress={progress}
+              score={score}
+              streak={streak}
+              timeLeft={timeLeft}
+              gameMode={gameMode}
+              lives={lives}
+            />
             
             {/* Power-ups */}
             <div className="flex justify-center gap-4">
@@ -1037,6 +1015,29 @@ const EnhancedMarvelQuiz: React.FC = () => {
                 }}
                 onClose={() => setShowDailyChallenge(false)}
                 playerStats={gameStats}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+        
+        {showCharacterGallery && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowCharacterGallery(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-6xl w-full max-h-[90vh] overflow-auto"
+            >
+              <CharacterImageGallery
+                characterId={selectedCharacterForGallery}
+                onClose={() => setShowCharacterGallery(false)}
               />
             </motion.div>
           </motion.div>

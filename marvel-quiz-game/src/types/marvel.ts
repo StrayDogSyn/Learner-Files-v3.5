@@ -191,8 +191,28 @@ export interface MarvelApiResponse<T> {
   etag: string;
 }
 
+// Marvel API Response types
+export interface MarvelApiResponse<T> {
+  code: number;
+  status: string;
+  copyright: string;
+  attributionText: string;
+  attributionHTML: string;
+  etag: string;
+  data: {
+    offset: number;
+    limit: number;
+    total: number;
+    count: number;
+    results: T[];
+  };
+  success?: boolean;
+  error?: string;
+  message?: string;
+}
+
 // Quiz-specific types
-export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'mixed';
+export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert' | 'mixed';
 export type QuizCategory = 'characters' | 'comics' | 'series' | 'events' | 'creators' | 'mixed';
 
 export interface GameSession {
@@ -211,12 +231,12 @@ export interface GameSession {
 // Quiz-specific interfaces
 export interface QuizQuestion {
   id: string;
-  type: 'character' | 'comic' | 'series' | 'power' | 'origin' | 'team' | 'villain' | 'multiple-choice';
-  difficulty: 'easy' | 'medium' | 'hard';
+  type: 'character' | 'comic' | 'series' | 'power' | 'origin' | 'team' | 'villain' | 'multiple-choice' | 'character-relationship' | 'power-matching' | 'timeline' | 'visual-identification' | 'comic-cover' | 'team-affiliation' | 'true-false' | 'fill-in-blank';
+  difficulty: 'easy' | 'medium' | 'hard' | 'expert';
   category: string;
   question: string;
-  options: string[];
-  correctAnswer: string;
+  options?: string[];
+  correctAnswer: string | number;
   explanation?: string;
   points: number;
   timeLimit: number;
@@ -225,6 +245,9 @@ export interface QuizQuestion {
   series?: MarvelSeries;
   imageUrl?: string;
   hints?: string[];
+  characterId?: number;
+  relatedCharacters?: number[];
+  tags?: string[];
 }
 
 export interface QuizConfig {
@@ -247,6 +270,7 @@ export interface GameStats {
   incorrectAnswers: number;
   currentStreak: number;
   highestStreak: number;
+  longestStreak: number;
   averageTime: number;
   totalTime: number;
   fastAnswers: number;
@@ -297,6 +321,7 @@ export interface Achievement {
   points: number;
   category: string;
   unlockedAt?: string;
+  progress?: number;
   requirements: {
     gamesPlayed?: number;
     accuracy?: number;
@@ -322,6 +347,11 @@ export interface LeaderboardEntry {
   achievements: number;
   lastPlayed: string;
   avatar?: string;
+  longestStreak: number;
+  questionsAnswered: number;
+  timestamp: string;
+  difficulty: string;
+  gameMode: string;
 }
 
 export interface QuizSession {
