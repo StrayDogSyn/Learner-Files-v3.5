@@ -14,13 +14,13 @@ import AnimationSystem from './MarvelQuiz/AnimationSystem';
 import { enhancedQuestions, getQuestionsByDifficulty } from '../data/enhancedQuestions';
 import GameModeSelector from './GameModes/GameModeSelector';
 import DailyChallengeSystem from './GameModes/DailyChallengeSystem';
-import { EnhancedVisualFeedback } from './UI/EnhancedVisualFeedback';
-import { CharacterThemedBackground } from './UI/CharacterThemedBackground';
+import EnhancedVisualFeedback from './UI/EnhancedVisualFeedback';
+import CharacterThemedBackground from './UI/CharacterThemedBackground';
 import { ProgressIndicators } from './UI/ProgressIndicators';
 import { EnhancedAnimations } from './UI/EnhancedAnimations';
-import { EnhancedLeaderboard } from './Social/EnhancedLeaderboard';
+import EnhancedLeaderboard from './Social/EnhancedLeaderboard';
 import { AchievementSharing } from './Social/AchievementSharing';
-import { PlayerProfile } from './Social/PlayerProfile';
+import PlayerProfile from './Social/PlayerProfile';
 
 // Import image enhancement components
 import { useImagePreloader } from '../components/ImageOptimization';
