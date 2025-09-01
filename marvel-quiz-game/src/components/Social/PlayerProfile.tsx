@@ -329,7 +329,26 @@ const PlayerProfile: React.FC<PlayerProfileProps> = ({
                   longestStreak: playerStats.longestStreak,
                   averageResponseTime: playerStats.averageResponseTime || 0,
                   gamesPlayed: derivedStats.totalGames,
-                  averageScore: derivedStats.averageScore
+                  accuracy: Math.round((playerStats.correctAnswers / playerStats.totalQuestions) * 100),
+                  questionsAnswered: playerStats.totalQuestions,
+                  incorrectAnswers: playerStats.wrongAnswers,
+                  currentStreak: playerStats.streak,
+                  highestStreak: playerStats.maxStreak,
+                  averageTime: playerStats.averageResponseTime || 0,
+                  totalTime: playerStats.totalTimeSpent || 0,
+                  fastAnswers: 0,
+                  rank: 'Beginner',
+                  powerUpsUsed: 0,
+                  hintsUsed: 0,
+                  achievements: [],
+                  wrongAnswers: playerStats.wrongAnswers,
+                  timePerQuestion: playerStats.timePerQuestion || 0,
+                  streak: playerStats.streak,
+                  maxStreak: playerStats.maxStreak,
+                  fastestAnswer: 0,
+                  slowestAnswer: 0,
+                  categoriesPlayed: [],
+                  score: playerStats.totalScore
                 }}
                 achievements={achievements.filter(a => a.unlockedAt).slice(0, 3)}
               />
@@ -339,10 +358,10 @@ const PlayerProfile: React.FC<PlayerProfileProps> = ({
                 <h3 className="text-lg font-semibold text-white mb-4">Skill Analysis</h3>
                 <SkillRadar
                   skills={Object.entries(derivedStats.categoryStats).map(([category, stats]) => ({
-                    name: category,
+                    label: category,
                     value: Math.round((stats.totalCorrect / stats.totalQuestions) * 100),
                     maxValue: 100
-                  }))}
+                  }))}}
                 />
               </div>
             </div>

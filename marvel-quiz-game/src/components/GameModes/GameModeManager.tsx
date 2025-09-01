@@ -342,7 +342,8 @@ function getQuestionsForMode(config: GameModeConfig, allQuestions: EnhancedQuizQ
   // Filter by character if specified
   if (config.characterId) {
     filteredQuestions = filteredQuestions.filter(q => 
-      q.character && q.character.toLowerCase().includes(getCharacterName(config.characterId!).toLowerCase())
+      q.characterId === config.characterId ||
+      q.question.toLowerCase().includes(getCharacterName(config.characterId!).toLowerCase())
     );
   }
 

@@ -221,7 +221,7 @@ export const StatisticsDisplay: React.FC<StatisticsDisplayProps> = ({
     ? (stats.correctAnswers / stats.totalQuestions) * 100 
     : 0;
 
-  const averageTime = stats.totalQuestions > 0 
+  const averageTime = stats.totalQuestions > 0 && stats.totalTimeSpent
     ? stats.totalTimeSpent / stats.totalQuestions 
     : 0;
 

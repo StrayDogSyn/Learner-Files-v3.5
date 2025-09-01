@@ -300,8 +300,8 @@ function generateDailyChallenge(date: string, questions: EnhancedQuizQuestion[])
   // Theme-based filtering (simplified)
   if (theme.includes('Spider')) {
     filteredQuestions = filteredQuestions.filter(q => 
-      q.character?.toLowerCase().includes('spider') || 
-      q.question.toLowerCase().includes('spider')
+      q.question.toLowerCase().includes('spider') ||
+      q.tags.some(tag => tag.toLowerCase().includes('spider'))
     );
   }
   

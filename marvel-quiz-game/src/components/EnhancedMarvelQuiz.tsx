@@ -1,30 +1,24 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Play, Pause, RotateCcw, Star, Clock, Trophy, Zap, Volume2,
-  BarChart3, Crown, Settings, User, Calendar, Target,
-  Shield, Sword, Users, BookOpen, Award, TrendingUp
+  Play, Pause, RotateCcw, Star, Clock, Trophy, Zap,
+  Crown, Settings, User, Calendar, Target,
+  Shield, Users, BookOpen, Award, TrendingUp
 } from 'lucide-react';
 
 // Import existing components
 import SoundManager from './MarvelQuiz/SoundManager';
-import AchievementSystem from './MarvelQuiz/AchievementSystem';
-import Leaderboard from './MarvelQuiz/Leaderboard';
 import AnimationSystem from './MarvelQuiz/AnimationSystem';
 
 // Import new enhanced components
-import { marvelCharacters, getCharacterById, searchCharacters } from '../data/characters';
 import { enhancedQuestions, getQuestionsByType, getQuestionsByDifficulty } from '../data/enhancedQuestions';
 import GameModeSelector from './GameModes/GameModeSelector';
 import GameModeManager from './GameModes/GameModeManager';
 import DailyChallengeSystem from './GameModes/DailyChallengeSystem';
 import { EnhancedVisualFeedback } from './UI/EnhancedVisualFeedback';
 import { CharacterThemedBackground } from './UI/CharacterThemedBackground';
-import { ProgressIndicators } from './UI/ProgressIndicators';
-import { EnhancedAnimations } from './UI/EnhancedAnimations';
 import { EnhancedLeaderboard } from './Social/EnhancedLeaderboard';
 import { AchievementSharing } from './Social/AchievementSharing';
-import { PlayerProfile } from './Social/PlayerProfile';
 
 // Import image enhancement components
 import { OptimizedImage, ImageGallery, useImagePreloader } from '../components/ImageOptimization';
@@ -109,11 +103,9 @@ const EnhancedMarvelQuiz: React.FC = () => {
   const [showStats, setShowStats] = useState(false);
   const [showPowerUps, setShowPowerUps] = useState(false);
   const [showSound, setShowSound] = useState(false);
-  const [showAchievements, setShowAchievements] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showDailyChallenge, setShowDailyChallenge] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
 
   // Game statistics
   const [gameStats, setGameStats] = useState<GameStats>({
@@ -184,7 +176,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
   const [selectedCharacterForGallery, setSelectedCharacterForGallery] = useState<string>('');
   
   // Image preloader hook
-  const { preloadImages, isPreloading } = useImagePreloader();
+  const { preloadImages } = useImagePreloader([]);
 
   // Computed values
   const progress = useMemo(() => {
@@ -196,6 +188,29 @@ const EnhancedMarvelQuiz: React.FC = () => {
     if (gameStats.totalQuestions === 0) return 0;
     return (gameStats.correctAnswers / gameStats.totalQuestions) * 100;
   }, [gameStats.correctAnswers, gameStats.totalQuestions]);
+
+  // Update theme based on current question
+  const updateTheme = useCallback((question: EnhancedQuizQuestion) => {
+    if (!question) return;
+    
+    const questionText = question.question.toLowerCase();
+    const correctAnswer = String(question.correctAnswer).toLowerCase();
+    
+    // Determine theme based on question content
+    if (questionText.includes('spider') || correctAnswer.includes('spider')) {
+      setCurrentTheme('spiderman');
+    } else if (questionText.includes('iron') || correctAnswer.includes('iron')) {
+      setCurrentTheme('ironman');
+    } else if (questionText.includes('thor') || correctAnswer.includes('thor')) {
+      setCurrentTheme('thor');
+    } else if (questionText.includes('hulk') || correctAnswer.includes('hulk')) {
+      setCurrentTheme('hulk');
+    } else if (questionText.includes('captain') || correctAnswer.includes('captain')) {
+      setCurrentTheme('captain');
+    } else {
+      setCurrentTheme('default');
+    }
+  }, []);
 
   // Initialize game
   const initializeGame = useCallback(async (mode: GameMode = 'classic', character?: string) => {
@@ -276,128 +291,74 @@ const EnhancedMarvelQuiz: React.FC = () => {
     }
   }, [updateTheme, preloadImages]);
 
-  // Update theme based on current question
-  const updateTheme = useCallback((question: EnhancedQuizQuestion) => {
-    if (!question) return;
-    
-    const questionText = question.question.toLowerCase();
-    const correctAnswer = String(question.correctAnswer).toLowerCase();
-    
-    // Determine theme based on question content
-    if (questionText.includes('spider') || correctAnswer.includes('spider')) {
-      setCurrentTheme('spiderman');
-    } else if (questionText.includes('iron') || correctAnswer.includes('iron')) {
-      setCurrentTheme('ironman');
-    } else if (questionText.includes('thor') || correctAnswer.includes('thor')) {
-      setCurrentTheme('thor');
-    } else if (questionText.includes('hulk') || correctAnswer.includes('hulk')) {
-      setCurrentTheme('hulk');
-    } else if (questionText.includes('captain') || correctAnswer.includes('captain')) {
-      setCurrentTheme('captain');
-    } else {
-      setCurrentTheme('default');
-    }
-  }, []);
-
   // Additional helper functions
-  const checkAchievements = useCallback((isCorrect: boolean) => {
-    // Simple achievement checking - can be expanded
-    const newAchievements = [...achievements];
-    let hasNewAchievement = false;
 
-    if (isCorrect && !achievements.find(a => a.id === 'first-correct')?.unlocked) {
-      const achievement = newAchievements.find(a => a.id === 'first-correct');
-      if (achievement) {
-        achievement.unlocked = true;
-        hasNewAchievement = true;
-      }
-    }
-
-    if (streak >= 5 && !achievements.find(a => a.id === 'streak-5')?.unlocked) {
-      const achievement = newAchievements.find(a => a.id === 'streak-5');
-      if (achievement) {
-        achievement.unlocked = true;
-        hasNewAchievement = true;
-      }
-    }
-
-    if (hasNewAchievement) {
-      setAchievements(newAchievements);
-      setAnimationState({ type: 'achievement', intensity: 1, duration: 2000 });
-    }
-  }, [achievements, streak]);
-
+  // End game function
   const endGame = useCallback(() => {
     setGameState('finished');
     
-    // Update final stats
+    // Update total time spent and games played
     setGameStats(prev => ({
       ...prev,
       gamesPlayed: prev.gamesPlayed + 1,
-      totalScore: prev.totalScore + score,
-      totalPlayTime: prev.totalPlayTime + (questions.length * 30) // Approximate
+      totalPlayTime: prev.totalPlayTime + 300 // Approximate game time
     }));
-  }, [score, questions.length]);
+  }, []);
 
-  const activatePowerUp = useCallback((powerUpId: string) => {
-    const powerUp = powerUps.find(p => p.id === powerUpId);
-    if (!powerUp || !powerUp.available || score < powerUp.cost) return;
-
-    // Deduct cost
-    setScore(prev => prev - powerUp.cost);
+  // Check achievements
+  const checkAchievements = useCallback((currentStreak: number, currentScore: number) => {
+    const newAchievements: Achievement[] = [];
     
-    // Apply power-up effect
-    switch (powerUpId) {
-      case 'hint':
-        // Remove two wrong answers (implementation depends on UI)
-        break;
-      case 'time':
-        setTimeLeft(prev => prev + 15);
-        break;
-      case 'skip':
-        // Skip current question by advancing to next
-        if (questionIndex < questions.length - 1) {
-          const nextIndex = questionIndex + 1;
-          const nextQ = questions[nextIndex];
-          
-          setQuestionIndex(nextIndex);
-          setCurrentQuestion(nextQ);
-          setSelectedAnswer('');
-          setShowResult(false);
-          setTimeLeft(gameMode === 'timeAttack' ? 15 : 30);
-          updateTheme(nextQ);
-        } else {
-          endGame();
+    if (currentStreak >= 5 && !achievements.find(a => a.id === 'streak_5')) {
+      newAchievements.push({
+        id: 'streak_5',
+        name: 'Hot Streak',
+        description: 'Answer 5 questions correctly in a row',
+        icon: '🔥',
+        rarity: 'common',
+        unlockedAt: new Date().toISOString(),
+        points: 100,
+        category: 'streak',
+        requirements: {
+          streak: 5
         }
-        break;
+      });
     }
+    
+    if (currentScore >= 1000 && !achievements.find(a => a.id === 'score_1000')) {
+      newAchievements.push({
+        id: 'score_1000',
+        name: 'Marvel Expert',
+        description: 'Score 1000 points in a single game',
+        icon: '🏆',
+        rarity: 'rare',
+        unlockedAt: new Date().toISOString(),
+        points: 200,
+        category: 'score',
+        requirements: {
+          totalScore: 1000
+        }
+      });
+    }
+    
+    if (newAchievements.length > 0) {
+      setAchievements(prev => [...prev, ...newAchievements]);
+    }
+  }, [achievements, setAchievements]);
 
-    // Set cooldown
-    setPowerUps(prev => prev.map(p => 
-      p.id === powerUpId ? { ...p, available: false, cooldown: 30 } : p
-    ));
-  }, [powerUps, score, questionIndex, questions, gameMode, updateTheme, endGame]);
-
+  // Move to next question
   const nextQuestion = useCallback(() => {
-    if (questionIndex < questions.length - 1) {
-      const nextIndex = questionIndex + 1;
-      const nextQ = questions[nextIndex];
-      
-      setQuestionIndex(nextIndex);
-      setCurrentQuestion(nextQ);
-      setSelectedAnswer('');
-      setShowResult(false);
-      setTimeLeft(gameMode === 'timeAttack' ? 15 : 30);
-      
-      // Update theme
-      updateTheme(nextQ);
-      
-      // Clear visual feedback
-      setVisualFeedback(prev => ({ ...prev, show: false }));
-    } else {
+    if (questionIndex + 1 >= questions.length) {
       endGame();
+      return;
     }
-  }, [questionIndex, questions, gameMode, updateTheme, endGame]);
+    
+    setQuestionIndex(prev => prev + 1);
+    setCurrentQuestion(questions[questionIndex + 1]);
+    setSelectedAnswer('');
+    setShowResult(false);
+    setTimeLeft(30);
+  }, [questionIndex, questions, endGame]);
 
   // Handle answer selection
   const handleAnswerSelect = useCallback((answer: string) => {
@@ -466,7 +427,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
     }
     
     // Check achievements
-    checkAchievements(isCorrect);
+    checkAchievements(streak + (isCorrect ? 1 : 0), score + (isCorrect ? points || 100 : 0));
     
     // Auto-advance after delay
     setTimeout(() => {
@@ -476,126 +437,9 @@ const EnhancedMarvelQuiz: React.FC = () => {
         endGame();
       }
     }, 2000);
-  }, [showResult, currentQuestion, timeLeft, streak, questionIndex, questions.length, gameMode]);
+  }, [showResult, currentQuestion, timeLeft, streak, questionIndex, questions.length, gameMode, checkAchievements, endGame, nextQuestion]);
 
-  // Next question
-  const nextQuestion = useCallback(() => {
-    if (questionIndex < questions.length - 1) {
-      const nextIndex = questionIndex + 1;
-      const nextQ = questions[nextIndex];
-      
-      setQuestionIndex(nextIndex);
-      setCurrentQuestion(nextQ);
-      setSelectedAnswer('');
-      setShowResult(false);
-      setTimeLeft(gameMode === 'timeAttack' ? 15 : 30);
-      
-      // Update theme
-      updateTheme(nextQ);
-      
-      // Clear visual feedback
-      setVisualFeedback(prev => ({ ...prev, show: false }));
-    } else {
-      endGame();
-    }
-  }, [questionIndex, questions, gameMode, updateTheme]);
 
-  // End game
-  const endGame = useCallback(() => {
-    setGameState('finished');
-    
-    // Update final statistics
-    setGameStats(prev => ({
-      ...prev,
-      totalScore: prev.totalScore + score,
-      longestStreak: Math.max(prev.longestStreak, streak),
-      gamesPlayed: prev.gamesPlayed + 1
-    }));
-    
-    // Final achievements check
-    checkAchievements(false, true);
-  }, [score, streak]);
-
-  // Check achievements
-  const checkAchievements = useCallback((isCorrect: boolean, isFinalCheck: boolean = false) => {
-    const newAchievements: Achievement[] = [];
-    
-    setAchievements(prev => prev.map(achievement => {
-      if (achievement.unlocked) return achievement;
-      
-      let shouldUnlock = false;
-      
-      switch (achievement.id) {
-        case 'first-correct':
-          shouldUnlock = isCorrect && gameStats.correctAnswers === 0;
-          break;
-        case 'streak-5':
-          shouldUnlock = streak >= 5;
-          break;
-        case 'perfect-game':
-          shouldUnlock = isFinalCheck && accuracy === 100 && gameStats.totalQuestions > 0;
-          break;
-        case 'marvel-expert':
-          shouldUnlock = score >= 1000;
-          break;
-      }
-      
-      if (shouldUnlock) {
-        newAchievements.push({ ...achievement, unlocked: true });
-        return { ...achievement, unlocked: true };
-      }
-      
-      return achievement;
-    }));
-    
-    // Trigger achievement animations
-    if (newAchievements.length > 0) {
-      setAnimationState({ type: 'achievement', intensity: 1, duration: 2000 });
-      setVisualFeedback({
-        show: true,
-        type: 'achievement',
-        message: `Achievement Unlocked: ${newAchievements[0].name}!`,
-        position: { x: window.innerWidth / 2, y: window.innerHeight / 3 }
-      });
-    }
-  }, [gameStats.correctAnswers, streak, accuracy, score]);
-
-  // Activate power-up
-  const activatePowerUp = useCallback((powerUpId: string) => {
-    const powerUp = powerUps.find(p => p.id === powerUpId);
-    if (!powerUp || !powerUp.available || score < powerUp.cost) return;
-    
-    setScore(prev => prev - powerUp.cost);
-    
-    switch (powerUpId) {
-      case 'hint':
-        // Remove 2 wrong answers
-        if (currentQuestion) {
-          const wrongAnswers = currentQuestion.options.filter(opt => opt !== currentQuestion.correctAnswer);
-          // This would need to be implemented in the UI
-        }
-        break;
-      case 'time':
-        setTimeLeft(prev => prev + 15);
-        break;
-      case 'skip':
-        nextQuestion();
-        break;
-    }
-    
-    // Set cooldown
-    setPowerUps(prev => prev.map(p => 
-      p.id === powerUpId ? { ...p, available: false, cooldown: 3 } : p
-    ));
-    
-    // Visual feedback
-    setVisualFeedback({
-      show: true,
-      type: 'powerup',
-      message: `${powerUp.name} activated!`,
-      position: { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-    });
-  }, [powerUps, score, currentQuestion, nextQuestion]);
 
   // Reset game
   const resetGame = useCallback(() => {
@@ -1161,7 +1005,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
               className="max-w-2xl w-full"
             >
               <DailyChallengeSystem
-                onStartChallenge={(challenge: any) => {
+                onStartChallenge={() => {
                   setShowDailyChallenge(false);
                   initializeGame('dailyChallenge');
                 }}
