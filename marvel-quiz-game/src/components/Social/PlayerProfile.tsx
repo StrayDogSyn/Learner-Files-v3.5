@@ -361,7 +361,7 @@ const PlayerProfile: React.FC<PlayerProfileProps> = ({
                     label: category,
                     value: Math.round((stats.totalCorrect / stats.totalQuestions) * 100),
                     maxValue: 100
-                  }))}}
+                  }))}
                 />
               </div>
             </div>

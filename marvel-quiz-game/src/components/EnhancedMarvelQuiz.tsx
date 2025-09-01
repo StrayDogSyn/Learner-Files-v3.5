@@ -11,38 +11,26 @@ import SoundManager from './MarvelQuiz/SoundManager';
 import AnimationSystem from './MarvelQuiz/AnimationSystem';
 
 // Import new enhanced components
-import { enhancedQuestions, getQuestionsByType, getQuestionsByDifficulty } from '../data/enhancedQuestions';
+import { enhancedQuestions, getQuestionsByDifficulty } from '../data/enhancedQuestions';
 import GameModeSelector from './GameModes/GameModeSelector';
-import GameModeManager from './GameModes/GameModeManager';
 import DailyChallengeSystem from './GameModes/DailyChallengeSystem';
 import { EnhancedVisualFeedback } from './UI/EnhancedVisualFeedback';
 import { CharacterThemedBackground } from './UI/CharacterThemedBackground';
+import { ProgressIndicators } from './UI/ProgressIndicators';
+import { EnhancedAnimations } from './UI/EnhancedAnimations';
 import { EnhancedLeaderboard } from './Social/EnhancedLeaderboard';
 import { AchievementSharing } from './Social/AchievementSharing';
+import { PlayerProfile } from './Social/PlayerProfile';
 
 // Import image enhancement components
-import { OptimizedImage, ImageGallery, useImagePreloader } from '../components/ImageOptimization';
+import { useImagePreloader } from '../components/ImageOptimization';
 import { CharacterImageGallery } from '../components/CharacterImageGallery';
 import { EnhancedQuestionDisplay } from '../components/EnhancedQuestionDisplay';
 
 // Import enhanced types
 import { EnhancedQuizQuestion, QuestionType } from '../data/enhancedQuestions';
-import { GameStats as MarvelGameStats, Achievement as MarvelAchievement, PowerUp as MarvelPowerUp } from '../types/marvel';
 
-interface Question {
-  id: string;
-  question: string;
-  options?: string[];
-  correctAnswer: string | number;
-  explanation?: string;
-  imageUrl?: string;
-  difficulty?: 'easy' | 'medium' | 'hard' | 'expert';
-  category?: string;
-  type?: QuestionType;
-  characterId?: number;
-  timeLimit?: number;
-  points?: number;
-}
+
 
 interface GameStats {
   totalQuestions: number;
@@ -94,15 +82,9 @@ const EnhancedMarvelQuiz: React.FC = () => {
   const [lives, setLives] = useState(3); // For survival mode
 
   // Enhanced features state
-  const [selectedCharacter, setSelectedCharacter] = useState<string>('');
-  const [difficultyLevel, setDifficultyLevel] = useState<'easy' | 'medium' | 'hard' | 'expert'>('easy');
-  const [adaptiveDifficulty, setAdaptiveDifficulty] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<string>('default');
   
   // UI state
-  const [showStats, setShowStats] = useState(false);
-  const [showPowerUps, setShowPowerUps] = useState(false);
-  const [showSound, setShowSound] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showDailyChallenge, setShowDailyChallenge] = useState(false);
@@ -437,7 +419,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
         endGame();
       }
     }, 2000);
-  }, [showResult, currentQuestion, timeLeft, streak, questionIndex, questions.length, gameMode, checkAchievements, endGame, nextQuestion]);
+  }, [showResult, currentQuestion, timeLeft, streak, questionIndex, questions.length, gameMode, score, checkAchievements, endGame, nextQuestion]);
 
 
 
