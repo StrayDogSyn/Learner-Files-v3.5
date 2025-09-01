@@ -21,7 +21,7 @@ const PRIVATE_KEY = process.env.VITE_MARVEL_PRIVATE_KEY;
 console.log('Marvel API Keys loaded:', {
   publicKey: PUBLIC_KEY ? 'Present' : 'Missing',
   privateKey: PRIVATE_KEY ? 'Present' : 'Missing'
-});}]}}}
+});
 
 // Generate MD5 hash for Marvel API authentication
 function generateHash(timestamp: string): string {
@@ -52,7 +52,9 @@ function buildAuthenticatedUrl(endpoint: string, params: Record<string, string> 
 async function proxyMarvelRequest(endpoint: string, params: Record<string, string> = {}) {
   try {
     const url = buildAuthenticatedUrl(endpoint, params);
+    console.log('Making request to URL:', url);
     const response = await fetch(url);
+    console.log('Response status:', response.status);
     
     if (!response.ok) {
       throw new Error(`Marvel API request failed: ${response.status}`);
