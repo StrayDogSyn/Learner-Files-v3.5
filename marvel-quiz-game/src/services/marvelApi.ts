@@ -21,70 +21,28 @@ class MarvelApiError extends Error {
   }
 }
 
-// Marvel API Client with authentication and caching
+// Marvel API Client with backend proxy and caching
 class MarvelApiClient {
-  private baseUrl = 'https://gateway.marvel.com/v1/public';
-  private publicKey: string;
-  private privateKey: string;
+  private baseUrl: string;
   private cache = new Map<string, CacheEntry<any>>();
   private cacheDuration: number;
+  private useProxy: boolean;
 
   constructor() {
-    this.publicKey = import.meta.env.VITE_MARVEL_PUBLIC_KEY || '';
-    this.privateKey = ''; // Private key should never be in frontend code
+    this.baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
     this.cacheDuration = parseInt(import.meta.env.VITE_MARVEL_CACHE_DURATION) || 3600000; // 1 hour default
+    this.useProxy = true; // Always use backend proxy for security
 
-    if (!this.publicKey) {
-      console.warn('Marvel API public key not found. Using mock data mode.');
-    }
+    console.log('Marvel API Client initialized with backend proxy:', this.baseUrl);
   }
 
-  // Generate MD5 hash for Marvel API authentication
-  private async generateHash(timestamp: string): Promise<string> {
-    const message = timestamp + this.privateKey + this.publicKey;
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
-    
-    // Use Web Crypto API for MD5 (fallback to simple hash for demo)
-    try {
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
-    } catch {
-      // Fallback hash for demo purposes
-      return this.simpleHash(message).substring(0, 32);
-    }
-  }
 
-  // Simple hash function for fallback
-  private simpleHash(str: string): string {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    return Math.abs(hash).toString(16);
-  }
 
-  // Build authenticated URL with required parameters
-  private async buildAuthenticatedUrl(endpoint: string, params: Record<string, string> = {}): Promise<string> {
-    // If no private key available, we can't authenticate properly
-    if (!this.privateKey || !this.publicKey) {
-      throw new Error('Marvel API authentication not available - missing keys');
-    }
-    
-    const timestamp = Date.now().toString();
-    const hash = await this.generateHash(timestamp);
-    
-    const urlParams = new URLSearchParams({
-      ts: timestamp,
-      apikey: this.publicKey,
-      hash,
-      ...params
-    });
-
-    return `${this.baseUrl}${endpoint}?${urlParams.toString()}`;
+  // Build proxy URL with parameters
+  private buildProxyUrl(endpoint: string, params: Record<string, string> = {}): string {
+    const urlParams = new URLSearchParams(params);
+    const queryString = urlParams.toString();
+    return `${this.baseUrl}/marvel${endpoint}${queryString ? '?' + queryString : ''}`;
   }
 
   // Cache management
@@ -115,23 +73,23 @@ class MarvelApiClient {
       return cachedData;
     }
 
-    // Use mock data if API keys are not properly configured
-    if (!this.publicKey || !this.privateKey) {
-      console.warn('Marvel API keys not configured. Using mock data.');
-      return this.getMockData<T>();
-    }
-
     try {
-      const url = await this.buildAuthenticatedUrl(endpoint, params);
+      const url = this.buildProxyUrl(endpoint, params);
       const response = await fetch(url);
       
       if (!response.ok) {
-        throw new Error(`Marvel API request failed: ${response.status}`);
+        throw new Error(`Backend proxy request failed: ${response.status}`);
       }
 
       const data: MarvelApiResponse<T> = await response.json();
       
-      if (data.code !== 200) {
+      // Check if it's an error response from our backend
+      if (!data.success && data.error) {
+        throw new Error(data.message || data.error);
+      }
+      
+      // For Marvel API responses, check the Marvel API status
+      if (data.code && data.code !== 200) {
         throw new Error(`Marvel API error: ${data.status}`);
       }
 

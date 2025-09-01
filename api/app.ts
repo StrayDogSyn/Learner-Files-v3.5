@@ -8,6 +8,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
+import marvelRoutes from './routes/marvel.js';
 
 // for esm mode
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +28,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
  * API Routes
  */
 app.use('/api/auth', authRoutes);
+app.use('/api/marvel', marvelRoutes);
 
 /**
  * health

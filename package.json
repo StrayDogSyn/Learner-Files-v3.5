@@ -41,5 +41,10 @@
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^2.6.13",
+    "crypto-js": "^4.2.0",
+    "node-fetch": "^3.3.2"
   }
 }

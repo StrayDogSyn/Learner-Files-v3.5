@@ -1,9 +1,11 @@
-/**
- * Vercel deploy entry handler, for serverless deployment, please don't modify this file
- */
-import type { VercelRequest, VercelResponse } from '@vercel/node';
 import app from './app.js';
 
-export default function handler(req: VercelRequest, res: VercelResponse) {
-  return app(req, res);
-}
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Marvel Quiz API Server running on port ${PORT}`);
+  console.log(`📱 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`🦸 Marvel API proxy: http://localhost:${PORT}/api/marvel`);
+});
+
+export default app;
