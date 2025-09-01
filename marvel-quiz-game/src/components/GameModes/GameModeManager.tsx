@@ -302,10 +302,10 @@ const GameModeManager: React.FC<GameModeManagerProps> = ({
               {currentQuestion.question}
             </h2>
 
-            {currentQuestion.image && (
+            {currentQuestion.imageUrl && (
               <div className="mb-6">
                 <img 
-                  src={currentQuestion.image} 
+                  src={currentQuestion.imageUrl} 
                   alt="Question related" 
                   className="max-w-md mx-auto rounded-lg shadow-lg"
                 />
@@ -315,7 +315,7 @@ const GameModeManager: React.FC<GameModeManagerProps> = ({
 
           {/* Answer Options */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {currentQuestion.options.map((option, index) => (
+            {currentQuestion.options && currentQuestion.options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleAnswerSelect(index)}
@@ -375,11 +375,12 @@ function getCharacterName(characterId: number): string {
 }
 
 function getBasePoints(mode: GameMode, difficulty: DifficultyLevel): number {
-  const difficultyMultiplier = {
+  const difficultyMultiplier: Record<DifficultyLevel, number> = {
     easy: 1,
     medium: 1.5,
     hard: 2,
-    expert: 3
+    expert: 3,
+    mixed: 2
   };
 
   const modeMultiplier = {

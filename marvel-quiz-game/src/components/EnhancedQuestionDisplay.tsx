@@ -7,14 +7,14 @@ import { Clock, Zap, Eye, Image as ImageIcon, Info, Check, X } from 'lucide-reac
 interface Question {
   id: string;
   question: string;
-  options: string[];
-  correctAnswer: string;
+  options?: string[];
+  correctAnswer: string | number;
   explanation?: string;
   imageUrl?: string;
   difficulty?: 'easy' | 'medium' | 'hard' | 'expert';
   category?: string;
   type?: string;
-  characterId?: string;
+  characterId?: number;
   timeLimit?: number;
 }
 
@@ -201,11 +201,11 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
       return 'bg-white/10 backdrop-blur-md border-2 border-white/20 hover:border-white/40 hover:bg-white/15';
     }
     
-    if (option === question.correctAnswer) {
+    if (option === String(question.correctAnswer)) {
       return 'bg-green-500/20 backdrop-blur-md border-2 border-green-400/50 shadow-lg shadow-green-500/30';
     }
     
-    if (option === selectedAnswer && option !== question.correctAnswer) {
+    if (option === selectedAnswer && option !== String(question.correctAnswer)) {
       return 'bg-red-500/20 backdrop-blur-md border-2 border-red-400/50 shadow-lg shadow-red-500/30';
     }
     
@@ -214,7 +214,7 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
   
   const handleGalleryOpen = () => {
     if (question.characterId && onImageGallery) {
-      onImageGallery(question.characterId);
+      onImageGallery(String(question.characterId));
     } else {
       setShowGallery(true);
     }
@@ -310,7 +310,7 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
       
       {/* Enhanced Answer Options */}
       <div className="grid gap-4 mb-8">
-        {question.options.map((option, index) => (
+        {question.options?.map((option, index) => (
           <motion.button
             key={index}
             initial={{ opacity: 0, x: -30, scale: 0.95 }}
@@ -348,9 +348,9 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
                 {String.fromCharCode(65 + index)}
               </div>
               <span className={`text-xl font-semibold transition-colors duration-300 leading-relaxed ${
-                showResult && option === question.correctAnswer
+                showResult && option === String(question.correctAnswer)
                   ? 'text-green-100'
-                  : showResult && option === selectedAnswer && option !== question.correctAnswer
+                  : showResult && option === selectedAnswer && option !== String(question.correctAnswer)
                   ? 'text-red-100'
                   : 'text-white'
               }`}>
@@ -358,7 +358,7 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
               </span>
               
               {/* Result indicator */}
-              {showResult && option === question.correctAnswer && (
+              {showResult && option === String(question.correctAnswer) && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -370,7 +370,7 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
                 </motion.div>
               )}
               
-              {showResult && option === selectedAnswer && option !== question.correctAnswer && (
+              {showResult && option === selectedAnswer && option !== String(question.correctAnswer) && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -413,8 +413,8 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
       <AnimatePresence>
         {showGallery && question.characterId && (
           <CharacterImageGallery
-            characterId={question.characterId}
-            characterName={question.characterId.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            characterId={String(question.characterId)}
+            characterName={`Character ${question.characterId}`}
             showModal={true}
             onClose={() => setShowGallery(false)}
           />
