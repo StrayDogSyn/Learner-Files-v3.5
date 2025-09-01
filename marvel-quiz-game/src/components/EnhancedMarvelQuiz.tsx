@@ -18,7 +18,7 @@ import EnhancedVisualFeedback from './UI/EnhancedVisualFeedback';
 import CharacterThemedBackground from './UI/CharacterThemedBackground';
 
 import EnhancedLeaderboard from './Social/EnhancedLeaderboard';
-import AchievementSharing from './Social/AchievementSharing';
+import AchievementSharing, { AchievementSharingProps } from './Social/AchievementSharing';
 // import PlayerProfile from './Social/PlayerProfile';
 
 // Import image enhancement components
@@ -31,7 +31,7 @@ import { EnhancedQuizQuestion } from '../data/enhancedQuestions';
 // Import types from GameModeSelector to ensure compatibility
 import { GameMode, GameModeConfig } from './GameModes/GameModeSelector';
 // Import types from marvel for compatibility
-// import { GameStats as MarvelGameStats } from '../types/marvel';
+import { GameStats as MarvelGameStats } from '../types/marvel';
 
 interface GameStats {
   totalQuestions: number;
@@ -88,7 +88,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showDailyChallenge, setShowDailyChallenge] = useState(false);
-  // const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
+  const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null);
 
   // Game statistics
   const [gameStats, setGameStats] = useState<GameStats>({
@@ -332,28 +332,28 @@ const EnhancedMarvelQuiz: React.FC = () => {
   }, [questionIndex, questions, endGame]);
 
   // Activate power-up
-  // const activatePowerUp = useCallback((powerUpId: string) => {
-  //   const powerUp = powerUps.find(p => p.id === powerUpId);
-  //   if (!powerUp || !powerUp.available || score < powerUp.cost) return;
-  //   
-  //   setScore(prev => prev - powerUp.cost);
-  //   
-  //   switch (powerUpId) {
-  //     case 'hint':
-  //       // Remove 2 wrong answers
-  //       break;
-  //     case 'time':
-  //       setTimeLeft(prev => prev + 15);
-  //       break;
-  //     case 'skip':
-  //       nextQuestion();
-  //       break;
-  //   }
-  //   
-  //   setPowerUps(prev => prev.map(p => 
-  //     p.id === powerUpId ? { ...p, available: false, cooldown: 3 } : p
-  //   ));
-  // }, [powerUps, score, nextQuestion]);
+  const activatePowerUp = useCallback((powerUpId: string) => {
+    const powerUp = powerUps.find(p => p.id === powerUpId);
+    if (!powerUp || !powerUp.available || score < powerUp.cost) return;
+    
+    setScore(prev => prev - powerUp.cost);
+    
+    switch (powerUpId) {
+      case 'hint':
+        // Remove 2 wrong answers
+        break;
+      case 'time':
+        setTimeLeft(prev => prev + 15);
+        break;
+      case 'skip':
+        nextQuestion();
+        break;
+    }
+    
+    setPowerUps(prev => prev.map(p => 
+      p.id === powerUpId ? { ...p, available: false, cooldown: 3 } : p
+    ));
+  }, [powerUps, score, nextQuestion]);
 
   // Handle answer selection
   const handleAnswerSelect = useCallback((answer: string) => {
@@ -376,7 +376,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
     
     if (isCorrect) {
       // Calculate score with bonuses
-      const basePoints = 100;
+      let basePoints = 100;
       let points = basePoints;
       if (timeLeft > 20) points += 50; // Time bonus
       if (streak >= 3) points += streak * 10; // Streak bonus
