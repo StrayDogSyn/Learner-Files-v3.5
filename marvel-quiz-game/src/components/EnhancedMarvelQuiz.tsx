@@ -277,11 +277,11 @@ const EnhancedMarvelQuiz: React.FC = () => {
   }, [updateTheme, preloadImages]);
 
   // Update theme based on current question
-  const updateTheme = useCallback((question: Question) => {
+  const updateTheme = useCallback((question: EnhancedQuizQuestion) => {
     if (!question) return;
     
     const questionText = question.question.toLowerCase();
-    const correctAnswer = question.correctAnswer.toLowerCase();
+    const correctAnswer = String(question.correctAnswer).toLowerCase();
     
     // Determine theme based on question content
     if (questionText.includes('spider') || correctAnswer.includes('spider')) {
