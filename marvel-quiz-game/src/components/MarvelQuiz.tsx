@@ -89,6 +89,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     accuracy: 0,
     currentStreak: 0,
     highestStreak: 0,
+    longestStreak: 0,
     gamesPlayed: 0,
     questionsAnswered: 0,
     correctAnswers: 0,
@@ -468,7 +469,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     switch (powerUpId) {
       case 'hint':
         // Remove two wrong answers
-        if (currentQuestion && currentQuestion.options.length === 4) {
+        if (currentQuestion && currentQuestion.options && currentQuestion.options.length === 4) {
           const wrongAnswers = currentQuestion.options.filter(opt => opt !== currentQuestion.correctAnswer);
           const toRemove = wrongAnswers.slice(0, 2);
           const newOptions = currentQuestion.options.filter(opt => !toRemove.includes(opt));
@@ -508,6 +509,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
       accuracy: 0,
       currentStreak: 0,
       highestStreak: 0,
+      longestStreak: 0,
       gamesPlayed: 0,
       questionsAnswered: 0,
       correctAnswers: 0,
@@ -714,7 +716,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
             
             {/* Answer options */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {currentQuestion.options.map((option, index) => {
+              {currentQuestion.options?.map((option, index) => {
                 let buttonClass = "p-4 rounded-lg border-2 transition-all duration-300 text-left font-semibold ";
                 
                 if (showResult) {
@@ -886,7 +888,7 @@ const MarvelQuiz: React.FC<MarvelQuizProps> = ({
     if (!currentQuestion) return '';
     
     const questionText = currentQuestion.question.toLowerCase();
-    const correctAnswer = currentQuestion.correctAnswer.toLowerCase();
+    const correctAnswer = String(currentQuestion.correctAnswer).toLowerCase();
     
     // Check for specific characters/themes
     if (questionText.includes('spider') || correctAnswer.includes('spider') || correctAnswer.includes('peter parker')) {

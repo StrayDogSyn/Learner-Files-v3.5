@@ -16,8 +16,7 @@ import GameModeSelector from './GameModes/GameModeSelector';
 import DailyChallengeSystem from './GameModes/DailyChallengeSystem';
 import EnhancedVisualFeedback from './UI/EnhancedVisualFeedback';
 import CharacterThemedBackground from './UI/CharacterThemedBackground';
-import { ProgressIndicators } from './UI/ProgressIndicators';
-import { EnhancedAnimations } from './UI/EnhancedAnimations';
+
 import EnhancedLeaderboard from './Social/EnhancedLeaderboard';
 import { AchievementSharing } from './Social/AchievementSharing';
 import PlayerProfile from './Social/PlayerProfile';
@@ -297,13 +296,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
         name: 'Hot Streak',
         description: 'Answer 5 questions correctly in a row',
         icon: '🔥',
-        rarity: 'common',
-        unlockedAt: new Date().toISOString(),
-        points: 100,
-        category: 'streak',
-        requirements: {
-          streak: 5
-        }
+        unlocked: true
       });
     }
     
@@ -313,13 +306,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
         name: 'Marvel Expert',
         description: 'Score 1000 points in a single game',
         icon: '🏆',
-        rarity: 'rare',
-        unlockedAt: new Date().toISOString(),
-        points: 200,
-        category: 'score',
-        requirements: {
-          totalScore: 1000
-        }
+        unlocked: true
       });
     }
     
@@ -409,7 +396,8 @@ const EnhancedMarvelQuiz: React.FC = () => {
     }
     
     // Check achievements
-    checkAchievements(streak + (isCorrect ? 1 : 0), score + (isCorrect ? points || 100 : 0));
+    const pointsEarned = isCorrect ? points : 0;
+    checkAchievements(streak + (isCorrect ? 1 : 0), score + pointsEarned);
     
     // Auto-advance after delay
     setTimeout(() => {
@@ -438,10 +426,6 @@ const EnhancedMarvelQuiz: React.FC = () => {
     setCurrentTheme('default');
     
     // Reset UI state
-    setShowStats(false);
-    setShowPowerUps(false);
-    setShowSound(false);
-    setShowAchievements(false);
     setShowLeaderboard(false);
     setShowProfile(false);
     setShowDailyChallenge(false);
@@ -601,9 +585,6 @@ const EnhancedMarvelQuiz: React.FC = () => {
         
         <GameModeSelector
           onModeSelect={(mode: string, config: { characterId?: string }) => {
-            if (mode === 'characterSpecific' && config?.characterId) {
-              setSelectedCharacter(config.characterId);
-            }
             initializeGame(mode as GameMode, config?.characterId);
           }}
           onBack={() => setGameState('menu')}
