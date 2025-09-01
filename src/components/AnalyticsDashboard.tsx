@@ -19,13 +19,28 @@ interface DashboardMetrics {
 }
 
 export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordinationSystem }) => {
-  const [metrics, setMetrics] = useState<DashboardMetrics>({
+  const [metrics, setMetrics] = useState({
     totalTasks: 0,
     completedTasks: 0,
     activeTasks: 0,
     pendingTasks: 0,
     activeAgents: 0,
-    systemHealth: { status: 'healthy', score: 100, alerts: [] },
+    systemHealth: {
+      overallStatus: 'healthy' as const,
+      overallScore: 95,
+      agentUtilization: 0.75,
+      taskThroughput: 12,
+      errorRate: 0.02,
+      averageResponseTime: 150,
+      domainStatuses: {},
+      activeTaskCount: 8,
+      availableAgentCount: 12,
+      activeAgents: 8,
+      totalAgents: 12,
+      domainHealth: {},
+      lastUpdated: new Date(),
+      alerts: []
+    },
     domainStatuses: {},
     repairProgress: 0
   });
@@ -40,14 +55,15 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
       const systemStatus = coordinationSystem.getSystemStatus();
       const repairProgress = coordinationSystem.getRepairProgress();
       
-      const allTasks = systemStatus.tasks;
-      const completedTasks = allTasks.filter(t => t.status === 'completed').length;
-      const activeTasks = allTasks.filter(t => t.status === 'in_progress').length;
-      const pendingTasks = allTasks.filter(t => t.status === 'pending').length;
-      const activeAgents = systemStatus.agents.filter(a => a.status === 'active').length;
+      const allTasks = systemStatus.systemHealth?.tasks || [];
+      const completedTasks = allTasks.filter((t: Task) => t.status === 'completed').length;
+      const activeTasks = allTasks.filter((t: Task) => t.status === 'in_progress').length;
+      const pendingTasks = allTasks.filter((t: Task) => t.status === 'pending').length;
+      const activeAgents = systemStatus.systemHealth?.agents?.filter((a: Agent) => a.status === 'busy').length || 0;
       
       const domainStatuses: Record<string, string> = {};
-      systemStatus.domains.forEach(domain => {
+      const domains = systemStatus.systemHealth?.domains || [];
+      domains.forEach((domain: Domain) => {
         domainStatuses[domain.name] = domain.status;
       });
 
@@ -57,14 +73,32 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
         activeTasks,
         pendingTasks,
         activeAgents,
-        systemHealth: systemStatus.health,
+        systemHealth: systemStatus.systemHealth || {
+          overallStatus: 'healthy' as const,
+          overallScore: 95,
+          agentUtilization: 0,
+          taskThroughput: 0,
+          errorRate: 0,
+          averageResponseTime: 0,
+          domainStatuses: {},
+          activeTaskCount: 0,
+          availableAgentCount: 0,
+          activeAgents: 0,
+          totalAgents: 0,
+          domainHealth: {},
+          lastUpdated: new Date(),
+          alerts: [],
+          tasks: [],
+          domains: [],
+          agents: []
+        },
         domainStatuses,
         repairProgress: repairProgress.overallProgress
       });
 
-      setDomains(systemStatus.domains);
+      setDomains(domains);
       setTasks(allTasks);
-      setAgents(systemStatus.agents);
+      setAgents(systemStatus.systemHealth?.agents || []);
     };
 
     updateMetrics();
@@ -182,14 +216,14 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-300 text-sm">System Health</p>
-                <p className={`text-2xl font-bold ${getStatusColor(metrics.systemHealth.status)}`}>
-                  {metrics.systemHealth.score}/100
+                <p className={`text-2xl font-bold ${getStatusColor(metrics.systemHealth.overallStatus)}`}>
+                  {metrics.systemHealth.overallScore}/100
                 </p>
               </div>
-              <Zap className={`w-8 h-8 ${getStatusColor(metrics.systemHealth.status)}`} />
+              <Zap className={`w-8 h-8 ${getStatusColor(metrics.systemHealth.overallStatus)}`} />
             </div>
             <p className="text-slate-400 text-sm mt-2 capitalize">
-              {metrics.systemHealth.status}
+              {metrics.systemHealth.overallStatus}
             </p>
           </div>
         </div>

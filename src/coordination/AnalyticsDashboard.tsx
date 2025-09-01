@@ -1,21 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { CoordinationSystem } from './CoordinationSystem';
-import { Domain, Task, Agent, SystemMetrics, DashboardMetrics } from './types';
+import { Domain, Task, Agent } from '../types/coordination';
+
+// Define local interfaces for this component
+interface SystemMetrics {
+  totalDomains: number;
+  activeTasks: number;
+  completedTasks?: number;
+  activeAgents?: number;
+  availableAgents: number;
+  systemHealth: number;
+  uptime: number;
+  lastUpdated: Date;
+}
+
+interface DashboardMetrics {
+  domains: {
+    total: number;
+    healthy: number;
+    warning: number;
+    critical: number;
+    byStatus: Record<string, number>;
+  };
+  tasks: {
+    total: number;
+    pending: number;
+    inProgress: number;
+    completed: number;
+    failed: number;
+    byPriority: Record<number, number>;
+  };
+  agents: {
+    total: number;
+    idle: number;
+    active: number;
+    busy: number;
+    error: number;
+    averageSuccessRate: number;
+  };
+  system: {
+    overallHealth: number;
+    uptime: number;
+    lastUpdate: Date;
+  };
+}
 import {
   Activity,
   AlertTriangle,
-  CheckCircle,
   Clock,
   Cpu,
   Database,
   Globe,
   Heart,
-  Play,
-  Pause,
-  RotateCcw,
   TrendingUp,
-  Users,
-  Zap
+  Users
 } from 'lucide-react';
 
 interface AnalyticsDashboardProps {
@@ -35,9 +73,9 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
   const [systemMetrics, setSystemMetrics] = useState<SystemMetrics>({
     totalDomains: 0,
     activeTasks: 0,
-    completedTasks: 0,
-    activeAgents: 0,
+    availableAgents: 0,
     systemHealth: 0,
+    uptime: 0,
     lastUpdated: new Date()
   });
   const [alerts, setAlerts] = useState<Array<{ type: string; message: string; timestamp: Date }>>([]);
@@ -54,15 +92,18 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
       setDomains(domainsData);
       setTasks(tasksData);
       setAgents(agentsData);
-      setSystemMetrics(systemData);
+      setSystemMetrics({
+        ...systemData,
+        lastUpdated: new Date()
+      });
 
       // Calculate dashboard metrics
       const dashboardMetrics: DashboardMetrics = {
         domains: {
           total: domainsData.length,
-          healthy: domainsData.filter(d => d.health >= 70).length,
-          warning: domainsData.filter(d => d.health >= 40 && d.health < 70).length,
-          critical: domainsData.filter(d => d.health < 40).length,
+          healthy: domainsData.filter(d => d.metrics.healthScore >= 70).length,
+          warning: domainsData.filter(d => d.metrics.healthScore >= 40 && d.metrics.healthScore < 70).length,
+          critical: domainsData.filter(d => d.metrics.healthScore < 40).length,
           byStatus: domainsData.reduce((acc, d) => {
             acc[d.status] = (acc[d.status] || 0) + 1;
             return acc;
@@ -82,9 +123,9 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
         agents: {
           total: agentsData.length,
           idle: agentsData.filter(a => a.status === 'idle').length,
-          active: agentsData.filter(a => a.status === 'active').length,
+          active: agentsData.filter(a => a.status === 'busy').length,
           busy: agentsData.filter(a => a.status === 'busy').length,
-          error: agentsData.filter(a => a.status === 'error').length,
+          error: agentsData.filter(a => a.status === 'offline').length,
           averageSuccessRate: agentsData.length > 0 
             ? agentsData.reduce((sum, a) => sum + a.performance.successRate, 0) / agentsData.length 
             : 0
@@ -92,7 +133,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
         system: {
           overallHealth: systemData.systemHealth,
           uptime: 99.5, // Mock uptime
-          lastUpdate: systemData.lastUpdated
+          lastUpdate: new Date()
         }
       };
 
@@ -146,14 +187,31 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
     return 'bg-red-100';
   };
 
-  const getPriorityColor = (priority: string): string => {
-    switch (priority) {
+  const getPriorityColor = (priority: number | string): string => {
+    let priorityLevel: string;
+    if (typeof priority === 'number') {
+      if (priority >= 8) priorityLevel = 'critical';
+      else if (priority >= 6) priorityLevel = 'high';
+      else if (priority >= 4) priorityLevel = 'medium';
+      else priorityLevel = 'low';
+    } else {
+      priorityLevel = priority;
+    }
+    
+    switch (priorityLevel) {
       case 'critical': return 'text-red-600 bg-red-100';
       case 'high': return 'text-orange-600 bg-orange-100';
       case 'medium': return 'text-blue-600 bg-blue-100';
       case 'low': return 'text-gray-600 bg-gray-100';
       default: return 'text-gray-600 bg-gray-100';
     }
+  };
+
+  const getPriorityLabel = (priority: number): string => {
+    if (priority >= 8) return 'critical';
+    if (priority >= 6) return 'high';
+    if (priority >= 4) return 'medium';
+    return 'low';
   };
 
   const formatTimestamp = (date: Date): string => {
@@ -220,20 +278,18 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {domains.map((domain) => (
-            <div key={domain.id} className={`p-4 rounded-lg border-2 ${getHealthBgColor(domain.health)}`}>
+            <div key={domain.id} className={`p-4 rounded-lg border-2 ${getHealthBgColor(domain.metrics.healthScore)}`}>
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-medium text-gray-900">{domain.name}</h4>
-                <span className={`text-sm font-bold ${getHealthColor(domain.health)}`}>
-                  {domain.health}%
+                <span className={`text-sm font-bold ${getHealthColor(domain.metrics.healthScore)}`}>
+                  {domain.metrics.healthScore}%
                 </span>
               </div>
               <p className="text-sm text-gray-600 mb-2">{domain.description}</p>
               <div className="flex items-center justify-between text-xs">
                 <span className={`px-2 py-1 rounded-full ${
-                  domain.status === 'active' ? 'bg-green-100 text-green-800' :
-                  domain.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' :
-                  domain.status === 'development' ? 'bg-blue-100 text-blue-800' :
-                  domain.status === 'planning' ? 'bg-purple-100 text-purple-800' :
+                  domain.status === 'healthy' ? 'bg-green-100 text-green-800' :
+                  domain.status === 'degraded' ? 'bg-yellow-100 text-yellow-800' :
                   'bg-red-100 text-red-800'
                 }`}>
                   {domain.status}
@@ -261,19 +317,19 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
                 <p className="text-sm text-gray-600">{task.description}</p>
                 <div className="flex items-center space-x-2 mt-1">
                   <span className={`px-2 py-1 rounded-full text-xs ${getPriorityColor(task.priority)}`}>
-                    {task.priority}
+                    {getPriorityLabel(task.priority)}
                   </span>
-                  <span className="text-xs text-gray-500">{task.type}</span>
+                  <span className="text-xs text-gray-500">{task.type || 'general'}</span>
                 </div>
               </div>
               <div className="text-right">
                 <div className={`w-16 h-2 bg-gray-200 rounded-full overflow-hidden`}>
                   <div 
                     className="h-full bg-blue-600 transition-all duration-300"
-                    style={{ width: `${task.progress}%` }}
+                    style={{ width: `${task.progress || 0}%` }}
                   />
                 </div>
-                <span className="text-xs text-gray-500 mt-1">{task.progress}%</span>
+                <span className="text-xs text-gray-500 mt-1">{task.progress || 0}%</span>
               </div>
             </div>
           ))}
@@ -292,9 +348,8 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
               <div className="flex items-center justify-between mb-2">
                 <h4 className="font-medium text-gray-900">{agent.name}</h4>
                 <span className={`px-2 py-1 rounded-full text-xs ${
-                  agent.status === 'active' ? 'bg-green-100 text-green-800' :
+                  agent.status === 'busy' ? 'bg-green-100 text-green-800' :
                   agent.status === 'idle' ? 'bg-blue-100 text-blue-800' :
-                  agent.status === 'busy' ? 'bg-yellow-100 text-yellow-800' :
                   'bg-red-100 text-red-800'
                 }`}>
                   {agent.status}

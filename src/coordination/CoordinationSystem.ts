@@ -5,17 +5,16 @@ import {
   CoordinationConfig, 
   CoordinationEvent, 
   SystemHealth,
-  TaskExecutionResult,
-  DomainRepairPlan
+  TaskExecutionResult
 } from '../types/coordination';
 import { DomainManager } from './DomainManager';
 import { TaskCoordinator } from './TaskCoordinator';
 import { AgentOrchestrator } from './AgentOrchestrator';
 
 export class CoordinationSystem {
-  private domainManager: DomainManager;
-  private taskCoordinator: TaskCoordinator;
-  private agentOrchestrator: AgentOrchestrator;
+  private domainManager!: DomainManager;
+  private taskCoordinator!: TaskCoordinator;
+  private agentOrchestrator!: AgentOrchestrator;
   private config: CoordinationConfig;
   private eventListeners: Map<string, Function[]> = new Map();
   private isInitialized: boolean = false;
@@ -62,7 +61,7 @@ export class CoordinationSystem {
       
       this.emitEvent({
         id: `system-initialized-${Date.now()}`,
-        type: 'system:initialized',
+        type: 'domain_status_changed',
         timestamp: new Date(),
         data: {
           timestamp: Date.now(),
@@ -80,7 +79,7 @@ export class CoordinationSystem {
     console.log('🚀 Initializing Multi-Domain Coordination System...');
     
     // Initialize core components
-    this.domainManager = new DomainManager(this.config);
+    this.domainManager = new DomainManager();
     this.taskCoordinator = new TaskCoordinator(this.domainManager, this.config);
     this.agentOrchestrator = new AgentOrchestrator(
       this.domainManager, 
@@ -173,7 +172,9 @@ export class CoordinationSystem {
         priority: Math.max(1, failedTask.priority - 1), // Higher priority for recovery
         estimatedDuration: failedTask.estimatedDuration * 1.5, // More time for recovery
         dependencies: [],
-        revenueImpact: failedTask.revenueImpact * 0.8 // Slightly lower impact
+        revenueImpact: failedTask.revenueImpact * 0.8, // Slightly lower impact
+        status: 'pending' as const,
+        domain: failedTask.domain
       };
       
       this.taskCoordinator.createTask(recoveryTask);
@@ -476,18 +477,22 @@ export class CoordinationSystem {
     const repairTasks = [
       {
         domainId: domain.id,
+        domain: domain.name,
         title: `Diagnose ${domain.name} Issues`,
         description: `Perform comprehensive diagnosis of ${domain.name} domain issues`,
         priority: 2,
+        status: 'pending' as const,
         estimatedDuration: 15,
         dependencies: [],
         revenueImpact: domain.id === 'portfolio' ? 8 : 5
       },
       {
         domainId: domain.id,
+        domain: domain.name,
         title: `Repair ${domain.name} Core Functions`,
         description: `Restore core functionality for ${domain.name} domain`,
         priority: 1,
+        status: 'pending' as const,
         estimatedDuration: 30,
         dependencies: [],
         revenueImpact: domain.id === 'portfolio' ? 9 : 6
@@ -525,7 +530,7 @@ export class CoordinationSystem {
       tasks: {
         total: allTasks.length,
         completed: allTasks.filter(t => t.status === 'completed').length,
-        running: allTasks.filter(t => t.status === 'running').length,
+        running: allTasks.filter(t => t.status === 'in_progress').length,
         pending: allTasks.filter(t => t.status === 'pending').length,
         failed: allTasks.filter(t => t.status === 'failed').length
       },
@@ -568,7 +573,7 @@ export class CoordinationSystem {
     const systemHealth = this.agentOrchestrator.getSystemHealth();
     const domains = this.domainManager.getAllDomains();
     const allTasks = this.taskCoordinator.getAllTasks();
-    const activeTasks = allTasks.filter(t => t.status === 'running' || t.status === 'pending');
+    const activeTasks = allTasks.filter(t => t.status === 'in_progress' || t.status === 'pending');
     const agents = domains.flatMap(d => d.agents);
     const uptime = Date.now() - this.systemStartTime.getTime();
     

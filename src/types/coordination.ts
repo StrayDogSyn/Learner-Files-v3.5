@@ -15,6 +15,7 @@ export interface Domain {
 export interface Task {
   id: string;
   domainId: string;
+  domain: string;
   title: string;
   description: string;
   priority: number;
@@ -28,17 +29,24 @@ export interface Task {
   updatedAt: Date;
   completedAt?: Date;
   errorMessage?: string;
+  type?: string;
+  progress?: number;
 }
 
 export interface Agent {
   id: string;
   name: string;
-  type: 'repair' | 'monitoring' | 'optimization';
-  capabilities: string[];
-  currentTask?: string;
+  type: 'repair' | 'monitoring' | 'optimization' | 'trae_agent';
+  domainId: string;
   status: 'idle' | 'busy' | 'offline';
-  performance: AgentPerformance;
+  capabilities: string[];
+  specialization: string;
+  maxConcurrentTasks: number;
+  currentTask?: string;
   lastActivity: Date;
+  performance: AgentPerformance;
+  description: string;
+  domains?: string[];
 }
 
 export interface AgentPerformance {
@@ -46,6 +54,8 @@ export interface AgentPerformance {
   averageCompletionTime: number;
   successRate: number;
   efficiency: number;
+  averageResponseTime: number;
+  lastUpdated: Date;
 }
 
 export interface DomainMetrics {
@@ -59,12 +69,12 @@ export interface DomainMetrics {
 
 export interface CoordinationEvent {
   id: string;
-  type: 'task_created' | 'task_assigned' | 'task_completed' | 'domain_status_changed' | 'agent_status_changed';
+  type: CoordinationEventType;
   timestamp: Date;
   domainId?: string;
-  taskId?: string;
   agentId?: string;
-  data: Record<string, any>;
+  taskId?: string;
+  data?: any;
   severity: 'info' | 'warning' | 'error' | 'critical';
 }
 
@@ -88,11 +98,21 @@ export interface CoordinationConfig {
 export interface SystemHealth {
   overallStatus: 'healthy' | 'degraded' | 'critical';
   overallScore: number;
+  agentUtilization: number;
+  taskThroughput: number;
+  errorRate: number;
+  averageResponseTime: number;
   domainStatuses: Record<string, 'healthy' | 'degraded' | 'failed'>;
   activeTaskCount: number;
   availableAgentCount: number;
+  activeAgents: number;
+  totalAgents: number;
+  domainHealth: Record<string, number>;
   lastUpdated: Date;
   alerts: Alert[];
+  tasks: Task[];
+  domains: Domain[];
+  agents: Agent[];
 }
 
 export interface Alert {
@@ -181,10 +201,17 @@ export type CoordinationEventType =
   | 'agent_registered'
   | 'agent_assigned'
   | 'agent_freed'
+  | 'domain_status_changed'
+  | 'agent_status_changed'
   | 'domain_health_changed'
   | 'system_alert_raised'
   | 'repair_plan_generated'
-  | 'coordination_cycle_completed';
+  | 'coordination_cycle_completed'
+  | 'health_check'
+  | 'alert'
+  | 'system_paused'
+  | 'system_resumed'
+  | 'repair_process_started';
 
 // Utility types
 export type DomainId = 'frontend-infrastructure' | 'marvel-quiz' | 'design-system' | 'digital-ecosystem' | 'analytics-monitoring';

@@ -47,57 +47,40 @@ export class TaskCoordinator {
     this.initializeCriticalTasks();
   }
 
-  private initializeCriticalRepairTasks(): void {
+  private initializeCriticalTasks(): void {
     // Create critical repair tasks based on the identified issues
     const criticalTasks: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>[] = [
       {
-        domainId: 'frontend-infrastructure',
-        title: 'Fix HTML Structure Collapse',
-        description: 'Repair HTML structure rendering issues causing plain text display',
+        domainId: 'html-structure',
+        domain: 'html-structure',
+        title: 'Fix HTML Structure Issues',
+        description: 'Repair broken HTML elements and improve semantic structure',
         priority: 1,
-        status: 'pending',
-        estimatedDuration: 60, // minutes
-        dependencies: [],
-        revenueImpact: 100, // High impact - site unusable
-      },
-      {
-        domainId: 'frontend-infrastructure',
-        title: 'Fix Asset Loading Breakdown',
-        description: 'Repair CSS/JS/image loading issues',
-        priority: 1,
-        status: 'pending',
-        estimatedDuration: 45,
-        dependencies: ['fix-html-structure'],
-        revenueImpact: 90,
-      },
-      {
-        domainId: 'marvel-quiz',
-        title: 'Fix Marvel Quiz Complete Failure',
-        description: 'Restore Marvel Quiz game functionality - currently empty page',
-        priority: 1,
-        status: 'pending',
-        estimatedDuration: 90,
-        dependencies: ['fix-html-structure'],
-        revenueImpact: 95, // Flagship feature
-      },
-      {
-        domainId: 'design-system',
-        title: 'Restore Glassmorphism Effects',
-        description: 'Fix glassmorphism design system not applying',
-        priority: 2,
         status: 'pending',
         estimatedDuration: 30,
-        dependencies: ['fix-asset-loading'],
+        dependencies: [],
+        revenueImpact: 80,
+      },
+      {
+        domainId: 'asset-loading',
+        domain: 'asset-loading',
+        title: 'Optimize Asset Loading',
+        description: 'Fix slow loading assets and implement lazy loading',
+        priority: 2,
+        status: 'pending',
+        estimatedDuration: 25,
+        dependencies: ['fix-html-structure'],
         revenueImpact: 60,
       },
       {
         domainId: 'digital-ecosystem',
+        domain: 'digital-ecosystem',
         title: 'Fix Digital Ecosystem Disconnection',
         description: 'Repair broken domain links and network integrations',
         priority: 3,
         status: 'pending',
         estimatedDuration: 45,
-        dependencies: ['fix-html-structure'],
+        dependencies: ['fix-asset-loading'],
         revenueImpact: 40,
       }
     ];

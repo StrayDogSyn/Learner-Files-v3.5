@@ -59,7 +59,7 @@ export class AgentOrchestrator {
       {
         id: 'frontend-repair-agent',
         name: 'Frontend Repair Specialist',
-        type: 'trae_agent',
+        type: 'repair' as const,
         domainId: 'frontend-infrastructure',
         capabilities: ['html-structure', 'asset-loading', 'css-debugging', 'javascript-debugging'],
         specialization: 'Frontend Infrastructure Repair',
@@ -118,8 +118,11 @@ export class AgentOrchestrator {
           tasksCompleted: 0,
           successRate: 1.0,
           averageCompletionTime: 0,
+          efficiency: 1.0,
+          averageResponseTime: 0,
           lastUpdated: new Date()
-        }
+        },
+        description: `${config.name} agent specialized in ${config.specialization}`
       };
 
       this.registerAgent(agent);
@@ -408,15 +411,23 @@ export class AgentOrchestrator {
     const avgResponseTime = this.calculateAverageResponseTime();
     
     return {
+      overallStatus: overallSuccessRate > 0.8 ? 'healthy' as const : overallSuccessRate > 0.5 ? 'degraded' as const : 'critical' as const,
       overallScore: this.calculateOverallHealthScore(),
-      domainHealth: this.getDomainHealthScores(),
       agentUtilization: (busyAgents.length / Math.max(1, activeAgents.length)) * 100,
       taskThroughput: this.calculateTaskThroughput(),
       errorRate: completedTasks.length > 0 ? failedTasks / completedTasks.length : 0,
       averageResponseTime: avgResponseTime,
+      domainStatuses: this.getDomainStatuses(),
+      activeTaskCount: totalTasks,
+      availableAgentCount: activeAgents.length,
       activeAgents: activeAgents.length,
       totalAgents: allAgents.length,
-      lastUpdated: new Date()
+      domainHealth: this.getDomainHealthScores(),
+      lastUpdated: new Date(),
+      alerts: [],
+      tasks: this.taskCoordinator.getAllTasks(),
+      domains: this.domainManager.getAllDomains(),
+      agents: allAgents
     };
   }
 
@@ -429,6 +440,16 @@ export class AgentOrchestrator {
     const taskHealth = this.calculateTaskHealthScore();
     
     return (avgDomainScore * 0.4 + agentHealth * 0.3 + taskHealth * 0.3);
+  }
+
+  private getDomainStatuses(): Record<string, 'healthy' | 'degraded' | 'failed'> {
+    const statuses: Record<string, 'healthy' | 'degraded' | 'failed'> = {};
+    
+    this.domainManager.getAllDomains().forEach(domain => {
+      statuses[domain.id] = domain.status;
+    });
+    
+    return statuses;
   }
 
   private getDomainHealthScores(): Record<string, number> {
@@ -520,7 +541,7 @@ export class AgentOrchestrator {
     
     this.emitEvent({
       id: `health-check-${Date.now()}`,
-      type: 'health_check',
+      type: 'domain_status_changed',
       timestamp: new Date(),
       data: { systemHealth },
       severity: systemHealth.overallScore < 50 ? 'warning' : 'info'
@@ -533,7 +554,7 @@ export class AgentOrchestrator {
     if (health.overallScore < thresholds.domainHealthScore) {
       this.emitEvent({
         id: `alert-low-health-${Date.now()}`,
-        type: 'alert',
+        type: 'domain_status_changed',
         timestamp: new Date(),
         data: { 
           type: 'low_system_health',
@@ -547,7 +568,7 @@ export class AgentOrchestrator {
     if (health.errorRate > thresholds.taskFailureRate) {
       this.emitEvent({
         id: `alert-high-error-rate-${Date.now()}`,
-        type: 'alert',
+        type: 'domain_status_changed',
         timestamp: new Date(),
         data: { 
           type: 'high_error_rate',
@@ -561,7 +582,7 @@ export class AgentOrchestrator {
     if (health.averageResponseTime > thresholds.agentResponseTime) {
       this.emitEvent({
         id: `alert-slow-response-${Date.now()}`,
-        type: 'alert',
+        type: 'domain_status_changed',
         timestamp: new Date(),
         data: { 
           type: 'slow_response_time',

@@ -25,11 +25,21 @@ export class DomainManager {
     this.systemHealth = {
       overallStatus: 'healthy',
       overallScore: 100,
+      agentUtilization: 0,
+      taskThroughput: 0,
+      errorRate: 0,
+      averageResponseTime: 0,
       domainStatuses: {},
       activeTaskCount: 0,
       availableAgentCount: 0,
+      activeAgents: 0,
+      totalAgents: 0,
+      domainHealth: {},
       lastUpdated: new Date(),
-      alerts: []
+      alerts: [],
+      tasks: [],
+      domains: [],
+      agents: []
     };
     
     // Domains will be initialized when initialize() is called

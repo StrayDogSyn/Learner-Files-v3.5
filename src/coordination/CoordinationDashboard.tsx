@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { CoordinationSystem } from './CoordinationSystem';
 import { AnalyticsDashboard } from './AnalyticsDashboard';
-import { Domain, Task, Agent } from './types';
+import { Domain, Task, Agent } from '../types/coordination';
 import {
   Activity,
   AlertTriangle,
   BarChart3,
-  CheckCircle,
   Clock,
-  Cpu,
   Database,
-  Globe,
   Heart,
   Play,
   Pause,
@@ -322,8 +319,8 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                       <div key={domain.id} className="flex items-center justify-between text-sm">
                         <span>{domain.name}</span>
                         <span className={`px-2 py-1 rounded-full text-xs ${
-                          domain.status === 'active' ? 'bg-green-100 text-green-800' :
-                          domain.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' :
+                          domain.status === 'healthy' ? 'bg-green-100 text-green-800' :
+                          domain.status === 'degraded' ? 'bg-yellow-100 text-yellow-800' :
                           'bg-gray-100 text-gray-800'
                         }`}>
                           {domain.status}
@@ -359,11 +356,10 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                       <div key={agent.id} className="flex items-center justify-between text-sm">
                         <span>{agent.name}</span>
                         <span className={`px-2 py-1 rounded-full text-xs ${
-                          agent.status === 'active' ? 'bg-green-100 text-green-800' :
-                          agent.status === 'idle' ? 'bg-blue-100 text-blue-800' :
-                          agent.status === 'busy' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
+                           agent.status === 'busy' ? 'bg-yellow-100 text-yellow-800' :
+                           agent.status === 'idle' ? 'bg-blue-100 text-blue-800' :
+                           'bg-gray-100 text-gray-800'
+                          }`}>
                           {agent.status}
                         </span>
                       </div>
@@ -391,9 +387,9 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                     <div className="flex justify-between text-sm">
                       <span>Status:</span>
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        domain.status === 'active' ? 'bg-green-100 text-green-800' :
-                        domain.status === 'maintenance' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-gray-100 text-gray-800'
+                        domain.status === 'healthy' ? 'bg-green-100 text-green-800' :
+                        domain.status === 'degraded' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
                       }`}>
                         {domain.status}
                       </span>
@@ -401,11 +397,11 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                     <div className="flex justify-between text-sm">
                       <span>Health:</span>
                       <span className={`font-medium ${
-                        domain.health >= 70 ? 'text-green-600' :
-                        domain.health >= 40 ? 'text-yellow-600' :
+                        domain.metrics.healthScore >= 70 ? 'text-green-600' :
+                        domain.metrics.healthScore >= 40 ? 'text-yellow-600' :
                         'text-red-600'
                       }`}>
-                        {domain.health}%
+                        {domain.metrics.healthScore}%
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
@@ -451,7 +447,7 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                             style={{ width: `${task.progress}%` }}
                           />
                         </div>
-                        <span className="text-xs text-gray-500 mt-1">{task.progress}%</span>
+                        <span className="text-xs text-gray-500 mt-1">In Progress</span>
                       </div>
                     </div>
                   </div>
@@ -473,9 +469,8 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                     <div className="flex justify-between text-sm">
                       <span>Status:</span>
                       <span className={`px-2 py-1 rounded-full text-xs ${
-                        agent.status === 'active' ? 'bg-green-100 text-green-800' :
+                        agent.status === 'busy' ? 'bg-green-100 text-green-800' :
                         agent.status === 'idle' ? 'bg-blue-100 text-blue-800' :
-                        agent.status === 'busy' ? 'bg-yellow-100 text-yellow-800' :
                         'bg-red-100 text-red-800'
                       }`}>
                         {agent.status}
@@ -497,7 +492,7 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                   <div className="mt-3">
                     <p className="text-xs text-gray-500 mb-1">Capabilities:</p>
                     <div className="flex flex-wrap gap-1">
-                      {agent.capabilities.slice(0, 3).map((capability, index) => (
+                      {agent.capabilities.slice(0, 3).map((capability: string, index: number) => (
                         <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
                           {capability}
                         </span>

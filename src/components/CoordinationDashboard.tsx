@@ -86,15 +86,16 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
   };
 
   const getProgressColor = (progress: number) => {
+    if (progress === 100) return 'text-green-500';
     if (progress >= 80) return 'text-green-500';
     if (progress >= 50) return 'text-yellow-500';
     return 'text-red-500';
   };
 
   const getCriticalTasks = () => {
-    if (!systemStatus) return [];
-    return systemStatus.tasks.filter((task: Task) => 
-      task.priority === 'high' && task.status !== 'completed'
+    if (!systemStatus?.systemHealth?.tasks) return [];
+    return systemStatus.systemHealth.tasks.filter((task: Task) => 
+      task.priority === 1 && task.status !== 'completed'
     );
   };
 
@@ -224,7 +225,7 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                     <AlertCircle className="w-4 h-4 text-red-400" />
                     <span className="text-white text-sm font-medium">{task.title}</span>
                   </div>
-                  <p className="text-slate-300 text-xs">{task.domain}</p>
+                  <p className="text-slate-300 text-xs">{task.domainId}</p>
                 </div>
               ))}
             </div>
@@ -265,21 +266,21 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-400 mb-2">
-                  {systemStatus.domains.length}
+                  {systemStatus.systemHealth?.domains?.length || 0}
                 </div>
                 <div className="text-slate-300">Active Domains</div>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-400 mb-2">
-                  {systemStatus.agents.filter((a: Agent) => a.status === 'active').length}
+                  {systemStatus.systemHealth?.agents?.filter((a: Agent) => a.status === 'busy').length || 0}
                 </div>
                 <div className="text-slate-300">Active Agents</div>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-yellow-400 mb-2">
-                  {systemStatus.tasks.filter((t: Task) => t.status === 'in_progress').length}
+                  {systemStatus.systemHealth?.tasks?.filter((t: Task) => t.status === 'in_progress').length || 0}
                 </div>
                 <div className="text-slate-300">Tasks in Progress</div>
               </div>
