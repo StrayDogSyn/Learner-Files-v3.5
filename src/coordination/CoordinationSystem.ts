@@ -558,6 +558,56 @@ export class CoordinationSystem {
     return recommendations;
   }
 
+  public getMetrics(): {
+    systemHealth: number;
+    totalDomains: number;
+    activeTasks: number;
+    availableAgents: number;
+    uptime: number;
+  } {
+    const systemHealth = this.agentOrchestrator.getSystemHealth();
+    const domains = this.domainManager.getAllDomains();
+    const allTasks = this.taskCoordinator.getAllTasks();
+    const activeTasks = allTasks.filter(t => t.status === 'running' || t.status === 'pending');
+    const agents = domains.flatMap(d => d.agents);
+    const uptime = Date.now() - this.systemStartTime.getTime();
+    
+    return {
+      systemHealth: Math.round(systemHealth.overallScore),
+      totalDomains: domains.length,
+      activeTasks: activeTasks.length,
+      availableAgents: agents.length,
+      uptime
+    };
+  }
+
+  public getDomains(): Domain[] {
+    return this.domainManager.getAllDomains();
+  }
+
+  public getTasks(): Task[] {
+    return this.taskCoordinator.getAllTasks();
+  }
+
+  public getAgents(): Agent[] {
+    const domains = this.domainManager.getAllDomains();
+    return domains.flatMap(d => d.agents);
+  }
+
+  public on(eventType: string, callback: Function): void {
+    this.addEventListener(eventType, callback);
+  }
+
+  public off(eventType: string, callback: Function): void {
+    const listeners = this.eventListeners.get(eventType);
+    if (listeners) {
+      const index = listeners.indexOf(callback);
+      if (index > -1) {
+        listeners.splice(index, 1);
+      }
+    }
+  }
+
   public destroy(): void {
     console.log('🛑 Shutting down Multi-Domain Coordination System...');
     

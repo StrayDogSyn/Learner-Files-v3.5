@@ -21,6 +21,7 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 import { enhancedProjects, getProjectStats } from '../data/enhancedProjects';
+import type { EnhancedProject } from '../data/enhancedProjects';
 import type {
   ProjectCard,
   ProjectFilter,
@@ -87,10 +88,16 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
     direction: 'asc',
   });
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedProject, setSelectedProject] = useState<ProjectCard | null>(null);
+  const [selectedProject, setSelectedProject] = useState<EnhancedProject | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [githubStats, setGithubStats] = useState<Record<string, any>>({});
   const [showDemo, setShowDemo] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize component
+  useEffect(() => {
+    setIsInitialized(true);
+  }, []);
 
   // Fetch GitHub stats for projects
   useEffect(() => {
@@ -98,16 +105,19 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
       setIsLoading(true);
       const stats: Record<string, any> = {};
 
-      for (const project of enhancedProjects) {
-        if (project.githubRepo) {
-          try {
-            const repoName = project.githubRepo.split('/').pop();
-            if (repoName) {
-              const metrics = await githubApi.getProjectMetrics(repoName);
-              stats[project.id] = metrics;
+      // Add null check for enhancedProjects
+      if (enhancedProjects && Array.isArray(enhancedProjects)) {
+        for (const project of enhancedProjects) {
+          if (project.githubRepo) {
+            try {
+              const repoName = project.githubRepo.split('/').pop();
+              if (repoName) {
+                const metrics = await githubApi.getProjectMetrics(repoName);
+                stats[project.id] = metrics;
+              }
+            } catch (error) {
+              console.warn(`Failed to fetch GitHub stats for ${project.id}:`, error);
             }
-          } catch (error) {
-            console.warn(`Failed to fetch GitHub stats for ${project.id}:`, error);
           }
         }
       }
@@ -121,18 +131,23 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
 
   // Filter and sort projects
   const filteredAndSortedProjects = useMemo(() => {
-    let filtered = enhancedProjects;
+    // Ensure we always have an array to work with
+    if (!enhancedProjects || !Array.isArray(enhancedProjects) || enhancedProjects.length === 0) {
+      return [];
+    }
+    
+    let filtered: EnhancedProject[] = [...enhancedProjects];
 
     // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
         project =>
-          project.title.toLowerCase().includes(query) ||
-          project.description.toLowerCase().includes(query) ||
-          project.techStack.some(tech => tech.toLowerCase().includes(query)) ||
-          project.tags.some(tag => tag.toLowerCase().includes(query)) ||
-          project.keyFeatures.some(feature => feature.toLowerCase().includes(query))
+          project.title?.toLowerCase().includes(query) ||
+          project.description?.toLowerCase().includes(query) ||
+          (project.techStack || []).some(tech => tech.toLowerCase().includes(query)) ||
+          (project.tags || []).some(tag => tag.toLowerCase().includes(query)) ||
+          (project.keyFeatures || []).some(feature => feature.toLowerCase().includes(query))
       );
     }
 
@@ -148,7 +163,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
 
     // Apply difficulty filter
     if (activeFilters.difficulty) {
-      filtered = filtered.filter(project => project.difficulty === activeFilters.difficulty);
+      filtered = filtered.filter(project => project.complexity === activeFilters.difficulty);
     }
 
     // Apply featured filter
@@ -158,19 +173,19 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
 
     // Apply live demo filter
     if (activeFilters.hasLiveDemo) {
-      filtered = filtered.filter(project => !!project.liveDemo);
+      filtered = filtered.filter(project => !!project.liveUrl);
     }
 
     // Apply GitHub repo filter
     if (activeFilters.hasGitHubRepo) {
-      filtered = filtered.filter(project => !!project.githubRepo);
+      filtered = filtered.filter(project => !!project.githubUrl);
     }
 
     // Apply tech stack filter
     if (activeFilters.techStack && activeFilters.techStack.length > 0) {
       filtered = filtered.filter(project =>
         activeFilters.techStack!.some(tech =>
-          project.techStack.some(projectTech =>
+          (project.techStack || []).some(projectTech =>
             projectTech.toLowerCase().includes(tech.toLowerCase())
           )
         )
@@ -180,7 +195,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
     // Apply tags filter
     if (activeFilters.tags && activeFilters.tags.length > 0) {
       filtered = filtered.filter(project =>
-        activeFilters.tags!.some(tag => project.tags.includes(tag))
+        activeFilters.tags!.some(tag => (project.tags || []).includes(tag))
       );
     }
 
@@ -199,16 +214,16 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           break;
         case 'difficulty':
           const difficultyOrder = { beginner: 1, intermediate: 2, advanced: 3, expert: 4 };
-          aValue = difficultyOrder[a.difficulty];
-          bValue = difficultyOrder[b.difficulty];
+          aValue = difficultyOrder[a.complexity || 'beginner'];
+          bValue = difficultyOrder[b.complexity || 'beginner'];
           break;
         case 'githubStars':
-          aValue = a.metrics?.githubStars || 0;
-          bValue = b.metrics?.githubStars || 0;
+          aValue = a.stats?.stars || 0;
+          bValue = b.stats?.stars || 0;
           break;
         case 'lastCommit':
-          aValue = new Date(a.metrics?.lastCommit || 0);
-          bValue = new Date(b.metrics?.lastCommit || 0);
+          aValue = new Date(a.stats?.lastUpdated || 0);
+          bValue = new Date(b.stats?.lastUpdated || 0);
           break;
         default:
           aValue = a.priority;
@@ -253,7 +268,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
   }, []);
 
   // Get category icon
-  const getCategoryIcon = (category: ProjectCard['category']) => {
+  const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'web-app':
         return <FaLaptopCode />;
@@ -269,13 +284,15 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
         return <FaCode />;
       case 'api':
         return <FaRocket />;
+      case 'featured':
+        return <FaRocket />;
       default:
         return <FaCode />;
     }
   };
 
   // Get difficulty color
-  const getDifficultyColor = (difficulty: ProjectCard['difficulty']) => {
+  const getDifficultyColor = (difficulty?: string) => {
     switch (difficulty) {
       case 'beginner':
         return 'text-green-400';
@@ -289,6 +306,16 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
         return 'text-gray-400';
     }
   };
+
+  // Don't render until component is initialized
+  if (!isInitialized) {
+    return (
+      <div className='text-center py-12'>
+        <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-hunter-emerald mx-auto'></div>
+        <p className='text-hunter-sage mt-4'>Initializing...</p>
+      </div>
+    );
+  }
 
   return (
     <div className='w-full'>
@@ -430,8 +457,8 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
       {/* View Mode Toggle */}
       <div className='flex justify-between items-center mb-6'>
         <div className='text-lg font-semibold text-glass-light'>
-          {filteredAndSortedProjects.length} Project
-          {filteredAndSortedProjects.length !== 1 ? 's' : ''} Found
+          {(filteredAndSortedProjects || []).length} Project
+          {(filteredAndSortedProjects || []).length !== 1 ? 's' : ''} Found
         </div>
         <div className='flex space-x-2'>
           <button
@@ -471,21 +498,27 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
               : 'space-y-6'
           }
         >
-          {filteredAndSortedProjects.map(project => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              viewMode={viewMode}
-              githubStats={githubStats[project.id]}
-              onSelect={setSelectedProject}
-              onDemoClick={() => setShowDemo(true)}
-            />
-          ))}
+          {filteredAndSortedProjects && filteredAndSortedProjects.length > 0 ? (
+            (filteredAndSortedProjects || []).map(project => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                viewMode={viewMode}
+                githubStats={githubStats[project.id]}
+                onSelect={setSelectedProject}
+                onDemoClick={() => setShowDemo(true)}
+              />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <p className="text-metallic-silver/70">No projects found matching your criteria.</p>
+            </div>
+          )}
         </div>
       )}
 
       {/* No Results */}
-      {filteredAndSortedProjects.length === 0 && !isLoading && (
+      {(filteredAndSortedProjects || []).length === 0 && !isLoading && (
         <div className='text-center py-12'>
           <div className='text-6xl mb-4'>🔍</div>
           <h3 className='text-xl font-semibold text-glass-light mb-2'>No projects found</h3>
@@ -545,10 +578,10 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
 
 // Individual Project Card Component
 interface ProjectCardProps {
-  project: ProjectCard;
+  project: EnhancedProject;
   viewMode: ViewMode;
   githubStats?: any;
-  onSelect: (project: ProjectCard) => void;
+  onSelect: (project: EnhancedProject) => void;
   onDemoClick: () => void;
 }
 
@@ -568,8 +601,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Project Image */}
           <div className='flex-shrink-0'>
             <img
-              src={project.screenshots[0]?.url}
-              alt={project.screenshots[0]?.alt}
+              src={project.screenshots?.[0]?.url || project.image || 'https://via.placeholder.com/128x96?text=No+Image'}
+              alt={project.screenshots?.[0]?.alt || project.title || 'Project image'}
               className='w-32 h-24 object-cover rounded-lg'
             />
           </div>
@@ -584,9 +617,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     {getCategoryIcon(project.category)}
                     <span className='ml-1'>{project.category}</span>
                   </span>
-                  <span className={`flex items-center ${getDifficultyColor(project.difficulty)}`}>
+                  <span className={`flex items-center ${getDifficultyColor(project.complexity)}`}>
                     <span className='w-2 h-2 rounded-full bg-current mr-1'></span>
-                    {project.difficulty}
+                    {project.complexity}
                   </span>
                   {project.featured && (
                     <span className='text-hunter-emerald font-semibold'>Featured</span>
@@ -630,9 +663,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Action Buttons */}
             <div className='flex items-center space-x-3'>
-              {project.liveDemo && (
+              {project.liveUrl && (
                 <a
-                  href={project.liveDemo}
+                  href={project.liveUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='flex items-center px-4 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300'
@@ -641,9 +674,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   Live Demo
                 </a>
               )}
-              {project.githubRepo && (
+              {project.githubUrl && (
                 <a
-                  href={project.githubRepo}
+                  href={project.githubUrl}
                   target='_blank'
                   rel='noopener noreferrer'
                   className='flex items-center px-4 py-2 border border-hunter-emerald text-hunter-emerald rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300'
@@ -694,9 +727,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           >
             <div className='absolute bottom-4 left-4 right-4'>
               <div className='flex space-x-2'>
-                {project.liveDemo && (
+                {project.liveUrl && (
                   <a
-                    href={project.liveDemo}
+                    href={project.liveUrl}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center px-3 py-2 bg-hunter-emerald text-charcoal-dark rounded-lg hover:shadow-lg transition-all duration-300'
@@ -705,9 +738,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     Demo
                   </a>
                 )}
-                {project.githubRepo && (
+                {project.githubUrl && (
                   <a
-                    href={project.githubRepo}
+                    href={project.githubUrl}
                     target='_blank'
                     rel='noopener noreferrer'
                     className='flex items-center px-3 py-2 bg-glass-subtle border border-glass-border text-metallic-silver rounded-lg hover:bg-hunter-emerald hover:text-charcoal-dark transition-all duration-300'
@@ -741,9 +774,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   {getCategoryIcon(project.category)}
                   <span className='ml-1'>{project.category}</span>
                 </span>
-                <span className={`flex items-center ${getDifficultyColor(project.difficulty)}`}>
+                <span className={`flex items-center ${getDifficultyColor(project.complexity)}`}>
                   <span className='w-2 h-2 rounded-full bg-current mr-1'></span>
-                  {project.difficulty}
+                  {project.complexity}
                 </span>
               </div>
             </div>

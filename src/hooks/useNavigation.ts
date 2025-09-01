@@ -30,7 +30,32 @@ export const useNavigation = () => {
   });
   
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestion[]>([]);
+  const [searchSuggestions, setSearchSuggestions] = useState<SearchSuggestion[]>([
+    {
+      id: 'recent-1',
+      text: 'React Projects',
+      type: 'recent',
+      onClick: () => navigateToSection('featured-projects')
+    },
+    {
+      id: 'recent-2', 
+      text: 'Skills Overview',
+      type: 'recent',
+      onClick: () => navigateToSection('skills')
+    },
+    {
+      id: 'popular-1',
+      text: 'Portfolio',
+      type: 'popular',
+      onClick: () => navigateToSection('featured-projects')
+    },
+    {
+      id: 'popular-2',
+      text: 'Contact',
+      type: 'popular', 
+      onClick: () => navigateToSection('contact')
+    }
+  ]);
 
   const navigateTo = useCallback((path: string, label?: string) => {
     trackEvent({

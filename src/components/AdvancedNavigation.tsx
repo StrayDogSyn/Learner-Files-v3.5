@@ -40,8 +40,8 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
   const {
     navigationState,
     searchResults,
-    searchSuggestions,
-    keyboardShortcuts,
+    searchSuggestions = [],
+    keyboardShortcuts = [],
     navigateToSection,
     handleSearch,
     toggleMobileMenu,
@@ -378,7 +378,7 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
                               <div className='text-sm text-metallic-silver/70'>
                                 {result.description}
                               </div>
-                              {result.highlights.length > 0 && (
+                              {result.highlights && result.highlights.length > 0 && (
                                 <div className='text-xs text-hunter-emerald mt-1'>
                                   Matches: {result.highlights.join(', ')}
                                 </div>
@@ -401,18 +401,24 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
                         Recent Searches
                       </h3>
                       <div className='space-y-1'>
-                        {searchSuggestions
-                          .filter(s => s.type === 'recent')
-                          .map(suggestion => (
-                            <button
-                              key={suggestion.id}
-                              onClick={() => handleSuggestionClick(suggestion)}
-                              className='w-full text-left p-2 rounded-lg hover:bg-glass-secondary/50 flex items-center space-x-2'
-                            >
-                              {getSuggestionIcon(suggestion.type)}
-                              <span className='text-metallic-silver'>{suggestion.text}</span>
-                            </button>
-                          ))}
+                        {(searchSuggestions || [])
+                          .filter(s => s && s.type === 'recent')
+                          .length > 0 ? (
+                          (searchSuggestions || [])
+                            .filter(s => s && s.type === 'recent')
+                            .map(suggestion => (
+                              <button
+                                key={suggestion.id}
+                                onClick={() => handleSuggestionClick(suggestion)}
+                                className='w-full text-left p-2 rounded-lg hover:bg-glass-secondary/50 flex items-center space-x-2'
+                              >
+                                {getSuggestionIcon(suggestion.type)}
+                                <span className='text-metallic-silver'>{suggestion.text}</span>
+                              </button>
+                            ))
+                        ) : (
+                          <div className='text-sm text-metallic-silver/50 p-2'>No recent searches</div>
+                        )}
                       </div>
                     </div>
 
@@ -421,18 +427,24 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
                         Popular Searches
                       </h3>
                       <div className='space-y-1'>
-                        {searchSuggestions
-                          .filter(s => s.type === 'popular')
-                          .map(suggestion => (
-                            <button
-                              key={suggestion.id}
-                              onClick={() => handleSuggestionClick(suggestion)}
-                              className='w-full text-left p-2 rounded-lg hover:bg-glass-secondary/50 flex items-center space-x-2'
-                            >
-                              {getSuggestionIcon(suggestion.type)}
-                              <span className='text-metallic-silver'>{suggestion.text}</span>
-                            </button>
-                          ))}
+                        {(searchSuggestions || [])
+                          .filter(s => s && s.type === 'popular')
+                          .length > 0 ? (
+                          (searchSuggestions || [])
+                            .filter(s => s && s.type === 'popular')
+                            .map(suggestion => (
+                              <button
+                                key={suggestion.id}
+                                onClick={() => handleSuggestionClick(suggestion)}
+                                className='w-full text-left p-2 rounded-lg hover:bg-glass-secondary/50 flex items-center space-x-2'
+                              >
+                                {getSuggestionIcon(suggestion.type)}
+                                <span className='text-metallic-silver'>{suggestion.text}</span>
+                              </button>
+                            ))
+                        ) : (
+                          <div className='text-sm text-metallic-silver/50 p-2'>No popular searches</div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -462,7 +474,7 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
               </div>
 
               <div className='space-y-3'>
-                {keyboardShortcuts.map(shortcut => (
+                {(keyboardShortcuts || []).map(shortcut => (
                   <div key={shortcut.action} className='flex justify-between items-center'>
                     <span className='text-metallic-silver'>{shortcut.description}</span>
                     <kbd className='px-2 py-1 bg-glass-secondary border border-glass-border-light rounded text-xs text-metallic-silver'>
