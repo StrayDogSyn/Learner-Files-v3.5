@@ -18,6 +18,11 @@ const MARVEL_BASE_URL = 'https://gateway.marvel.com/v1/public';
 const PUBLIC_KEY = process.env.VITE_MARVEL_PUBLIC_KEY;
 const PRIVATE_KEY = process.env.VITE_MARVEL_PRIVATE_KEY;
 
+console.log('Marvel API Keys loaded:', {
+  publicKey: PUBLIC_KEY ? 'Present' : 'Missing',
+  privateKey: PRIVATE_KEY ? 'Present' : 'Missing'
+});}]}}}
+
 // Generate MD5 hash for Marvel API authentication
 function generateHash(timestamp: string): string {
   const message = timestamp + PRIVATE_KEY + PUBLIC_KEY;
