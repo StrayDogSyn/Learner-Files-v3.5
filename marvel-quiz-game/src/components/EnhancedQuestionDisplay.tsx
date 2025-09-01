@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OptimizedImage } from './ImageOptimization';
 import { CharacterImageGallery } from './CharacterImageGallery';
-import { Clock, Zap, Eye, Image as ImageIcon, Info, Check, X } from 'lucide-react';
+import { Clock, Zap, Eye, Image as ImageIcon, Info } from 'lucide-react';
 
 interface Question {
   id: string;
@@ -203,7 +203,7 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
   onImageGallery,
   streak = 0,
   score = 0,
-  powerUpsAvailable = false,
+  // powerUpsAvailable = false,
   className = '',
 }) => {
   const [showGallery, setShowGallery] = useState(false);
