@@ -17,6 +17,10 @@ const HomePage: React.FC = () => {
     navigate('/marvel-quiz');
   };
 
+  const handleStartEnhancedQuiz = () => {
+    navigate('/enhanced-quiz');
+  };
+
   const handleBackToPortfolio = () => {
     window.location.href = '../index.html';
   };
@@ -60,8 +64,15 @@ const HomePage: React.FC = () => {
         {/* Action Buttons */}
         <div className="space-y-4">
           <button
-            onClick={handleStartMarvelQuiz}
+            onClick={handleStartEnhancedQuiz}
             className="marvel-button px-12 py-4 text-2xl font-bold rounded-lg transform transition-all duration-300 hover:scale-105 pulse-animation mb-4"
+          >
+            ⚡ ENHANCED MARVEL QUIZ
+          </button>
+          
+          <button
+            onClick={handleStartMarvelQuiz}
+            className="bg-blue-700 hover:bg-blue-600 text-white px-12 py-4 text-xl font-bold rounded-lg transform transition-all duration-300 hover:scale-105"
           >
             🚀 MARVEL API QUIZ
           </button>
@@ -87,8 +98,12 @@ const HomePage: React.FC = () => {
         <div className="mt-12 quiz-card p-6 rounded-lg max-w-2xl mx-auto">
           <h3 className="text-xl font-bold mb-4">Choose Your Challenge</h3>
           <div className="text-left space-y-3 text-gray-300">
-            <div className="border-l-4 border-red-500 pl-4">
-              <h4 className="font-bold text-red-400">🚀 Marvel API Quiz (Recommended)</h4>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <h4 className="font-bold text-yellow-400">⚡ Enhanced Marvel Quiz (NEW!)</h4>
+              <p className="text-sm">All-new features • Multiple game modes • Character database • Social features • Daily challenges • Enhanced UI</p>
+            </div>
+            <div className="border-l-4 border-blue-500 pl-4">
+              <h4 className="font-bold text-blue-400">🚀 Marvel API Quiz</h4>
               <p className="text-sm">Real-time data from Marvel's official API • Dynamic questions • Advanced features • Achievements & Leaderboard</p>
             </div>
             <div className="border-l-4 border-gray-500 pl-4">

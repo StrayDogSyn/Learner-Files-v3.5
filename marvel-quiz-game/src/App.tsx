@@ -4,6 +4,7 @@ import HomePage from './components/HomePage';
 import QuizGame from './components/QuizGame';
 import Results from './components/Results';
 import MarvelQuiz from './components/MarvelQuiz';
+import EnhancedMarvelQuiz from './components/EnhancedMarvelQuiz';
 import { GameProvider } from './context/GameContext';
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/quiz" element={<QuizGame />} />
             <Route path="/marvel-quiz" element={<MarvelQuiz />} />
+            <Route path="/enhanced-quiz" element={<EnhancedMarvelQuiz />} />
             <Route path="/results" element={<Results />} />
           </Routes>
         </div>
