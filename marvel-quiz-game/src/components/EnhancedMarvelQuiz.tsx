@@ -15,9 +15,9 @@ import AnimationSystem from './MarvelQuiz/AnimationSystem';
 // Import new enhanced components
 import { marvelCharacters, getCharacterById, searchCharacters } from '../data/characters';
 import { enhancedQuestions, getQuestionsByType, getQuestionsByDifficulty } from '../data/enhancedQuestions';
-import { GameModeSelector } from './GameModes/GameModeSelector';
-import { GameModeManager } from './GameModes/GameModeManager';
-import { DailyChallengeSystem } from './GameModes/DailyChallengeSystem';
+import GameModeSelector from './GameModes/GameModeSelector';
+import GameModeManager from './GameModes/GameModeManager';
+import DailyChallengeSystem from './GameModes/DailyChallengeSystem';
 import { EnhancedVisualFeedback } from './UI/EnhancedVisualFeedback';
 import { CharacterThemedBackground } from './UI/CharacterThemedBackground';
 import { ProgressIndicators } from './UI/ProgressIndicators';
@@ -299,6 +299,106 @@ const EnhancedMarvelQuiz: React.FC = () => {
     }
   }, []);
 
+  // Additional helper functions
+  const checkAchievements = useCallback((isCorrect: boolean) => {
+    // Simple achievement checking - can be expanded
+    const newAchievements = [...achievements];
+    let hasNewAchievement = false;
+
+    if (isCorrect && !achievements.find(a => a.id === 'first-correct')?.unlocked) {
+      const achievement = newAchievements.find(a => a.id === 'first-correct');
+      if (achievement) {
+        achievement.unlocked = true;
+        hasNewAchievement = true;
+      }
+    }
+
+    if (streak >= 5 && !achievements.find(a => a.id === 'streak-5')?.unlocked) {
+      const achievement = newAchievements.find(a => a.id === 'streak-5');
+      if (achievement) {
+        achievement.unlocked = true;
+        hasNewAchievement = true;
+      }
+    }
+
+    if (hasNewAchievement) {
+      setAchievements(newAchievements);
+      setAnimationState({ type: 'achievement', intensity: 1, duration: 2000 });
+    }
+  }, [achievements, streak]);
+
+  const endGame = useCallback(() => {
+    setGameState('finished');
+    
+    // Update final stats
+    setGameStats(prev => ({
+      ...prev,
+      gamesPlayed: prev.gamesPlayed + 1,
+      totalScore: prev.totalScore + score,
+      totalPlayTime: prev.totalPlayTime + (questions.length * 30) // Approximate
+    }));
+  }, [score, questions.length]);
+
+  const activatePowerUp = useCallback((powerUpId: string) => {
+    const powerUp = powerUps.find(p => p.id === powerUpId);
+    if (!powerUp || !powerUp.available || score < powerUp.cost) return;
+
+    // Deduct cost
+    setScore(prev => prev - powerUp.cost);
+    
+    // Apply power-up effect
+    switch (powerUpId) {
+      case 'hint':
+        // Remove two wrong answers (implementation depends on UI)
+        break;
+      case 'time':
+        setTimeLeft(prev => prev + 15);
+        break;
+      case 'skip':
+        // Skip current question by advancing to next
+        if (questionIndex < questions.length - 1) {
+          const nextIndex = questionIndex + 1;
+          const nextQ = questions[nextIndex];
+          
+          setQuestionIndex(nextIndex);
+          setCurrentQuestion(nextQ);
+          setSelectedAnswer('');
+          setShowResult(false);
+          setTimeLeft(gameMode === 'timeAttack' ? 15 : 30);
+          updateTheme(nextQ);
+        } else {
+          endGame();
+        }
+        break;
+    }
+
+    // Set cooldown
+    setPowerUps(prev => prev.map(p => 
+      p.id === powerUpId ? { ...p, available: false, cooldown: 30 } : p
+    ));
+  }, [powerUps, score, questionIndex, questions, gameMode, updateTheme, endGame]);
+
+  const nextQuestion = useCallback(() => {
+    if (questionIndex < questions.length - 1) {
+      const nextIndex = questionIndex + 1;
+      const nextQ = questions[nextIndex];
+      
+      setQuestionIndex(nextIndex);
+      setCurrentQuestion(nextQ);
+      setSelectedAnswer('');
+      setShowResult(false);
+      setTimeLeft(gameMode === 'timeAttack' ? 15 : 30);
+      
+      // Update theme
+      updateTheme(nextQ);
+      
+      // Clear visual feedback
+      setVisualFeedback(prev => ({ ...prev, show: false }));
+    } else {
+      endGame();
+    }
+  }, [questionIndex, questions, gameMode, updateTheme, endGame]);
+
   // Handle answer selection
   const handleAnswerSelect = useCallback((answer: string) => {
     if (showResult || !currentQuestion) return;
@@ -306,7 +406,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
     setSelectedAnswer(answer);
     setShowResult(true);
     
-    const isCorrect = answer === currentQuestion.correctAnswer;
+    const isCorrect = answer === String(currentQuestion.correctAnswer);
     const responseTime = 30 - timeLeft;
     
     // Update statistics
@@ -674,7 +774,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
         </div>
         
         <GameModeSelector
-          onModeSelect={(mode, config) => {
+          onModeSelect={(mode: string, config: { characterId?: string }) => {
             if (mode === 'characterSpecific' && config?.characterId) {
               setSelectedCharacter(config.characterId);
             }
@@ -711,55 +811,94 @@ const EnhancedMarvelQuiz: React.FC = () => {
         
         {/* Game content */}
         <div className="relative z-10 min-h-screen bg-black/20 text-white p-4">
-          {/* Header */}
+          {/* Enhanced Header */}
           <div className="max-w-4xl mx-auto mb-8">
-            <div className="flex justify-between items-center mb-4">
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => setGameState('paused')}
-                  className="bg-gray-700/80 hover:bg-gray-600/80 p-2 rounded-lg transition-colors backdrop-blur-sm"
-                  aria-label="Pause game"
-                >
-                  <Pause className="w-5 h-5" />
-                </button>
-                <div className="text-lg font-semibold">
-                  Question {questionIndex + 1} of {questions.length}
-                </div>
-                {gameMode === 'survival' && (
-                  <div className="flex items-center gap-2">
-                    <span className="text-red-400">Lives:</span>
-                    <span className="font-bold text-red-400">{lives}</span>
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-lg mb-4">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-6">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setGameState('paused')}
+                    className="p-4 bg-gradient-to-br from-blue-500/30 to-purple-500/30 backdrop-blur-sm rounded-xl border border-white/30 text-white hover:from-blue-500/40 hover:to-purple-500/40 transition-all duration-300 shadow-lg"
+                    aria-label="Pause game"
+                  >
+                    <Pause className="w-6 h-6" />
+                  </motion.button>
+                  
+                  <div className="text-white">
+                    <div className="text-sm opacity-70 font-medium">Question Progress</div>
+                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">
+                      {questionIndex + 1} of {questions.length}
+                    </div>
                   </div>
-                )}
-              </div>
-              
-              <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-400" />
-                  <span className="font-bold">{score.toLocaleString()}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-red-400" />
-                  <span className={`font-bold ${timeLeft <= 5 ? 'text-red-400 animate-pulse' : ''}`}>
-                    {timeLeft}s
-                  </span>
-                </div>
-                {streak > 0 && (
-                  <div className="flex items-center gap-2">
-                    <div className="text-orange-400">🔥</div>
-                    <span className="font-bold text-orange-400">{streak}</span>
+                
+                <div className="flex items-center gap-8">
+                  {gameMode === 'survival' && (
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center">
+                        <div className="text-red-400">❤️</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/70 font-medium">Lives</div>
+                        <div className="text-lg font-bold text-white">{lives}</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                      <Star className="w-5 h-5 text-yellow-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-white/70 font-medium">Score</div>
+                      <div className="text-lg font-bold text-white">{score.toLocaleString()}</div>
+                    </div>
                   </div>
-                )}
+                  
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                      <Clock className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-white/70 font-medium">Time</div>
+                      <div className={`text-lg font-bold ${timeLeft <= 5 ? 'text-red-400 animate-pulse' : 'text-white'}`}>
+                        {timeLeft}s
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {streak > 0 && (
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-500/20 rounded-xl flex items-center justify-center">
+                        <div className="text-orange-400">🔥</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-white/70 font-medium">Streak</div>
+                        <div className="text-lg font-bold text-orange-400">{streak}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             
             {/* Enhanced progress bar */}
-            <ProgressIndicators.ProgressBar
-              progress={progress}
-              showPercentage={true}
-              animated={true}
-              color="from-red-500 to-blue-500"
-            />
+            <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4 shadow-lg">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-white/80 text-sm font-medium">Quiz Progress</span>
+                <span className="text-white font-bold">{Math.round(progress)}%</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+                <motion.div
+                  className="h-full bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 rounded-full shadow-lg"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                />
+              </div>
+            </div>
           </div>
           
           {/* Enhanced Question Display */}
@@ -781,21 +920,34 @@ const EnhancedMarvelQuiz: React.FC = () => {
               lives={lives}
             />
             
-            {/* Power-ups */}
-            <div className="flex justify-center gap-4">
-              {powerUps.map((powerUp) => (
-                <button
-                  key={powerUp.id}
-                  onClick={() => activatePowerUp(powerUp.id)}
-                  disabled={score < powerUp.cost || !powerUp.available || showResult}
-                  className="bg-purple-700/80 hover:bg-purple-600/80 disabled:opacity-50 disabled:cursor-not-allowed px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 backdrop-blur-sm"
-                  title={`${powerUp.description} (${powerUp.cost} points)`}
-                >
-                  <Zap className="w-4 h-4" />
-                  {powerUp.name}
-                  <span className="text-xs">({powerUp.cost})</span>
-                </button>
-              ))}
+            {/* Enhanced Power-ups */}
+            <div className="max-w-4xl mx-auto mb-8">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 shadow-lg">
+                <h3 className="text-white font-bold text-lg mb-4 text-center">Power-Ups</h3>
+                <div className="flex justify-center gap-6">
+                  {powerUps.map((powerUp) => (
+                    <motion.button
+                      key={powerUp.id}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => activatePowerUp(powerUp.id)}
+                      disabled={score < powerUp.cost || !powerUp.available || showResult}
+                      className="group relative bg-gradient-to-br from-purple-500/30 to-pink-500/30 hover:from-purple-500/40 hover:to-pink-500/40 disabled:from-gray-500/20 disabled:to-gray-600/20 backdrop-blur-sm border border-white/30 px-6 py-4 rounded-xl font-bold text-white transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      title={`${powerUp.description} (${powerUp.cost} points)`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-purple-500/30 rounded-lg flex items-center justify-center">
+                          <Zap className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">{powerUp.name}</div>
+                          <div className="text-xs opacity-80">({powerUp.cost})</div>
+                        </div>
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1009,7 +1161,7 @@ const EnhancedMarvelQuiz: React.FC = () => {
               className="max-w-2xl w-full"
             >
               <DailyChallengeSystem
-                onStartChallenge={(challenge) => {
+                onStartChallenge={(challenge: any) => {
                   setShowDailyChallenge(false);
                   initializeGame('dailyChallenge');
                 }}

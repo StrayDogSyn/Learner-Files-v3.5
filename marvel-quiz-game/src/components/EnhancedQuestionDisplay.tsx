@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OptimizedImage } from './ImageOptimization';
 import { CharacterImageGallery } from './CharacterImageGallery';
-import { Clock, Zap, Eye, Image as ImageIcon, Info } from 'lucide-react';
+import { Clock, Zap, Eye, Image as ImageIcon, Info, Check, X } from 'lucide-react';
 
 interface Question {
   id: string;
@@ -193,23 +193,23 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
   
   const progress = ((questionIndex + 1) / totalQuestions) * 100;
   
-  const getOptionStyle = (option: string) => {
+  const getEnhancedOptionStyle = (option: string) => {
     if (!showResult) {
       if (hoveredOption === option) {
-        return 'bg-blue-100 border-blue-300 transform scale-105';
+        return 'bg-white/20 backdrop-blur-md border-2 border-white/40 shadow-lg shadow-blue-500/20';
       }
-      return 'bg-white border-gray-200 hover:border-blue-300';
+      return 'bg-white/10 backdrop-blur-md border-2 border-white/20 hover:border-white/40 hover:bg-white/15';
     }
     
     if (option === question.correctAnswer) {
-      return 'bg-green-100 border-green-500 text-green-800';
+      return 'bg-green-500/20 backdrop-blur-md border-2 border-green-400/50 shadow-lg shadow-green-500/30';
     }
     
     if (option === selectedAnswer && option !== question.correctAnswer) {
-      return 'bg-red-100 border-red-500 text-red-800';
+      return 'bg-red-500/20 backdrop-blur-md border-2 border-red-400/50 shadow-lg shadow-red-500/30';
     }
     
-    return 'bg-gray-100 border-gray-300 text-gray-600';
+    return 'bg-white/10 backdrop-blur-md border-2 border-white/20';
   };
   
   const handleGalleryOpen = () => {
@@ -221,44 +221,66 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
   };
   
   return (
-    <div className={`max-w-4xl mx-auto ${className}`}>
-      {/* Progress and Stats Bar */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>Question {questionIndex + 1} of {totalQuestions}</span>
+    <div className={`max-w-5xl mx-auto ${className}`}>
+      {/* Modern Stats Header */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-6">
+            <div className="bg-white/20 rounded-xl px-4 py-2">
+              <span className="text-white/90 text-sm font-medium">Question</span>
+              <div className="text-2xl font-bold text-white">{questionIndex + 1}<span className="text-white/60">/{totalQuestions}</span></div>
+            </div>
+            
             {streak > 0 && (
-              <div className="flex items-center gap-1 text-orange-600">
-                <Zap className="w-4 h-4" />
-                <span>{streak} streak</span>
+              <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-xl px-4 py-2 border border-orange-500/30">
+                <div className="flex items-center gap-2 text-orange-300">
+                  <Zap className="w-5 h-5" />
+                  <span className="font-bold text-xl">{streak}</span>
+                  <span className="text-sm">streak</span>
+                </div>
               </div>
             )}
-            <div className="flex items-center gap-1">
-              <span>Score: {score}</span>
+            
+            <div className="bg-white/20 rounded-xl px-4 py-2">
+              <span className="text-white/90 text-sm font-medium">Score</span>
+              <div className="text-2xl font-bold text-white">{score.toLocaleString()}</div>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-sm">
-            <Clock className="w-4 h-4 text-gray-500" />
-            <span className={`font-mono ${
-              timeLeft <= 10 ? 'text-red-600 font-bold' : 
-              timeLeft <= 20 ? 'text-yellow-600' : 'text-gray-600'
-            }`}>
-              {timeLeft}s
-            </span>
+          <div className="bg-white/20 rounded-xl px-4 py-2">
+            <div className="flex items-center gap-3">
+              <Clock className="w-5 h-5 text-white/80" />
+              <span className={`text-2xl font-bold font-mono ${
+                timeLeft <= 10 ? 'text-red-400 animate-pulse' : 
+                timeLeft <= 20 ? 'text-yellow-400' : 'text-white'
+              }`}>
+                {timeLeft}s
+              </span>
+            </div>
           </div>
         </div>
         
-        {/* Progress bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <motion.div
-            className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5 }}
-          />
+        {/* Enhanced Progress bar */}
+        <div className="relative">
+          <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+            <motion.div
+              className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 h-full rounded-full relative"
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              <div className="absolute inset-0 bg-white/30 animate-pulse" />
+            </motion.div>
+          </div>
+          <div className="text-center mt-2 text-white/80 text-sm font-medium">
+            {Math.round(progress)}% Complete
+          </div>
         </div>
-      </div>
+      </motion.div>
       
       {/* Question Image */}
       <QuestionImage
@@ -267,69 +289,120 @@ export const EnhancedQuestionDisplay: React.FC<EnhancedQuestionDisplayProps> = (
         onGalleryOpen={handleGalleryOpen}
       />
       
-      {/* Question Text */}
+      {/* Enhanced Question Text */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
+        transition={{ delay: 0.2 }}
+        className="mb-8 bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20"
       >
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 leading-tight">
+        <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4">
           {question.question}
         </h2>
         
         {question.category && (
-          <div className="mt-3 inline-block bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-400/30 text-blue-200 text-sm px-4 py-2 rounded-full font-medium">
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
             {question.category}
           </div>
         )}
       </motion.div>
       
-      {/* Answer Options */}
-      <div className="grid gap-4 mb-6">
+      {/* Enhanced Answer Options */}
+      <div className="grid gap-4 mb-8">
         {question.options.map((option, index) => (
           <motion.button
             key={index}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
+            initial={{ opacity: 0, x: -30, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ 
+              delay: 0.3 + index * 0.1,
+              duration: 0.5,
+              ease: "easeOut"
+            }}
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => !showResult && onAnswerSelect(option)}
             onMouseEnter={() => !showResult && setHoveredOption(option)}
             onMouseLeave={() => setHoveredOption(null)}
             disabled={showResult}
-            className={`p-4 text-left border-2 rounded-lg transition-all duration-200 ${
-              getOptionStyle(option)
-            } ${!showResult ? 'cursor-pointer' : 'cursor-default'}`}
+            className={`group relative p-6 text-left rounded-2xl transition-all duration-300 transform ${
+              getEnhancedOptionStyle(option)
+            } ${!showResult ? 'cursor-pointer hover:scale-[1.02]' : 'cursor-default'} overflow-hidden`}
           >
-            <div className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold ${
+            {/* Background gradient overlay */}
+            <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+              !showResult ? 'bg-gradient-to-r from-blue-500/10 to-purple-500/10' : ''
+            }`} />
+            
+            <div className="relative flex items-center gap-4 z-10">
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-lg font-bold transition-all duration-300 ${
                 showResult && option === question.correctAnswer
-                  ? 'bg-green-500 border-green-500 text-white'
+                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
                   : showResult && option === selectedAnswer && option !== question.correctAnswer
-                  ? 'bg-red-500 border-red-500 text-white'
-                  : 'border-gray-400 text-gray-600'
+                  ? 'bg-red-500 text-white shadow-lg shadow-red-500/30'
+                  : hoveredOption === option && !showResult
+                  ? 'bg-gradient-to-br from-blue-400/40 to-purple-400/40 text-white border-2 border-white/50'
+                  : 'bg-gradient-to-br from-blue-400/30 to-purple-400/30 text-white/90 border-2 border-white/30'
               }`}>
                 {String.fromCharCode(65 + index)}
               </div>
-              <span className="text-lg">{option}</span>
+              <span className={`text-xl font-semibold transition-colors duration-300 leading-relaxed ${
+                showResult && option === question.correctAnswer
+                  ? 'text-green-100'
+                  : showResult && option === selectedAnswer && option !== question.correctAnswer
+                  ? 'text-red-100'
+                  : 'text-white'
+              }`}>
+                {option}
+              </span>
+              
+              {/* Result indicator */}
+              {showResult && option === question.correctAnswer && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="ml-auto w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                </motion.div>
+              )}
+              
+              {showResult && option === selectedAnswer && option !== question.correctAnswer && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="ml-auto w-8 h-8 bg-red-500 rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </motion.div>
+              )}
             </div>
           </motion.button>
         ))}
       </div>
       
-      {/* Explanation */}
+      {/* Enhanced Explanation */}
       <AnimatePresence>
         {showResult && question.explanation && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="bg-blue-50 border border-blue-200 rounded-lg p-4"
+            initial={{ opacity: 0, height: 0, y: 20 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -20 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-md border border-blue-400/30 rounded-2xl p-6 shadow-lg"
           >
-            <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-              <div>
-                <h4 className="font-semibold text-blue-800 mb-2">Explanation</h4>
-                <p className="text-blue-700">{question.explanation}</p>
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Info className="w-6 h-6 text-blue-300" />
+              </div>
+              <div className="flex-1">
+                <h4 className="font-bold text-blue-200 mb-3 text-lg">Did You Know?</h4>
+                <p className="text-white/90 leading-relaxed text-lg">{question.explanation}</p>
               </div>
             </div>
           </motion.div>
