@@ -1,4 +1,4 @@
-import { Code, Database, Globe, Brain, Wrench, Shield, Award, GraduationCap } from 'lucide-react';
+import { Code, Database, Globe, Brain, Wrench, Award, GraduationCap } from 'lucide-react';
 
 export const TechStack = () => {
   return (
