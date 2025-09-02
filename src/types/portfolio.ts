@@ -2,9 +2,10 @@
 // Based on Technical Architecture Document specifications
 
 export interface ContactMethod {
-  type: 'email' | 'linkedin' | 'github' | 'website' | 'phone';
+  type: 'email' | 'linkedin' | 'github' | 'website' | 'phone' | 'location';
   value: string;
   label: string;
+  preferred?: boolean;
 }
 
 export interface DigitalProperty {
@@ -24,6 +25,7 @@ export interface DeveloperProfile {
   contactMethods: ContactMethod[];
   digitalProperties: DigitalProperty[];
   professionalDifferentiators: string[];
+  keyDifferentiators: string[];
 }
 
 export interface Project {
@@ -37,6 +39,7 @@ export interface Project {
   createdDate: Date;
   features: string[];
   highlights: string[];
+  category: string;
 }
 
 export interface Certification {
@@ -88,6 +91,8 @@ export interface GitHubRepo {
   description: string;
   language: string;
   stargazers_count: number;
+  forks_count: number;
+  fork: boolean;
   html_url: string;
   created_at: string;
   updated_at: string;
@@ -119,8 +124,12 @@ export interface ContactFormData {
   name: string;
   email: string;
   company?: string;
+  subject: string;
   message: string;
   consultationType: 'ai-solutions' | 'full-stack' | 'consulting' | 'other';
+  projectType?: string;
+  budget?: string;
+  timeline?: string;
 }
 
 // Navigation and Routing
@@ -134,6 +143,7 @@ export interface NavigationItem {
 export interface TypingAnimationProps {
   texts: string[];
   speed?: number;
+  delay?: number;
   deleteSpeed?: number;
   pauseDuration?: number;
 }
@@ -150,5 +160,18 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-export interface GitHubStatsResponse extends ApiResponse<GitHubUser> {}
+export interface GitHubStats {
+  totalRepos: number;
+  totalStars: number;
+  totalForks: number;
+  totalCommits: number;
+  languageStats: Record<string, number>;
+  recentActivity: Array<{
+    date: string;
+    type: string;
+    repo: string;
+  }>;
+}
+
+export interface GitHubStatsResponse extends ApiResponse<GitHubStats> {}
 export interface GitHubReposResponse extends ApiResponse<GitHubRepo[]> {}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ExternalLink, Code, Users, Award } from 'lucide-react';
-import { developerProfile, typingTexts } from '../data/portfolioData';
+import { developerProfile, heroTypingTexts } from '../data/portfolioData';
 import type { TypingAnimationProps } from '../types/portfolio';
 
 const TypingAnimation: React.FC<TypingAnimationProps> = ({ texts, speed = 100, delay = 2000 }) => {
@@ -69,7 +69,7 @@ export const Home: React.FC = () => {
             </h1>
             <div className="text-xl sm:text-2xl text-hunter-200 mb-6">
               <span>I'm a </span>
-              <TypingAnimation texts={typingTexts} speed={100} delay={2000} />
+              <TypingAnimation texts={heroTypingTexts} speed={100} delay={2000} />
             </div>
 
             {/* Bio */}
@@ -87,7 +87,7 @@ export const Home: React.FC = () => {
                 Get In Touch
               </a>
               <a
-                href={developerProfile.digitalProperties.find(p => p.platform === 'GitHub')?.url}
+                href={developerProfile.digitalProperties.find(p => p.name === 'GitHub')?.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="glass-button px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
@@ -101,7 +101,7 @@ export const Home: React.FC = () => {
             <div className="flex justify-center space-x-6">
               {developerProfile.digitalProperties.map((property) => {
                 const getIcon = () => {
-                  switch (property.platform) {
+                  switch (property.name) {
                     case 'GitHub':
                       return <Github size={24} />;
                     case 'LinkedIn':
@@ -113,7 +113,7 @@ export const Home: React.FC = () => {
 
                 return (
                   <a
-                    key={property.platform}
+                    key={property.name}
                     href={property.url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -161,7 +161,7 @@ export const Home: React.FC = () => {
             What Sets Me Apart
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {developerProfile.keyDifferentiators.map((differentiator, index) => (
+            {developerProfile.professionalDifferentiators.map((differentiator, index) => (
               <div key={index} className="glass-card p-6 hover:glass-medium transition-all duration-300">
                 <h3 className="text-xl font-semibold text-emerald-400 mb-3">
                   {differentiator}

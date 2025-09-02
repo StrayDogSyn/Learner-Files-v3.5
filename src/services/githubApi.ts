@@ -1,3 +1,4 @@
+import React from 'react';
 import { GitHubUser, GitHubRepo, GitHubStatsResponse, GitHubReposResponse } from '../types/portfolio';
 
 const GITHUB_API_BASE = 'https://api.github.com';
@@ -181,6 +182,3 @@ export const useGitHubData = () => {
 
   return { loading, stats, repos, error };
 };
-
-// Add React import for the hook
-import React from 'react';

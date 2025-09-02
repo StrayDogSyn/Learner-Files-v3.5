@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Calendar, MapPin, Award, GraduationCap, Briefcase, ExternalLink } from 'lucide-react';
 import { experiences, certifications } from '../data/portfolioData';
-import type { Experience, Certification } from '../types/portfolio';
+import type { Experience as ExperienceType, Certification } from '../types/portfolio';
 
-const TimelineItem: React.FC<{ experience: Experience; isLast: boolean }> = ({ experience, isLast }) => (
+const TimelineItem: React.FC<{ experience: ExperienceType; isLast: boolean }> = ({ experience, isLast }) => (
   <div className="relative">
     {/* Timeline Line */}
     {!isLast && (
@@ -22,7 +22,7 @@ const TimelineItem: React.FC<{ experience: Experience; isLast: boolean }> = ({ e
           </h3>
           <div className="flex items-center text-hunter-300 text-sm">
             <Calendar size={16} className="mr-1" />
-            <span>{experience.startDate} - {experience.endDate}</span>
+            <span>{experience.startDate.toLocaleDateString()} - {experience.endDate ? experience.endDate.toLocaleDateString() : 'Present'}</span>
           </div>
         </div>
         
@@ -37,9 +37,16 @@ const TimelineItem: React.FC<{ experience: Experience; isLast: boolean }> = ({ e
           )}
         </div>
         
-        <p className="text-hunter-200 mb-4 leading-relaxed">
-          {experience.description}
-        </p>
+        {experience.responsibilities && (
+          <div className="mb-4">
+            <h4 className="text-white font-semibold mb-2">Key Responsibilities:</h4>
+            <ul className="list-disc list-inside text-hunter-200 space-y-1">
+              {experience.responsibilities.map((responsibility, index) => (
+                <li key={index}>{responsibility}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         
         {experience.achievements && experience.achievements.length > 0 && (
           <div className="mb-4">
@@ -82,9 +89,9 @@ const CertificationCard: React.FC<{ certification: Certification }> = ({ certifi
           <p className="text-emerald-400 font-semibold">{certification.issuer}</p>
         </div>
       </div>
-      {certification.credentialUrl && (
+      {certification.badgeUrl && (
         <a
-          href={certification.credentialUrl}
+          href={certification.badgeUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="text-hunter-300 hover:text-emerald-400 transition-colors"
@@ -96,15 +103,15 @@ const CertificationCard: React.FC<{ certification: Certification }> = ({ certifi
     
     <div className="flex items-center text-hunter-300 text-sm mb-3">
       <Calendar size={16} className="mr-1" />
-      <span>Issued: {certification.issueDate}</span>
-      {certification.expiryDate && (
-        <span className="ml-4">Expires: {certification.expiryDate}</span>
-      )}
+      <span>Completed: {certification.completionDate.toLocaleDateString()}</span>
+      <span className="ml-4 px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded text-xs">
+        {certification.status}
+      </span>
     </div>
     
-    {certification.description && (
-      <p className="text-hunter-200 leading-relaxed">{certification.description}</p>
-    )}
+    <div className="text-hunter-300 text-sm">
+      Category: {certification.category}
+    </div>
   </div>
 );
 

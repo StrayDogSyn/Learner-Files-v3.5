@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, Play, Filter, Search, Star, GitFork, Eye, Loader2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { ExternalLink, Github, Search, Star, Eye, Play, Loader2 } from 'lucide-react';
 import { projects } from '../data/portfolioData';
-import type { Project, GitHubRepo } from '../types/portfolio';
+import type { Project } from '../types/portfolio';
 import { useGitHubData } from '../services/githubApi';
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
@@ -72,9 +72,9 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
         
         {/* Actions */}
         <div className="flex gap-3">
-          {project.liveUrl && (
+          {project.demoUrl && (
             <a
-              href={project.liveUrl}
+              href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center px-3 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg hover:bg-emerald-500/30 transition-colors text-sm font-medium"
@@ -83,9 +83,9 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
               Live Demo
             </a>
           )}
-          {project.githubUrl && (
+          {project.repoUrl && (
             <a
-              href={project.githubUrl}
+              href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center px-3 py-2 glass-subtle text-hunter-200 hover:text-emerald-400 rounded-lg transition-colors text-sm font-medium"

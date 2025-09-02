@@ -10,6 +10,7 @@ const ContactForm: React.FC = () => {
     company: '',
     subject: '',
     message: '',
+    consultationType: 'other',
     projectType: '',
     budget: '',
     timeline: ''
@@ -66,6 +67,7 @@ const ContactForm: React.FC = () => {
         company: '',
         subject: '',
         message: '',
+        consultationType: 'other',
         projectType: '',
         budget: '',
         timeline: ''
@@ -345,9 +347,9 @@ export const Contact: React.FC = () => {
                       </div>
                       <div>
                         <div className="font-medium text-white group-hover:text-emerald-300 transition-colors">
-                          {property.platform}
+                          {property.name}
                         </div>
-                        <div className="text-hunter-300 text-sm">{property.handle}</div>
+                        <div className="text-hunter-300 text-sm">{property.description}</div>
                       </div>
                     </a>
                   ))}

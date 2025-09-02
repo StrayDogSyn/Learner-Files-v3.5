@@ -6,13 +6,13 @@ import type { TechSkill } from '../types/portfolio';
 const TechBadge: React.FC<{ skill: TechSkill }> = ({ skill }) => {
   const getProficiencyColor = (level: string) => {
     switch (level) {
-      case 'Expert':
+      case 'expert':
         return 'from-emerald-500 to-green-600';
-      case 'Advanced':
+      case 'advanced':
         return 'from-blue-500 to-cyan-600';
-      case 'Intermediate':
+      case 'intermediate':
         return 'from-yellow-500 to-orange-600';
-      case 'Beginner':
+      case 'beginner':
         return 'from-gray-500 to-slate-600';
       default:
         return 'from-hunter-500 to-hunter-600';
@@ -21,13 +21,13 @@ const TechBadge: React.FC<{ skill: TechSkill }> = ({ skill }) => {
 
   const getProficiencyWidth = (level: string) => {
     switch (level) {
-      case 'Expert':
+      case 'expert':
         return 'w-full';
-      case 'Advanced':
+      case 'advanced':
         return 'w-4/5';
-      case 'Intermediate':
+      case 'intermediate':
         return 'w-3/5';
-      case 'Beginner':
+      case 'beginner':
         return 'w-2/5';
       default:
         return 'w-1/2';
@@ -40,20 +40,21 @@ const TechBadge: React.FC<{ skill: TechSkill }> = ({ skill }) => {
         <h3 className="font-semibold text-white group-hover:text-emerald-300 transition-colors">
           {skill.name}
         </h3>
-        <span className={`px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${getProficiencyColor(skill.proficiency)} text-white`}>
-          {skill.proficiency}
+        <span className={`px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${getProficiencyColor(skill.proficiencyLevel)} text-white`}>
+          {skill.proficiencyLevel}
         </span>
       </div>
       
       {/* Proficiency Bar */}
       <div className="w-full bg-hunter-700/50 rounded-full h-2 mb-3">
-        <div className={`h-2 bg-gradient-to-r ${getProficiencyColor(skill.proficiency)} rounded-full ${getProficiencyWidth(skill.proficiency)} transition-all duration-500`}></div>
+        <div className={`h-2 bg-gradient-to-r ${getProficiencyColor(skill.proficiencyLevel)} rounded-full ${getProficiencyWidth(skill.proficiencyLevel)} transition-all duration-500`}></div>
       </div>
       
       {/* Badge */}
-      {skill.badge && (
+      {skill.badgeUrl && (
         <div className="text-xs text-hunter-300 bg-hunter-800/50 px-2 py-1 rounded">
-          {skill.badge}
+          <img src={skill.badgeUrl} alt={`${skill.name} badge`} className="w-4 h-4 inline mr-1" />
+          Badge
         </div>
       )}
     </div>

@@ -35,6 +35,14 @@ export const developerProfile: DeveloperProfile = {
     'Owner/operator of 4 active digital properties',
     'Community engagement instructor at The Moth',
     'Applied AI solutions for enterprise clients'
+  ],
+  keyDifferentiators: [
+    'Parallel development across 6 specialized IDEs for maximum efficiency',
+    '3 deployed AI Slack agents serving business automation needs',
+    'Integrated AI workflow combining Claude, Perplexity, and specialized tools',
+    'Owner/operator of 4 active digital properties',
+    'Community engagement instructor at The Moth',
+    'Applied AI solutions for enterprise clients'
   ]
 };
 
@@ -185,6 +193,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/ai-slack-agents',
     status: 'completed',
     createdDate: new Date('2023-09-01'),
+    category: 'ai',
     features: [
       'Automated customer inquiry routing and responses',
       'Intelligent workflow management and task assignment',
@@ -206,6 +215,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/portfolio',
     status: 'completed',
     createdDate: new Date('2024-01-01'),
+    category: 'web',
     features: [
       'Dynamic typing animations and glassmorphic design',
       'Real-time GitHub statistics and repository showcase',
@@ -227,6 +237,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/digital-ecosystem',
     status: 'completed',
     createdDate: new Date('2020-01-01'),
+    category: 'business',
     features: [
       'Main company site with professional services showcase',
       'Digital storytelling platform for creative content',
@@ -248,6 +259,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/advanced-calculator',
     status: 'completed',
     createdDate: new Date('2023-11-01'),
+    category: 'tools',
     features: [
       'Scientific and engineering calculation modes',
       'Calculation history with export functionality',
@@ -269,6 +281,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/strategy-games',
     status: 'in-progress',
     createdDate: new Date('2023-12-01'),
+    category: 'games',
     features: [
       'Multiple game variants with different difficulty levels',
       'AI opponents with adjustable intelligence',
@@ -290,6 +303,7 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/StrayDogSyn/cert-tracker',
     status: 'completed',
     createdDate: new Date('2023-10-01'),
+    category: 'tools',
     features: [
       'Certification progress tracking and reminders',
       'Professional development goal setting',
