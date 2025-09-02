@@ -645,7 +645,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Tech Stack */}
             <div className='flex flex-wrap gap-2 mb-4'>
-              {project.techStack.slice(0, 5).map((tech, index) => (
+              {(project.techStack || []).slice(0, 5).map((tech, index) => (
                 <span
                   key={index}
                   className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-emerald'
@@ -653,9 +653,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                   {tech}
                 </span>
               ))}
-              {project.techStack.length > 5 && (
+              {(project.techStack || []).length > 5 && (
                 <span className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-sage'>
-                  +{project.techStack.length - 5} more
+                  +{(project.techStack || []).length - 5} more
                 </span>
               )}
             </div>
@@ -710,8 +710,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Project Image */}
         <div className='relative overflow-hidden'>
           <img
-            src={project.screenshots[0]?.url}
-            alt={project.screenshots[0]?.alt}
+            src={project.screenshots?.[0]?.url || project.image || 'https://via.placeholder.com/400x200?text=No+Image'}
+            alt={project.screenshots?.[0]?.alt || project.title || 'Project image'}
             className={`w-full h-48 object-cover transition-transform duration-300 ${
               isHovered ? 'scale-105' : 'scale-100'
             }`}
@@ -795,7 +795,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
           {/* Tech Stack */}
           <div className='flex flex-wrap gap-2 mb-4'>
-            {project.techStack.slice(0, 4).map((tech, index) => (
+            {(project.techStack || []).slice(0, 4).map((tech, index) => (
               <span
                 key={index}
                 className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-emerald'
@@ -803,9 +803,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 {tech}
               </span>
             ))}
-            {project.techStack.length > 4 && (
+            {(project.techStack || []).length > 4 && (
               <span className='px-2 py-1 text-xs bg-glass-subtle border border-glass-border rounded text-hunter-sage'>
-                +{project.techStack.length - 4}
+                +{(project.techStack || []).length - 4}
               </span>
             )}
           </div>
