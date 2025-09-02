@@ -87,16 +87,18 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
 
   const getProgressColor = (progress: number) => {
     if (progress === 100) return 'text-green-500';
-    if (progress >= 80) return 'text-green-500';
-    if (progress >= 50) return 'text-yellow-500';
+    if (Number(progress) >= 80) return 'text-green-500';
+    if (Number(progress) >= 50) return 'text-yellow-500';
     return 'text-red-500';
   };
 
   const getCriticalTasks = () => {
-    if (!systemStatus?.systemHealth?.tasks) return [];
-    return systemStatus.systemHealth.tasks.filter((task: Task) => 
-      task.priority === 1 && task.status !== 'completed'
-    );
+    if (!systemStatus?.activeTasks) return [];
+    return systemStatus.activeTasks.filter((task: Task) => {
+      const priorityValue = typeof task.priority === 'number' ? task.priority : 
+        task.priority === 'high' ? 1 : task.priority === 'medium' ? 2 : 3;
+      return priorityValue <= 2 && task.status !== 'completed';
+    });
   };
 
   if (isInitializing) {
@@ -198,8 +200,8 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                     <div key={domain} className="bg-white/5 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-white font-medium">{domain}</span>
-                        <span className={`text-sm font-bold ${getProgressColor(progress as number)}`}>
-                          {(progress as number).toFixed(1)}%
+                        <span className={`text-sm font-bold ${getProgressColor(Number(progress))}`}>
+                          {Number(progress).toFixed(1)}%
                         </span>
                       </div>
                       <div className="bg-slate-600 rounded-full h-2">
@@ -266,21 +268,21 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-blue-400 mb-2">
-                  {systemStatus.systemHealth?.domains?.length || 0}
+                  {systemStatus.domains?.length || 0}
                 </div>
                 <div className="text-slate-300">Active Domains</div>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-green-400 mb-2">
-                  {systemStatus.systemHealth?.agents?.filter((a: Agent) => a.status === 'busy').length || 0}
+                  {systemStatus.agents?.filter((a: Agent) => a.status === 'busy').length || 0}
                 </div>
                 <div className="text-slate-300">Active Agents</div>
               </div>
               
               <div className="text-center">
                 <div className="text-3xl font-bold text-yellow-400 mb-2">
-                  {systemStatus.systemHealth?.tasks?.filter((t: Task) => t.status === 'in_progress').length || 0}
+                  {systemStatus.activeTasks?.filter((t: Task) => t.status === 'in_progress').length || 0}
                 </div>
                 <div className="text-slate-300">Tasks in Progress</div>
               </div>

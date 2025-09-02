@@ -4,7 +4,8 @@ import {
   CoordinationConfig, 
   CoordinationEvent, 
   AgentPerformance,
-  SystemHealth
+  SystemHealth,
+  AgentCapability
 } from '../types/coordination';
 import { DomainManager } from './DomainManager';
 import { TaskCoordinator } from './TaskCoordinator';
@@ -68,7 +69,7 @@ export class AgentOrchestrator {
       {
         id: 'marvel-quiz-agent',
         name: 'Marvel Quiz Specialist',
-        type: 'trae_agent',
+        type: 'repair',
         domainId: 'marvel-quiz',
         capabilities: ['react-components', 'game-logic', 'api-integration', 'state-management'],
         specialization: 'Marvel Quiz Application Development',
@@ -107,10 +108,14 @@ export class AgentOrchestrator {
       const agent: Agent = {
         id: config.id,
         name: config.name,
-        type: config.type as 'trae_agent',
+        type: 'trae_agent',
         domainId: config.domainId,
         status: 'idle',
-        capabilities: config.capabilities,
+        capabilities: config.capabilities.filter(cap => [
+          'html-repair', 'css-fixing', 'js-debugging', 'asset-optimization', 
+          'component-restoration', 'game-engine-repair', 'database-recovery', 
+          'ui-restoration', 'network-diagnostics', 'performance-monitoring'
+        ].includes(cap)) as AgentCapability[],
         specialization: config.specialization,
         maxConcurrentTasks: config.maxConcurrentTasks,
         lastActivity: new Date(),
@@ -118,9 +123,7 @@ export class AgentOrchestrator {
           tasksCompleted: 0,
           successRate: 1.0,
           averageCompletionTime: 0,
-          efficiency: 1.0,
-          averageResponseTime: 0,
-          lastUpdated: new Date()
+          efficiency: 1.0
         },
         description: `${config.name} agent specialized in ${config.specialization}`
       };
@@ -286,7 +289,12 @@ export class AgentOrchestrator {
       }
     });
 
-    return capabilities.length > 0 ? capabilities : ['general'];
+    const validCapabilities: AgentCapability[] = [
+      'html-repair', 'css-fixing', 'js-debugging', 'asset-optimization', 
+      'component-restoration', 'game-engine-repair', 'database-recovery', 
+      'ui-restoration', 'network-diagnostics', 'performance-monitoring'
+    ];
+    return capabilities.filter(cap => validCapabilities.includes(cap as AgentCapability)) as AgentCapability[];
   }
 
   private isTaskInSpecialization(task: Task, specialization: string): boolean {
@@ -321,9 +329,8 @@ export class AgentOrchestrator {
 
     // Check if agent has required capabilities
     const requiredCapabilities = this.inferTaskCapabilities(task);
-    const hasRequiredCapabilities = requiredCapabilities.some(cap => 
-      agent.capabilities.includes(cap) || agent.capabilities.includes('general')
-    );
+    const hasRequiredCapabilities = requiredCapabilities.length === 0 || 
+      requiredCapabilities.some(cap => agent.capabilities.includes(cap as AgentCapability));
 
     return hasRequiredCapabilities;
   }
@@ -410,9 +417,12 @@ export class AgentOrchestrator {
     
     const avgResponseTime = this.calculateAverageResponseTime();
     
+    const overallScore = this.calculateOverallHealthScore();
+    const status = overallSuccessRate > 0.8 ? 'healthy' as const : overallSuccessRate > 0.5 ? 'degraded' as const : 'critical' as const;
+    
     return {
-      overallStatus: overallSuccessRate > 0.8 ? 'healthy' as const : overallSuccessRate > 0.5 ? 'degraded' as const : 'critical' as const,
-      overallScore: this.calculateOverallHealthScore(),
+      overallStatus: status,
+      overallScore: overallScore,
       agentUtilization: (busyAgents.length / Math.max(1, activeAgents.length)) * 100,
       taskThroughput: this.calculateTaskThroughput(),
       errorRate: completedTasks.length > 0 ? failedTasks / completedTasks.length : 0,
@@ -427,7 +437,9 @@ export class AgentOrchestrator {
       alerts: [],
       tasks: this.taskCoordinator.getAllTasks(),
       domains: this.domainManager.getAllDomains(),
-      agents: allAgents
+      agents: allAgents,
+      status: status,
+      score: overallScore
     };
   }
 
@@ -541,7 +553,7 @@ export class AgentOrchestrator {
     
     this.emitEvent({
       id: `health-check-${Date.now()}`,
-      type: 'domain_status_changed',
+      type: 'health_check',
       timestamp: new Date(),
       data: { systemHealth },
       severity: systemHealth.overallScore < 50 ? 'warning' : 'info'
@@ -554,7 +566,7 @@ export class AgentOrchestrator {
     if (health.overallScore < thresholds.domainHealthScore) {
       this.emitEvent({
         id: `alert-low-health-${Date.now()}`,
-        type: 'domain_status_changed',
+        type: 'alert',
         timestamp: new Date(),
         data: { 
           type: 'low_system_health',
@@ -568,7 +580,7 @@ export class AgentOrchestrator {
     if (health.errorRate > thresholds.taskFailureRate) {
       this.emitEvent({
         id: `alert-high-error-rate-${Date.now()}`,
-        type: 'domain_status_changed',
+        type: 'alert',
         timestamp: new Date(),
         data: { 
           type: 'high_error_rate',
@@ -582,7 +594,7 @@ export class AgentOrchestrator {
     if (health.averageResponseTime > thresholds.agentResponseTime) {
       this.emitEvent({
         id: `alert-slow-response-${Date.now()}`,
-        type: 'domain_status_changed',
+        type: 'system_alert_raised',
         timestamp: new Date(),
         data: { 
           type: 'slow_response_time',

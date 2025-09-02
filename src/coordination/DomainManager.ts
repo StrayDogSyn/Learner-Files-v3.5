@@ -39,7 +39,9 @@ export class DomainManager {
       alerts: [],
       tasks: [],
       domains: [],
-      agents: []
+      agents: [],
+      status: 'healthy',
+      score: 100
     };
     
     // Domains will be initialized when initialize() is called

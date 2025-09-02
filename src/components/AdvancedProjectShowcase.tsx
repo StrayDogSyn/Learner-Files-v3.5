@@ -371,6 +371,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
                     category: (e.target.value as ProjectCard['category']) || undefined,
                   })
                 }
+                aria-label="Filter projects by category"
                 className='px-4 py-2 bg-glass-subtle border border-glass-border rounded-lg text-glass-light focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald transition-all duration-300'
               >
                 <option value=''>All Categories</option>
@@ -389,6 +390,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
                     difficulty: (e.target.value as ProjectCard['difficulty']) || undefined,
                   })
                 }
+                aria-label="Filter projects by difficulty level"
                 className='px-4 py-2 bg-glass-subtle border border-glass-border rounded-lg text-glass-light focus:ring-2 focus:ring-hunter-emerald focus:border-hunter-emerald transition-all duration-300'
               >
                 <option value=''>All Difficulties</option>
@@ -542,6 +544,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
               </h3>
               <button
                 onClick={() => setShowDemo(false)}
+                aria-label="Close demo modal"
                 className='text-gray-300 hover:text-white transition-colors'
               >
                 <FaTimes className='text-xl' />
@@ -713,10 +716,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <img
             src={project.screenshots[0]?.url}
             alt={project.screenshots[0]?.alt}
-            className='w-full h-48 object-cover transition-transform duration-300'
-            style={{
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-            }}
+            className={`w-full h-48 object-cover transition-transform duration-300 ${
+              isHovered ? 'scale-105' : 'scale-100'
+            }`}
           />
 
           {/* Overlay */}

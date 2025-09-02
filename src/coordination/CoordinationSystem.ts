@@ -164,17 +164,19 @@ export class CoordinationSystem {
 
   private createRecoveryTask(failedTask: Task, result: TaskExecutionResult): void {
     // Create a recovery task for critical failures
-    if (failedTask.priority <= 2) {
+    const numericPriority = typeof failedTask.priority === 'string' ? 
+      (failedTask.priority === 'high' ? 1 : failedTask.priority === 'medium' ? 3 : 5) : failedTask.priority;
+    if (numericPriority <= 2) {
       const recoveryTask = {
         domainId: failedTask.domainId,
         title: `Recovery: ${failedTask.title}`,
         description: `Recover from failed task: ${failedTask.title}. Error: ${result.error}`,
-        priority: Math.max(1, failedTask.priority - 1), // Higher priority for recovery
+        priority: Math.max(1, numericPriority - 1), // Higher priority for recovery
         estimatedDuration: failedTask.estimatedDuration * 1.5, // More time for recovery
         dependencies: [],
         revenueImpact: failedTask.revenueImpact * 0.8, // Slightly lower impact
         status: 'pending' as const,
-        domain: failedTask.domain
+        // domain property removed as it doesn't exist in Task interface
       };
       
       this.taskCoordinator.createTask(recoveryTask);
@@ -208,7 +210,8 @@ export class CoordinationSystem {
   }
 
   public getDomainStatus(domainId: string): Domain | null {
-    return this.domainManager.getDomain(domainId);
+    const domain = this.domainManager.getDomain(domainId);
+    return domain || null;
   }
 
   public getRepairProgress(): {
@@ -231,9 +234,11 @@ export class CoordinationSystem {
       totalProgress += progress;
       
       // Count critical issues (priority 1-2 tasks that are not completed)
-      criticalIssuesRemaining += domainTasks.filter(t => 
-        t.priority <= 2 && t.status !== 'completed'
-      ).length;
+      criticalIssuesRemaining += domainTasks.filter(t => {
+        const numericPriority = typeof t.priority === 'string' ? 
+          (t.priority === 'high' ? 1 : t.priority === 'medium' ? 3 : 5) : t.priority;
+        return numericPriority <= 2 && t.status !== 'completed';
+      }).length;
     });
     
     const overallProgress = allDomains.length > 0 ? 
@@ -336,7 +341,11 @@ export class CoordinationSystem {
     const domainReports = domains.map(domain => {
       const domainTasks = this.taskCoordinator.getTasksByDomain(domain.id);
       const issues = domainTasks
-        .filter(t => t.status === 'failed' || t.priority <= 2)
+        .filter(t => {
+          const numericPriority = typeof t.priority === 'string' ? 
+            (t.priority === 'high' ? 1 : t.priority === 'medium' ? 3 : 5) : t.priority;
+          return t.status === 'failed' || numericPriority <= 2;
+        })
         .map(t => t.title);
       
       const recommendations = this.generateDomainRecommendations(domain, domainTasks);
@@ -375,7 +384,11 @@ export class CoordinationSystem {
     const recommendations: string[] = [];
     
     const failedTasks = tasks.filter(t => t.status === 'failed');
-    const pendingCritical = tasks.filter(t => t.status === 'pending' && t.priority <= 2);
+    const pendingCritical = tasks.filter(t => {
+      const numericPriority = typeof t.priority === 'string' ? 
+        (t.priority === 'high' ? 1 : t.priority === 'medium' ? 3 : 5) : t.priority;
+      return t.status === 'pending' && numericPriority <= 2;
+    });
     
     if (failedTasks.length > 0) {
       recommendations.push(`Address ${failedTasks.length} failed tasks immediately`);
@@ -477,7 +490,6 @@ export class CoordinationSystem {
     const repairTasks = [
       {
         domainId: domain.id,
-        domain: domain.name,
         title: `Diagnose ${domain.name} Issues`,
         description: `Perform comprehensive diagnosis of ${domain.name} domain issues`,
         priority: 2,
@@ -488,7 +500,6 @@ export class CoordinationSystem {
       },
       {
         domainId: domain.id,
-        domain: domain.name,
         title: `Repair ${domain.name} Core Functions`,
         description: `Restore core functionality for ${domain.name} domain`,
         priority: 1,

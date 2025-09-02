@@ -207,7 +207,10 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
     }
   };
 
-  const getPriorityLabel = (priority: number): string => {
+  const getPriorityLabel = (priority: number | string): string => {
+    if (typeof priority === 'string') {
+      return priority;
+    }
     if (priority >= 8) return 'critical';
     if (priority >= 6) return 'high';
     if (priority >= 4) return 'medium';

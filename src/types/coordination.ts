@@ -15,10 +15,9 @@ export interface Domain {
 export interface Task {
   id: string;
   domainId: string;
-  domain: string;
   title: string;
   description: string;
-  priority: number;
+  priority: 'high' | 'medium' | 'low' | number;
   status: 'pending' | 'in_progress' | 'completed' | 'failed';
   assignedAgent?: string;
   estimatedDuration: number;
@@ -51,11 +50,14 @@ export interface Agent {
 
 export interface AgentPerformance {
   tasksCompleted: number;
-  averageCompletionTime: number;
   successRate: number;
+  averageCompletionTime: number;
   efficiency: number;
   averageResponseTime: number;
   lastUpdated: Date;
+  averageTaskTime: number;
+  errorCount: number;
+  lastTaskCompletion?: Date;
 }
 
 export interface DomainMetrics {
@@ -113,6 +115,9 @@ export interface SystemHealth {
   tasks: Task[];
   domains: Domain[];
   agents: Agent[];
+  // Additional properties for compatibility
+  status: 'healthy' | 'degraded' | 'critical';
+  score: number;
 }
 
 export interface Alert {
@@ -191,22 +196,12 @@ export type AnyDomain =
 
 // Event types for the coordination system
 export type CoordinationEventType = 
-  | 'system_initialized'
-  | 'domain_registered'
   | 'task_created'
   | 'task_assigned'
-  | 'task_started'
   | 'task_completed'
-  | 'task_failed'
-  | 'agent_registered'
-  | 'agent_assigned'
-  | 'agent_freed'
   | 'domain_status_changed'
   | 'agent_status_changed'
-  | 'domain_health_changed'
-  | 'system_alert_raised'
-  | 'repair_plan_generated'
-  | 'coordination_cycle_completed'
+  | 'agent_registered'
   | 'health_check'
   | 'alert'
   | 'system_paused'

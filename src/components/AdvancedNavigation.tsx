@@ -39,7 +39,7 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
 }) => {
   const {
     navigationState,
-    searchResults,
+    searchResults = [],
     searchSuggestions = [],
     keyboardShortcuts = [],
     navigateToSection,
@@ -69,15 +69,15 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
       switch (event.key) {
         case 'ArrowDown':
           event.preventDefault();
-          setSelectedSearchIndex(prev => (prev < searchResults.length - 1 ? prev + 1 : 0));
+          setSelectedSearchIndex(prev => (prev < (searchResults?.length || 0) - 1 ? prev + 1 : 0));
           break;
         case 'ArrowUp':
           event.preventDefault();
-          setSelectedSearchIndex(prev => (prev > 0 ? prev - 1 : searchResults.length - 1));
+          setSelectedSearchIndex(prev => (prev > 0 ? prev - 1 : (searchResults?.length || 0) - 1));
           break;
         case 'Enter':
           event.preventDefault();
-          if (selectedSearchIndex >= 0 && searchResults[selectedSearchIndex]) {
+          if (selectedSearchIndex >= 0 && searchResults && searchResults[selectedSearchIndex]) {
             handleSearchResultClick(searchResults[selectedSearchIndex]);
           }
           break;
@@ -357,7 +357,7 @@ const AdvancedNavigation: React.FC<AdvancedNavigationProps> = ({
               {/* Search Results */}
               <div ref={searchResultsRef} className='max-h-96 overflow-y-auto'>
                 {navigationState.searchQuery ? (
-                  searchResults.length > 0 ? (
+                  searchResults && searchResults.length > 0 ? (
                     <div className='space-y-2'>
                       {searchResults.map((result, index) => (
                         <button

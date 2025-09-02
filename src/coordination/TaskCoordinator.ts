@@ -52,7 +52,6 @@ export class TaskCoordinator {
     const criticalTasks: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>[] = [
       {
         domainId: 'html-structure',
-        domain: 'html-structure',
         title: 'Fix HTML Structure Issues',
         description: 'Repair broken HTML elements and improve semantic structure',
         priority: 1,
@@ -63,7 +62,6 @@ export class TaskCoordinator {
       },
       {
         domainId: 'asset-loading',
-        domain: 'asset-loading',
         title: 'Optimize Asset Loading',
         description: 'Fix slow loading assets and implement lazy loading',
         priority: 2,
@@ -74,7 +72,6 @@ export class TaskCoordinator {
       },
       {
         domainId: 'digital-ecosystem',
-        domain: 'digital-ecosystem',
         title: 'Fix Digital Ecosystem Disconnection',
         description: 'Repair broken domain links and network integrations',
         priority: 3,
@@ -317,14 +314,14 @@ export class TaskCoordinator {
     if (!domain) return;
 
     // Update domain status based on critical task completion
-    if (success && task.priority === 1) {
+    if (success && (task.priority === 1 || task.priority === 'high')) {
       // Critical task completed successfully
       if (domain.status === 'failed') {
         this.domainManager.updateDomainStatus(task.domainId, 'degraded');
       } else if (domain.status === 'degraded') {
         // Check if all critical tasks for this domain are complete
         const criticalTasks = Array.from(this.tasks.values()).filter(t => 
-          t.domainId === task.domainId && t.priority === 1
+          t.domainId === task.domainId && (t.priority === 1 || t.priority === 'high')
         );
         const completedCriticalTasks = criticalTasks.filter(t => t.status === 'completed');
         
@@ -385,7 +382,8 @@ export class TaskCoordinator {
         output: success ? `Task ${task.title} completed successfully` : undefined,
         error: success ? undefined : `Task ${task.title} failed due to system constraints`,
         metrics: {
-          complexity: task.priority,
+          complexity: typeof task.priority === 'string' ? 
+            (task.priority === 'high' ? 1 : task.priority === 'medium' ? 3 : 5) : task.priority,
           revenueImpact: task.revenueImpact
         }
       });
@@ -402,7 +400,9 @@ export class TaskCoordinator {
     if (domain.status === 'failed') baseRate = 0.5;
 
     // Adjust for task priority (higher priority = more critical = potentially harder)
-    const priorityAdjustment = (6 - task.priority) * 0.05; // Priority 1 = +0.25, Priority 5 = -0.05
+    const numericPriority = typeof task.priority === 'string' ? 
+      (task.priority === 'high' ? 1 : task.priority === 'medium' ? 3 : 5) : task.priority;
+    const priorityAdjustment = (6 - numericPriority) * 0.05; // Priority 1 = +0.25, Priority 5 = -0.05
     
     return Math.max(0.1, Math.min(0.95, baseRate + priorityAdjustment));
   }
