@@ -2,6 +2,13 @@ import { Project } from './projects';
 
 export interface EnhancedProject extends Project {
   githubRepo?: string; // GitHub repository URL for API access
+  featured?: boolean; // Whether the project is featured
+  liveDemo?: string; // Live demo URL
+  screenshots?: {
+    url: string;
+    alt: string;
+  }[];
+  demoConfig?: any; // Demo configuration object
   stats?: {
     stars?: number;
     forks?: number;
@@ -14,6 +21,7 @@ export interface EnhancedProject extends Project {
     accessibility?: number;
     seo?: number;
     bestPractices?: number;
+    lighthouseScore?: number;
   };
   tags?: string[];
   complexity?: 'beginner' | 'intermediate' | 'advanced';
@@ -42,6 +50,8 @@ export const enhancedProjects: EnhancedProject[] = [
     liveUrl: 'https://straydogsyn.github.io/Learner-Files-v3.5/marvel-quiz-game/',
     githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game',
     githubRepo: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
+    featured: true,
+    liveDemo: 'https://straydogsyn.github.io/Learner-Files-v3.5/marvel-quiz-game/',
     image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Marvel%20superhero%20quiz%20game%20interface%20with%20red%20and%20gold%20colors%2C%20modern%20UI%20design%2C%20comic%20book%20style%2C%20interactive%20buttons%2C%20score%20display&image_size=landscape_16_9',
     category: 'featured',
     status: 'live',
@@ -57,7 +67,8 @@ export const enhancedProjects: EnhancedProject[] = [
       performance: 95,
       accessibility: 88,
       seo: 92,
-      bestPractices: 90
+      bestPractices: 90,
+      lighthouseScore: 91
     },
     tags: ['React', 'Gaming', 'API Integration', 'Responsive'],
     complexity: 'intermediate',
@@ -95,6 +106,8 @@ export const enhancedProjects: EnhancedProject[] = [
     liveUrl: 'https://straydog-syndications-llc.com/',
     githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
     githubRepo: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
+    featured: true,
+    liveDemo: 'https://straydog-syndications-llc.com/',
     image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20business%20website%20with%20glassmorphic%20design%2C%20modern%20layout%2C%20corporate%20branding%2C%20clean%20interface&image_size=landscape_16_9',
     category: 'featured',
     status: 'live',
@@ -110,7 +123,8 @@ export const enhancedProjects: EnhancedProject[] = [
       performance: 98,
       accessibility: 95,
       seo: 96,
-      bestPractices: 94
+      bestPractices: 94,
+      lighthouseScore: 96
     },
     tags: ['Business', 'Portfolio', 'Professional', 'Multi-Domain'],
     complexity: 'advanced',
@@ -158,12 +172,37 @@ export const getProjectMetrics = (projectId: string) => {
     performance: 0,
     accessibility: 0,
     seo: 0,
-    bestPractices: 0
+    bestPractices: 0,
+    lighthouseScore: 0
   };
 };
 
 export const getAllEnhancedProjects = (): EnhancedProject[] => {
   return enhancedProjects.sort((a, b) => a.priority - b.priority);
+};
+
+// Get overall project statistics
+export const getOverallProjectStats = () => {
+  const total = enhancedProjects.length;
+  const live = enhancedProjects.filter(p => p.status === 'live').length;
+  const featured = enhancedProjects.filter(p => p.featured).length;
+  const categories = [...new Set(enhancedProjects.map(p => p.category))];
+  const difficulties = [...new Set(enhancedProjects.map(p => p.complexity))];
+  
+  // Calculate average lighthouse score
+  const projectsWithLighthouse = enhancedProjects.filter(p => p.metrics?.lighthouseScore);
+  const averageLighthouseScore = projectsWithLighthouse.length > 0 
+    ? projectsWithLighthouse.reduce((sum, p) => sum + (p.metrics?.lighthouseScore || 0), 0) / projectsWithLighthouse.length
+    : 0;
+
+  return {
+    total,
+    live,
+    featured,
+    categories,
+    difficulties,
+    averageLighthouseScore
+  };
 };
 
 export default enhancedProjects;

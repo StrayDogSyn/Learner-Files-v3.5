@@ -16,6 +16,7 @@ export interface SearchResult {
   url: string;
   category?: string;
   tags?: string[];
+  highlights?: string[];
 }
 
 export interface SearchSuggestion {
@@ -44,8 +45,11 @@ export interface NavigationConfig {
 
 export interface BreadcrumbItem {
   label: string;
+  path: string;
   href?: string;
+  icon?: React.ReactNode;
   isActive?: boolean;
+  onClick?: () => void;
 }
 
 export interface NavigationContext {

@@ -20,7 +20,7 @@ import {
   FaExpand,
   FaTimes,
 } from 'react-icons/fa';
-import { enhancedProjects, getProjectStats } from '../data/enhancedProjects';
+import { enhancedProjects, getProjectStats, getOverallProjectStats } from '../data/enhancedProjects';
 import type { EnhancedProject } from '../data/enhancedProjects';
 import type {
   ProjectCard,
@@ -147,7 +147,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           project.description?.toLowerCase().includes(query) ||
           (project.techStack || []).some(tech => tech.toLowerCase().includes(query)) ||
           (project.tags || []).some(tag => tag.toLowerCase().includes(query)) ||
-          (project.keyFeatures || []).some(feature => feature.toLowerCase().includes(query))
+          (project.features || []).some(feature => feature.toLowerCase().includes(query))
       );
     }
 
@@ -217,11 +217,11 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           aValue = difficultyOrder[a.complexity || 'beginner'];
           bValue = difficultyOrder[b.complexity || 'beginner'];
           break;
-        case 'githubStars':
-          aValue = a.stats?.stars || 0;
-          bValue = b.stats?.stars || 0;
+        case 'priority':
+          aValue = a.priority || 0;
+          bValue = b.priority || 0;
           break;
-        case 'lastCommit':
+        case 'lastUpdated':
           aValue = new Date(a.stats?.lastUpdated || 0);
           bValue = new Date(b.stats?.lastUpdated || 0);
           break;
@@ -246,7 +246,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
   }, [enhancedProjects, activeFilters, sortConfig, searchQuery, maxProjects]);
 
   // Get project statistics
-  const projectStats = useMemo(() => getProjectStats(), []);
+  const projectStats = useMemo(() => getOverallProjectStats(), []);
 
   // Handle filter changes
   const handleFilterChange = useCallback((filter: Partial<ProjectFilter>) => {

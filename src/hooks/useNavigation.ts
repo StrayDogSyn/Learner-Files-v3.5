@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAnalytics } from './useAnalytics';
-import type { SearchResult, SearchSuggestion, KeyboardShortcut } from '../types/navigation';
+import type { SearchResult, SearchSuggestion, KeyboardShortcut, BreadcrumbItem } from '../types/navigation';
 
 export interface NavigationItem {
   path: string;
@@ -15,6 +15,7 @@ export interface NavigationState {
   isMobileMenuOpen: boolean;
   searchQuery: string;
   recentSearches: string[];
+  breadcrumbs: BreadcrumbItem[];
 }
 
 export const useNavigation = () => {
@@ -26,7 +27,8 @@ export const useNavigation = () => {
     isSearchOpen: false,
     isMobileMenuOpen: false,
     searchQuery: '',
-    recentSearches: []
+    recentSearches: [],
+    breadcrumbs: []
   });
   
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
