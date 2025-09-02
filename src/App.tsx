@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
-import DynamicMarvelBackground from './components/DynamicMarvelBackground';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { TechStack } from './pages/TechStack';
@@ -10,7 +9,7 @@ import { Contact } from './pages/Contact';
 
 function App() {
   return (
-    <DynamicMarvelBackground intensity="subtle" changeInterval={20000} animated={true}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
       <Router basename="/Learner-Files-v3.5">
         <Navigation />
         <Routes>
@@ -22,7 +21,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </Router>
-    </DynamicMarvelBackground>
+    </div>
   );
 }
 

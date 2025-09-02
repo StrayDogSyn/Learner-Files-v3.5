@@ -15,60 +15,62 @@ interface Project {
 const projects: Project[] = [
   {
     id: '1',
-    title: 'Marvel Quiz Game',
-    description: 'Interactive React-based quiz game featuring Marvel characters with dynamic scoring, timer functionality, and responsive design.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    category: 'Frontend',
+    title: 'Cortana AI System',
+    description: 'Advanced AI performance monitoring system with Lighthouse audits, real-time analytics, and automated optimization recommendations.',
+    technologies: ['Claude 4.1 API', 'React', 'TypeScript', 'Node.js', 'Lighthouse'],
+    category: 'AI/ML',
     featured: true,
-    githubUrl: '#'
+    liveUrl: 'https://straydogsyndicationllc.tech',
+    githubUrl: 'https://github.com/StrayDogSyndicate/cortana-ai'
   },
   {
     id: '2',
-    title: 'AI Recipe Generator',
-    description: 'Machine learning application that generates personalized recipes based on dietary preferences and available ingredients.',
-    technologies: ['Python', 'TensorFlow', 'FastAPI', 'React', 'PostgreSQL'],
+    title: 'Claude 4.1 Integration Platform',
+    description: 'Comprehensive AI automation workflows leveraging Claude 4.1 for content generation, code analysis, and technical documentation.',
+    technologies: ['Claude 4.1 API', 'Python', 'FastAPI', 'React', 'LangChain'],
     category: 'AI/ML',
     featured: true,
-    liveUrl: '#',
-    githubUrl: '#'
+    liveUrl: 'https://straydogsyndicationllc.tech/ai-demos',
+    githubUrl: 'https://github.com/StrayDogSyndicate/claude-integration'
   },
   {
     id: '3',
-    title: 'Restaurant Management System',
-    description: 'Full-stack application for restaurant operations including inventory management, order processing, and staff scheduling.',
-    technologies: ['Node.js', 'Express', 'MongoDB', 'React', 'Socket.io'],
+    title: 'Second Story Platform',
+    description: 'Non-profit justice reform initiative platform with community engagement tools, case tracking, and advocacy resources.',
+    technologies: ['React', 'Node.js', 'PostgreSQL', 'Express', 'Supabase'],
     category: 'Full-Stack',
     featured: true,
-    liveUrl: '#',
-    githubUrl: '#'
+    liveUrl: 'https://straydog-secondstory.org',
+    githubUrl: 'https://github.com/StrayDogSyndicate/second-story'
   },
   {
     id: '4',
-    title: 'Culinary Analytics Dashboard',
-    description: 'Data visualization platform analyzing culinary trends and customer preferences using advanced analytics.',
-    technologies: ['Python', 'Pandas', 'Plotly', 'Streamlit', 'AWS'],
-    category: 'AI/ML',
-    featured: false,
-    githubUrl: '#'
+    title: 'Professional Portfolio',
+    description: 'Modern glassmorphic portfolio showcasing AI/ML expertise, technical architecture, and 20+ years of customer service excellence.',
+    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'Framer Motion'],
+    category: 'Frontend',
+    featured: true,
+    liveUrl: 'https://straydogsyndicationllc.tech/portfolio',
+    githubUrl: 'https://github.com/StrayDogSyndicate/portfolio'
   },
   {
     id: '5',
-    title: 'Portfolio Website',
-    description: 'Modern, responsive portfolio website with glassmorphism design and interactive elements.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+    title: 'Technical Documentation Hub',
+    description: 'Comprehensive technical writing platform featuring Outlier AI content, API documentation, and development guides.',
+    technologies: ['Next.js', 'MDX', 'TypeScript', 'Tailwind CSS', 'Vercel'],
     category: 'Frontend',
     featured: false,
-    liveUrl: '#',
-    githubUrl: '#'
+    liveUrl: 'https://docs.straydogsyndicationllc.tech',
+    githubUrl: 'https://github.com/StrayDogSyndicate/docs'
   },
   {
     id: '6',
-    title: 'API Gateway Service',
-    description: 'Microservices architecture with API gateway for handling authentication, rate limiting, and request routing.',
-    technologies: ['Node.js', 'Express', 'Redis', 'Docker', 'Kubernetes'],
-    category: 'Backend',
+    title: 'Trae 2.0 Builder Integration',
+    description: 'Advanced IDE integration showcasing AI-powered development workflows and automated code generation capabilities.',
+    technologies: ['TypeScript', 'Node.js', 'Claude 4.1 API', 'VS Code API', 'Electron'],
+    category: 'AI/ML',
     featured: false,
-    githubUrl: '#'
+    githubUrl: 'https://github.com/StrayDogSyndicate/trae-integration'
   }
 ];
 
@@ -110,11 +112,33 @@ export const Portfolio = () => {
     <div className='min-h-screen py-20 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-7xl mx-auto'>
         {/* Header */}
-        <div className='text-center mb-16'>
-          <h1 className='text-4xl sm:text-5xl font-bold text-white mb-6'>My Portfolio</h1>
-          <p className='text-xl text-hunter-200 max-w-3xl mx-auto'>
-            A collection of projects showcasing my technical expertise across AI/ML, full-stack development, and modern web technologies.
+        <div className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            AI/ML Engineer & Technical Architect
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-8">
+            Transforming 20+ years of customer excellence into cutting-edge technical solutions
           </p>
+          
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <div className="text-3xl font-bold text-blue-400 mb-2">20+</div>
+              <div className="text-sm text-gray-300">Years Customer Service Excellence</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <div className="text-3xl font-bold text-purple-400 mb-2">Claude 4.1</div>
+              <div className="text-sm text-gray-300">AI/ML Specialization</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <div className="text-3xl font-bold text-pink-400 mb-2">Live</div>
+              <div className="text-sm text-gray-300">Working Demos</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
+              <div className="text-3xl font-bold text-green-400 mb-2">Full-Stack</div>
+              <div className="text-sm text-gray-300">Development Expertise</div>
+            </div>
+          </div>
         </div>
 
         {/* Featured Projects */}

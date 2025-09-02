@@ -24,9 +24,9 @@ export const Navigation = () => {
           {/* Logo */}
           <Link to='/' className='flex items-center space-x-2'>
             <div className='w-8 h-8 bg-gradient-to-br from-hunter-400 to-hunter-600 rounded-lg flex items-center justify-center'>
-              <span className='text-white font-bold text-sm'>SD</span>
+              <span className='text-white font-bold text-sm'>EH</span>
             </div>
-            <span className='text-white font-semibold text-lg'>StrayDog Syndications</span>
+            <span className='text-white font-semibold text-lg'>Eric "Hunter" Petross</span>
           </Link>
 
           {/* Desktop Navigation */}
