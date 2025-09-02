@@ -54,7 +54,7 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
-    "@react-three/fiber": "^8.15.0",
+    "@react-three/fiber": "^8.18.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@types/node-fetch": "^2.6.13",
     "@types/react-router-dom": "^5.3.3",
