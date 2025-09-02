@@ -14,14 +14,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting - Temporarily relaxed for deployment */
-    "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
 
     /* Path mapping */
     "baseUrl": ".",
@@ -30,5 +27,5 @@
     }
   },
   "include": ["src"],
-  // "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
