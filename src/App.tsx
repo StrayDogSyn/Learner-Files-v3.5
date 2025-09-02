@@ -11,7 +11,7 @@ import { Contact } from './pages/Contact';
 function App() {
   return (
     <DynamicMarvelBackground intensity="subtle" changeInterval={20000} animated={true}>
-      <Router>
+      <Router basename="/Learner-Files-v3.5">
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
