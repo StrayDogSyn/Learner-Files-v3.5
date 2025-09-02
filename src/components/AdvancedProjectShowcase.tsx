@@ -217,17 +217,13 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           aValue = difficultyOrder[a.complexity || 'beginner'];
           bValue = difficultyOrder[b.complexity || 'beginner'];
           break;
-        case 'priority':
-          aValue = a.priority || 0;
-          bValue = b.priority || 0;
-          break;
         case 'lastUpdated':
           aValue = new Date(a.stats?.lastUpdated || 0);
           bValue = new Date(b.stats?.lastUpdated || 0);
           break;
         default:
-          aValue = a.priority;
-          bValue = b.priority;
+          aValue = a.priority || 0;
+          bValue = b.priority || 0;
       }
 
       if (sortConfig.direction === 'asc') {
