@@ -11,7 +11,7 @@ export const useIntersectionObserver = (
 ) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [hasTriggered, setHasTriggered] = useState(false);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   const {
     threshold = 0.1,
@@ -60,7 +60,7 @@ export const useMultipleIntersectionObserver = (
   const [intersections, setIntersections] = useState<boolean[]>(
     new Array(count).fill(false)
   );
-  const elementRefs = useRef<(HTMLElement | null)[]>(
+  const elementRefs = useRef<(HTMLDivElement | null)[]>(
     new Array(count).fill(null)
   );
 
@@ -107,7 +107,7 @@ export const useMultipleIntersectionObserver = (
     };
   }, [threshold, rootMargin, triggerOnce]);
 
-  const setElementRef = (index: number) => (element: HTMLElement | null) => {
+  const setElementRef = (index: number) => (element: HTMLDivElement | null) => {
     elementRefs.current[index] = element;
   };
 

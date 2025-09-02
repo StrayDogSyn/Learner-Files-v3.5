@@ -1,5 +1,4 @@
-import React from 'react';
-import { ExternalLink, Github, Code, Brain, Database, Globe } from 'lucide-react';
+import { Code, Brain, Database, Globe } from 'lucide-react';
 import { useIntersectionObserver, useMultipleIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface Project {

@@ -58,6 +58,7 @@ body {
 /* Glassmorphism Effects */
 .glass-card {
   background: rgba(53, 94, 59, 0.1);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(53, 94, 59, 0.2);
   border-radius: 16px;
@@ -65,12 +66,14 @@ body {
 
 .glass-subtle {
   background: rgba(53, 94, 59, 0.05);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(53, 94, 59, 0.1);
 }
 
 .glass-medium {
   background: rgba(53, 94, 59, 0.15);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(53, 94, 59, 0.3);
 }
@@ -78,6 +81,7 @@ body {
 /* Button Styles */
 .glass-button {
   background: rgba(53, 94, 59, 0.1);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(53, 94, 59, 0.2);
   color: var(--hunter-200);
