@@ -21,33 +21,49 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'marvel-quiz-game/package-lock.json'
-      
-      - name: Build Marvel Quiz Game
-        run: |
-          cd marvel-quiz-game
-          npm ci
-          npm run build
-      
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
       - name: Create deployment directory
         run: |
           mkdir -p _site
+          # Copy main portfolio files
           cp index.html _site/
-          cp -r assets _site/ 2>/dev/null || echo "No assets directory found"
-          cp -r public _site/ 2>/dev/null || echo "No public directory found"
-          cp favicon.ico _site/ 2>/dev/null || cp assets/brands/favicon.png _site/favicon.ico 2>/dev/null || echo "No favicon found"
-          # Copy Marvel Quiz Game
-          mkdir -p _site/marvel-quiz-game
-          cp -r marvel-quiz-game/dist/* _site/marvel-quiz-game/ 2>/dev/null || echo "Marvel Quiz Game not built"
+          cp favicon.ico _site/ 2>/dev/null || echo "No favicon.ico found"
+          
+          # Copy assets directory
+          if [ -d "assets" ]; then
+            cp -r assets _site/
+            echo "Assets directory copied successfully"
+          else
+            echo "No assets directory found"
+          fi
+          
+          # Copy public directory if it exists
+          if [ -d "public" ]; then
+            cp -r public _site/
+            echo "Public directory copied successfully"
+          else
+            echo "No public directory found"
+          fi
+          
+          # Copy Marvel Quiz Game directory (static files only)
+          if [ -d "marvel-quiz-game" ]; then
+            mkdir -p _site/marvel-quiz-game
+            # Copy the entire marvel-quiz-game directory for now
+            cp -r marvel-quiz-game _site/
+            echo "Marvel Quiz Game directory copied successfully"
+          else
+            echo "No marvel-quiz-game directory found"
+          fi
+          
+          # List contents for debugging
+          echo "Deployment directory contents:"
           ls -la _site/
+          echo "Assets contents:"
+          ls -la _site/assets/ 2>/dev/null || echo "No assets in _site"
+          echo "Marvel Quiz Game contents:"
+          ls -la _site/marvel-quiz-game/ 2>/dev/null || echo "No marvel-quiz-game in _site"
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

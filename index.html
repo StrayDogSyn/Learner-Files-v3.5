@@ -62,18 +62,14 @@
     
     <style>
         :root {
-            --primary: #355e3b;
-            --primary-rgb: 53, 94, 59;
+            --primary: #50C878;
+            --primary-rgb: 80, 200, 120;
             --accent-black: #0b0b0b;
             --dark-gray: #1e1e1e;
             --light-contrast: #f5f5f5;
-            --secondary-accent: #a3b9a4;
+            --secondary-accent: #355E3B;
             --utility-gray: #3f3f3f;
             --highlight: #c2c2c2;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --blur: blur(10px);
             --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
         }
 
@@ -101,9 +97,9 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 300px;
-            height: 300px;
-            background-image: url('assets/brands/mainLogo.png');
+            width: 400px;
+            height: 400px;
+            background-image: url('assets/brands/banner.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -115,24 +111,14 @@
             pointer-events: none;
         }
 
-        @keyframes floatingGradient {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            50% { transform: rotate(180deg) scale(1.1); }
-        }
-
         @keyframes spin {
             from { transform: translate(-50%, -50%) rotate(0deg); }
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-        .glass {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--glass-shadow);
-        }
+
+
+
 
         /* Header */
         header {
@@ -160,10 +146,7 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--light-contrast);
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -173,7 +156,7 @@
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
+            background: var(--primary);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -211,7 +194,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary-accent) 100%);
+            background: var(--primary);
             transition: width 0.3s ease;
         }
 
@@ -238,18 +221,14 @@
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 900;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 50%, var(--light-contrast) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 5s ease infinite;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(53, 94, 59, 0.5);
+            color: var(--primary);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(80, 200, 120, 0.5);
             letter-spacing: -0.02em;
         }
 
         .hero-subtitle {
             font-size: 1.8rem;
-            color: var(--primary);
+            color: var(--light-contrast);
             margin-bottom: 1rem;
             font-weight: 600;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.8);
@@ -268,8 +247,9 @@
             line-height: 1.8;
             max-width: 800px;
             margin: 0 auto 3rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.9);
+            font-weight: 400;
         }
 
         .hero-achievements {
@@ -283,13 +263,12 @@
         }
 
         .achievement {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 15px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 1.5rem;
             text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .achievement-number {
@@ -297,6 +276,7 @@
             font-weight: 800;
             color: var(--primary);
             display: block;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .achievement-text {
@@ -324,9 +304,9 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, rgba(53, 94, 59, 0.8) 100%);
+            background: var(--primary);
             color: white;
-            box-shadow: 0 4px 15px rgba(53, 94, 59, 0.4);
+            box-shadow: 0 4px 15px rgba(80, 200, 120, 0.4);
         }
 
         .btn-primary:hover {
@@ -335,11 +315,9 @@
         }
 
         .btn-glass {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
+            background: rgba(30, 30, 30, 0.8);
             color: var(--light-contrast);
-            border: 2px solid var(--glass-border);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .btn-glass:hover {
@@ -363,11 +341,8 @@
             font-size: 3rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(53, 94, 59, 0.3);
+            color: var(--primary);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(80, 200, 120, 0.3);
             letter-spacing: -0.005em;
         }
 
@@ -381,16 +356,14 @@
         }
 
         .demo-showcase {
-            background: linear-gradient(135deg, rgba(163, 185, 164, 0.12), rgba(53, 94, 59, 0.06));
-            -webkit-backdrop-filter: blur(12px) saturate(1.1);
-            backdrop-filter: blur(12px) saturate(1.1);
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 20px;
-            border: 1px solid rgba(163, 185, 164, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 3rem;
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(53, 94, 59, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .demo-showcase::before {
@@ -400,7 +373,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary-accent) 100%);
+            background: var(--primary);
         }
 
         .demo-features {
@@ -429,13 +402,11 @@
         /* Skills Hierarchy */
         .skills-section {
             padding: 5rem 2rem;
-            background: linear-gradient(135deg, rgba(163, 185, 164, 0.12), rgba(53, 94, 59, 0.06));
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 1.5rem;
             margin: 2rem;
-            -webkit-backdrop-filter: blur(12px) saturate(1.1);
-            backdrop-filter: blur(12px) saturate(1.1);
-            box-shadow: 0 8px 32px rgba(53, 94, 59, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(163, 185, 164, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .skills-content {
@@ -448,11 +419,8 @@
             font-weight: 800;
             text-align: center;
             margin-bottom: 4rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(53, 94, 59, 0.4);
+            color: var(--primary);
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(80, 200, 120, 0.4);
             letter-spacing: -0.01em;
             position: relative;
         }
@@ -463,28 +431,27 @@
         }
 
         .skill-level {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 20px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2rem;
             position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .skill-level.expert {
             border-color: #d4af37;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, var(--glass-bg) 100%);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(30, 30, 30, 0.8) 100%);
         }
 
         .skill-level.advanced {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(53, 94, 59, 0.1) 0%, var(--glass-bg) 100%);
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.1) 0%, rgba(30, 30, 30, 0.8) 100%);
         }
 
         .skill-level.intermediate {
             border-color: var(--secondary-accent);
-            background: linear-gradient(135deg, rgba(163, 185, 164, 0.1) 0%, var(--glass-bg) 100%);
+            background: linear-gradient(135deg, rgba(53, 94, 59, 0.1) 0%, rgba(30, 30, 30, 0.8) 100%);
         }
 
         .skill-level-title {
@@ -525,7 +492,7 @@
         /* Professional Ecosystem */
         .ecosystem-section {
             padding: 5rem 2rem;
-            background: linear-gradient(135deg, rgba(53, 94, 59, 0.05) 0%, rgba(163, 185, 164, 0.02) 100%);
+            background: rgba(11, 11, 11, 0.5);
         }
 
         .ecosystem-content {
@@ -540,11 +507,9 @@
         }
 
         .ecosystem-card {
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
+            background: rgba(30, 30, 30, 0.8);
             border-radius: 20px;
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2.5rem;
             text-align: center;
             text-decoration: none;
@@ -552,12 +517,13 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .ecosystem-card:hover {
             transform: translateY(-10px);
             border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(53, 94, 59, 0.3);
+            box-shadow: 0 20px 40px rgba(80, 200, 120, 0.3);
         }
 
         .ecosystem-icon {
@@ -600,10 +566,7 @@
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary-accent) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
         }
 
         .contact-description {
@@ -623,22 +586,21 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: var(--blur);
-            backdrop-filter: var(--blur);
-            border: 2px solid var(--glass-border);
+            background: rgba(30, 30, 30, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
             color: var(--light-contrast);
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .social-link:hover {
             background: var(--primary);
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(53, 94, 59, 0.4);
+            box-shadow: 0 10px 20px rgba(80, 200, 120, 0.4);
         }
 
         .copyright {
@@ -710,10 +672,7 @@
             }
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+
 
         .scroll-indicator {
             position: absolute;
@@ -740,6 +699,7 @@
             color: var(--primary);
             font-size: 1.8rem;
             margin-bottom: 2rem;
+            font-weight: 600;
         }
 
         .demo-launch-container {
@@ -847,7 +807,7 @@
                 </div>
                 
                 <div class="demo-launch-container">
-                    <a href="./marvel-quiz-game/index.html" class="btn btn-primary demo-launch-btn" target="_blank" rel="noopener">🚀 Launch Live Demo</a>
+                    <a href="./marvel-quiz-game/demo.html" class="btn btn-primary demo-launch-btn" target="_blank" rel="noopener">🚀 Launch Live Demo</a>
                 </div>
                 
                 <p class="demo-tech-info">
@@ -923,7 +883,7 @@
                     <p class="ecosystem-description">Complete professional portfolio showcasing technical capabilities and project demonstrations</p>
                 </a>
                 
-                <a href="https://straydogsyn.github.io/Learner-Files-v3.5/marvel-quiz-game/" class="ecosystem-card fade-in" target="_blank" rel="noopener">
+                <a href="./marvel-quiz-game/demo.html" class="ecosystem-card fade-in" target="_blank" rel="noopener">
                     <div class="ecosystem-icon">🎮</div>
                     <h3 class="ecosystem-title">Marvel Quiz Demo</h3>
                     <p class="ecosystem-description">Live interactive demonstration of full-stack development and technical architecture skills</p>
