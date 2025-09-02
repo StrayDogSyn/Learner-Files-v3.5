@@ -1,4 +1,4 @@
-import { Code, Brain, Database, Globe } from 'lucide-react';
+import { Code, Brain, Database, Globe, User, Award, Briefcase, GraduationCap, Star, ExternalLink, Github } from 'lucide-react';
 import { useIntersectionObserver, useMultipleIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface Project {
@@ -129,109 +129,101 @@ export const Portfolio = () => {
     <div className='min-h-screen' style={{
       background: 'linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%)'
     }}>
+      {/* Animated Particle Background */}
+      <div className="particles">
+        {Array.from({ length: 50 }).map((_, i) => (
+          <div
+            key={i}
+            className="particle"
+            style={{
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 20}s`,
+              animationDuration: `${15 + Math.random() * 10}s`
+            }}
+          />
+        ))}
+      </div>
+
       {/* Hero Section */}
       <section 
         ref={heroRef.elementRef}
-        className={`min-h-screen flex flex-col justify-center items-center px-8 text-center relative animate-fade-in-up ${
-          heroRef.isIntersecting ? 'in-view' : ''
+        className={`min-h-screen flex flex-col justify-center items-center px-8 text-center relative ${
+          heroRef.isIntersecting ? 'animate-fade-in-up' : 'opacity-0'
         }`}
       >
-        <div className='max-w-4xl mx-auto'>
-          <h1 className='font-extrabold mb-6 animate-fade-in-up' style={{
-            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-            background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+        <div className='max-w-6xl mx-auto'>
+          {/* StrayDog Branding */}
+          <div className="mb-8 animate-float">
+            <div className="inline-flex items-center gap-4 glass-card px-8 py-4 mb-6">
+              <User className="w-8 h-8 text-hunter-light" />
+              <div className="text-left">
+                <h2 className="text-2xl font-bold gradient-text">Eric 'Hunter' Petross</h2>
+                <p className="text-hunter-light text-sm">StrayDog Syndicate LLC</p>
+              </div>
+            </div>
+          </div>
+
+          <h1 className='font-extrabold mb-8 gradient-text' style={{
+            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+            lineHeight: '1.1'
           }}>
-            AI/ML Engineer & Technical Architect
+            Applied AI Solutions Engineer
           </h1>
-          <p className='text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-12 opacity-90'>
-            Transforming 20+ years of customer excellence into cutting-edge technical solutions
-          </p>
           
-          {/* Professional Stats Grid */}
+          <div className="mb-8">
+            <p className='text-2xl font-semibold gradient-text-alt mb-4'>
+              Technical Architect & Full-Stack Developer
+            </p>
+            <p className='text-xl text-hunter-light max-w-3xl mx-auto leading-relaxed opacity-90'>
+              Specializing in full-stack development and LLM integration. I architect scalable applications that bridge cutting-edge AI capabilities with production-ready infrastructure. From New England, building the future one intelligent system at a time.
+            </p>
+          </div>
+
+          {/* Professional Credentials */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            <div className="glass-card px-6 py-3 flex items-center gap-2">
+              <Award className="w-5 h-5 text-hunter-accent" />
+              <span className="text-hunter-light font-medium">Justice Through Code Certified</span>
+            </div>
+            <div className="glass-card px-6 py-3 flex items-center gap-2">
+              <Briefcase className="w-5 h-5 text-hunter-accent" />
+              <span className="text-hunter-light font-medium">The Moth Instructor</span>
+            </div>
+            <div className="glass-card px-6 py-3 flex items-center gap-2">
+              <GraduationCap className="w-5 h-5 text-hunter-accent" />
+              <span className="text-hunter-light font-medium">CCRI Computer Science</span>
+            </div>
+          </div>
+          
+          {/* Professional Stats Grid - Hunter Green Glassmorphic */}
           <div 
             ref={statsRef.elementRef}
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto mt-12 animate-scale-in ${
-              statsRef.isIntersecting ? 'in-view' : ''
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto mt-12 ${
+              statsRef.isIntersecting ? 'animate-fade-in-up' : 'opacity-0'
             }`}
           >
-            <div className='group cursor-pointer' style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '16px',
-              padding: '2rem',
-              transition: 'all 0.3s ease'
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 212, 170, 0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
-              <div className='text-4xl font-bold text-teal-400 mb-2'>20+</div>
-              <div className='text-sm text-gray-400 uppercase tracking-wider'>Years Customer Service Excellence</div>
+            <div className='glass-card group cursor-pointer animate-pulse-hunter'>
+              <div className='text-5xl font-bold gradient-text mb-3'>20+</div>
+              <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>Years Customer Excellence</div>
+              <div className='mt-2 text-xs text-hunter-secondary'>Service & Leadership</div>
             </div>
-            <div className='group cursor-pointer' style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '16px',
-              padding: '2rem',
-              transition: 'all 0.3s ease'
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(124, 58, 237, 0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
-              <div className='text-4xl font-bold text-purple-400 mb-2'>Claude 4.1</div>
-              <div className='text-sm text-gray-400 uppercase tracking-wider'>AI/ML Specialization</div>
+            
+            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.2s' }}>
+              <div className='text-5xl font-bold gradient-text mb-3'>6</div>
+              <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>Specialized IDEs</div>
+              <div className='mt-2 text-xs text-hunter-secondary'>Multi-Platform Development</div>
             </div>
-            <div className='group cursor-pointer' style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '16px',
-              padding: '2rem',
-              transition: 'all 0.3s ease'
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(236, 72, 153, 0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
-              <div className='text-4xl font-bold text-pink-400 mb-2'>Live</div>
-              <div className='text-sm text-gray-400 uppercase tracking-wider'>Working Demos</div>
+            
+            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.4s' }}>
+              <div className='text-5xl font-bold gradient-text mb-3'>3</div>
+              <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>AI Slack Agents</div>
+              <div className='mt-2 text-xs text-hunter-secondary'>Business Automation</div>
             </div>
-            <div className='group cursor-pointer' style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '16px',
-              padding: '2rem',
-              transition: 'all 0.3s ease'
-            }} onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(34, 197, 94, 0.1)';
-            }} onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}>
-              <div className='text-4xl font-bold text-green-400 mb-2'>Full-Stack</div>
-              <div className='text-sm text-gray-400 uppercase tracking-wider'>Development Expertise</div>
+            
+            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.6s' }}>
+              <div className='text-5xl font-bold gradient-text mb-3'>∞</div>
+              <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>Outlier AI Writer</div>
+              <div className='mt-2 text-xs text-hunter-secondary'>Content & Training</div>
             </div>
           </div>
         </div>
@@ -239,23 +231,22 @@ export const Portfolio = () => {
 
       {/* Projects Section */}
       <section 
+        id="projects"
         ref={featuredRef.elementRef}
-        className={`py-20 px-8 animate-fade-in-up ${
-          featuredRef.isIntersecting ? 'in-view' : ''
+        className={`py-20 px-8 ${
+          featuredRef.isIntersecting ? 'animate-fade-in-up' : 'opacity-0'
         }`}
       >
         <div className='max-w-7xl mx-auto'>
 
           {/* Featured Projects */}
           <div className="mb-20">
-            <h2 className="text-4xl font-bold text-center mb-16 text-white" style={{
-              background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              Featured Projects
-            </h2>
+            <div className="text-center mb-16">
+              <h2 className='text-5xl font-bold gradient-text mb-4'>Featured Projects</h2>
+              <p className="text-xl text-hunter-light max-w-3xl mx-auto">
+                Showcasing innovative solutions that bridge AI capabilities with real-world applications
+              </p>
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
               {featuredProjects.map((project, index) => {
                 const IconComponent = getCategoryIcon(project.category);
@@ -264,48 +255,27 @@ export const Portfolio = () => {
                   <div 
                     key={project.id} 
                     ref={setProjectRef(index)}
-                    className={`group cursor-pointer animate-fade-in-up ${
-                      projectIntersections[index] ? 'in-view' : ''
+                    className={`glass-card group cursor-pointer ${
+                      projectIntersections[index] ? 'animate-fade-in-up' : 'opacity-0'
                     }`}
                     style={{
-                      transitionDelay: `${index * 100}ms`,
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(15px)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    borderRadius: '20px',
-                    padding: '2.5rem',
-                    transition: 'all 0.4s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-10px)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                    e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 212, 170, 0.15)';
-                    e.currentTarget.style.border = '1px solid rgba(0, 212, 170, 0.3)';
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-                  }}>
+                      transitionDelay: `${index * 100}ms`
+                    }}>
                     <div className="flex items-center mb-6">
-                      <div className={`w-12 h-12 bg-gradient-to-br ${getCategoryColor(project.category)} rounded-lg flex items-center justify-center mr-4`}>
-                        <IconComponent className="w-6 h-6 text-white" />
+                      <div className="w-14 h-14 glass-card flex items-center justify-center mr-4 p-3">
+                        <IconComponent className="w-7 h-7 text-hunter-accent" />
                       </div>
-                      <span className="px-4 py-2 rounded-full text-sm font-semibold text-teal-300" style={{
-                        background: 'rgba(0, 212, 170, 0.1)',
-                        border: '1px solid rgba(0, 212, 170, 0.2)'
-                      }}>
-                        {project.category}
-                      </span>
+                      <div className="flex-1">
+                        <span className="glass-card px-4 py-2 text-sm font-semibold text-hunter-accent inline-block">
+                          {project.category}
+                        </span>
+                      </div>
                     </div>
-                    <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-teal-300 transition-colors duration-300">{project.title}</h3>
-                    <p className="text-gray-300 mb-8 leading-relaxed text-lg">{project.description}</p>
+                    <h3 className="text-3xl font-bold mb-4 gradient-text group-hover:scale-105 transition-transform duration-300">{project.title}</h3>
+                    <p className="text-hunter-light mb-8 leading-relaxed text-lg opacity-90">{project.description}</p>
                     <div className="flex flex-wrap gap-3 mb-8">
                       {project.technologies.map((tech) => (
-                        <span key={tech} className="px-4 py-2 rounded-full text-sm font-medium" style={{
-                          background: 'rgba(124, 58, 237, 0.1)',
-                          border: '1px solid rgba(124, 58, 237, 0.2)',
-                          color: '#A78BFA'
-                        }}>
+                        <span key={tech} className="glass-card px-4 py-2 text-sm font-medium text-hunter-light hover:text-hunter-accent hover:scale-105 transition-all duration-200 cursor-pointer">
                           {tech}
                         </span>
                       ))}
@@ -316,12 +286,9 @@ export const Portfolio = () => {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
-                          style={{
-                            background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-                            color: 'white'
-                          }}
+                          className="glass-card px-8 py-3 font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 gradient-text hover:text-white"
                         >
+                          <ExternalLink className="w-4 h-4" />
                           View Demo
                         </a>
                       )}
@@ -330,12 +297,9 @@ export const Portfolio = () => {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-8 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:scale-105"
-                          style={{
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
-                            background: 'rgba(255, 255, 255, 0.05)'
-                          }}
+                          className="glass-card px-8 py-3 font-semibold text-hunter-light transition-all duration-300 hover:scale-105 flex items-center gap-2 hover:text-hunter-accent"
                         >
+                          <Github className="w-4 h-4" />
                           View Code
                         </a>
                       )}
@@ -348,14 +312,8 @@ export const Portfolio = () => {
 
           {/* Other Projects */}
           <div className="mb-20">
-            <h2 className="text-3xl font-bold text-center mb-12 text-white" style={{
-              background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              Other Projects
-            </h2>
+            <h2 className="text-5xl font-bold mb-4 text-center gradient-text">Other Projects</h2>
+            <p className="text-xl text-hunter-light text-center mb-12 opacity-90">Additional work and experiments</p>
             <div 
               ref={otherProjectsRef.elementRef}
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up ${
@@ -369,48 +327,25 @@ export const Portfolio = () => {
                   <div 
                     key={project.id} 
                     ref={setOtherProjectRef(index)}
-                    className={`group cursor-pointer animate-slide-in-left ${
+                    className={`glass-card group cursor-pointer hover:scale-105 transition-all duration-300 animate-slide-in-left ${
                       otherProjectIntersections[index] ? 'in-view' : ''
                     }`}
                     style={{
-                      transitionDelay: `${index * 150}ms`,
-                    background: 'rgba(255, 255, 255, 0.03)',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                    borderRadius: '16px',
-                    padding: '2rem',
-                    transition: 'all 0.3s ease'
-                  }} onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-5px)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
-                    e.currentTarget.style.boxShadow = '0 15px 30px rgba(124, 58, 237, 0.1)';
-                    e.currentTarget.style.border = '1px solid rgba(124, 58, 237, 0.2)';
-                  }} onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
-                    e.currentTarget.style.boxShadow = 'none';
-                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.08)';
-                  }}>
+                      transitionDelay: `${index * 150}ms`
+                    }}>
                     <div className="flex items-center mb-4">
-                      <div className={`w-8 h-8 bg-gradient-to-br ${getCategoryColor(project.category)} rounded-lg flex items-center justify-center mr-3`}>
-                        <IconComponent className="w-4 h-4 text-white" />
+                      <div className="w-12 h-12 glass-card flex items-center justify-center mr-3 p-2">
+                        <IconComponent className="w-6 h-6 text-hunter-accent" />
                       </div>
-                      <span className="px-3 py-1 rounded-full text-xs font-medium text-purple-300" style={{
-                        background: 'rgba(124, 58, 237, 0.1)',
-                        border: '1px solid rgba(124, 58, 237, 0.2)'
-                      }}>
+                      <span className="glass-card px-3 py-1 text-xs font-semibold text-hunter-accent">
                         {project.category}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold mb-3 text-white group-hover:text-purple-300 transition-colors duration-300">{project.title}</h3>
-                    <p className="text-gray-400 mb-4 text-sm leading-relaxed">{project.description}</p>
+                    <h3 className="text-lg font-bold mb-3 gradient-text group-hover:scale-105 transition-transform duration-300">{project.title}</h3>
+                    <p className="text-hunter-light mb-4 text-sm leading-relaxed opacity-90">{project.description}</p>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {project.technologies.map((tech) => (
-                        <span key={tech} className="px-3 py-1 rounded-full text-xs font-medium" style={{
-                          background: 'rgba(0, 212, 170, 0.08)',
-                          border: '1px solid rgba(0, 212, 170, 0.15)',
-                          color: '#5EEAD4'
-                        }}>
+                        <span key={tech} className="glass-card px-3 py-1 text-xs font-medium text-hunter-light hover:text-hunter-accent transition-colors duration-200">
                           {tech}
                         </span>
                       ))}
@@ -421,12 +356,9 @@ export const Portfolio = () => {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:scale-105"
-                          style={{
-                            background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-                            color: 'white'
-                          }}
+                          className="glass-card px-4 py-2 text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-1 gradient-text hover:text-white"
                         >
+                          <ExternalLink className="w-3 h-3" />
                           Demo
                         </a>
                       )}
@@ -435,12 +367,9 @@ export const Portfolio = () => {
                           href={project.githubUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm px-4 py-2 rounded-lg font-medium text-white transition-all duration-300 hover:scale-105"
-                          style={{
-                            border: '1px solid rgba(255, 255, 255, 0.15)',
-                            background: 'rgba(255, 255, 255, 0.03)'
-                          }}
+                          className="glass-card px-4 py-2 text-sm font-semibold text-hunter-light transition-all duration-300 hover:scale-105 flex items-center gap-1 hover:text-hunter-accent"
                         >
+                          <Github className="w-3 h-3" />
                           Code
                         </a>
                       )}
