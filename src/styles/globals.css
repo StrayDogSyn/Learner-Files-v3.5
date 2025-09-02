@@ -1,92 +1,305 @@
+/* Hunter Green Portfolio CSS System - Professional Portfolio for Eric 'Hunter' Petross */
+/* Color Palette: Hunter Green (#355E3B) with premium glassmorphism effects */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* Enhanced Professional CSS Variables */
+/* CSS Custom Properties - Hunter Green Color System */
 :root {
-  /* Enhanced Hunter Green Palette */
-  --hunter-green: #355e3b;
-  --hunter-green-light: #4a7c59;
-  --hunter-green-dark: #2d4f32;
-  --hunter-green-muted: #5a7c5a;
-  --deep-forest: #1a3d1a;
-  --emerald-accent: #40e0d0;
-  --sage-grey-green: #8fbc8f;
-  --metallic-hunter: #4a6741;
+  /* Primary Hunter Green Palette */
+  --hunter-green: #355E3B;
+  --hunter-green-light: #4A7C59;
+  --hunter-green-dark: #2C4A32;
+  --hunter-green-darker: #1F3326;
   
-  /* Professional Color System */
-  --primary: var(--hunter-green);
-  --primary-light: var(--hunter-green-light);
-  --primary-dark: var(--hunter-green-dark);
-  --accent: var(--emerald-accent);
-  --neutral: var(--sage-grey-green);
-  --surface: #1a1a1a;
-  --surface-light: #2a2a2a;
-  --text-primary: #ffffff;
-  --text-secondary: #b0b0b0;
-  --text-muted: #808080;
+  /* Accent Colors */
+  --hunter-accent: #7CB342;
+  --hunter-gold: #D4AF37;
+  --emerald-accent: #40E0D0;
   
-  /* Enhanced Glassmorphism */
-  --glass-bg-subtle: rgba(53, 94, 59, 0.05);
-  --glass-bg-medium: rgba(53, 94, 59, 0.1);
-  --glass-bg-strong: rgba(53, 94, 59, 0.15);
-  --glass-border-subtle: rgba(255, 255, 255, 0.1);
-  --glass-border-medium: rgba(255, 255, 255, 0.15);
-  --glass-border-strong: rgba(255, 255, 255, 0.2);
+  /* Glassmorphism Colors */
+  --glass-bg: rgba(53, 94, 59, 0.1);
+  --glass-bg-darker: rgba(53, 94, 59, 0.2);
+  --glass-border: rgba(53, 94, 59, 0.3);
+  --glass-shadow: rgba(53, 94, 59, 0.4);
   
-  /* Professional Blur Effects */
-  --blur-subtle: blur(8px);
-  --blur-medium: blur(12px);
-  --blur-strong: blur(16px);
-  --blur-intense: blur(20px);
+  /* Neutral Colors */
+  --bg-primary: #0F1419;
+  --bg-secondary: #1A1F2E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0BEC5;
+  --text-muted: #78909C;
   
-  /* Enhanced Shadow System */
-  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --shadow-strong: 0 8px 32px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 20px rgba(64, 224, 208, 0.3);
-  --shadow-hunter: 0 8px 32px rgba(53, 94, 59, 0.2);
+  /* Gradients */
+  --gradient-hunter: linear-gradient(135deg, var(--hunter-green) 0%, var(--hunter-green-dark) 100%);
+  --gradient-glass: linear-gradient(135deg, var(--glass-bg) 0%, var(--glass-bg-darker) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--hunter-accent) 0%, var(--hunter-green) 100%);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Typography System */
+.text-hunter {
+  color: var(--hunter-green);
+}
+
+.text-hunter-light {
+  color: var(--hunter-green-light);
+}
+
+.text-accent {
+  color: var(--hunter-accent);
+}
+
+.text-emerald {
+  color: var(--emerald-accent);
+}
+
+.text-gold {
+  color: var(--hunter-gold);
+}
+
+/* Background System */
+.bg-hunter {
+  background-color: var(--hunter-green);
+}
+
+.bg-hunter-gradient {
+  background: var(--gradient-hunter);
+}
+
+.bg-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.bg-glass-darker {
+  background: var(--glass-bg-darker);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Glassmorphism Component System */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 12px 40px var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  border-color: var(--hunter-green-light);
+}
+
+.glass-button {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 12px 24px;
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.glass-button:hover {
+  background: var(--glass-bg-darker);
+  border-color: var(--hunter-green);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+.glass-button.primary {
+  background: var(--gradient-hunter);
+  border-color: var(--hunter-green);
+  color: white;
+}
+
+.glass-button.primary:hover {
+  background: var(--gradient-accent);
+  box-shadow: 0 6px 20px rgba(53, 94, 59, 0.4);
+}
+
+/* Project Card Enhancements */
+.project-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-hunter);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+.project-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--hunter-green);
+  box-shadow: 
+    0 20px 40px rgba(53, 94, 59, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section Styles */
+.hero-gradient {
+  background: radial-gradient(ellipse at center, var(--hunter-green-dark) 0%, var(--bg-primary) 70%);
+  position: relative;
+}
+
+/* Navigation Enhancements */
+.nav-link {
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  color: var(--text-secondary);
+}
+
+.nav-link:hover {
+  color: var(--hunter-green);
+  background: var(--glass-bg);
+}
+
+.nav-link.active {
+  color: var(--hunter-green);
+  background: var(--glass-bg-darker);
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .glass-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
   
-  /* Metallic Accents */
-  --metallic-gold: #d4af37;
-  --metallic-silver: #c0c0c0;
-  --metallic-copper: #b87333;
-  --metallic-bronze: #cd7f32;
+  .project-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
   
-  /* Spacing & Layout */
-  --spacing-xs: 0.25rem;
-  --spacing-sm: 0.5rem;
-  --spacing-md: 1rem;
-  --spacing-lg: 1.5rem;
-  --spacing-xl: 2rem;
-  --spacing-2xl: 3rem;
-  --spacing-3xl: 4rem;
-  
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  
-  /* Typography Scale */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  
-  /* Typography */
-  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-  
-  /* Enhanced Transitions */
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  .glass-button {
+    padding: 10px 20px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Focus and Accessibility */
+.glass-button:focus,
+.nav-link:focus {
+  outline: 2px solid var(--hunter-green);
+  outline-offset: 2px;
+}
+
+/* Utility Classes */
+.text-gradient {
+  background: var(--gradient-hunter);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-hunter {
+  border-color: var(--hunter-green);
+}
+
+.shadow-hunter {
+  box-shadow: 0 4px 16px var(--glass-shadow);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hunter-green);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hunter-green-light);
 }
 
 /* Enhanced Base Styles */

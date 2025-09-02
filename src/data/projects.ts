@@ -2,6 +2,46 @@ import { Project, PersonalInfo } from '@/types/core';
 
 export const projects: Project[] = [
   {
+    id: 'marvel-quiz-game',
+    title: 'Marvel Cinematic Universe Quiz',
+    description: 'Interactive Marvel quiz game with dynamic backgrounds, multiple game modes, and AI-powered features. Showcases advanced React architecture with 3D effects.',
+    technologies: ['React', 'TypeScript', 'Three.js', 'React Three Fiber', 'Framer Motion', 'Tailwind CSS'],
+    liveUrl: '/marvel-quiz-game',
+    githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game',
+    imageUrl: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Marvel%20superhero%20quiz%20game%20interface%20with%203D%20effects%20and%20dynamic%20backgrounds%20modern%20gaming%20UI&image_size=landscape_16_9',
+    featured: true,
+    status: 'completed',
+    category: 'game',
+    highlights: [
+      'Multiple game modes with increasing difficulty',
+      '3D particle effects and dynamic backgrounds',
+      'Advanced state management with Zustand',
+      'Character-themed visual effects'
+    ],
+    challenges: [
+      'Implementing smooth 3D animations in React',
+      'Managing complex game state across modes',
+      'Optimizing performance for visual effects',
+      'Creating engaging user interactions'
+    ],
+    learnings: [
+      'Advanced React Three Fiber techniques',
+      'Complex state management patterns',
+      'Performance optimization for 3D graphics',
+      'Game development UI/UX principles'
+    ],
+    metrics: {
+      performance: 'Smooth 60fps animations',
+      users: 'Interactive demo available',
+      impact: 'Showcases advanced React skills'
+    },
+    timeline: {
+      start: '2024-01',
+      end: '2024-02',
+      duration: '2 months'
+    }
+  },
+  {
     id: 'ai-recipe-optimizer',
     title: 'AI Recipe Optimizer',
     description: 'Machine learning system that analyzes nutritional data and user preferences to suggest optimized recipes. Built during my culinary background transition to tech.',
