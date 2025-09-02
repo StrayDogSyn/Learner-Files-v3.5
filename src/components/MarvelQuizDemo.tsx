@@ -20,7 +20,7 @@ import {
   FaGamepad,
 } from 'react-icons/fa';
 import type { DemoConfiguration, DemoState, DemoPreset, GameDemoConfig } from '../types/demo';
-import { demoIntegration } from '../services/demoIntegration';
+// Demo integration service temporarily removed
 import GlassCard from './GlassCard';
 
 interface MarvelQuizDemoProps {

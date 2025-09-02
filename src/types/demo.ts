@@ -92,25 +92,25 @@ export interface GameDemoConfig {
   };
 }
 
-// Demo Integration Service Types
-export interface DemoIntegrationService {
-  createDemoSession(config: DemoConfiguration): Promise<string>;
-  getSession(sessionId: string): Promise<DemoState | null>;
-  startDemo(sessionId: string, preset?: DemoPreset): Promise<void>;
-  stopDemo(sessionId: string): Promise<void>;
-  pauseDemo(sessionId: string): void;
-  resumeDemo(sessionId: string): void;
-  updateDemoState(sessionId: string, updates: Partial<DemoState>): void;
-  getAnalytics(sessionId: string): DemoAnalytics;
-  trackInteraction(sessionId: string, interaction: DemoInteraction): Promise<void>;
-  createTutorial(config: DemoConfiguration): Promise<TutorialState>;
-  startTutorial(tutorialId: string): Promise<TutorialState>;
-  nextTutorialStep(tutorialId: string): Promise<TutorialStep | null>;
-  createGameDemo(config: GameDemoConfig): void;
-  createCodeSandbox(config: any): Promise<string>;
-  updateConfiguration(sessionId: string, config: any): Promise<void>;
-  createAPIPlayground(config: DemoConfiguration): Promise<string>;
-}
+// Demo Integration Service Types (temporarily disabled)
+// export interface DemoIntegrationService {
+//   createDemoSession(config: DemoConfiguration): Promise<string>;
+//   getSession(sessionId: string): Promise<DemoState | null>;
+//   startDemo(sessionId: string, preset?: DemoPreset): Promise<void>;
+//   stopDemo(sessionId: string): Promise<void>;
+//   pauseDemo(sessionId: string): void;
+//   resumeDemo(sessionId: string): void;
+//   updateDemoState(sessionId: string, updates: Partial<DemoState>): void;
+//   getAnalytics(sessionId: string): DemoAnalytics;
+//   trackInteraction(sessionId: string, interaction: DemoInteraction): Promise<void>;
+//   createTutorial(config: DemoConfiguration): Promise<TutorialState>;
+//   startTutorial(tutorialId: string): Promise<TutorialState>;
+//   nextTutorialStep(tutorialId: string): Promise<TutorialStep | null>;
+//   createGameDemo(config: GameDemoConfig): void;
+//   createCodeSandbox(config: any): Promise<string>;
+//   updateConfiguration(sessionId: string, config: any): Promise<void>;
+//   createAPIPlayground(config: DemoConfiguration): Promise<string>;
+// }
 
 // Tutorial Types
 export interface TutorialStep {

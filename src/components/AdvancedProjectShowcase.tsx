@@ -146,8 +146,7 @@ const AdvancedProjectShowcase: React.FC<AdvancedProjectShowcaseProps> = ({
           project.title?.toLowerCase().includes(query) ||
           project.description?.toLowerCase().includes(query) ||
           (project.techStack || []).some(tech => tech.toLowerCase().includes(query)) ||
-          (project.tags || []).some(tag => tag.toLowerCase().includes(query)) ||
-          (project.features || []).some(feature => feature.toLowerCase().includes(query))
+          (project.tags || []).some(tag => tag.toLowerCase().includes(query))
       );
     }
 

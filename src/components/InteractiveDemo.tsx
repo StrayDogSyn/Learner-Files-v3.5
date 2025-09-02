@@ -20,7 +20,7 @@ import {
   FaEyeSlash,
 } from 'react-icons/fa';
 import type { DemoConfiguration, DemoState, DemoPreset, TutorialState } from '../types/demo';
-import { demoIntegration } from '../services/demoIntegration';
+// Demo integration service temporarily removed
 import GlassCard from './GlassCard';
 import BrandImage from './BrandImage';
 
@@ -58,9 +58,10 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
   useEffect(() => {
     const initializeDemo = async () => {
       try {
-        const newSessionId = await demoIntegration.createDemoSession(config);
+        // TODO: Implement demo session creation
+        const newSessionId = 'demo-session-' + Date.now();
         setSessionId(newSessionId);
-        const session = await demoIntegration.getSession(newSessionId);
+        const session = null; // await demoIntegration.getSession(newSessionId);
         setDemoState(session || null);
         setIsLoading(false);
       } catch (err) {
@@ -76,7 +77,7 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
   useEffect(() => {
     const updateDemoState = async () => {
       if (sessionId && demoState) {
-        const session = await demoIntegration.getSession(sessionId);
+        const session = null; // await demoIntegration.getSession(sessionId);
         setDemoState(session || null);
       }
     };
@@ -87,7 +88,7 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
   useEffect(() => {
     return () => {
       if (sessionId) {
-        demoIntegration.stopDemo(sessionId);
+        // demoIntegration.stopDemo(sessionId);
       }
     };
   }, [sessionId]);
@@ -104,7 +105,7 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
           setCurrentPreset(preset);
         }
 
-        demoIntegration.startDemo(sessionId, preset);
+        // demoIntegration.startDemo(sessionId, preset);
         onDemoStart?.(sessionId);
 
         // Handle different demo types
@@ -136,6 +137,8 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
 
   const initializeGameDemo = async () => {
     // Initialize game-specific features
+    // TODO: Implement game demo creation
+    /*
     demoIntegration.createGameDemo({
       difficulty: 'medium',
       scoreTracking: true,
@@ -149,11 +152,14 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
         screenReader: false,
       },
     });
+    */
   };
 
   const initializeAPIPlayground = async () => {
     // Initialize API playground
-    const playgroundUrl = await demoIntegration.createAPIPlayground({
+    const playgroundUrl = ''; // TODO: Implement API playground creation
+    /*
+    await demoIntegration.createAPIPlayground({
       id: 'api-playground',
       name: 'API Playground',
       description: 'Interactive API testing environment',
@@ -184,6 +190,7 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
         },
       ],
     });
+    */
 
     if (iframeRef.current) {
       iframeRef.current.src = playgroundUrl;
@@ -192,7 +199,9 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
 
   const initializeCodeSandbox = async () => {
     try {
-      const sandboxUrl = await demoIntegration.createCodeSandbox({
+      const sandboxUrl = ''; // TODO: Implement code sandbox creation
+      /*
+      await demoIntegration.createCodeSandbox({
         files: {
           'App.js': {
             content: `import React from 'react';
@@ -233,6 +242,7 @@ export default App;`,
         },
         environment: 'create-react-app',
       });
+      */
 
       if (iframeRef.current) {
         iframeRef.current.src = sandboxUrl;
@@ -260,7 +270,7 @@ export default App;`,
   const toggleCode = useCallback(() => {
     setShowCode(!showCode);
     if (sessionId) {
-      demoIntegration.updateConfiguration(sessionId, { codeVisible: !showCode });
+      // demoIntegration.updateConfiguration(sessionId, { codeVisible: !showCode });
     }
   }, [showCode, sessionId]);
 
@@ -303,15 +313,15 @@ export default App;`,
        ]
     };
 
-    const tutorial = demoIntegration.createTutorial(tutorialConfig);
-    const tutorialState = await demoIntegration.startTutorial('tutorial-1');
+    // const tutorial = demoIntegration.createTutorial(tutorialConfig);
+    const tutorialState = null; // await demoIntegration.startTutorial('tutorial-1');
     setTutorialState(tutorialState);
     setShowTutorial(true);
   }, []);
 
   const nextTutorialStep = useCallback(() => {
     if (tutorialState) {
-      demoIntegration.nextTutorialStep(tutorialState.id);
+      // demoIntegration.nextTutorialStep(tutorialState.id);
       setTutorialState({ ...tutorialState });
     }
   }, [tutorialState]);
@@ -327,12 +337,15 @@ export default App;`,
   const handleInteraction = useCallback(
     (interaction: string, data?: Record<string, any>) => {
       if (sessionId) {
+        // TODO: Implement interaction tracking
+        /*
         demoIntegration.trackInteraction(sessionId, {
           id: `interaction-${Date.now()}`,
           type: interaction,
           timestamp: new Date(),
           data: data || {}
         });
+        */
       }
     },
     [sessionId]

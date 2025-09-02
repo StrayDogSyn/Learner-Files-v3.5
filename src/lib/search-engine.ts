@@ -168,7 +168,7 @@ class SearchEngine {
       type: 'project' as const,
       title: project.title,
       description: project.description,
-      content: `${project.title} ${project.description} ${project.technologies.join(' ')} ${project.features?.join(' ') || ''}`,
+      content: `${project.title} ${project.description} ${project.technologies.join(' ')} ${project.tags?.join(' ') || ''}`,
       tags: [...project.technologies, ...(project.tags || [])],
       category: project.category,
       metadata: {
