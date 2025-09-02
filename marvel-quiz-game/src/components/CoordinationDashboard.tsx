@@ -187,8 +187,8 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                 
                 <div className="bg-slate-700 rounded-full h-4">
                   <div 
-                    className="bg-gradient-to-r from-purple-500 to-blue-500 h-4 rounded-full transition-all duration-1000"
-                    style={{ width: `${repairProgress.overallProgress}%` }}
+                    className="bg-gradient-to-r from-purple-500 to-blue-500 h-4 rounded-full transition-all duration-1000 progress-bar"
+                    style={{ '--progress-width': `${repairProgress.overallProgress}%` } as React.CSSProperties}
                   />
                 </div>
                 
@@ -203,8 +203,8 @@ export const CoordinationDashboard: React.FC<CoordinationDashboardProps> = ({ cl
                       </div>
                       <div className="bg-slate-600 rounded-full h-2">
                         <div 
-                          className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${progress}%` }}
+                          className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500 progress-bar"
+                          style={{ '--progress-width': `${progress}%` } as React.CSSProperties}
                         />
                       </div>
                     </div>

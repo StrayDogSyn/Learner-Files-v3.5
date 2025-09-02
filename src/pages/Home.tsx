@@ -138,16 +138,16 @@ export const Home = () => {
             
             {/* Social Icons */}
             <div className='flex justify-center gap-6 mb-8'>
-              <a href='#' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
+              <a href='#' title='LinkedIn Profile' aria-label='Visit my LinkedIn profile' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
                 <Linkedin className='h-6 w-6 text-hunter-300' />
               </a>
-              <a href='#' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
+              <a href='#' title='GitHub Profile' aria-label='Visit my GitHub profile' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
                 <Github className='h-6 w-6 text-hunter-300' />
               </a>
-              <a href='#' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
+              <a href='#' title='YouTube Channel' aria-label='Visit my YouTube channel' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
                 <Youtube className='h-6 w-6 text-hunter-300' />
               </a>
-              <a href='#' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
+              <a href='#' title='Instagram Profile' aria-label='Visit my Instagram profile' className='w-12 h-12 bg-hunter-700/50 backdrop-blur-md border border-hunter-600/30 rounded-full flex items-center justify-center hover:bg-hunter-600/50 transition-all duration-200'>
                 <Instagram className='h-6 w-6 text-hunter-300' />
               </a>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CoordinationSystem } from '../coordination/CoordinationSystem';
-import { Domain, Task, Agent, SystemHealth, DomainMetrics } from '../types/coordination';
+import { Domain, Task, Agent, SystemHealth } from '../types/coordination';
 import { Activity, AlertTriangle, CheckCircle, Clock, TrendingUp, Users, Zap } from 'lucide-react';
 
 interface AnalyticsDashboardProps {
@@ -25,7 +25,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
     activeTasks: 0,
     pendingTasks: 0,
     activeAgents: 0,
-    systemHealth: { status: 'healthy', score: 100, alerts: [] },
+    systemHealth: { overallStatus: 'healthy', overallScore: 100, domainStatuses: {}, activeTaskCount: 0, availableAgentCount: 0, lastUpdated: new Date(), alerts: [] },
     domainStatuses: {},
     repairProgress: 0
   });
@@ -40,11 +40,11 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
       const systemStatus = coordinationSystem.getSystemStatus();
       const repairProgress = coordinationSystem.getRepairProgress();
       
-      const allTasks = systemStatus.tasks;
-      const completedTasks = allTasks.filter(t => t.status === 'completed').length;
-      const activeTasks = allTasks.filter(t => t.status === 'in_progress').length;
-      const pendingTasks = allTasks.filter(t => t.status === 'pending').length;
-      const activeAgents = systemStatus.agents.filter(a => a.status === 'active').length;
+      const allTasks = systemStatus.activeTasks;
+      const completedTasks = allTasks.filter((t: Task) => t.status === 'completed').length;
+      const activeTasks = allTasks.filter((t: Task) => t.status === 'in_progress').length;
+      const pendingTasks = allTasks.filter((t: Task) => t.status === 'pending').length;
+      const activeAgents = systemStatus.agents.filter((a: Agent) => a.status === 'idle').length;
       
       const domainStatuses: Record<string, string> = {};
       systemStatus.domains.forEach(domain => {
@@ -57,7 +57,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
         activeTasks,
         pendingTasks,
         activeAgents,
-        systemHealth: systemStatus.health,
+        systemHealth: systemStatus.systemHealth,
         domainStatuses,
         repairProgress: repairProgress.overallProgress
       });
@@ -146,8 +146,8 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
             </div>
             <div className="mt-4 bg-slate-700 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500"
-                style={{ width: `${metrics.repairProgress}%` }}
+                className="bg-gradient-to-r from-green-500 to-blue-500 h-2 rounded-full transition-all duration-500 progress-bar"
+                style={{ '--progress-width': `${metrics.repairProgress}%` } as React.CSSProperties}
               />
             </div>
           </div>
@@ -182,14 +182,14 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-300 text-sm">System Health</p>
-                <p className={`text-2xl font-bold ${getStatusColor(metrics.systemHealth.status)}`}>
-                  {metrics.systemHealth.score}/100
+                <p className={`text-2xl font-bold ${getStatusColor(metrics.systemHealth.overallStatus)}`}>
+                  {metrics.systemHealth.overallScore}/100
                 </p>
               </div>
-              <Zap className={`w-8 h-8 ${getStatusColor(metrics.systemHealth.status)}`} />
+              <Zap className={`w-8 h-8 ${getStatusColor(metrics.systemHealth.overallStatus)}`} />
             </div>
             <p className="text-slate-400 text-sm mt-2 capitalize">
-              {metrics.systemHealth.status}
+              {metrics.systemHealth.overallStatus}
             </p>
           </div>
         </div>
@@ -261,7 +261,7 @@ export const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({ coordina
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-300">Avg Response:</span>
-                    <span className="text-white">{agent.performance?.averageResponseTime || 0}ms</span>
+                    <span className="text-white">{agent.performance?.averageCompletionTime || 0}ms</span>
                   </div>
                 </div>
               </div>

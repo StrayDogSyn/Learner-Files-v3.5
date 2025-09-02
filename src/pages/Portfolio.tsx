@@ -135,12 +135,12 @@ export const Portfolio = () => {
                     </div>
                     <div className='flex space-x-2'>
                       {project.liveUrl && (
-                        <a href={project.liveUrl} className='p-2 glass-button rounded-lg hover:bg-hunter-600/30 transition-colors'>
+                        <a href={project.liveUrl} className='p-2 glass-button rounded-lg hover:bg-hunter-600/30 transition-colors' title={`View ${project.title} live demo`} aria-label={`View ${project.title} live demo`}>
                           <ExternalLink className='w-4 h-4 text-hunter-300' />
                         </a>
                       )}
                       {project.githubUrl && (
-                        <a href={project.githubUrl} className='p-2 glass-button rounded-lg hover:bg-hunter-600/30 transition-colors'>
+                        <a href={project.githubUrl} className='p-2 glass-button rounded-lg hover:bg-hunter-600/30 transition-colors' title={`View ${project.title} source code on GitHub`} aria-label={`View ${project.title} source code on GitHub`}>
                           <Github className='w-4 h-4 text-hunter-300' />
                         </a>
                       )}
@@ -181,12 +181,12 @@ export const Portfolio = () => {
                     </div>
                     <div className='flex space-x-1'>
                       {project.liveUrl && (
-                        <a href={project.liveUrl} className='p-1.5 hover:bg-hunter-600/30 rounded transition-colors'>
+                        <a href={project.liveUrl} className='p-1.5 hover:bg-hunter-600/30 rounded transition-colors' title={`View ${project.title} live demo`} aria-label={`View ${project.title} live demo`}>
                           <ExternalLink className='w-3.5 h-3.5 text-hunter-400' />
                         </a>
                       )}
                       {project.githubUrl && (
-                        <a href={project.githubUrl} className='p-1.5 hover:bg-hunter-600/30 rounded transition-colors'>
+                        <a href={project.githubUrl} className='p-1.5 hover:bg-hunter-600/30 rounded transition-colors' title={`View ${project.title} source code on GitHub`} aria-label={`View ${project.title} source code on GitHub`}>
                           <Github className='w-3.5 h-3.5 text-hunter-400' />
                         </a>
                       )}
