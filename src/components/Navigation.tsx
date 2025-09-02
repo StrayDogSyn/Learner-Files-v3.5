@@ -1,86 +1,84 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import { navigationItems } from '../data/portfolioData';
 
-export const Navigation: React.FC = () => {
+export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const navItems = [
+    { path: '/', label: 'Home' },
+    { path: '/about', label: 'About' },
+    { path: '/tech-stack', label: 'Tech Stack' },
+    { path: '/experience', label: 'Experience' },
+    { path: '/portfolio', label: 'Portfolio' },
+    { path: '/contact', label: 'Contact' }
+  ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-hunter-400/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-hunter-900/80 backdrop-blur-md border-b border-hunter-600/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-hunter-400 to-emerald-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">EH</span>
+            <div className="w-8 h-8 bg-gradient-to-br from-hunter-400 to-hunter-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">SD</span>
             </div>
-            <span className="text-white font-semibold text-lg hidden sm:block">
-              Eric Hunter Petross
-            </span>
+            <span className="text-white font-semibold text-lg">StrayDog Syndications</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navigationItems.map((item) => {
-                const isActive = location.pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-                      isActive
-                        ? 'bg-hunter-500/30 text-emerald-300 border border-emerald-400/30'
-                        : 'text-hunter-100 hover:bg-hunter-600/30 hover:text-emerald-200'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  isActive(item.path)
+                    ? 'text-hunter-300 bg-hunter-700/50 border border-hunter-500/30'
+                    : 'text-hunter-200 hover:text-hunter-300 hover:bg-hunter-800/30'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-hunter-100 hover:text-emerald-300 hover:bg-hunter-600/30 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-hunter-200 hover:text-white p-2 rounded-md hover:bg-hunter-800/30 transition-colors"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 glass-subtle border-t border-hunter-400/20">
-            {navigationItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              return (
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1 bg-hunter-800/90 backdrop-blur-md rounded-lg mt-2 border border-hunter-600/30">
+              {navItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
-                    isActive
-                      ? 'bg-hunter-500/30 text-emerald-300 border border-emerald-400/30'
-                      : 'text-hunter-100 hover:bg-hunter-600/30 hover:text-emerald-200'
+                  className={`block px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ${
+                    isActive(item.path)
+                      ? 'text-hunter-300 bg-hunter-700/50 border border-hunter-500/30'
+                      : 'text-hunter-200 hover:text-hunter-300 hover:bg-hunter-800/30'
                   }`}
                 >
                   {item.label}
                 </Link>
-              );
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 };
