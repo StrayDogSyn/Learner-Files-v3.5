@@ -123,7 +123,11 @@ export class AgentOrchestrator {
           tasksCompleted: 0,
           successRate: 1.0,
           averageCompletionTime: 0,
-          efficiency: 1.0
+          efficiency: 1.0,
+          averageResponseTime: 0,
+          lastUpdated: new Date(),
+          averageTaskTime: 0,
+          errorCount: 0
         },
         description: `${config.name} agent specialized in ${config.specialization}`
       };
@@ -594,7 +598,7 @@ export class AgentOrchestrator {
     if (health.averageResponseTime > thresholds.agentResponseTime) {
       this.emitEvent({
         id: `alert-slow-response-${Date.now()}`,
-        type: 'system_alert_raised',
+        type: 'alert',
         timestamp: new Date(),
         data: { 
           type: 'slow_response_time',

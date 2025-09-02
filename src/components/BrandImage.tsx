@@ -43,14 +43,14 @@ const BrandImage: React.FC<BrandImageProps> = ({
           finalSrc = await brandAssetManager.getAssetUrl(assetKey);
         } catch (error) {
           console.warn(`Failed to load asset "${assetKey}":`, error);
-          finalSrc = getBrandAsset(assetKey).src;
+          finalSrc = getBrandAsset('logos', 'main');
         }
       } else if (src) {
         // Use provided src
         finalSrc = src;
       } else {
         // Default fallback
-        finalSrc = getBrandAsset('mainLogo').src;
+        finalSrc = getBrandAsset('logos', 'main');
       }
       
       setCurrentSrc(finalSrc);
@@ -94,9 +94,9 @@ const BrandImage: React.FC<BrandImageProps> = ({
       setCurrentSrc(fallbackSrc);
     } else if (assetKey) {
       // Use placeholder from asset management
-      const asset = getBrandAsset(assetKey);
-      if (asset.fallbackSrc && currentSrc !== asset.fallbackSrc) {
-        setCurrentSrc(asset.fallbackSrc);
+      const asset = getBrandAsset('images', 'placeholder');
+      if (asset && currentSrc !== asset) {
+        setCurrentSrc(asset);
       }
     }
   };
@@ -106,15 +106,15 @@ const BrandImage: React.FC<BrandImageProps> = ({
     if (width && height) return { width, height };
     
     if (assetKey) {
-      const asset = getBrandAsset(assetKey);
-      return { width: asset.width, height: asset.height };
+      // Default dimensions for brand assets
+      return { width: 200, height: 200 };
     }
     
     return { width: 200, height: 200 };
   };
 
   const { width: finalWidth, height: finalHeight } = getDimensions();
-  const finalAlt = alt || (assetKey ? getBrandAsset(assetKey).alt : 'StrayDog Syndications');
+  const finalAlt = alt || 'StrayDog Syndications';
 
   const containerStyle = {
     width: finalWidth ? `${finalWidth}px` : 'auto',

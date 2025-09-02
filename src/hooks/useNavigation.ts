@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAnalytics } from './useAnalytics';
-import type { SearchResult, SearchSuggestion } from '../types/navigation';
+import type { SearchResult, SearchSuggestion, KeyboardShortcut } from '../types/navigation';
 
 export interface NavigationItem {
   path: string;
@@ -111,14 +111,14 @@ export const useNavigation = () => {
         id: 'portfolio',
         title: 'Portfolio Projects',
         description: 'View my latest work and projects',
-        type: 'section',
+        type: 'section' as const,
         url: '#featured-projects'
       },
       {
         id: 'skills',
         title: 'Technical Skills',
         description: 'Explore my technical expertise',
-        type: 'section',
+        type: 'section' as const,
         url: '#skills'
       }
     ].filter(result => 
@@ -150,11 +150,47 @@ export const useNavigation = () => {
     }
   }, []);
   
-  const keyboardShortcuts = [
-    { key: 'Ctrl+K', description: 'Open search' },
-    { key: 'Esc', description: 'Close search' },
-    { key: '↑↓', description: 'Navigate results' },
-    { key: 'Enter', description: 'Select result' }
+  const keyboardShortcuts: KeyboardShortcut[] = [
+    { 
+      key: 'k', 
+      description: 'Open search',
+      action: 'open-search',
+      ctrlKey: true,
+      altKey: false,
+      shiftKey: false
+    },
+    { 
+      key: 'Escape', 
+      description: 'Close search',
+      action: 'close-search',
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false
+    },
+    { 
+      key: 'ArrowDown', 
+      description: 'Navigate down',
+      action: 'navigate-down',
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false
+    },
+    { 
+      key: 'ArrowUp', 
+      description: 'Navigate up',
+      action: 'navigate-up',
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false
+    },
+    { 
+      key: 'Enter', 
+      description: 'Select result',
+      action: 'select-result',
+      ctrlKey: false,
+      altKey: false,
+      shiftKey: false
+    }
   ];
 
   return {

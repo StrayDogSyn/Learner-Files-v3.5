@@ -56,23 +56,31 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
 
   // Initialize demo session
   useEffect(() => {
-    try {
-      const newSessionId = demoIntegration.createDemoSession(config);
-      setSessionId(newSessionId);
-      setDemoState(demoIntegration.getSession(newSessionId) || null);
-      setIsLoading(false);
-    } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Failed to initialize demo';
-      setError(errorMsg);
-      onError?.(errorMsg);
-    }
+    const initializeDemo = async () => {
+      try {
+        const newSessionId = await demoIntegration.createDemoSession(config);
+        setSessionId(newSessionId);
+        const session = await demoIntegration.getSession(newSessionId);
+        setDemoState(session || null);
+        setIsLoading(false);
+      } catch (err) {
+        const errorMsg = err instanceof Error ? err.message : 'Failed to initialize demo';
+        setError(errorMsg);
+        onError?.(errorMsg);
+      }
+    };
+    initializeDemo();
   }, [config, onError]);
 
   // Handle demo state changes
   useEffect(() => {
-    if (sessionId && demoState) {
-      setDemoState(demoIntegration.getSession(sessionId) || null);
-    }
+    const updateDemoState = async () => {
+      if (sessionId && demoState) {
+        const session = await demoIntegration.getSession(sessionId);
+        setDemoState(session || null);
+      }
+    };
+    updateDemoState();
   }, [sessionId, demoState]);
 
   // Cleanup on unmount
@@ -145,7 +153,14 @@ const InteractiveDemo: React.FC<InteractiveDemoProps> = ({
 
   const initializeAPIPlayground = async () => {
     // Initialize API playground
-    const playgroundUrl = demoIntegration.createAPIPlayground({
+    const playgroundUrl = await demoIntegration.createAPIPlayground({
+      id: 'api-playground',
+      name: 'API Playground',
+      description: 'Interactive API testing environment',
+      demoType: 'api-playground',
+      embedUrl: '',
+      height: '600px',
+      presets: [],
       endpoints: [
         {
           method: 'GET',
@@ -253,37 +268,50 @@ export default App;`,
     setShowAnalytics(!showAnalytics);
   }, [showAnalytics]);
 
-  const startTutorial = useCallback(() => {
-    const tutorial = demoIntegration.createTutorial([
-      {
-        id: 'welcome',
-        title: 'Welcome to the Demo',
-        content: 'This interactive demo showcases the project features.',
-        action: 'wait',
-      },
-      {
-        id: 'controls',
-        title: 'Demo Controls',
-        content: 'Use the control panel to customize your experience.',
-        action: 'click',
-        target: '.demo-controls',
-      },
-      {
-        id: 'interaction',
-        title: 'Try It Out',
-        content: 'Interact with the demo to see it in action!',
-        action: 'wait',
-      },
-    ]);
+  const startTutorial = useCallback(async () => {
+    const tutorialConfig: DemoConfiguration = {
+      id: 'tutorial-demo',
+      name: 'Tutorial Demo',
+      description: 'Interactive tutorial demo',
+      demoType: 'component',
+      embedUrl: '',
+      height: '400px',
+      presets: [],
+      steps: [
+         {
+           id: 'welcome',
+           title: 'Welcome to the Demo',
+           description: 'Introduction to the demo features',
+           content: 'This interactive demo showcases the project features.',
+           action: 'wait',
+         },
+         {
+           id: 'controls',
+           title: 'Demo Controls',
+           description: 'Learn about the control panel',
+           content: 'Use the control panel to customize your experience.',
+           action: 'click',
+           target: '.demo-controls',
+         },
+         {
+           id: 'interaction',
+           title: 'Try It Out',
+           description: 'Interactive demonstration',
+           content: 'Interact with the demo to see it in action!',
+           action: 'wait',
+         },
+       ]
+    };
 
-    setTutorialState(tutorial);
-    demoIntegration.startTutorial(tutorial);
+    const tutorial = demoIntegration.createTutorial(tutorialConfig);
+    const tutorialState = await demoIntegration.startTutorial('tutorial-1');
+    setTutorialState(tutorialState);
     setShowTutorial(true);
   }, []);
 
   const nextTutorialStep = useCallback(() => {
     if (tutorialState) {
-      demoIntegration.nextTutorialStep(tutorialState);
+      demoIntegration.nextTutorialStep(tutorialState.id);
       setTutorialState({ ...tutorialState });
     }
   }, [tutorialState]);
@@ -299,7 +327,12 @@ export default App;`,
   const handleInteraction = useCallback(
     (interaction: string, data?: Record<string, any>) => {
       if (sessionId) {
-        demoIntegration.trackInteraction(sessionId, interaction, data);
+        demoIntegration.trackInteraction(sessionId, {
+          id: `interaction-${Date.now()}`,
+          type: interaction,
+          timestamp: new Date(),
+          data: data || {}
+        });
       }
     },
     [sessionId]

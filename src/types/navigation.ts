@@ -29,7 +29,10 @@ export interface SearchSuggestion {
 export interface KeyboardShortcut {
   key: string;
   description: string;
-  action?: () => void;
+  action?: string;
+  ctrlKey?: boolean;
+  altKey?: boolean;
+  shiftKey?: boolean;
 }
 
 export interface NavigationConfig {

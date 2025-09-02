@@ -29,10 +29,91 @@ export const useAnalytics = () => {
     });
   }, [trackEvent]);
 
+  const trackProjectView = useCallback((projectId: string, projectName?: string) => {
+    trackEvent({
+      action: 'project_view',
+      category: 'Project',
+      label: projectName || projectId
+    });
+  }, [trackEvent]);
+
+  const trackThemeToggle = useCallback((theme: string) => {
+    trackEvent({
+      action: 'theme_toggle',
+      category: 'UI',
+      label: theme
+    });
+  }, [trackEvent]);
+
+  const trackNavigation = useCallback((destination: string, source?: string) => {
+    trackEvent({
+      action: 'navigation',
+      category: 'Navigation',
+      label: `${source || 'unknown'} -> ${destination}`
+    });
+  }, [trackEvent]);
+
+  const trackContentView = useCallback((contentId: string, contentType?: string) => {
+    trackEvent({
+      action: 'content_view',
+      category: 'Content',
+      label: `${contentType || 'unknown'}: ${contentId}`
+    });
+  }, [trackEvent]);
+
+  const trackContentInteraction = useCallback((contentId: string, action: string) => {
+    trackEvent({
+      action: 'content_interaction',
+      category: 'Content',
+      label: `${action}: ${contentId}`
+    });
+  }, [trackEvent]);
+
+  const trackExperiment = useCallback((experimentId: string, variant?: string) => {
+    trackEvent({
+      action: 'experiment_view',
+      category: 'Experiment',
+      label: `${experimentId}${variant ? ` (${variant})` : ''}`
+    });
+  }, [trackEvent]);
+
+  const trackDemo = useCallback((demoId: string, action: string) => {
+    trackEvent({
+      action: 'demo_interaction',
+      category: 'Demo',
+      label: `${action}: ${demoId}`
+    });
+  }, [trackEvent]);
+
+  const trackFilter = useCallback((filterType: string, filterValue: string) => {
+    trackEvent({
+      action: 'filter_applied',
+      category: 'Filter',
+      label: `${filterType}: ${filterValue}`
+    });
+  }, [trackEvent]);
+
+  const trackSort = useCallback((sortField: string, sortDirection: string) => {
+    trackEvent({
+      action: 'sort_applied',
+      category: 'Sort',
+      label: `${sortField}: ${sortDirection}`
+    });
+  }, [trackEvent]);
+
   return {
     trackEvent,
     trackPageView,
-    trackUserInteraction
+    trackUserInteraction,
+    trackProjectView,
+    trackThemeToggle,
+    trackNavigation,
+    trackContentView,
+    trackContentInteraction,
+    trackExperiment,
+    trackDemo,
+    trackFilter,
+    trackSort
   };
 };
 

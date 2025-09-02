@@ -138,7 +138,7 @@ export const MarvelQuizShowcase: React.FC = () => {
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
                           className="bg-gradient-to-r from-red-500 to-yellow-500 h-2 rounded-full transition-all duration-500"
-                          style={{ width: `${(currentQuestion / 5) * 100}%` }}
+                          data-progress={`${(currentQuestion / 5) * 100}%`}
                         ></div>
                       </div>
                       <div className="text-gray-300 animate-pulse">
@@ -163,10 +163,11 @@ export const MarvelQuizShowcase: React.FC = () => {
                       <div 
                         key={tech.name}
                         className="flex items-center gap-3 p-3 bg-black/20 rounded-lg border border-gray-600/30 hover:border-gray-500/50 transition-all duration-300"
+                        data-animation-delay={`${index * 150}ms`}
                       >
                         <IconComponent 
                           className="w-6 h-6" 
-                          style={{ color: tech.color }}
+                          data-color={tech.color}
                         />
                         <span className="text-white font-medium">{tech.name}</span>
                       </div>
@@ -184,6 +185,7 @@ export const MarvelQuizShowcase: React.FC = () => {
                   <div 
                     key={index}
                     className="flex items-start gap-2 p-3 bg-black/20 rounded-lg border border-gray-600/30 hover:border-red-500/30 transition-all duration-300"
+                    data-animation-delay={`${index * 100}ms`}
                   >
                     <span className="text-red-500 mt-1">✓</span>
                     <span className="text-gray-300 text-sm">{feature}</span>

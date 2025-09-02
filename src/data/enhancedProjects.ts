@@ -1,6 +1,7 @@
 import { Project } from './projects';
 
 export interface EnhancedProject extends Project {
+  githubRepo?: string; // GitHub repository URL for API access
   stats?: {
     stars?: number;
     forks?: number;
@@ -40,6 +41,7 @@ export const enhancedProjects: EnhancedProject[] = [
     ],
     liveUrl: 'https://straydogsyn.github.io/Learner-Files-v3.5/marvel-quiz-game/',
     githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game',
+    githubRepo: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
     image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Marvel%20superhero%20quiz%20game%20interface%20with%20red%20and%20gold%20colors%2C%20modern%20UI%20design%2C%20comic%20book%20style%2C%20interactive%20buttons%2C%20score%20display&image_size=landscape_16_9',
     category: 'featured',
     status: 'live',
@@ -92,6 +94,7 @@ export const enhancedProjects: EnhancedProject[] = [
     ],
     liveUrl: 'https://straydog-syndications-llc.com/',
     githubUrl: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
+    githubRepo: 'https://github.com/StrayDogSyn/Learner-Files-v3.5',
     image: 'https://trae-api-us.mchost.guru/api/ide/v1/text_to_image?prompt=Professional%20business%20website%20with%20glassmorphic%20design%2C%20modern%20layout%2C%20corporate%20branding%2C%20clean%20interface&image_size=landscape_16_9',
     category: 'featured',
     status: 'live',

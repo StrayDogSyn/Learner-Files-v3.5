@@ -12,6 +12,17 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          utils: ['clsx', 'tailwind-merge']
+        }
+      }
+    },
+    target: 'esnext',
+    minify: 'esbuild'
   },
   server: {
     proxy: {
