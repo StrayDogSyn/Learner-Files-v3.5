@@ -23,7 +23,7 @@ export const Navigation = () => {
           {/* Logo */}
           <Link to='/' className='flex items-center space-x-3 group'>
             <div className='w-10 h-10 bg-hunter-700 rounded-lg flex items-center justify-center shadow-lg group-hover:shadow-hunter-500/25 transition-all duration-300 group-hover:scale-105'>
-              <span className='text-white font-bold text-lg'>H</span>
+              <img src='/assets/brand/favicon.svg' alt='StrayDog Syndications' className='w-8 h-8' />
             </div>
             <span className='text-hunter-200 font-bold text-xl'>Eric "Hunter" Petross</span>
           </Link>
