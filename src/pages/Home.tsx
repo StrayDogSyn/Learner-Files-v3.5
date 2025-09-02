@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Code, Brain, Database, Zap } from 'lucide-react';
+import { ArrowRight, Code, Brain, Database, Zap, Shield } from 'lucide-react';
+import MarvelQuiz from '../components/MarvelQuiz';
 
 export const Home = () => {
   return (
@@ -90,6 +91,27 @@ export const Home = () => {
                 Streamlined workflows and CI/CD pipelines for efficient development
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Marvel Quiz Section */}
+      <section className='py-20 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-7xl mx-auto'>
+          <div className='text-center mb-16'>
+            <div className='w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6'>
+              <Shield className='h-8 w-8 text-white' />
+            </div>
+            <h2 className='text-3xl sm:text-4xl font-bold text-white mb-4'>
+              Test Your Marvel Knowledge
+            </h2>
+            <p className='text-xl text-hunter-200 max-w-2xl mx-auto'>
+              Challenge yourself with our interactive Marvel quiz and see how well you know the Marvel Universe!
+            </p>
+          </div>
+          
+          <div className='bg-gradient-to-r from-hunter-800/80 to-hunter-700/80 backdrop-blur-md border border-hunter-600/30 rounded-2xl p-8'>
+            <MarvelQuiz />
           </div>
         </div>
       </section>
