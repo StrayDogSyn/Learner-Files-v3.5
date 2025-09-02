@@ -2,11 +2,11 @@
 # Execute this script to reboot your portfolio to a working state
 # Preserves Hunter Green aesthetic while fixing all technical issues
 
-Write-Host "🚀 Starting Portfolio Reboot..." -ForegroundColor Green
+Write-Host "Starting Portfolio Reboot..." -ForegroundColor Green
 Write-Host "This will create a clean, working foundation" -ForegroundColor Yellow
 
 # Step 1: Backup current work
-Write-Host "📦 Creating backup..." -ForegroundColor Blue
+Write-Host "Creating backup..." -ForegroundColor Blue
 $backupDir = "backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 New-Item -ItemType Directory -Name $backupDir | Out-Null
 Copy-Item -Path "src" -Destination "$backupDir/src" -Recurse -Force
@@ -14,7 +14,7 @@ Copy-Item -Path "package.json" -Destination "$backupDir/package.json"
 Write-Host "✅ Backup created in: $backupDir" -ForegroundColor Green
 
 # Step 2: Clean corrupted files
-Write-Host "🧹 Cleaning corrupted files..." -ForegroundColor Blue
+Write-Host "Cleaning corrupted files..." -ForegroundColor Blue
 Remove-Item -Path "src/services" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "src/components" -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "src/pages" -Recurse -Force -ErrorAction SilentlyContinue
@@ -24,7 +24,7 @@ Remove-Item -Path "src/utils" -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host "✅ Corrupted files removed" -ForegroundColor Green
 
 # Step 3: Create new directory structure
-Write-Host "📁 Creating new directory structure..." -ForegroundColor Blue
+Write-Host "Creating new directory structure..." -ForegroundColor Blue
 New-Item -ItemType Directory -Name "src/components" -Force | Out-Null
 New-Item -ItemType Directory -Name "src/pages" -Force | Out-Null
 New-Item -ItemType Directory -Name "src/data" -Force | Out-Null
@@ -33,12 +33,12 @@ New-Item -ItemType Directory -Name "src/utils" -Force | Out-Null
 Write-Host "✅ Directory structure created" -ForegroundColor Green
 
 # Step 4: Install dependencies
-Write-Host "📦 Installing dependencies..." -ForegroundColor Blue
+Write-Host "Installing dependencies..." -ForegroundColor Blue
 npm install
 Write-Host "✅ Dependencies installed" -ForegroundColor Green
 
 # Step 5: Create new files
-Write-Host "📝 Creating new portfolio files..." -ForegroundColor Blue
+Write-Host "Creating new portfolio files..." -ForegroundColor Blue
 
 # Create types
 @"
@@ -137,20 +137,21 @@ export const skills: Skill[] = [
 Write-Host "✅ Data files created" -ForegroundColor Green
 
 # Step 6: Test build
-Write-Host "🔨 Testing build..." -ForegroundColor Blue
+Write-Host "Testing build..." -ForegroundColor Blue
 npm run type-check
 if ($LASTEXITCODE -eq 0) {
-    Write-Host "✅ TypeScript compilation successful!" -ForegroundColor Green
-} else {
-    Write-Host "❌ TypeScript compilation failed" -ForegroundColor Red
-    exit 1
+  Write-Host "✅ TypeScript compilation successful!" -ForegroundColor Green
+}
+else {
+  Write-Host "❌ TypeScript compilation failed" -ForegroundColor Red
+  exit 1
 }
 
 # Step 7: Start development server
-Write-Host "🚀 Starting development server..." -ForegroundColor Blue
+Write-Host "Starting development server..." -ForegroundColor Blue
 Write-Host "Your portfolio reboot is complete!" -ForegroundColor Green
 Write-Host "Run 'npm run dev' to start the development server" -ForegroundColor Yellow
 Write-Host "Run 'npm run build' to build for production" -ForegroundColor Yellow
 Write-Host "Run 'npm run deploy' to deploy to GitHub Pages" -ForegroundColor Yellow
 
-Write-Host "🎉 Portfolio reboot completed successfully!" -ForegroundColor Green
+Write-Host "Portfolio reboot completed successfully!" -ForegroundColor Green
