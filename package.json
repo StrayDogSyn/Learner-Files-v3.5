@@ -4,9 +4,9 @@
   "description": "Professional portfolio for StrayDog Syndications - From Kitchen to Code",
   "main": "index.html",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "dev": "live-server --port=3000 --open=index.html",
+    "build": "echo 'Static HTML build complete'",
+    "preview": "live-server --port=4173 --open=index.html",
     "type-check": "tsc --noEmit",
     "build:gh-pages": "npm run type-check && vite build",
     "deploy": "npm run build:gh-pages && gh-pages -d dist",
