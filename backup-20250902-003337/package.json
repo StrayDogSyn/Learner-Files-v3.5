@@ -1,0 +1,77 @@
+{
+  "name": "straydog-portfolio",
+  "version": "3.5.0",
+  "description": "Professional portfolio for StrayDog Syndications - From Kitchen to Code",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "build:gh-pages": "npm run type-check && vite build",
+    "deploy": "npm run build:gh-pages && gh-pages -d dist",
+    "install:legacy": "npm install --legacy-peer-deps",
+    "ci:legacy": "npm ci --legacy-peer-deps",
+    "ai:performance": "powershell -ExecutionPolicy Bypass -File ./scripts/performance-ai-automation.ps1",
+    "ai:behavior": "powershell -ExecutionPolicy Bypass -File ./scripts/behavior-ai-automation.ps1",
+    "ai:conversion": "powershell -ExecutionPolicy Bypass -File ./scripts/conversion-ai-automation.ps1",
+    "ai:technical-debt": "powershell -ExecutionPolicy Bypass -File ./scripts/technical-debt-ai-automation.ps1",
+    "ai:full-analysis": "npm run ai:performance && npm run ai:behavior && npm run ai:conversion && npm run ai:technical-debt"
+  },
+  "keywords": [
+    "portfolio",
+    "web-development",
+    "straydog-syndications",
+    "eric-petross",
+    "hunter-petross",
+    "ai-ml",
+    "full-stack",
+    "technical-writing"
+  ],
+  "author": "Eric 'Hunter' Petross <hello@straydog-syndications-llc.com>",
+  "license": "MIT",
+  "homepage": "https://straydogsyn.github.io/Learner-Files-v3.5/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StrayDogSyn/Learner-Files-v3.5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StrayDogSyn/Learner-Files-v3.5/issues"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.21",
+    "gh-pages": "^6.1.1",
+    "live-server": "^1.2.2",
+    "tailwindcss": "^4.1.12",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-trae-solo-badge": "^1.0.0",
+    "vite-tsconfig-paths": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.18.0",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/node-fetch": "^2.6.13",
+    "@types/react-router-dom": "^5.3.3",
+    "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
+    "lucide-react": "^0.363.0",
+    "node-fetch": "^3.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
+    "react-router-dom": "^6.30.1",
+    "recharts": "^2.12.2",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.3.1",
+    "three": "^0.179.1",
+    "zustand": "^4.5.7"
+  }
+}
