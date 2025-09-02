@@ -1,4 +1,4 @@
-import { Code, Brain, Database, Globe, User, Award, Briefcase, GraduationCap, Star, ExternalLink, Github } from 'lucide-react';
+import { Code, Brain, Database, Globe, User, Award, Briefcase, GraduationCap, ExternalLink, Github } from 'lucide-react';
 import { useIntersectionObserver, useMultipleIntersectionObserver } from '../hooks/useIntersectionObserver';
 
 interface Project {
@@ -90,20 +90,7 @@ const getCategoryIcon = (category: Project['category']) => {
   }
 };
 
-const getCategoryColor = (category: Project['category']) => {
-  switch (category) {
-    case 'AI/ML':
-      return 'from-purple-500 to-pink-500';
-    case 'Full-Stack':
-      return 'from-blue-500 to-cyan-500';
-    case 'Frontend':
-      return 'from-green-500 to-emerald-500';
-    case 'Backend':
-      return 'from-orange-500 to-red-500';
-    default:
-      return 'from-hunter-500 to-hunter-600';
-  }
-};
+// Removed unused getCategoryColor function
 
 export const Portfolio = () => {
   const featuredProjects = projects.filter(p => p.featured);
@@ -126,9 +113,7 @@ export const Portfolio = () => {
   );
 
   return (
-    <div className='min-h-screen' style={{
-      background: 'linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%)'
-    }}>
+    <div className='min-h-screen bg-gradient-to-br from-hunter-900 via-hunter-800 to-hunter-900'>
       {/* Animated Particle Background */}
       <div className="particles">
         {Array.from({ length: 50 }).map((_, i) => (
@@ -163,10 +148,7 @@ export const Portfolio = () => {
             </div>
           </div>
 
-          <h1 className='font-extrabold mb-8 gradient-text' style={{
-            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-            lineHeight: '1.1'
-          }}>
+          <h1 className='text-6xl md:text-7xl font-extrabold mb-8 gradient-text leading-tight'>
             Applied AI Solutions Engineer
           </h1>
           
@@ -208,19 +190,19 @@ export const Portfolio = () => {
               <div className='mt-2 text-xs text-hunter-secondary'>Service & Leadership</div>
             </div>
             
-            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.2s' }}>
+            <div className='glass-card group cursor-pointer animate-pulse-hunter'>
               <div className='text-5xl font-bold gradient-text mb-3'>6</div>
               <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>Specialized IDEs</div>
               <div className='mt-2 text-xs text-hunter-secondary'>Multi-Platform Development</div>
             </div>
             
-            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.4s' }}>
+            <div className='glass-card group cursor-pointer animate-pulse-hunter'>
               <div className='text-5xl font-bold gradient-text mb-3'>3</div>
               <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>AI Slack Agents</div>
               <div className='mt-2 text-xs text-hunter-secondary'>Business Automation</div>
             </div>
             
-            <div className='glass-card group cursor-pointer animate-pulse-hunter' style={{ animationDelay: '0.6s' }}>
+            <div className='glass-card group cursor-pointer animate-pulse-hunter'>
               <div className='text-5xl font-bold gradient-text mb-3'>∞</div>
               <div className='text-sm text-hunter-light uppercase tracking-wider font-medium'>Outlier AI Writer</div>
               <div className='mt-2 text-xs text-hunter-secondary'>Content & Training</div>
@@ -257,10 +239,7 @@ export const Portfolio = () => {
                     ref={setProjectRef(index)}
                     className={`glass-card group cursor-pointer ${
                       projectIntersections[index] ? 'animate-fade-in-up' : 'opacity-0'
-                    }`}
-                    style={{
-                      transitionDelay: `${index * 100}ms`
-                    }}>
+                    }`}>
                     <div className="flex items-center mb-6">
                       <div className="w-14 h-14 glass-card flex items-center justify-center mr-4 p-3">
                         <IconComponent className="w-7 h-7 text-hunter-accent" />
@@ -327,12 +306,9 @@ export const Portfolio = () => {
                   <div 
                     key={project.id} 
                     ref={setOtherProjectRef(index)}
-                    className={`glass-card group cursor-pointer hover:scale-105 transition-all duration-300 animate-slide-in-left ${
+                    className={`glass-card group cursor-pointer transition-all duration-500 hover:scale-105 ${
                       otherProjectIntersections[index] ? 'in-view' : ''
-                    }`}
-                    style={{
-                      transitionDelay: `${index * 150}ms`
-                    }}>
+                    }`}>
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 glass-card flex items-center justify-center mr-3 p-2">
                         <IconComponent className="w-6 h-6 text-hunter-accent" />
@@ -387,43 +363,24 @@ export const Portfolio = () => {
               ctaRef.isIntersecting ? 'in-view' : ''
             }`}
           >
-            <div className="max-w-4xl mx-auto" style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '24px',
-              padding: '4rem'
-            }}>
-              <h2 className="text-4xl font-bold mb-6" style={{
-                background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
+            <div className="max-w-4xl mx-auto glass-card p-16">
+              <h2 className="text-4xl font-bold mb-6 gradient-text">
                 Ready to Build Something Amazing?
               </h2>
-              <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xl text-hunter-light mb-10 max-w-2xl mx-auto leading-relaxed">
                 Let's collaborate on your next project. From AI/ML solutions to full-stack applications, 
                 I bring 20+ years of customer service excellence to every technical challenge.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <a
                   href="mailto:eric.petross@example.com"
-                  className="px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105"
-                  style={{
-                    background: 'linear-gradient(90deg, #00D4AA, #7C3AED)',
-                    color: 'white'
-                  }}
+                  className="glass-button-primary px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105"
                 >
                   Get In Touch
                 </a>
                 <a
                   href="/resume"
-                  className="px-10 py-4 rounded-lg font-semibold text-lg text-white transition-all duration-300 hover:scale-105"
-                  style={{
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    background: 'rgba(255, 255, 255, 0.05)'
-                  }}
+                  className="glass-button px-10 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105"
                 >
                   View Resume
                 </a>
