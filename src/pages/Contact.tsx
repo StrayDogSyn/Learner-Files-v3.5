@@ -244,6 +244,8 @@ export const Contact = () => {
                       href={social.url}
                       target='_blank'
                       rel='noopener noreferrer'
+                      title={social.name}
+                      aria-label={`Visit my ${social.name} profile`}
                       className={`w-12 h-12 glass-subtle rounded-lg flex items-center justify-center text-hunter-400 transition-all hover:scale-110 ${social.color}`}
                     >
                       <IconComponent className='w-6 h-6' />
