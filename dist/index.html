@@ -210,6 +210,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(82, 214, 129, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(45, 80, 22, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(74, 124, 89, 0.08) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .hero-content {
@@ -493,6 +508,20 @@
         .ecosystem-section {
             padding: 5rem 2rem;
             background: rgba(11, 11, 11, 0.5);
+            position: relative;
+        }
+
+        .ecosystem-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(45, 80, 22, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 20%, rgba(82, 214, 129, 0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 60% 60%, rgba(74, 124, 89, 0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .ecosystem-content {
@@ -502,14 +531,16 @@
 
         .ecosystem-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
         .ecosystem-card {
-            background: rgba(30, 30, 30, 0.8);
+            background: rgba(74, 124, 89, 0.05);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(74, 124, 89, 0.2);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 2.5rem;
             text-align: center;
             text-decoration: none;
@@ -522,8 +553,24 @@
 
         .ecosystem-card:hover {
             transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(80, 200, 120, 0.3);
+            border-color: #52D681;
+            box-shadow: 0 20px 40px rgba(82, 214, 129, 0.3);
+            background: rgba(74, 124, 89, 0.1);
+        }
+
+        .ecosystem-card.featured {
+            border: 2px solid #52D681;
+            background: rgba(74, 124, 89, 0.1);
+            box-shadow: 0 8px 25px rgba(82, 214, 129, 0.2);
+        }
+
+        .ecosystem-card.featured::before {
+            content: '⭐';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+            color: #52D681;
         }
 
         .ecosystem-icon {
@@ -535,78 +582,276 @@
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--primary);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(255, 255, 255, 0.8);
+            color: #52D681;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
             letter-spacing: 0.005em;
         }
 
         .ecosystem-description {
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
             font-weight: 400;
         }
 
-        /* Footer */
-        footer {
-            background: rgba(11, 11, 11, 0.9);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
-            padding: 4rem 2rem 2rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .project-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
         }
 
-        .footer-content {
+        .status-live {
+            background: rgba(82, 214, 129, 0.2);
+            color: #52D681;
+            border: 1px solid rgba(82, 214, 129, 0.3);
+        }
+
+        .status-development {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .status-planned {
+            background: rgba(108, 117, 125, 0.2);
+            color: #6C757D;
+            border: 1px solid rgba(108, 117, 125, 0.3);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: rgba(74, 124, 89, 0.2);
+            color: #4A7C59;
+            padding: 0.25rem 0.6rem;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid rgba(74, 124, 89, 0.3);
+        }
+
+        /* Contact Section */
+        .contact-section-hunter {
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.1), rgba(74, 124, 89, 0.1));
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(82, 214, 129, 0.2);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .contact-content {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
         .contact-title {
             font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--primary);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
         }
 
-        .contact-description {
+        .contact-subtitle {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
+            color: var(--light-contrast);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+            text-align: left;
+        }
+
+        .contact-info-card,
+        .contact-form-card {
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.15), rgba(74, 124, 89, 0.15));
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(82, 214, 129, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-card:hover,
+        .contact-form-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(82, 214, 129, 0.1);
+            border-color: rgba(82, 214, 129, 0.4);
+        }
+
+        .contact-info-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--secondary-accent);
+            margin-bottom: 20px;
+        }
+
+        .contact-info-text {
+            color: var(--light-contrast);
+            line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(30, 30, 30, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-decoration: none;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.3), rgba(74, 124, 89, 0.3));
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(82, 214, 129, 0.3);
+            border-radius: 50%;
             color: var(--light-contrast);
+            text-decoration: none;
+            font-size: 1.3rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .social-link:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(80, 200, 120, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(82, 214, 129, 0.3);
+            border-color: var(--secondary-accent);
+            background: linear-gradient(135deg, rgba(82, 214, 129, 0.2), rgba(107, 159, 120, 0.2));
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--light-contrast);
+            font-size: 0.95rem;
+        }
+
+        .contact-detail-icon {
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            color: var(--secondary-accent);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            background: rgba(45, 80, 22, 0.1);
+            border: 1px solid rgba(82, 214, 129, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            color: var(--light-contrast);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary-accent);
+            box-shadow: 0 0 0 3px rgba(82, 214, 129, 0.1);
+            background: rgba(45, 80, 22, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: var(--utility-gray);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary-accent));
+            border: none;
+            border-radius: 12px;
+            padding: 18px 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .contact-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(82, 214, 129, 0.3);
+            background: linear-gradient(135deg, var(--secondary-accent), #52D681);
+        }
+
+        .btn-text {
+            font-weight: 600;
+        }
+
+        .btn-icon {
+            font-size: 1.2rem;
         }
 
         .copyright {
-            color: rgba(255, 255, 255, 0.5);
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--utility-gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(82, 214, 129, 0.1);
+        }
+
+        .copyright p {
+            margin: 5px 0;
         }
 
         /* Mobile Menu */
@@ -655,6 +900,69 @@
             .skills-section,
             .ecosystem-section {
                 padding: 3rem 1rem;
+            }
+
+            .contact-section-hunter {
+                padding: 60px 0 30px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+
+            .contact-info-card,
+            .contact-form-card {
+                padding: 30px 25px;
+            }
+
+            .contact-title {
+                font-size: 2rem;
+            }
+
+            .contact-subtitle {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            .contact-info-title {
+                font-size: 1.5rem;
+            }
+
+            .social-links {
+                gap: 12px;
+                justify-content: flex-start;
+            }
+
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .contact-details {
+                gap: 12px;
+            }
+
+            .contact-detail {
+                font-size: 0.9rem;
+            }
+
+            .form-input {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            .contact-submit-btn {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+
+            .copyright {
+                margin-top: 30px;
+                padding-top: 30px;
+                font-size: 0.85rem;
             }
         }
 
@@ -716,9 +1024,682 @@
             font-size: 0.95rem;
             margin-top: 1rem;
         }
+
+        /* Claude Demo Section Styling */
+        .claude-demo-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .claude-demo-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(74, 124, 89, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(107, 159, 120, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .claude-demo-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .claude-demo-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .demo-container {
+            background: rgba(255, 255, 255, 0.05);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(74, 124, 89, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .demo-tab {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(74, 124, 89, 0.3);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .demo-tab:hover {
+            background: rgba(74, 124, 89, 0.2);
+            border-color: rgba(74, 124, 89, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .demo-tab.active {
+            background: linear-gradient(135deg, #4A7C59, #6B9F78);
+            border-color: #52D681;
+            box-shadow: 0 5px 15px rgba(74, 124, 89, 0.4);
+        }
+        
+        .demo-interface {
+            min-height: 400px;
+            position: relative;
+        }
+        
+        .demo-panel {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .demo-panel.active {
+            display: block;
+        }
+        
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 124, 89, 0.3);
+        }
+        
+        .demo-header h3 {
+            color: #52D681;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .demo-status {
+            background: rgba(82, 214, 129, 0.2);
+            color: #52D681;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            border: 1px solid rgba(82, 214, 129, 0.3);
+        }
+        
+        /* Chat Demo Styles */
+        .demo-chat {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .user-message {
+            justify-content: flex-end;
+        }
+        
+        .ai-message {
+            justify-content: flex-start;
+        }
+        
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+        
+        .user-message .message-content {
+            background: linear-gradient(135deg, #4A7C59, #6B9F78);
+            color: white;
+        }
+        
+        .ai-message .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            border: 1px solid rgba(74, 124, 89, 0.3);
+        }
+        
+        .demo-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(74, 124, 89, 0.3);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .chat-input::placeholder {
+            color: #888;
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, #4A7C59, #6B9F78);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 124, 89, 0.4);
+        }
+        
+        /* Code Demo Styles */
+        .code-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .code-request {
+            color: #52D681;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(82, 214, 129, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #52D681;
+        }
+        
+        .code-output {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .code-output pre {
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        /* Analysis Demo Styles */
+        .analysis-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .analysis-input h4,
+        .analysis-output h4 {
+            color: #52D681;
+            margin-bottom: 10px;
+        }
+        
+        .data-preview {
+            background: rgba(74, 124, 89, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-family: monospace;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-output ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .analysis-output li {
+            padding: 8px 0;
+            color: #e0e0e0;
+            border-bottom: 1px solid rgba(74, 124, 89, 0.2);
+        }
+        
+        /* Creative Demo Styles */
+        .creative-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .creative-prompt {
+            color: #52D681;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(82, 214, 129, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #52D681;
+        }
+        
+        .creative-output {
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        .creative-output p {
+            margin-bottom: 15px;
+        }
+        
+        /* Debug Demo Styles */
+        .debug-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .debug-problem h4,
+        .debug-solution h4 {
+            color: #52D681;
+            margin-bottom: 10px;
+        }
+        
+        .debug-problem {
+            margin-bottom: 20px;
+        }
+        
+        .debug-problem pre {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            color: #ff6b6b;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        
+        .debug-solution p {
+            color: #e0e0e0;
+            margin-bottom: 10px;
+        }
+        
+        .debug-solution pre {
+            background: #1a1a1a;
+            border: 1px solid rgba(74, 124, 89, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .demo-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(74, 124, 89, 0.3);
+            text-align: center;
+        }
+        
+        .demo-note {
+            color: #b0b0b0;
+            margin: 0;
+        }
+        
+        .demo-contact-link {
+            color: #52D681;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .demo-contact-link:hover {
+            color: #6B9F78;
+        }
+        
+        /* Responsive Design for Claude Demo */
+        @media (max-width: 768px) {
+            .demo-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .demo-tab {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+            
+            .demo-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .demo-input {
+                flex-direction: column;
+            }
+            
+            .chat-input {
+                margin-bottom: 10px;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+        }
+
+        /* Projects Section Styling */
+        .projects-section {
+            padding: 120px 0;
+            background: linear-gradient(135deg, 
+                rgba(74, 124, 89, 0.1) 0%, 
+                rgba(107, 159, 120, 0.05) 50%, 
+                rgba(82, 214, 129, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%234A7C59" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .projects-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .projects-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6B9F78;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(74, 124, 89, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(74, 124, 89, 0.1);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4A7C59, #6B9F78, #52D681);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(74, 124, 89, 0.2);
+            border-color: rgba(82, 214, 129, 0.4);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-card.featured {
+            grid-column: span 2;
+            background: rgba(74, 124, 89, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-live {
+            background: rgba(82, 214, 129, 0.2);
+            color: #52D681;
+            border: 1px solid rgba(82, 214, 129, 0.3);
+        }
+
+        .status-development {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .status-planned {
+            background: rgba(107, 159, 120, 0.2);
+            color: #6B9F78;
+            border: 1px solid rgba(107, 159, 120, 0.3);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(74, 124, 89, 0.2);
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 124, 89, 0.3);
+        }
+
+        .project-link:hover {
+            background: rgba(82, 214, 129, 0.3);
+            transform: scale(1.1);
+            border-color: rgba(82, 214, 129, 0.5);
+        }
+
+        .project-link.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .project-image {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #4A7C59, #6B9F78);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .project-description {
+            color: #5A6C7D;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(74, 124, 89, 0.1);
+            color: #4A7C59;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(74, 124, 89, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(82, 214, 129, 0.2);
+            color: #52D681;
+            border-color: rgba(82, 214, 129, 0.3);
+        }
+
+        .project-metrics {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4A7C59;
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #6B9F78;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .projects-footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(74, 124, 89, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(74, 124, 89, 0.1);
+        }
+
+        .projects-note {
+            font-size: 1.1rem;
+            color: #5A6C7D;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .projects-contact-link {
+            color: #4A7C59;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .projects-contact-link:hover {
+            color: #52D681;
+            border-bottom-color: #52D681;
+        }
+
+        /* Responsive Design for Projects */
+        @media (max-width: 1200px) {
+            .project-card.featured {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .project-card {
+                padding: 1.5rem;
+            }
+            
+            .projects-content {
+                padding: 0 1rem;
+            }
+            
+            .project-metrics {
+                justify-content: center;
+            }
+        }
     </style>
+  <script type="module" crossorigin src="/Learner-Files-v3.5/assets/index-CgaDvsMQ.js"></script>
+  <link rel="modulepreload" crossorigin href="/Learner-Files-v3.5/assets/vendor-DtX1tuCI.js">
+  <link rel="modulepreload" crossorigin href="/Learner-Files-v3.5/assets/ui-BpcsMzbp.js">
+  <link rel="stylesheet" crossorigin href="/Learner-Files-v3.5/assets/index-B1COPxvD.css">
 </head>
 <body>
+    
     <!-- Header -->
     <header>
         <nav>
@@ -765,6 +1746,9 @@
                 </div>
             </div>
             
+            <!-- GitHub Stats Integration -->
+            <div id="github-stats-mount" style="display: none;"></div>
+            
             <p class="hero-description">
                 Unique combination of customer empathy, high-pressure performance experience, and technical capability. 
                 Specialized in Claude 4.1 integration and intelligent automation with proven live demonstrations.
@@ -807,7 +1791,7 @@
                 </div>
                 
                 <div class="demo-launch-container">
-                    <a href="./marvel-quiz-game/demo.html" class="btn btn-primary demo-launch-btn" target="_blank" rel="noopener">🚀 Launch Live Demo</a>
+                    <a href="./marvel-quiz-game/index.html" class="btn btn-primary demo-launch-btn" target="_blank" rel="noopener">🚀 Launch Live Demo</a>
                 </div>
                 
                 <p class="demo-tech-info">
@@ -877,66 +1861,590 @@
             <h2 class="section-title fade-in">Professional Ecosystem</h2>
             
             <div class="ecosystem-grid">
-                <a href="https://straydogsyn.github.io/Learner-Files-v3.5/" class="ecosystem-card fade-in" target="_blank" rel="noopener">
+                <a href="https://straydogsyn.github.io/Learner-Files-v3.5/" class="ecosystem-card featured fade-in" target="_blank" rel="noopener">
+                    <div class="project-status status-live">Live</div>
                     <div class="ecosystem-icon">🌐</div>
                     <h3 class="ecosystem-title">Portfolio Hub</h3>
                     <p class="ecosystem-description">Complete professional portfolio showcasing technical capabilities and project demonstrations</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">GitHub Pages</span>
+                    </div>
                 </a>
                 
-                <a href="./marvel-quiz-game/demo.html" class="ecosystem-card fade-in" target="_blank" rel="noopener">
-                    <div class="ecosystem-icon">🎮</div>
+                <a href="./marvel-quiz-game/index.html" class="ecosystem-card featured fade-in" target="_blank" rel="noopener">
+                    <div class="project-status status-live">Live</div>
+                    <span class="ecosystem-icon">🎮</span>
                     <h3 class="ecosystem-title">Marvel Quiz Demo</h3>
                     <p class="ecosystem-description">Live interactive demonstration of full-stack development and technical architecture skills</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Claude AI</span>
+                        <span class="tech-tag">API Integration</span>
+                        <span class="tech-tag">Responsive Design</span>
+                    </div>
                 </a>
                 
                 <a href="https://github.com/StrayDogSyn" class="ecosystem-card fade-in" target="_blank" rel="noopener">
+                    <div class="project-status status-live">Live</div>
                     <div class="ecosystem-icon">💻</div>
                     <h3 class="ecosystem-title">GitHub Repository</h3>
                     <p class="ecosystem-description">Source code, project history, and technical implementation details for all developments</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">Version Control</span>
+                        <span class="tech-tag">Open Source</span>
+                        <span class="tech-tag">Documentation</span>
+                    </div>
                 </a>
                 
-                <a href="#contact" class="ecosystem-card fade-in">
+                <a href="https://github.com/StrayDogSyn/resume" class="ecosystem-card fade-in" target="_blank" rel="noopener">
+                    <div class="project-status status-live">Live</div>
                     <div class="ecosystem-icon">📄</div>
                     <h3 class="ecosystem-title">Professional Resume</h3>
                     <p class="ecosystem-description">Comprehensive career transformation story and technical qualifications documentation</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">PDF</span>
+                        <span class="tech-tag">Professional</span>
+                        <span class="tech-tag">Career Story</span>
+                    </div>
                 </a>
                 
-                <a href="#contact" class="ecosystem-card fade-in">
+                <a href="https://linkedin.com/in/eric-petross" class="ecosystem-card fade-in" target="_blank" rel="noopener">
+                    <div class="project-status status-live">Live</div>
                     <div class="ecosystem-icon">🔗</div>
                     <h3 class="ecosystem-title">LinkedIn Profile</h3>
                     <p class="ecosystem-description">Professional networking and career transformation narrative with industry connections</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Networking</span>
+                        <span class="tech-tag">Professional</span>
+                        <span class="tech-tag">Career Growth</span>
+                    </div>
                 </a>
                 
                 <a href="#contact" class="ecosystem-card fade-in">
+                    <div class="project-status status-live">Live</div>
                     <div class="ecosystem-icon">✉️</div>
                     <h3 class="ecosystem-title">Professional Contact</h3>
                     <p class="ecosystem-description">Direct communication for technical opportunities, consulting, and professional collaboration</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Email</span>
+                        <span class="tech-tag">Consultation</span>
+                        <span class="tech-tag">Collaboration</span>
+                    </div>
+                </a>
+                
+                <a href="#skills" class="ecosystem-card fade-in">
+                    <div class="project-status status-planned">Planned</div>
+                    <div class="ecosystem-icon">📝</div>
+                    <h3 class="ecosystem-title">Technical Blog</h3>
+                    <p class="ecosystem-description">In-depth articles on AI/ML implementation, technical architecture, and industry insights</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Writing</span>
+                        <span class="tech-tag">AI/ML</span>
+                        <span class="tech-tag">Technical Insights</span>
+                    </div>
+                </a>
+                
+                <a href="#claude-demo" class="ecosystem-card featured fade-in">
+                    <div class="project-status status-live">Live</div>
+                    <div class="ecosystem-icon">🤖</div>
+                    <h3 class="ecosystem-title">Claude 4.1 Integration Demo</h3>
+                    <p class="ecosystem-description">Interactive demonstration of Claude AI capabilities with chat, code generation, analysis, and creative features</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Claude AI</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Interactive Demo</span>
+                        <span class="tech-tag">AI Integration</span>
+                    </div>
+                </a>
+                
+                <a href="#projects" class="ecosystem-card fade-in">
+                    <div class="project-status status-development">Development</div>
+                    <div class="ecosystem-icon">🚀</div>
+                    <h3 class="ecosystem-title">AI/ML Showcase</h3>
+                    <p class="ecosystem-description">Live demonstrations of machine learning models, Claude AI integrations, and intelligent automation</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Machine Learning</span>
+                        <span class="tech-tag">Claude AI</span>
+                        <span class="tech-tag">Automation</span>
+                    </div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
+    <!-- Claude 4.1 Integration Demo -->
+    <section id="claude-demo" class="claude-demo-section">
+        <div class="claude-demo-content">
+            <h2 class="section-title fade-in">Claude 4.1 Integration Demo</h2>
+            <p class="claude-demo-subtitle fade-in">
+                Experience the power of Claude AI through interactive demonstrations showcasing real-world applications.
+            </p>
+            
+            <div class="demo-container fade-in">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" data-demo="chat">💬 Chat Assistant</button>
+                    <button class="demo-tab" data-demo="code">💻 Code Generation</button>
+                    <button class="demo-tab" data-demo="analysis">📊 Data Analysis</button>
+                    <button class="demo-tab" data-demo="creative">🎨 Creative Writing</button>
+                    <button class="demo-tab" data-demo="debug">🔧 Debug Helper</button>
+                </div>
+                
+                <div class="demo-interface">
+                    <div class="demo-panel active" id="chat-demo">
+                        <div class="demo-header">
+                            <h3>AI Chat Assistant</h3>
+                            <span class="demo-status">🟢 Live Demo</span>
+                        </div>
+                        <div class="demo-chat">
+                            <div class="chat-message user-message">
+                                <div class="message-content">How can Claude AI help with software development?</div>
+                            </div>
+                            <div class="chat-message ai-message">
+                                <div class="message-content">
+                                    Claude AI excels in software development by providing:
+                                    <br>• Code generation and optimization
+                                    <br>• Architecture design recommendations
+                                    <br>• Bug detection and debugging assistance
+                                    <br>• Documentation generation
+                                    <br>• Code review and best practices
+                                    <br>• API integration guidance
+                                </div>
+                            </div>
+                        </div>
+                        <div class="demo-input">
+                            <input type="text" placeholder="Ask Claude anything about AI development..." class="chat-input">
+                            <button class="send-btn">Send</button>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-panel" id="code-demo">
+                        <div class="demo-header">
+                            <h3>Code Generation</h3>
+                            <span class="demo-status">🟢 Live Demo</span>
+                        </div>
+                        <div class="code-example">
+                            <div class="code-request">Request: "Create a React component for a responsive navigation bar"</div>
+                            <div class="code-output">
+                                <pre><code>import React, { useState } from 'react';
+import './Navigation.css';
+
+const Navigation = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    &lt;nav className="navigation"&gt;
+      &lt;div className="nav-container"&gt;
+        &lt;div className="nav-logo"&gt;
+          &lt;a href="/"&gt;Logo&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div className={`nav-menu ${isOpen ? 'active' : ''}`}&gt;
+          &lt;a href="#home" className="nav-link"&gt;Home&lt;/a&gt;
+          &lt;a href="#about" className="nav-link"&gt;About&lt;/a&gt;
+          &lt;a href="#services" className="nav-link"&gt;Services&lt;/a&gt;
+          &lt;a href="#contact" className="nav-link"&gt;Contact&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div className="nav-toggle" onClick={() =&gt; setIsOpen(!isOpen)}&gt;
+          &lt;span className="bar"&gt;&lt;/span&gt;
+          &lt;span className="bar"&gt;&lt;/span&gt;
+          &lt;span className="bar"&gt;&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+};
+
+export default Navigation;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-panel" id="analysis-demo">
+                        <div class="demo-header">
+                            <h3>Data Analysis</h3>
+                            <span class="demo-status">🟢 Live Demo</span>
+                        </div>
+                        <div class="analysis-example">
+                            <div class="analysis-input">
+                                <h4>Sample Data: E-commerce Performance</h4>
+                                <div class="data-preview">
+                                    Sales: $125,000 | Visitors: 15,000 | Conversion: 3.2%
+                                </div>
+                            </div>
+                            <div class="analysis-output">
+                                <h4>Claude's Analysis:</h4>
+                                <ul>
+                                    <li>✅ Conversion rate of 3.2% is above industry average (2.5%)</li>
+                                    <li>📈 Revenue per visitor: $8.33 indicates strong product-market fit</li>
+                                    <li>🎯 Recommendation: Focus on increasing traffic volume</li>
+                                    <li>💡 Consider A/B testing checkout process for further optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-panel" id="creative-demo">
+                        <div class="demo-header">
+                            <h3>Creative Writing</h3>
+                            <span class="demo-status">🟢 Live Demo</span>
+                        </div>
+                        <div class="creative-example">
+                            <div class="creative-prompt">Prompt: "Write a professional bio for a software engineer"</div>
+                            <div class="creative-output">
+                                <p>"Eric 'Hunter' Petross is a visionary AI/ML Engineer who bridges the gap between cutting-edge technology and human-centered solutions. With over two decades of customer excellence experience, he brings a unique perspective to software development that prioritizes both technical innovation and user empathy.</p>
+                                <p>Specializing in Claude AI integration and full-stack development, Eric transforms complex technical challenges into elegant, scalable solutions. His portfolio demonstrates a commitment to continuous learning and adaptation in the rapidly evolving AI landscape."</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="demo-panel" id="debug-demo">
+                        <div class="demo-header">
+                            <h3>Debug Helper</h3>
+                            <span class="demo-status">🟢 Live Demo</span>
+                        </div>
+                        <div class="debug-example">
+                            <div class="debug-problem">
+                                <h4>Problem:</h4>
+                                <pre><code>TypeError: Cannot read property 'map' of undefined
+at Component.render (App.js:15)</code></pre>
+                            </div>
+                            <div class="debug-solution">
+                                <h4>Claude's Solution:</h4>
+                                <p><strong>Issue:</strong> The array you're trying to map over is undefined.</p>
+                                <p><strong>Fix:</strong> Add a default value or conditional check:</p>
+                                <pre><code>// Option 1: Default value
+const items = data?.items || [];
+
+// Option 2: Conditional rendering
+{data?.items && data.items.map(item => ...)}
+
+// Option 3: Loading state
+{loading ? &lt;Spinner /&gt; : data?.items?.map(item => ...)}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-footer">
+                    <p class="demo-note">
+                        🚀 <strong>Ready for Production:</strong> These demos showcase Claude AI's capabilities. 
+                        <a href="#contact" class="demo-contact-link">Contact me</a> to implement similar AI solutions in your projects.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Showcase Section -->
+    <section id="projects" class="projects-section">
+        <div class="projects-content">
+            <h2 class="section-title fade-in">Featured Projects</h2>
+            <p class="projects-subtitle fade-in">
+                A comprehensive showcase of my technical expertise across AI/ML, full-stack development, and innovative solutions.
+            </p>
+            
+            <!-- Dynamic Projects Integration -->
+            <div id="dynamic-projects-mount" style="display: none;"></div>
+            
+            <div class="projects-grid">
+                <div class="project-card featured fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-live">Live</div>
+                        <div class="project-links">
+                            <a href="marvel-quiz-game/index.html" class="project-link" target="_blank" rel="noopener" title="View Live Demo">🚀</a>
+                            <a href="https://github.com/StrayDogSyn/marvel-quiz" class="project-link" target="_blank" rel="noopener" title="View Code">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">🦸</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Marvel Quiz Game</h3>
+                        <p class="project-description">
+                            Interactive quiz application featuring Marvel characters with dynamic scoring, responsive design, and engaging user experience.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">HTML5</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">Responsive Design</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">95%</span>
+                                <span class="metric-label">Performance</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">100%</span>
+                                <span class="metric-label">Responsive</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-live">Live</div>
+                        <div class="project-links">
+                            <a href="#claude-demo" class="project-link" title="View Demo">🚀</a>
+                            <a href="https://github.com/StrayDogSyn/claude-integration" class="project-link" target="_blank" rel="noopener" title="View Code">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">🤖</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Claude AI Integration</h3>
+                        <p class="project-description">
+                            Comprehensive demonstration of Claude AI capabilities including chat, code generation, data analysis, and creative writing.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Claude AI</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">API Integration</span>
+                            <span class="tech-tag">Interactive UI</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">5</span>
+                                <span class="metric-label">AI Features</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Real-time</span>
+                                <span class="metric-label">Responses</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-development">Development</div>
+                        <div class="project-links">
+                            <a href="#" class="project-link disabled" title="Coming Soon">🚧</a>
+                            <a href="https://github.com/StrayDogSyn/portfolio-v2" class="project-link" target="_blank" rel="noopener" title="View Code">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">🌐</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Full-Stack Portfolio Platform</h3>
+                        <p class="project-description">
+                            Advanced portfolio platform with CMS integration, real-time analytics, and dynamic content management.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">Express</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">75%</span>
+                                <span class="metric-label">Complete</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Q1 2025</span>
+                                <span class="metric-label">Launch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-development">Development</div>
+                        <div class="project-links">
+                            <a href="#" class="project-link disabled" title="In Development">🚧</a>
+                            <a href="https://github.com/StrayDogSyn/ai-automation" class="project-link" target="_blank" rel="noopener" title="View Code">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">⚡</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">AI Automation Suite</h3>
+                        <p class="project-description">
+                            Intelligent automation platform leveraging machine learning for workflow optimization and predictive analytics.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Docker</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">60%</span>
+                                <span class="metric-label">Complete</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">ML</span>
+                                <span class="metric-label">Powered</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-planned">Planned</div>
+                        <div class="project-links">
+                            <a href="#" class="project-link disabled" title="Planning Phase">📋</a>
+                            <a href="#" class="project-link disabled" title="Repository TBD">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">🔮</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Predictive Analytics Dashboard</h3>
+                        <p class="project-description">
+                            Advanced analytics platform with real-time data visualization and machine learning-powered insights.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Q2 2025</span>
+                                <span class="metric-label">Start Date</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Research</span>
+                                <span class="metric-label">Phase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-status status-planned">Planned</div>
+                        <div class="project-links">
+                            <a href="#" class="project-link disabled" title="Concept Phase">💡</a>
+                            <a href="#" class="project-link disabled" title="Repository TBD">💻</a>
+                        </div>
+                    </div>
+                    <div class="project-image">
+                        <div class="project-icon">🌍</div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Sustainable Tech Initiative</h3>
+                        <p class="project-description">
+                            Open-source platform promoting sustainable technology practices with carbon footprint tracking and optimization.
+                        </p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">GraphQL</span>
+                            <span class="tech-tag">Blockchain</span>
+                            <span class="tech-tag">IoT</span>
+                        </div>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">Open Source</span>
+                                <span class="metric-label">License</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">Impact</span>
+                                <span class="metric-label">Focused</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="projects-footer fade-in">
+                <p class="projects-note">
+                    🚀 <strong>Interested in collaborating?</strong> Each project represents a commitment to innovation and excellence. 
+                    <a href="#contact" class="projects-contact-link">Let's discuss</a> how we can work together on your next big idea.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section-hunter">
+        <div class="contact-content">
             <h2 class="contact-title fade-in">Let's Build Something Amazing</h2>
-            <p class="contact-description fade-in">
+            <p class="contact-subtitle fade-in">
                 Ready to bring unique customer empathy and technical capability to your next project.
             </p>
             
-            <div class="social-links fade-in">
-                <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" rel="noopener" title="GitHub">
-                    💻
-                </a>
-                <a href="#" class="social-link" title="LinkedIn">
-                    🔗
-                </a>
-                <a href="mailto:contact@example.com" class="social-link" title="Email">
-                    ✉️
-                </a>
-                <a href="#" class="social-link" title="Resume">
-                    📄
-                </a>
+            <div class="contact-container">
+                <div class="contact-info-card fade-in">
+                    <h3 class="contact-info-title">Get In Touch</h3>
+                    <p class="contact-info-text">
+                        I'm always interested in discussing new opportunities, technical challenges, and innovative projects. Let's connect and explore how we can work together.
+                    </p>
+                    
+                    <div class="social-links">
+                        <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" rel="noopener" title="GitHub">
+                            💻
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            🔗
+                        </a>
+                        <a href="mailto:contact@example.com" class="social-link" title="Email">
+                            ✉️
+                        </a>
+                        <a href="#" class="social-link" title="Resume">
+                            📄
+                        </a>
+                    </div>
+                    
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <span class="contact-detail-icon">📍</span>
+                            <span>Available for Remote & On-site Work</span>
+                        </div>
+                        <div class="contact-detail">
+                            <span class="contact-detail-icon">⏰</span>
+                            <span>Response within 24 hours</span>
+                        </div>
+                        <div class="contact-detail">
+                            <span class="contact-detail-icon">🎯</span>
+                            <span>Open to Full-time & Contract Opportunities</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-card fade-in">
+                    <form class="contact-form" action="#" method="POST">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-input" placeholder="Project discussion, job opportunity, etc." required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell me about your project, opportunity, or how we can work together..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="contact-submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-icon">🚀</span>
+                        </button>
+                    </form>
+                </div>
             </div>
             
             <div class="copyright">
@@ -944,19 +2452,22 @@
                 <p>Transforming customer excellence into technical innovation.</p>
             </div>
         </div>
-    </footer>
+    </section>
 
     <script>
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+                const href = this.getAttribute('href');
+                if (href && href !== '#') {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
                 }
             });
         });
@@ -990,6 +2501,139 @@
                 navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
             });
         }
+
+        // Claude Demo Tab Functionality
+        function initClaudeDemo() {
+            const tabs = document.querySelectorAll('.demo-tab');
+            const panels = document.querySelectorAll('.demo-panel');
+            
+            // Set initial active tab
+            if (tabs.length > 0 && panels.length > 0) {
+                tabs[0].classList.add('active');
+                panels[0].classList.add('active');
+            }
+            
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and panels
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panels.forEach(p => p.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding panel
+                    tab.classList.add('active');
+                    if (panels[index]) {
+                        panels[index].classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Chat Demo Functionality
+        function initChatDemo() {
+            const chatInput = document.querySelector('.chat-input');
+            const sendBtn = document.querySelector('.send-btn');
+            const chatContainer = document.querySelector('.demo-chat');
+            
+            if (!chatInput || !sendBtn || !chatContainer) return;
+            
+            const responses = [
+                "I'd be happy to help you with that! Can you provide more details about what you're trying to accomplish?",
+                "That's an interesting question. Based on my understanding, here's what I would recommend...",
+                "Great point! Let me break this down into actionable steps for you.",
+                "I can definitely assist with that. Here's a comprehensive approach to solve your problem.",
+                "Excellent question! This is a common challenge, and I have some proven strategies to share."
+            ];
+            
+            function addMessage(content, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${isUser ? 'user-message' : 'ai-message'}`;
+                
+                const messageContent = document.createElement('div');
+                messageContent.className = 'message-content';
+                messageContent.textContent = content;
+                
+                messageDiv.appendChild(messageContent);
+                chatContainer.appendChild(messageDiv);
+                
+                // Scroll to bottom
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                addMessage(message, true);
+                chatInput.value = '';
+                
+                // Simulate AI response after a delay
+                setTimeout(() => {
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, false);
+                }, 1000);
+            }
+            
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        }
+
+        // Contact Form Enhancement
+        function initContactForm() {
+            const contactForm = document.querySelector('.contact-form');
+            if (!contactForm) return;
+            
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const submitBtn = contactForm.querySelector('.contact-submit-btn');
+                const originalText = submitBtn.innerHTML;
+                
+                // Show loading state
+                submitBtn.innerHTML = '<span class="btn-text">Sending...</span><span class="btn-icon">⏳</span>';
+                submitBtn.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(() => {
+                    submitBtn.innerHTML = '<span class="btn-text">Message Sent!</span><span class="btn-icon">✅</span>';
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Reset button after delay
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                }, 2000);
+            });
+        }
+
+        // Initialize all demo functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initClaudeDemo();
+            initChatDemo();
+            initContactForm();
+        });
+
+        // Also initialize if DOM is already loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initClaudeDemo();
+                initChatDemo();
+                initContactForm();
+            });
+        } else {
+            initClaudeDemo();
+            initChatDemo();
+            initContactForm();
+        }
     </script>
+    
+    <!-- React Application -->
 </body>
 </html>

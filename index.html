@@ -16,7 +16,8 @@
     <meta name="twitter:title" content="Eric Hunter Petross | AI/ML Engineer">
     <meta name="twitter:description" content="AI/ML Engineer & Technical Architect with 20+ years of experience.">
     <link rel="canonical" href="https://straydogsyn.github.io/Learner-Files-v3.5/">
-    <link rel="icon" type="image/x-icon" href="/Learner-Files-v3.5/assets/favicon-BRGqYgu9.ico">
+    <link rel="icon" type="image/x-icon" href="/Learner-Files-v3.5/assets/brand/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/Learner-Files-v3.5/assets/brand/favicon.svg">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -97,9 +98,9 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 400px;
-            height: 400px;
-            background-image: url('/Learner-Files-v3.5/assets/banner-CnNuPhIo.png');
+            width: 650px;
+            height: 650px;
+            background-image: url('./assets/banner-CnNuPhIo.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -269,12 +270,19 @@
 
         .hero-achievements {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             margin: 3rem 0;
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hero-achievements {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 600px;
+            }
         }
 
         .achievement {
@@ -841,17 +849,19 @@
         }
 
         .copyright {
-            color: var(--utility-gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.8;
             text-align: center;
             margin-top: 40px;
             padding-top: 40px;
-            border-top: 1px solid rgba(82, 214, 129, 0.1);
+            border-top: 1px solid rgba(82, 214, 129, 0.2);
+            letter-spacing: 0.3px;
         }
 
         .copyright p {
-            margin: 5px 0;
+            margin: 8px 0;
+            font-weight: 400;
         }
 
         /* Mobile Menu */
@@ -962,7 +972,8 @@
             .copyright {
                 margin-top: 30px;
                 padding-top: 30px;
-                font-size: 0.85rem;
+                font-size: 0.95rem;
+                line-height: 1.9;
             }
         }
 
@@ -1564,16 +1575,55 @@
 
         .project-image {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
         }
 
-        .project-icon {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #4A7C59, #6B9F78);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
+        .project-preview {
+            width: 140px;
+            height: 100px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 1.5rem auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .project-preview:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(74, 124, 89, 0.3);
+        }
+
+        .project-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .project-preview:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-preview .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(74, 124, 89, 0.1), rgba(107, 159, 120, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-preview:hover .preview-overlay {
+            opacity: 1;
         }
 
         .project-title {
@@ -1692,17 +1742,24 @@
                 justify-content: center;
             }
         }
+        
+        /* Mount Point Styles */
+        #github-stats-mount,
+        #dynamic-projects-mount {
+            display: none;
+        }
     </style>
 </head>
 <body>
+    
     <!-- Header -->
     <header>
         <nav>
             <a href="#" class="logo">
                 <div class="logo-icon">
-                    <img src="/Learner-Files-v3.5/assets/mainLogo-BbgPbJnG.png" alt="StrayDog Syndications Logo" />
+                    <img src="./assets/mainLogo.png" alt="StrayDog Syndications Logo" />
                 </div>
-                <span>Eric "Hunter" Petross</span>
+                <span>StrayDog Syndications</span>
             </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
@@ -1739,7 +1796,18 @@
                     <span class="achievement-number">Full-Stack</span>
                     <span class="achievement-text">Development Expertise</span>
                 </div>
+                <div class="achievement">
+                    <span class="achievement-number">MongoDB</span>
+                    <span class="achievement-text">Database Architecture</span>
+                </div>
+                <div class="achievement">
+                    <span class="achievement-number">GitHub</span>
+                    <span class="achievement-text">Version Control & CI/CD</span>
+                </div>
             </div>
+            
+            <!-- GitHub Stats Integration -->
+            <div id="github-stats-mount"></div>
             
             <p class="hero-description">
                 Unique combination of customer empathy, high-pressure performance experience, and technical capability. 
@@ -2139,6 +2207,9 @@ const items = data?.items || [];
                 A comprehensive showcase of my technical expertise across AI/ML, full-stack development, and innovative solutions.
             </p>
             
+            <!-- Dynamic Projects Integration -->
+            <div id="dynamic-projects-mount"></div>
+            
             <div class="projects-grid">
                 <div class="project-card featured fade-in">
                     <div class="project-header">
@@ -2149,7 +2220,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">🦸</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9Im1hcnZlbEdyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMWEyMDJjO3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMyYTM0NDI7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxMDAiIGZpbGw9InVybCgjbWFydmVsR3JhZCkiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSI0NSIgcj0iMjQiIGZpbGw9IiM0YTdjNTkiIG9wYWNpdHk9IjAuMiIvPgo8cGF0aCBkPSJNNTIgMzVMNzAgMjNMODggMzVMODIgNDhMNzAgNjBMNTggNDhaIiBmaWxsPSIjNGE3YzU5IiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSI0NSIgcj0iNiIgZmlsbD0iIzUwQzg3OCIvPgo8dGV4dCB4PSI3MCIgeT0iODUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0YTdjNTkiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCI+TWFydmVsIFF1aXo8L3RleHQ+Cjwvc3ZnPgo=" alt="Marvel Quiz Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Marvel Quiz Game</h3>
@@ -2184,7 +2258,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">🤖</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImFpR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwZjE0MTk7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFhMjAyYztzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNhaUdyYWQpIi8+CjxyZWN0IHg9IjI1IiB5PSIyNSIgd2lkdGg9IjkwIiBoZWlnaHQ9IjQ1IiByeD0iMTAiIGZpbGw9IiMyYTM0NDIiIHN0cm9rZT0iIzRhN2M1OSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz4KPGNpcmNsZSBjeD0iNDUiIGN5PSI0NyIgcj0iMTAiIGZpbGw9IiM1MEM4NzgiIG9wYWNpdHk9IjAuOCIvPgo8Y2lyY2xlIGN4PSI5NSIgY3k9IjQ3IiByPSIxMCIgZmlsbD0iIzRhN2M1OSIgb3BhY2l0eT0iMC44Ii8+CjxwYXRoIGQ9Ik01NSA0N0w4NSA0NyIgc3Ryb2tlPSIjNTBDODc4IiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNiw2Ii8+Cjx0ZXh0IHg9IjcwIiB5PSI4NSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzRhN2M1OSIgZm9udC1zaXplPSIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNjAwIj5DbGF1ZGUgQUk8L3RleHQ+Cjwvc3ZnPgo=" alt="Claude AI Integration Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Claude AI Integration</h3>
@@ -2219,7 +2296,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">🌐</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InBvcnRmb2xpb0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTEyMjMzO3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxYTIwMmM7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxMDAiIGZpbGw9InVybCgjcG9ydGZvbGlvR3JhZCkiLz4KPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjU1IiByeD0iMTAiIGZpbGw9IiMyYTM0NDIiIHN0cm9rZT0iIzRhN2M1OSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz4KPHJlY3QgeD0iMjUiIHk9IjI1IiB3aWR0aD0iOTAiIGhlaWdodD0iMTAiIGZpbGw9IiM0YTdjNTkiLz4KPHJlY3QgeD0iMzAiIHk9IjQyIiB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHJ4PSI1IiBmaWxsPSIjNTBDODc4IiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iNTkiIHk9IjQyIiB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHJ4PSI1IiBmaWxsPSIjNGE3YzU5IiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iODgiIHk9IjQyIiB3aWR0aD0iMjIiIGhlaWdodD0iMjIiIHJ4PSI1IiBmaWxsPSIjNTBDODc4IiBvcGFjaXR5PSIwLjYiLz4KPHRleHQgeD0iNzAiIHk9Ijg4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNGE3YzU5IiBmb250LXNpemU9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI2MDAiPlBvcnRmb2xpbzwvdGV4dD4KPC9zdmc+Cg==" alt="Portfolio Platform Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Full-Stack Portfolio Platform</h3>
@@ -2254,7 +2334,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">⚡</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImF1dG9HcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3R5bGU9InN0b3AtY29sb3I6IzBmMTQxOTtzdG9wLW9wYWNpdHk6MSIgLz4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMmEzNDQyO3N0b3Atb3BhY2l0eToxIiAvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSIxNDAiIGhlaWdodD0iMTAwIiBmaWxsPSJ1cmwoI2F1dG9HcmFkKSIvPgo8Y2lyY2xlIGN4PSIzNSIgY3k9IjM3IiByPSIxMCIgZmlsbD0iIzUwOTg3OCIgb3BhY2l0eT0iMC45Ii8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNTAiIHI9IjEyIiBmaWxsPSIjNTBDODc4IiBvcGFjaXR5PSIwLjkiLz4KPGNpcmNsZSBjeD0iMTA1IiBjeT0iMzciIHI9IjEwIiBmaWxsPSIjNGE3YzU5IiBvcGFjaXR5PSIwLjkiLz4KPGxpbmUgeDE9IjQ1IiB5MT0iMzciIHgyPSI1OCIgeTI9IjUwIiBzdHJva2U9IiM1MEM4NzgiIHN0cm9rZS13aWR0aD0iMy41Ii8+CjxsaW5lIHgxPSI4MiIgeTE9IjUwIiB4Mj0iOTUiIHkyPSIzNyIgc3Ryb2tlPSIjNTBDODc4IiBzdHJva2Utd2lkdGg9IjMuNSIvPgo8cGF0aCBkPSJNNTIgNjJMNjUgNjhMNzggNjIiIHN0cm9rZT0iIzRhN2M1OSIgc3Ryb2tlLXdpZHRoPSIzLjUiIGZpbGw9Im5vbmUiLz4KPHRleHQgeD0iNzAiIHk9Ijg4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNGE3YzU5IiBmb250LXNpemU9IjEzIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSI2MDAiPkF1dG9tYXRpb248L3RleHQ+Cjwvc3ZnPgo=" alt="AI Automation Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">AI Automation Suite</h3>
@@ -2289,7 +2372,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">🔮</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImFuYWx5dGljc0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMTEyMjMzO3N0b3Atb3BhY2l0eToxIiAvPgo8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMxYTIwMmM7c3RvcC1vcGFjaXR5OjEiIC8+CjwvbGluZWFyR3JhZGllbnQ+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjE0MCIgaGVpZ2h0PSIxMDAiIGZpbGw9InVybCgjYW5hbHl0aWNzR3JhZCkiLz4KPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjU1IiByeD0iMTAiIGZpbGw9IiMyYTM0NDIiIHN0cm9rZT0iIzRhN2M1OSIgc3Ryb2tlLXdpZHRoPSIyLjUiLz4KPHJlY3QgeD0iMjUiIHk9IjI1IiB3aWR0aD0iOTAiIGhlaWdodD0iMTAiIGZpbGw9IiM0YTdjNTkiLz4KPHJlY3QgeD0iMzAiIHk9IjQyIiB3aWR0aD0iMTciIGhlaWdodD0iMjMiIGZpbGw9IiM1MDk4NzgiIG9wYWNpdHk9IjAuOCIvPgo8cmVjdCB4PSI1MyIgeT0iNDgiIHdpZHRoPSIxNyIgaGVpZ2h0PSIxNyIgZmlsbD0iIzUwQzg3OCIgb3BhY2l0eT0iMC44Ii8+CjxyZWN0IHg9Ijc2IiB5PSIzNyIgd2lkdGg9IjE3IiBoZWlnaHQ9IjI4IiBmaWxsPSIjNGE3YzU5IiBvcGFjaXR5PSIwLjgiLz4KPHJlY3QgeD0iOTkiIHk9IjQ0IiB3aWR0aD0iMTciIGhlaWdodD0iMjEiIGZpbGw9IiM1MDk4NzgiIG9wYWNpdHk9IjAuNiIvPgo8dGV4dCB4PSI3MCIgeT0iODgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM0YTdjNTkiIGZvbnQtc2l6ZT0iMTMiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCI+QW5hbHl0aWNzPC90ZXh0Pgo8L3N2Zz4K" alt="Analytics Dashboard Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Predictive Analytics Dashboard</h3>
@@ -2324,7 +2410,10 @@ const items = data?.items || [];
                         </div>
                     </div>
                     <div class="project-image">
-                        <div class="project-icon">🌍</div>
+                        <div class="project-preview">
+                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDE0MCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9InN1c3RhaW5hYmxlR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMwZjE0MTk7c3RvcC1vcGFjaXR5OjEiIC8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFhMjAyYztzdG9wLW9wYWNpdHk6MSIgLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNzdXN0YWluYWJsZUdyYWQpIi8+CjxjaXJjbGUgY3g9IjcwIiBjeT0iNTAiIHI9IjIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM1MEM4NzgiIHN0cm9rZS13aWR0aD0iMy41IiBvcGFjaXR5PSIwLjgiLz4KPGNpcmNsZSBjeD0iNzAiIGN5PSI1MCIgcj0iMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRhN2M1OSIgc3Ryb2tlLXdpZHRoPSIyLjUiIG9wYWNpdHk9IjAuOSIvPgo8Y2lyY2xlIGN4PSI3MCIgY3k9IjUwIiByPSI1IiBmaWxsPSIjNTBDODc4Ii8+CjxwYXRoIGQ9Ik00NSAzMEw1MCAzNkw1NSAzMEw2MCAzNkw2NSAzMEw3MCAzNkw3NSAzMEw4MCAzNkw4NSAzMEw5MCAzNkw5NSAzMCIgc3Ryb2tlPSIjNTA5ODc4IiBzdHJva2Utd2lkdGg9IjIuNSIgZmlsbD0ibm9uZSIgb3BhY2l0eT0iMC43Ii8+CjxjaXJjbGUgY3g9IjQyIiBjeT0iMzciIHI9IjMuNSIgZmlsbD0iIzUwQzg3OCIgb3BhY2l0eT0iMC44Ii8+CjxjaXJjbGUgY3g9Ijk4IiBjeT0iNjMiIHI9IjMuNSIgZmlsbD0iIzRhN2M1OSIgb3BhY2l0eT0iMC44Ii8+CjxjaXJjbGUgY3g9IjQ4IiBjeT0iNjgiIHI9IjIuNSIgZmlsbD0iIzUwOTg3OCIgb3BhY2l0eT0iMC42Ii8+CjxjaXJjbGUgY3g9IjkyIiBjeT0iMzIiIHI9IjIuNSIgZmlsbD0iIzUwQzg3OCIgb3BhY2l0eT0iMC42Ii8+Cjx0ZXh0IHg9IjcwIiB5PSI4OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzRhN2M1OSIgZm9udC1zaXplPSIxMyIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNjAwIj5TdXN0YWluYWJsZTwvdGV4dD4KPC9zdmc+Cg==" alt="Sustainable Tech Preview" />
+                            <div class="preview-overlay"></div>
+                        </div>
                     </div>
                     <div class="project-info">
                         <h3 class="project-title">Sustainable Tech Initiative</h3>
@@ -2622,5 +2711,8 @@ const items = data?.items || [];
             initContactForm();
         }
     </script>
+    
+    <!-- React Application -->
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

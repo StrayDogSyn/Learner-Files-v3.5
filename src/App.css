@@ -1,0 +1,535 @@
+/* App.css - Main styles for React components */
+/* Maintains hunter green glassmorphic theme */
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* GitHub Stats Container */
+.github-stats-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dynamic Projects Container */
+.dynamic-projects-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* GitHub Stats Component Styles */
+.github-stats {
+  background: rgba(34, 139, 34, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 1rem 0;
+  box-shadow: 0 8px 32px rgba(34, 139, 34, 0.1);
+  transition: all 0.3s ease;
+}
+
+.github-stats:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(34, 139, 34, 0.15);
+  border-color: rgba(34, 139, 34, 0.3);
+}
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.github-stat-item {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(34, 139, 34, 0.1);
+  transition: all 0.3s ease;
+}
+
+.github-stat-item:hover {
+  background: rgba(34, 139, 34, 0.1);
+  border-color: rgba(34, 139, 34, 0.2);
+  transform: scale(1.02);
+}
+
+.github-stat-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #228B22;
+}
+
+.github-stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #228B22;
+  margin-bottom: 0.25rem;
+  font-family: 'Orbitron', monospace;
+}
+
+.github-stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.github-stats-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.github-stats-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #228B22;
+  margin-bottom: 0.5rem;
+}
+
+.github-stats-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.github-stats-loading {
+  text-align: center;
+  padding: 2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.github-stats-error {
+  text-align: center;
+  padding: 2rem;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+.github-stats-last-updated {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Project Showcase Styles */
+.project-showcase {
+  width: 100%;
+}
+
+.project-showcase-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.project-showcase-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #228B22;
+  margin-bottom: 1rem;
+  font-family: 'Orbitron', monospace;
+}
+
+.project-showcase-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.project-showcase-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(34, 139, 34, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(34, 139, 34, 0.1);
+}
+
+.project-search {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 10px;
+  color: white;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.project-search:focus {
+  outline: none;
+  border-color: #228B22;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 2px rgba(34, 139, 34, 0.2);
+}
+
+.project-search::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+}
+
+.filter-button:hover {
+  background: rgba(34, 139, 34, 0.2);
+  border-color: #228B22;
+  color: white;
+}
+
+.filter-button.active {
+  background: #228B22;
+  border-color: #228B22;
+  color: white;
+  font-weight: 600;
+}
+
+.refresh-button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #228B22, #32CD32);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.refresh-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(34, 139, 34, 0.3);
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Dynamic Project Card Styles */
+.dynamic-project-card {
+  background: rgba(34, 139, 34, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 20px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dynamic-project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(34, 139, 34, 0.2);
+  border-color: rgba(34, 139, 34, 0.4);
+}
+
+.dynamic-project-card.featured {
+  border: 2px solid #228B22;
+  background: rgba(34, 139, 34, 0.15);
+}
+
+.dynamic-project-card.featured::before {
+  content: '⭐';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.2rem;
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.project-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-status.public {
+  background: rgba(34, 139, 34, 0.2);
+  color: #32CD32;
+  border: 1px solid rgba(34, 139, 34, 0.3);
+}
+
+.project-status.private {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.project-links {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-link {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.project-link:hover {
+  background: rgba(34, 139, 34, 0.3);
+  border-color: #228B22;
+  transform: scale(1.1);
+}
+
+.project-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #228B22;
+  margin-bottom: 0.75rem;
+  font-family: 'Orbitron', monospace;
+}
+
+.project-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.project-tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tech-tag {
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(34, 139, 34, 0.2);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(34, 139, 34, 0.2);
+  border-color: #228B22;
+}
+
+.project-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.project-metric {
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(34, 139, 34, 0.1);
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #228B22;
+  margin-bottom: 0.25rem;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-language {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.language-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-name {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* Loading and Error States */
+.project-showcase-loading {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.project-showcase-error {
+  text-align: center;
+  padding: 2rem;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  margin: 2rem 0;
+}
+
+.project-showcase-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .github-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .github-stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .project-showcase-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .project-search {
+    min-width: auto;
+    max-width: none;
+  }
+  
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .project-showcase-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .github-stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .github-stats {
+    padding: 1.5rem;
+  }
+  
+  .dynamic-project-card {
+    padding: 1rem;
+  }
+  
+  .project-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInLeft 0.5s ease forwards;
+}
+
+@keyframes slideInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Counter Animation */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.counter-animate {
+  animation: countUp 0.8s ease;
+}
