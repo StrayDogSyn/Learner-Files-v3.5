@@ -625,33 +625,83 @@
         let gameStartTime = null;
         let questions = [];
 
-        // Marvel Quiz Questions Database
+        // Marvel Quiz Questions Database with Professional Image System
         const questionDatabase = {
             easy: [
                 {
                     question: "What is the real name of Spider-Man?",
                     answers: ["Peter Parker", "Bruce Wayne", "Clark Kent", "Tony Stark"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Spider-Man",
+                        tier: "S+",
+                        theme: "spider-man",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/dc143c/ffffff?text=Spider-Man"
+                        }
+                    }
                 },
                 {
                     question: "Which metal is associated with Wolverine's claws?",
                     answers: ["Vibranium", "Adamantium", "Titanium", "Steel"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Wolverine",
+                        tier: "S+",
+                        theme: "wolverine",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/ffa500/ffffff?text=Wolverine"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of Thor's hammer?",
                     answers: ["Stormbreaker", "Gungnir", "Mjolnir", "Hofund"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Thor",
+                        tier: "S+",
+                        theme: "thor",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4169e1/ffffff?text=Thor"
+                        }
+                    }
                 },
                 {
                     question: "Who is the leader of the X-Men?",
                     answers: ["Wolverine", "Cyclops", "Professor X", "Storm"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Professor X",
+                        tier: "S",
+                        theme: "captain-america",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/0052cc/ffffff?text=Professor+X"
+                        }
+                    }
                 },
                 {
                     question: "What is Captain America's shield made of?",
                     answers: ["Adamantium", "Titanium", "Vibranium", "Steel"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Captain America",
+                        tier: "S+",
+                        theme: "captain-america",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/0052cc/ffffff?text=Captain+America"
+                        }
+                    }
                 },
                 {
                     question: "Who is known as the 'Merc with a Mouth'?",
