@@ -100,6 +100,208 @@
             margin-bottom: 2rem;
         }
 
+        /* Professional Image System */
+        .character-image-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .image-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-spinner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .image-error {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .retry-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tier-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .tier-s-plus {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #333;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+        }
+
+        .tier-s {
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+        }
+
+        .tier-a {
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+        }
+
+        .hd-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .hd-indicator.show {
+            opacity: 1;
+        }
+
+        .camera-icon {
+            font-size: 12px;
+        }
+
+        /* Character-themed styling */
+        .character-theme-iron-man {
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .character-theme-spider-man {
+            border: 3px solid #dc143c;
+            box-shadow: 0 0 20px rgba(220, 20, 60, 0.4);
+        }
+
+        .character-theme-captain-america {
+            border: 3px solid #0052cc;
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.4);
+        }
+
+        .character-theme-hulk {
+            border: 3px solid #228b22;
+            box-shadow: 0 0 20px rgba(34, 139, 34, 0.4);
+        }
+
+        .character-theme-thor {
+            border: 3px solid #4169e1;
+            box-shadow: 0 0 20px rgba(65, 105, 225, 0.4);
+        }
+
+        .character-theme-black-widow {
+            border: 3px solid #8b0000;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.4);
+        }
+
+        .character-theme-wolverine {
+            border: 3px solid #ffa500;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
+        }
+
+        .character-theme-deadpool {
+            border: 3px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        .character-theme-doctor-strange {
+            border: 3px solid #9932cc;
+            box-shadow: 0 0 20px rgba(153, 50, 204, 0.4);
+        }
+
+        .character-theme-black-panther {
+            border: 3px solid #4b0082;
+            box-shadow: 0 0 20px rgba(75, 0, 130, 0.4);
+        }
+
         .question-number {
             color: rgba(255, 255, 255, 0.6);
             font-size: 0.9rem;
