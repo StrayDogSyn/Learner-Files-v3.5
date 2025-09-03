@@ -624,6 +624,133 @@
         let selectedDifficulty = 'easy';
         let gameStartTime = null;
         let questions = [];
+        let currentImageAttempt = 0;
+        let imageCache = new Map();
+        let currentCharacter = null;
+
+        // Professional Image System Functions
+        function preloadImages() {
+            questions.forEach(question => {
+                if (question.character && question.character.images) {
+                    const images = question.character.images;
+                    [images.primary, images.secondary, images.fallback].forEach(src => {
+                        if (src && !imageCache.has(src)) {
+                            const img = new Image();
+                            img.onload = () => imageCache.set(src, true);
+                            img.onerror = () => imageCache.set(src, false);
+                            img.src = src;
+                        }
+                    });
+                }
+            });
+        }
+
+        function loadCharacterImage(character) {
+            if (!character || !character.images) return;
+            
+            currentCharacter = character;
+            currentImageAttempt = 0;
+            
+            // Show loading state
+            showImageLoader();
+            
+            // Apply character theme
+            applyCharacterTheme(character.theme);
+            
+            // Set tier badge
+            setTierBadge(character.tier);
+            
+            // Attempt to load image
+            attemptImageLoad();
+        }
+
+        function attemptImageLoad() {
+            if (!currentCharacter || !currentCharacter.images) return;
+            
+            const images = currentCharacter.images;
+            const imageSources = [images.primary, images.secondary, images.fallback];
+            
+            if (currentImageAttempt >= imageSources.length) {
+                showImageError();
+                return;
+            }
+            
+            const currentSrc = imageSources[currentImageAttempt];
+            const img = document.getElementById('characterImage');
+            
+            img.onload = function() {
+                hideImageLoader();
+                hideImageError();
+                img.style.display = 'block';
+                showHDIndicator();
+            };
+            
+            img.onerror = function() {
+                currentImageAttempt++;
+                attemptImageLoad();
+            };
+            
+            img.src = currentSrc;
+        }
+
+        function retryImageLoad() {
+            currentImageAttempt = 0;
+            hideImageError();
+            showImageLoader();
+            attemptImageLoad();
+        }
+
+        function showImageLoader() {
+            document.getElementById('imageLoader').style.display = 'flex';
+            document.getElementById('characterImage').style.display = 'none';
+            document.getElementById('imageError').style.display = 'none';
+            document.getElementById('hdIndicator').classList.remove('show');
+        }
+
+        function hideImageLoader() {
+            document.getElementById('imageLoader').style.display = 'none';
+        }
+
+        function showImageError() {
+            document.getElementById('imageLoader').style.display = 'none';
+            document.getElementById('characterImage').style.display = 'none';
+            document.getElementById('imageError').style.display = 'flex';
+            document.getElementById('hdIndicator').classList.remove('show');
+        }
+
+        function hideImageError() {
+            document.getElementById('imageError').style.display = 'none';
+        }
+
+        function showHDIndicator() {
+            setTimeout(() => {
+                document.getElementById('hdIndicator').classList.add('show');
+            }, 300);
+        }
+
+        function applyCharacterTheme(theme) {
+            const wrapper = document.querySelector('.image-wrapper');
+            // Remove all existing theme classes
+            wrapper.className = wrapper.className.replace(/character-theme-\S+/g, '');
+            // Add new theme class
+            if (theme) {
+                wrapper.classList.add(`character-theme-${theme}`);
+            }
+        }
+
+        function setTierBadge(tier) {
+            const badge = document.getElementById('tierBadge');
+            badge.textContent = tier || '';
+            badge.className = 'tier-badge';
+            
+            if (tier === 'S+') {
+                badge.classList.add('tier-s-plus');
+            } else if (tier === 'S') {
+                badge.classList.add('tier-s');
+            } else if (tier === 'A') {
+                badge.classList.add('tier-a');
+            }
+        }
 
         // Marvel Quiz Questions Database with Professional Image System
         const questionDatabase = {
@@ -859,6 +986,9 @@
             // Shuffle questions
             questions = questions.sort(() => Math.random() - 0.5);
             
+            // Preload images for performance
+            preloadImages();
+            
             // Show game screen
             document.getElementById('startScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
@@ -880,6 +1010,11 @@
             document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
             document.getElementById('questionText').textContent = question.question;
             document.getElementById('currentScore').textContent = score;
+            
+            // Load character image if available
+            if (question.character) {
+                loadCharacterImage(question.character);
+            }
             
             // Create answer buttons
             const answersGrid = document.getElementById('answersGrid');
