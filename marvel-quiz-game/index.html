@@ -351,6 +351,25 @@
             
             <div class="question-container">
                 <div class="question-number" id="questionNumber">Question 1 of 10</div>
+                <div class="character-image-container">
+                    <div class="image-wrapper">
+                        <div class="loading-spinner" id="imageLoader">
+                            <div class="spinner"></div>
+                            <span>Loading HD Image...</span>
+                        </div>
+                        <img id="characterImage" class="character-image" alt="Marvel Character" style="display: none;">
+                        <div class="image-error" id="imageError" style="display: none;">
+                            <div class="error-icon">📷</div>
+                            <span>Image unavailable</span>
+                            <button class="retry-btn" onclick="retryImageLoad()">Retry</button>
+                        </div>
+                        <div class="tier-badge" id="tierBadge"></div>
+                        <div class="hd-indicator" id="hdIndicator">
+                            <span class="camera-icon">📷</span>
+                            <span>HD</span>
+                        </div>
+                    </div>
+                </div>
                 <div class="question-text" id="questionText">Loading question...</div>
                 
                 <div class="answers-grid" id="answersGrid">
