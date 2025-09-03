@@ -863,6 +863,32 @@
             font-weight: 400;
         }
 
+        .footer-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+            opacity: 0.8;
+        }
+
+        .copyright-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .copyright-details {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        .copyright-details p {
+            margin: 6px 0;
+        }
+
         /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
@@ -2525,8 +2551,15 @@ const items = data?.items || [];
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025 Eric "Hunter" Petross. AI/ML Engineer & Technical Architect.</p>
-                <p>Transforming customer excellence into technical innovation.</p>
+                <div class="copyright-header">
+                    <img src="./assets/straydog-gear-logo.svg" alt="StrayDog Syndications" class="footer-logo">
+                    <span>&copy; 2025 Eric "Hunter" Petross. AI Content Expert & AISE Technical Architect.</span>
+                </div>
+                <div class="copyright-details">
+                    <p><strong>AI Content Expert:</strong> LLM specialist focused on Claude 4.1 integration, prompt engineering, and intelligent content generation systems.</p>
+                    <p><strong>AISE (Applied AI Solutions Engineer):</strong> Designing and implementing practical AI solutions that bridge cutting-edge technology with real-world business applications.</p>
+                    <p><em>Transforming 20+ years of customer excellence into innovative technical solutions.</em></p>
+                </div>
             </div>
         </div>
     </section>
