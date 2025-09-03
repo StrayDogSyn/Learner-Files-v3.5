@@ -95,8 +95,8 @@ const DynamicProjectCard: React.FC<DynamicProjectCardProps> = ({
         {/* Language indicator */}
         <div className="flex items-center gap-2 mb-4">
           <div 
-            className="w-3 h-3 rounded-full border border-white/30"
-            style={{ backgroundColor: languageColor }}
+            className="language-indicator"
+            data-language={project.language.toLowerCase()}
           />
           <span className="text-sm text-gray-300 font-medium">{project.language}</span>
           <span className="text-xs text-gray-500">•</span>

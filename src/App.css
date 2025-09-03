@@ -23,6 +23,7 @@
 /* GitHub Stats Component Styles */
 .github-stats {
   background: rgba(34, 139, 34, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 139, 34, 0.2);
   border-radius: 20px;
@@ -250,6 +251,7 @@
 /* Dynamic Project Card Styles */
 .dynamic-project-card {
   background: rgba(34, 139, 34, 0.1);
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(34, 139, 34, 0.2);
   border-radius: 20px;
@@ -258,6 +260,38 @@
   position: relative;
   overflow: hidden;
 }
+
+.language-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: #6b7280; /* Default gray */
+}
+
+/* Language-specific colors */
+.language-indicator[data-language="javascript"] { background-color: #f7df1e; }
+.language-indicator[data-language="typescript"] { background-color: #3178c6; }
+.language-indicator[data-language="python"] { background-color: #3776ab; }
+.language-indicator[data-language="java"] { background-color: #ed8b00; }
+.language-indicator[data-language="c++"] { background-color: #00599c; }
+.language-indicator[data-language="c#"] { background-color: #239120; }
+.language-indicator[data-language="php"] { background-color: #777bb4; }
+.language-indicator[data-language="ruby"] { background-color: #cc342d; }
+.language-indicator[data-language="go"] { background-color: #00add8; }
+.language-indicator[data-language="rust"] { background-color: #dea584; }
+.language-indicator[data-language="swift"] { background-color: #fa7343; }
+.language-indicator[data-language="kotlin"] { background-color: #7f52ff; }
+.language-indicator[data-language="dart"] { background-color: #0175c2; }
+.language-indicator[data-language="html"] { background-color: #e34f26; }
+.language-indicator[data-language="css"] { background-color: #1572b6; }
+.language-indicator[data-language="scss"] { background-color: #cf649a; }
+.language-indicator[data-language="vue"] { background-color: #4fc08d; }
+.language-indicator[data-language="react"] { background-color: #61dafb; }
+.language-indicator[data-language="angular"] { background-color: #dd0031; }
+.language-indicator[data-language="node.js"] { background-color: #339933; }
+.language-indicator[data-language="shell"] { background-color: #89e051; }
+.language-indicator[data-language="dockerfile"] { background-color: #384d54; }
 
 .dynamic-project-card:hover {
   transform: translateY(-8px);

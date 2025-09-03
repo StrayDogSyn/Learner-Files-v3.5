@@ -37,84 +37,101 @@ graph TD
 ## 2. Technology Description
 
 **Core Stack (GitHub Pages Compatible):**
-- Frontend: Vanilla JavaScript ES6+ + Custom CSS3 + Vite build system
-- APIs: GitHub REST API v4, Claude API (client-side integration)
-- Storage: LocalStorage + SessionStorage for caching
-- Build: Vite bundler with static asset optimization
-- Deployment: GitHub Actions + GitHub Pages
+
+* Frontend: Vanilla JavaScript ES6+ + Custom CSS3 + Vite build system
+
+* APIs: GitHub REST API v4, Claude API (client-side integration)
+
+* Storage: LocalStorage + SessionStorage for caching
+
+* Build: Vite bundler with static asset optimization
+
+* Deployment: GitHub Actions + GitHub Pages
 
 **Key Libraries:**
-- Chart.js v3.9 (data visualization)
-- Intersection Observer API (scroll animations)
-- Fetch API (HTTP requests)
-- CSS Custom Properties (dynamic theming)
+
+* Chart.js v3.9 (data visualization)
+
+* Intersection Observer API (scroll animations)
+
+* Fetch API (HTTP requests)
+
+* CSS Custom Properties (dynamic theming)
 
 ## 3. Route Definitions
 
-| Route | Purpose |
-|-------|----------|
-| / | Enhanced home page with dynamic project discovery |
-| /#projects | Dynamic project showcase with GitHub integration |
-| /#ai-gallery | AI artwork gallery and generative demos |
-| /#analytics | Performance dashboard and GitHub stats |
-| /#search | Advanced search and filtering interface |
-| /#demos | Interactive demo hub with embedded experiences |
+| Route        | Purpose                                           |
+| ------------ | ------------------------------------------------- |
+| /            | Enhanced home page with dynamic project discovery |
+| /#projects   | Dynamic project showcase with GitHub integration  |
+| /#ai-gallery | AI artwork gallery and generative demos           |
+| /#analytics  | Performance dashboard and GitHub stats            |
+| /#search     | Advanced search and filtering interface           |
+| /#demos      | Interactive demo hub with embedded experiences    |
 
 ## 4. API Definitions
 
 ### 4.1 GitHub Integration APIs
 
 **Repository Analysis**
+
 ```
 GET https://api.github.com/users/StrayDogSyn/repos
 ```
 
 Request Headers:
-| Header Name | Value | Required | Description |
-|-------------|-------|----------|-------------|
-| Accept | application/vnd.github.v3+json | true | GitHub API version |
-| User-Agent | StrayDog-Portfolio/1.0 | true | Application identifier |
+
+| Header Name | Value                          | Required | Description            |
+| ----------- | ------------------------------ | -------- | ---------------------- |
+| Accept      | application/vnd.github.v3+json | true     | GitHub API version     |
+| User-Agent  | StrayDog-Portfolio/1.0         | true     | Application identifier |
 
 Response:
-| Field Name | Type | Description |
-|------------|------|-------------|
-| name | string | Repository name |
-| description | string | Project description |
-| language | string | Primary programming language |
-| stargazers_count | number | GitHub stars |
-| updated_at | string | Last update timestamp |
+
+| Field Name        | Type   | Description                  |
+| ----------------- | ------ | ---------------------------- |
+| name              | string | Repository name              |
+| description       | string | Project description          |
+| language          | string | Primary programming language |
+| stargazers\_count | number | GitHub stars                 |
+| updated\_at       | string | Last update timestamp        |
 
 **User Statistics**
+
 ```
 GET https://api.github.com/users/StrayDogSyn
 ```
 
 Response:
-| Field Name | Type | Description |
-|------------|------|-------------|
-| public_repos | number | Total public repositories |
-| followers | number | GitHub followers count |
-| following | number | Following count |
-| created_at | string | Account creation date |
+
+| Field Name    | Type   | Description               |
+| ------------- | ------ | ------------------------- |
+| public\_repos | number | Total public repositories |
+| followers     | number | GitHub followers count    |
+| following     | number | Following count           |
+| created\_at   | string | Account creation date     |
 
 ### 4.2 AI Integration APIs
 
 **Claude Assistant Integration**
+
 ```
 POST /api/claude/chat
 ```
 
 Request:
-| Param Name | Param Type | Required | Description |
-|------------|------------|----------|-------------|
-| message | string | true | User input message |
-| context | string | false | Portfolio context |
+
+| Param Name | Param Type | Required | Description        |
+| ---------- | ---------- | -------- | ------------------ |
+| message    | string     | true     | User input message |
+| context    | string     | false    | Portfolio context  |
 
 Response:
-| Param Name | Param Type | Description |
-|------------|------------|-------------|
-| response | string | Claude AI response |
-| timestamp | string | Response timestamp |
+
+| Param Name | Param Type | Description        |
+| ---------- | ---------- | ------------------ |
+| response   | string     | Claude AI response |
+| timestamp  | string     | Response timestamp |
 
 ## 5. Client-Side Architecture
 
@@ -162,6 +179,7 @@ graph TD
 ### 6.1 Data Structure Definitions
 
 **Project Entity**
+
 ```javascript
 interface Project {
     id: string;
@@ -183,6 +201,7 @@ interface Project {
 ```
 
 **Analytics Data**
+
 ```javascript
 interface Analytics {
     pageViews: number;
@@ -203,6 +222,7 @@ interface Analytics {
 ```
 
 **AI Gallery Item**
+
 ```javascript
 interface AIArtwork {
     id: string;
@@ -220,6 +240,7 @@ interface AIArtwork {
 ### 6.2 Local Storage Schema
 
 **GitHub Data Cache**
+
 ```javascript
 // localStorage.githubCache
 {
@@ -235,6 +256,7 @@ interface AIArtwork {
 ```
 
 **Analytics Storage**
+
 ```javascript
 // localStorage.portfolioAnalytics
 {
@@ -252,62 +274,97 @@ interface AIArtwork {
 ## 7. Implementation Phases
 
 ### Phase 1: Foundation Enhancement (Week 1)
-- GitHub API integration for real-time repository data
-- Dynamic project card population
-- Basic analytics implementation
-- Performance optimization
+
+* GitHub API integration for real-time repository data
+
+* Dynamic project card population
+
+* Basic analytics implementation
+
+* Performance optimization
 
 ### Phase 2: AI Integration (Week 2)
-- Claude assistant integration
-- AI artwork gallery implementation
-- Interactive AI demos
-- Smart search functionality
+
+* Claude assistant integration
+
+* AI artwork gallery implementation
+
+* Interactive AI demos
+
+* Smart search functionality
 
 ### Phase 3: Advanced Features (Week 3)
-- Interactive demo embedding
-- Advanced analytics dashboard
-- Performance monitoring
-- Search optimization
+
+* Interactive demo embedding
+
+* Advanced analytics dashboard
+
+* Performance monitoring
+
+* Search optimization
 
 ### Phase 4: Polish & Optimization (Week 4)
-- Cross-browser testing
-- Performance tuning
-- GitHub Actions deployment optimization
-- Documentation completion
+
+* Cross-browser testing
+
+* Performance tuning
+
+* GitHub Actions deployment optimization
+
+* Documentation completion
 
 ## 8. Performance Considerations
 
 ### Optimization Strategies
-- **Lazy Loading**: Load GitHub data and AI content on demand
-- **Caching**: Implement intelligent caching for API responses
-- **Bundle Splitting**: Separate core functionality from enhanced features
-- **Image Optimization**: Compress and serve optimized images
-- **Progressive Enhancement**: Ensure core functionality works without JavaScript
+
+* **Lazy Loading**: Load GitHub data and AI content on demand
+
+* **Caching**: Implement intelligent caching for API responses
+
+* **Bundle Splitting**: Separate core functionality from enhanced features
+
+* **Image Optimization**: Compress and serve optimized images
+
+* **Progressive Enhancement**: Ensure core functionality works without JavaScript
 
 ### GitHub Pages Constraints
-- Maximum 1GB repository size
-- 100GB monthly bandwidth limit
-- Static file serving only
-- No server-side processing
-- HTTPS enforcement
+
+* Maximum 1GB repository size
+
+* 100GB monthly bandwidth limit
+
+* Static file serving only
+
+* No server-side processing
+
+* HTTPS enforcement
 
 ## 9. Security Considerations
 
 ### API Security
-- Client-side API key management for public APIs only
-- Rate limiting implementation
-- Input sanitization for user interactions
-- CORS handling for external API calls
+
+* Client-side API key management for public APIs only
+
+* Rate limiting implementation
+
+* Input sanitization for user interactions
+
+* CORS handling for external API calls
 
 ### Data Privacy
-- Local storage for analytics (no external tracking)
-- User consent for data collection
-- Minimal data retention policies
-- Transparent privacy practices
+
+* Local storage for analytics (no external tracking)
+
+* User consent for data collection
+
+* Minimal data retention policies
+
+* Transparent privacy practices
 
 ## 10. Deployment Strategy
 
 ### GitHub Actions Workflow
+
 ```yaml
 name: Deploy Portfolio
 on:
@@ -325,22 +382,36 @@ jobs:
 ```
 
 ### Build Optimization
-- Vite production build with tree shaking
-- CSS minification and purging
-- JavaScript bundling and compression
-- Asset optimization and caching
-- Source map generation for debugging
+
+* Vite production build with tree shaking
+
+* CSS minification and purging
+
+* JavaScript bundling and compression
+
+* Asset optimization and caching
+
+* Source map generation for debugging
 
 ## 11. Monitoring & Maintenance
 
 ### Performance Monitoring
-- Core Web Vitals tracking
-- API response time monitoring
-- Error logging and reporting
-- User interaction analytics
+
+* Core Web Vitals tracking
+
+* API response time monitoring
+
+* Error logging and reporting
+
+* User interaction analytics
 
 ### Maintenance Schedule
-- Weekly: GitHub API data refresh
-- Monthly: Performance audit
-- Quarterly: Dependency updates
-- Annually: Full security review
+
+* Weekly: GitHub API data refresh
+
+* Monthly: Performance audit
+
+* Quarterly: Dependency updates
+
+* Annually: Full security review
+
