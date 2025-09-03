@@ -68,7 +68,7 @@ export interface ProjectCardData {
 
 export interface AnalyticsEvent {
   id: string;
-  type: 'page_view' | 'project_click' | 'github_link_click' | 'demo_interaction' | 'contact_form' | 'page_hidden' | 'page_visible' | 'scroll_depth' | 'time_on_page';
+  type: 'page_view' | 'project_click' | 'github_link_click' | 'demo_interaction' | 'contact_form' | 'page_hidden' | 'page_visible' | 'scroll_depth' | 'time_on_page' | 'ai_content_generated' | 'ai_content_error' | 'ai_hero_content_generated' | 'ai_hero_content_error' | 'roi_calculation_started' | 'roi_calculation_completed' | 'roi_calculation_error' | 'metrics_dashboard_loaded' | 'metrics_category_changed' | 'metrics_dashboard_updated' | 'chatbot_bot_response' | 'chatbot_user_message' | 'case_study_generation_started' | 'case_study_generation_completed' | 'case_study_generation_error' | 'hero_content_regenerated' | 'roi_analysis_generated' | 'ai_content_fallback' | 'hero_cta_clicked' | 'case_study_generated' | 'case_study_downloaded';
   timestamp: string;
   data?: Record<string, any>;
   sessionId: string;
