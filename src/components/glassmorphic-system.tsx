@@ -1,5 +1,5 @@
 import React, { ReactNode, forwardRef, HTMLAttributes } from 'react';
-import { motion, MotionProps } from 'framer-motion';
+import { motion, MotionProps, HTMLMotionProps } from 'framer-motion';
 import { cn } from '../shared/utils/cn';
 
 /**
@@ -56,7 +56,7 @@ export const theme = {
 } as const;
 
 // Base Glass Container Component
-export interface GlassContainerProps extends HTMLAttributes<HTMLDivElement>, MotionProps {
+export interface GlassContainerProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   variant?: 'base' | 'primary' | 'tech' | 'cyber' | 'matrix';
   blur?: 'light' | 'medium' | 'heavy';
   glow?: boolean;
@@ -162,7 +162,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
 GlassCard.displayName = 'GlassCard';
 
 // Glass Button with Tech Variations
-export interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GlassButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
   variant?: 'primary' | 'tech' | 'cyber' | 'matrix' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   glow?: boolean;
@@ -264,6 +264,4 @@ export const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
 
 GlassButton.displayName = 'GlassButton';
 
-// Export all components and theme
-export { glassStyles };
-export type { GlassContainerProps, GlassCardProps, GlassButtonProps };
+// Export all components and theme - removed duplicate exports

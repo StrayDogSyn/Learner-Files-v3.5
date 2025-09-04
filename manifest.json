@@ -1,0 +1,89 @@
+{
+  "name": "StrayDog Syndicate Portfolio",
+  "short_name": "StrayDog",
+  "description": "AI-Enhanced Portfolio Platform for StrayDog Syndicate",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f23",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "portfolio"],
+  "icons": [
+    {
+      "src": "pwa-assets/icon-72x72.svg",
+      "sizes": "72x72",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "pwa-assets/icon-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "pwa-assets/icon-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "pwa-assets/icon-192x192.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "pwa-assets/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "StrayDog Portfolio Dashboard"
+    },
+    {
+      "src": "pwa-assets/screenshot-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "StrayDog Portfolio Mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "AI Dashboard",
+      "short_name": "Dashboard",
+      "description": "Access the AI-powered analytics dashboard",
+      "url": "/ai-dashboard",
+      "icons": [
+        {
+          "src": "pwa-assets/shortcut-dashboard.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Portfolio",
+      "short_name": "Portfolio",
+      "description": "View portfolio projects",
+      "url": "/portfolio",
+      "icons": [
+        {
+          "src": "pwa-assets/shortcut-portfolio.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
+}

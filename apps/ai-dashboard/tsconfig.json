@@ -29,7 +29,8 @@
   "include": ["src"],
   "references": [
     {
-      "path": "../../packages/ai-orchestrator"
+      "path": "../../packages/ai-orchestrator",
+      "composite": true
     },
     {
       "path": "../../packages/ui-components"
