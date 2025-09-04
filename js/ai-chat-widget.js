@@ -176,25 +176,35 @@ class AIChatWidget {
 
                 .ai-chat-message.user {
                     align-self: flex-end;
-                    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+                    background: rgba(53, 94, 59, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
                 }
 
                 .ai-chat-message.assistant {
                     align-self: flex-start;
-                    background: rgba(255, 255, 255, 0.9);
-                    color: #1f2937;
-                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    background: rgba(53, 94, 59, 0.2);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.25);
+                    box-shadow: 0 4px 15px rgba(45, 80, 22, 0.2);
                 }
 
                 .ai-chat-typing {
                     align-self: flex-start;
-                    background: rgba(255, 255, 255, 0.9);
-                    color: #1f2937;
-                    border: 1px solid rgba(255, 255, 255, 0.3);
+                    background: rgba(53, 94, 59, 0.2);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     padding: 12px 16px;
                     border-radius: 18px;
                     display: none;
+                    box-shadow: 0 4px 15px rgba(45, 80, 22, 0.2);
                 }
 
                 .ai-chat-typing.show {
@@ -210,7 +220,7 @@ class AIChatWidget {
                     width: 6px;
                     height: 6px;
                     border-radius: 50%;
-                    background: #6b7280;
+                    background: rgba(255, 255, 255, 0.8);
                     animation: typingBounce 1.4s infinite;
                 }
 
@@ -233,8 +243,10 @@ class AIChatWidget {
 
                 .ai-chat-input-container {
                     padding: 20px;
-                    background: rgba(255, 255, 255, 0.05);
-                    border-top: 1px solid rgba(255, 255, 255, 0.1);
+                    background: rgba(53, 94, 59, 0.1);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border-top: 1px solid rgba(255, 255, 255, 0.15);
                     display: flex;
                     gap: 10px;
                 }
@@ -248,7 +260,9 @@ class AIChatWidget {
                     color: white;
                     font-size: 14px;
                     outline: none;
-                    backdrop-filter: blur(10px);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    box-shadow: 0 2px 10px rgba(45, 80, 22, 0.1);
                 }
 
                 .ai-chat-input::placeholder {
@@ -256,33 +270,39 @@ class AIChatWidget {
                 }
 
                 .ai-chat-input:focus {
-                    border-color: rgba(255, 255, 255, 0.4);
+                    border-color: rgba(53, 94, 59, 0.6);
                     background: rgba(255, 255, 255, 0.15);
+                    box-shadow: 0 0 0 2px rgba(53, 94, 59, 0.2);
                 }
 
                 .ai-chat-send {
                     width: 44px;
                     height: 44px;
-                    border: none;
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     border-radius: 50%;
-                    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+                    background: rgba(53, 94, 59, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     transition: all 0.2s ease;
+                    box-shadow: 0 4px 15px rgba(45, 80, 22, 0.3);
                 }
 
                 .ai-chat-send:hover {
                     transform: scale(1.05);
-                    background: linear-gradient(135deg, #4a7c59 0%, #2d5016 100%);
+                    background: rgba(53, 94, 59, 0.95);
+                    box-shadow: 0 6px 20px rgba(45, 80, 22, 0.4);
                 }
 
                 .ai-chat-send:disabled {
                     opacity: 0.5;
                     cursor: not-allowed;
                     transform: none;
+                    box-shadow: none;
                 }
 
                 @media (max-width: 480px) {
@@ -344,7 +364,12 @@ class AIChatWidget {
             </div>
             <div class="ai-chat-input-container">
                 <input type="text" class="ai-chat-input" id="ai-chat-input" placeholder="Ask about Eric's expertise..." maxlength="500">
-                <button class="ai-chat-send" id="ai-chat-send" aria-label="Send message">➤</button>
+                <button class="ai-chat-send" id="ai-chat-send" aria-label="Send message">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                    </svg>
+                </button>
             </div>
         `;
         

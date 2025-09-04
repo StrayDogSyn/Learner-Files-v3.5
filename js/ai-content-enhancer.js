@@ -42,6 +42,7 @@ class AIContentEnhancer {
                     font-size: 14px;
                     font-weight: 600;
                     box-shadow: 0 4px 20px rgba(45, 80, 22, 0.3);
+                    -webkit-backdrop-filter: blur(10px);
                     backdrop-filter: blur(10px);
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     transition: all 0.3s ease;
