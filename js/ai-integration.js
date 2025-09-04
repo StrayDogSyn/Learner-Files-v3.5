@@ -87,21 +87,25 @@ class AIIntegration {
                 }
 
                 .ai-chat-btn {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: rgba(53, 94, 59, 0.75);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
                     padding: 15px 20px;
                     border-radius: 50px;
                     display: flex;
                     align-items: center;
                     gap: 10px;
-                    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+                    box-shadow: 0 4px 20px rgba(53, 94, 59, 0.5);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     transition: all 0.3s ease;
                     font-weight: 500;
                 }
 
                 .ai-chat-btn:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+                    box-shadow: 0 6px 25px rgba(53, 94, 59, 0.6);
+                    background: rgba(53, 94, 59, 0.85);
                 }
 
                 #ai-chat-panel {
@@ -110,11 +114,12 @@ class AIIntegration {
                     right: 30px;
                     width: 350px;
                     height: 500px;
-                    background: rgba(255, 255, 255, 0.95);
-                    backdrop-filter: blur(20px);
+                    background: rgba(53, 94, 59, 0.15);
+                    backdrop-filter: blur(16px);
+                    -webkit-backdrop-filter: blur(16px);
                     border-radius: 20px;
-                    border: 1px solid rgba(255, 255, 255, 0.2);
-                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+                    border: 1px solid rgba(53, 94, 59, 0.3);
+                    box-shadow: 0 10px 40px rgba(53, 94, 59, 0.2);
                     display: none;
                     flex-direction: column;
                     z-index: 1001;
@@ -122,12 +127,15 @@ class AIIntegration {
                 }
 
                 .ai-chat-header {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: rgba(53, 94, 59, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
                     padding: 20px;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                 }
 
                 .ai-chat-header h3 {
@@ -173,14 +181,23 @@ class AIIntegration {
                 }
 
                 .ai-message {
-                    background: #f0f0f0;
+                    background: rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    color: white;
                     align-self: flex-start;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
                 }
 
                 .user-message {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: rgba(53, 94, 59, 0.6);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
                     color: white;
                     align-self: flex-end;
+                    box-shadow: 0 2px 10px rgba(53, 94, 59, 0.2);
                 }
 
                 .message-content ul {
@@ -209,9 +226,11 @@ class AIIntegration {
                 }
 
                 .send-btn {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: rgba(53, 94, 59, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
-                    border: none;
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     width: 45px;
                     height: 45px;
                     border-radius: 50%;
@@ -220,10 +239,12 @@ class AIIntegration {
                     align-items: center;
                     justify-content: center;
                     transition: transform 0.2s ease;
+                    box-shadow: 0 4px 15px rgba(53, 94, 59, 0.3);
                 }
 
                 .send-btn:hover {
                     transform: scale(1.05);
+                    box-shadow: 0 6px 20px rgba(53, 94, 59, 0.4);
                 }
 
                 .typing-indicator {
