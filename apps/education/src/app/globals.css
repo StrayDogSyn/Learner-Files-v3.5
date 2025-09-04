@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-gradient-to-br from-hunter-950 via-hunter-900 to-education-wisdom/20 text-white;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-xl;
+  }
+  
+  .glass-button {
+    @apply bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 rounded-lg transition-all duration-300 hover:scale-105;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-education-wisdom via-education-insight to-education-discovery bg-clip-text text-transparent;
+  }
+  
+  .learning-glow {
+    @apply shadow-lg shadow-education-wisdom/25 hover:shadow-education-insight/30 transition-shadow duration-300;
+  }
+  
+  .education-card {
+    @apply glass-card learning-glow p-6 hover:bg-white/15 transition-all duration-300 group;
+  }
+  
+  .tutor-button {
+    @apply glass-button px-6 py-3 font-semibold text-white hover:text-education-wisdom transition-colors duration-300;
+  }
+  
+  .progress-bar {
+    @apply bg-hunter-800/50 rounded-full overflow-hidden;
+  }
+  
+  .progress-fill {
+    @apply bg-gradient-to-r from-education-beginner via-education-intermediate to-education-advanced h-full transition-all duration-500;
+  }
+  
+  .quiz-option {
+    @apply glass-card p-4 cursor-pointer hover:bg-education-quiz/20 border-2 border-transparent hover:border-education-quiz/50 transition-all duration-300;
+  }
+  
+  .weekly-chart-container {
+    @apply bg-education-wisdom/20 rounded-lg p-2 mb-1 relative overflow-hidden;
+    height: 80px;
+  }
+  
+  .weekly-chart-bar {
+    @apply absolute bottom-0 left-0 right-0 bg-education-wisdom rounded-lg transition-all;
+  }
+  
+  .quiz-option.selected {
+    @apply bg-education-quiz/20 border-education-quiz/70;
+  }
+  
+  .quiz-option.correct {
+    @apply bg-learning-lesson/20 border-learning-lesson/70;
+  }
+  
+  .quiz-option.incorrect {
+    @apply bg-learning-practice/20 border-learning-practice/70;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out;
+}

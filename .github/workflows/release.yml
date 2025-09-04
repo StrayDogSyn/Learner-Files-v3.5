@@ -1,0 +1,224 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '9'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    outputs:
+      release-id: ${{ steps.create-release.outputs.id }}
+      upload-url: ${{ steps.create-release.outputs.upload_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Get version from tag or input
+        id: get-version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+            echo "prerelease=${{ github.event.inputs.prerelease }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+            if [[ "${GITHUB_REF#refs/tags/}" == *"alpha"* ]] || [[ "${GITHUB_REF#refs/tags/}" == *"beta"* ]] || [[ "${GITHUB_REF#refs/tags/}" == *"rc"* ]]; then
+              echo "prerelease=true" >> $GITHUB_OUTPUT
+            else
+              echo "prerelease=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the previous tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          
+          echo "# Changelog for ${{ steps.get-version.outputs.version }}" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          
+          if [ -n "$PREVIOUS_TAG" ]; then
+            echo "## Changes since $PREVIOUS_TAG" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            
+            # Get commits since last tag
+            git log --pretty=format:"- %s (%h)" $PREVIOUS_TAG..HEAD >> CHANGELOG.md
+          else
+            echo "## Initial Release" >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+            echo "- Initial release of the Learner Files monorepo" >> CHANGELOG.md
+          fi
+          
+          echo "" >> CHANGELOG.md
+          echo "## Applications Included" >> CHANGELOG.md
+          echo "- 🏢 Business Application" >> CHANGELOG.md
+          echo "- 📚 Education Application" >> CHANGELOG.md
+          echo "- 💼 Portfolio Application" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "## Packages Included" >> CHANGELOG.md
+          echo "- 🗄️ Database Package (Supabase integration)" >> CHANGELOG.md
+          echo "- 🎨 UI Package (Shared components)" >> CHANGELOG.md
+
+      - name: Build all applications
+        run: |
+          echo "Building all applications for release..."
+          pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Run tests
+        run: |
+          echo "Running tests..."
+          pnpm run type-check
+          pnpm run lint
+        continue-on-error: false
+
+      - name: Create release archives
+        run: |
+          mkdir -p release-assets
+          
+          # Create source code archive
+          git archive --format=zip --prefix=learner-files-${{ steps.get-version.outputs.version }}/ HEAD > release-assets/learner-files-${{ steps.get-version.outputs.version }}-source.zip
+          
+          # Create build artifacts archive
+          tar -czf release-assets/learner-files-${{ steps.get-version.outputs.version }}-build.tar.gz \
+            apps/*/build apps/*/.next packages/*/dist --ignore-failed-read
+
+      - name: Create GitHub Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.get-version.outputs.version }}
+          release_name: Release ${{ steps.get-version.outputs.version }}
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: ${{ steps.get-version.outputs.prerelease }}
+
+      - name: Upload source archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: release-assets/learner-files-${{ steps.get-version.outputs.version }}-source.zip
+          asset_name: learner-files-${{ steps.get-version.outputs.version }}-source.zip
+          asset_content_type: application/zip
+
+      - name: Upload build archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
+          asset_path: release-assets/learner-files-${{ steps.get-version.outputs.version }}-build.tar.gz
+          asset_name: learner-files-${{ steps.get-version.outputs.version }}-build.tar.gz
+          asset_content_type: application/gzip
+
+  deploy-release:
+    runs-on: ubuntu-latest
+    needs: create-release
+    if: ${{ !github.event.inputs.prerelease }}
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build for production
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Deploy to Vercel (Production)
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Update release with deployment info
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: release } = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ needs.create-release.outputs.release-id }}
+            });
+            
+            const updatedBody = release.body + '\n\n## 🚀 Deployment\n\n✅ Successfully deployed to production';
+            
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ needs.create-release.outputs.release-id }},
+              body: updatedBody
+            });
+
+  notify-release:
+    runs-on: ubuntu-latest
+    needs: [create-release, deploy-release]
+    if: always()
+    steps:
+      - name: Notify release completion
+        run: |
+          if [[ "${{ needs.deploy-release.result }}" == "success" ]]; then
+            echo "🎉 Release ${{ needs.create-release.outputs.version }} completed successfully and deployed to production!"
+          elif [[ "${{ needs.create-release.result }}" == "success" ]]; then
+            echo "📦 Release ${{ needs.create-release.outputs.version }} created successfully (pre-release or deployment skipped)"
+          else
+            echo "❌ Release process failed"
+            exit 1
+          fi

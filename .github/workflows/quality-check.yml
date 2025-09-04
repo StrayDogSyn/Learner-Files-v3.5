@@ -1,0 +1,220 @@
+name: Code Quality Check
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '9'
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Cache pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint with annotations
+        run: |
+          pnpm run lint --format=@microsoft/eslint-formatter-sarif --output-file=eslint-results.sarif
+        continue-on-error: true
+
+      - name: Upload ESLint results to GitHub
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: eslint-results.sarif
+          wait-for-processing: true
+
+      - name: Run Prettier check
+        run: |
+          if ! pnpm exec prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}"; then
+            echo "❌ Code formatting issues found. Run 'pnpm run format' to fix."
+            exit 1
+          else
+            echo "✅ Code formatting is correct."
+          fi
+
+      - name: TypeScript strict check
+        run: |
+          echo "Running TypeScript checks..."
+          pnpm run type-check
+
+      - name: Check for TODO/FIXME comments
+        run: |
+          echo "Checking for TODO/FIXME comments..."
+          if grep -r "TODO\|FIXME" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" apps/ packages/ > todo-comments.txt 2>/dev/null; then
+            echo "⚠️ Found TODO/FIXME comments:"
+            cat todo-comments.txt
+            echo "::warning::Found TODO/FIXME comments in codebase"
+          else
+            echo "✅ No TODO/FIXME comments found."
+          fi
+
+      - name: Check bundle size (if applicable)
+        run: |
+          echo "Checking bundle sizes..."
+          # This would require bundle analyzer setup
+          echo "Bundle size check placeholder - implement with webpack-bundle-analyzer or similar"
+
+      - name: Generate code quality report
+        run: |
+          echo "# Code Quality Report" > quality-report.md
+          echo "Generated on: $(date)" >> quality-report.md
+          echo "Commit: ${{ github.sha }}" >> quality-report.md
+          echo "" >> quality-report.md
+          
+          # Add TypeScript compilation status
+          if pnpm run type-check > /dev/null 2>&1; then
+            echo "✅ TypeScript compilation: PASSED" >> quality-report.md
+          else
+            echo "❌ TypeScript compilation: FAILED" >> quality-report.md
+          fi
+          
+          # Add linting status
+          if pnpm run lint > /dev/null 2>&1; then
+            echo "✅ ESLint checks: PASSED" >> quality-report.md
+          else
+            echo "❌ ESLint checks: FAILED" >> quality-report.md
+          fi
+          
+          # Add formatting status
+          if pnpm exec prettier --check "**/*.{js,jsx,ts,tsx,json,css,md}" > /dev/null 2>&1; then
+            echo "✅ Code formatting: PASSED" >> quality-report.md
+          else
+            echo "❌ Code formatting: FAILED" >> quality-report.md
+          fi
+
+      - name: Upload quality report
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-quality-report
+          path: quality-report.md
+          retention-days: 30
+
+      - name: Comment PR with quality report (on PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const report = fs.readFileSync('quality-report.md', 'utf8');
+              
+              // Find existing comment
+              const comments = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+              });
+              
+              const existingComment = comments.data.find(
+                comment => comment.body.includes('Code Quality Report')
+              );
+              
+              const commentBody = `## 🔍 Code Quality Report\n\n${report}`;
+              
+              if (existingComment) {
+                // Update existing comment
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: existingComment.id,
+                  body: commentBody
+                });
+              } else {
+                // Create new comment
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: commentBody
+                });
+              }
+            } catch (error) {
+              console.log('Could not post quality report comment:', error.message);
+            }
+
+  performance-check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build applications
+        run: pnpm run build
+        env:
+          NODE_ENV: production
+
+      - name: Analyze bundle sizes
+        run: |
+          echo "# Bundle Size Analysis" > bundle-analysis.md
+          echo "Generated on: $(date)" >> bundle-analysis.md
+          echo "" >> bundle-analysis.md
+          
+          # Check if build outputs exist and analyze sizes
+          for app in business education portfolio; do
+            if [ -d "apps/$app/.next" ]; then
+              echo "## $app App" >> bundle-analysis.md
+              du -sh apps/$app/.next >> bundle-analysis.md
+              echo "" >> bundle-analysis.md
+            fi
+          done
+          
+          # Check package sizes
+          echo "## Package Sizes" >> bundle-analysis.md
+          for pkg in database ui; do
+            if [ -d "packages/$pkg/dist" ]; then
+              echo "### $pkg Package" >> bundle-analysis.md
+              du -sh packages/$pkg/dist >> bundle-analysis.md
+              echo "" >> bundle-analysis.md
+            fi
+          done
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundle-analysis
+          path: bundle-analysis.md
+          retention-days: 30

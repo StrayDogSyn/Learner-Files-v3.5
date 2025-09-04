@@ -1,0 +1,44 @@
+{
+  "name": "@straydog/ui-components",
+  "version": "1.0.0",
+  "description": "Shared UI components with Hunter Green glassmorphic design system for StrayDog AI Ecosystem",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "lucide-react": "^0.263.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.14.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.2.2",
+    "tsup": "^8.2.4",
+    "eslint": "^8.45.0"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "glassmorphic",
+    "hunter-green",
+    "straydog",
+    "justice-reform"
+  ],
+  "author": "StrayDog Syndicate",
+  "license": "MIT"
+}

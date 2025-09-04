@@ -1,0 +1,217 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  /* Hunter Green Color Palette */
+  --hunter-green-50: #f0f9f4;
+  --hunter-green-100: #dcf2e3;
+  --hunter-green-200: #bce5ca;
+  --hunter-green-300: #8dd3a8;
+  --hunter-green-400: #57b97f;
+  --hunter-green-500: #355e3b;
+  --hunter-green-600: #2a4a2f;
+  --hunter-green-700: #233d27;
+  --hunter-green-800: #1e3221;
+  --hunter-green-900: #1a2a1d;
+  --hunter-green-950: #0d1610;
+
+  /* Tech Accent Colors */
+  --tech-accent-300: #7dd3fc;
+  --tech-accent-400: #38bdf8;
+  --tech-accent-500: #0ea5e9;
+
+  /* Docusaurus Color Overrides */
+  --ifm-color-primary: var(--hunter-green-500);
+  --ifm-color-primary-dark: var(--hunter-green-600);
+  --ifm-color-primary-darker: var(--hunter-green-700);
+  --ifm-color-primary-darkest: var(--hunter-green-800);
+  --ifm-color-primary-light: var(--hunter-green-400);
+  --ifm-color-primary-lighter: var(--hunter-green-300);
+  --ifm-color-primary-lightest: var(--hunter-green-200);
+  
+  /* Background and text colors */
+  --ifm-background-color: var(--hunter-green-950);
+  --ifm-background-surface-color: var(--hunter-green-900);
+  --ifm-color-content: #ffffff;
+  --ifm-color-content-secondary: rgba(255, 255, 255, 0.8);
+  
+  /* Code block styling */
+  --ifm-code-font-size: 95%;
+  --ifm-code-background: var(--hunter-green-800);
+  --ifm-code-color: var(--tech-accent-300);
+  
+  /* Navbar styling */
+  --ifm-navbar-background-color: var(--hunter-green-900);
+  --ifm-navbar-link-color: rgba(255, 255, 255, 0.9);
+  --ifm-navbar-link-hover-color: var(--tech-accent-300);
+  
+  /* Footer styling */
+  --ifm-footer-background-color: var(--hunter-green-950);
+  --ifm-footer-color: rgba(255, 255, 255, 0.8);
+  --ifm-footer-link-color: var(--tech-accent-300);
+  --ifm-footer-link-hover-color: var(--tech-accent-400);
+  
+  /* Sidebar styling */
+  --ifm-menu-color: rgba(255, 255, 255, 0.9);
+  --ifm-menu-color-background-active: var(--hunter-green-800);
+  --ifm-menu-color-background-hover: var(--hunter-green-800);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: var(--hunter-green-400);
+  --ifm-color-primary-dark: var(--hunter-green-500);
+  --ifm-color-primary-darker: var(--hunter-green-600);
+  --ifm-color-primary-darkest: var(--hunter-green-700);
+  --ifm-color-primary-light: var(--hunter-green-300);
+  --ifm-color-primary-lighter: var(--hunter-green-200);
+  --ifm-color-primary-lightest: var(--hunter-green-100);
+  
+  --ifm-background-color: var(--hunter-green-950);
+  --ifm-background-surface-color: var(--hunter-green-900);
+}
+
+/* Custom glassmorphic effects */
+.glass-card {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(125, 211, 252, 0.3);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Hero section styling */
+.hero {
+  background: linear-gradient(135deg, var(--hunter-green-950) 0%, var(--hunter-green-900) 50%, var(--hunter-green-800) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.1), transparent 50%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 25%, rgba(255, 255, 255, 0.02) 50%, transparent 75%);
+  pointer-events: none;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--hunter-green-300), var(--tech-accent-300));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+/* Custom button styling */
+.button--primary {
+  background: linear-gradient(135deg, var(--hunter-green-500), var(--hunter-green-600));
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.button--primary:hover {
+  background: linear-gradient(135deg, var(--hunter-green-400), var(--hunter-green-500));
+  border-color: var(--tech-accent-400);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+}
+
+/* Code block enhancements */
+.prism-code {
+  background: var(--hunter-green-900) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+/* Navbar enhancements */
+.navbar {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  background: rgba(26, 42, 29, 0.9) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Sidebar enhancements */
+.theme-doc-sidebar-container {
+  background: var(--hunter-green-950);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Content area styling */
+.main-wrapper {
+  background: linear-gradient(135deg, var(--hunter-green-950) 0%, var(--hunter-green-900) 100%);
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--hunter-green-900);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hunter-green-600);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hunter-green-500);
+}
+
+/* Animation utilities */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .glass-card {
+    margin: 1rem;

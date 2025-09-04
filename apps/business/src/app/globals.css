@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-hunter-green-950 text-white;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl;
+  }
+  
+  .glass-button {
+    @apply bg-hunter-green-600/20 hover:bg-hunter-green-500/30 backdrop-blur-sm border border-hunter-green-400/30 rounded-lg transition-all duration-300;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-tech-accent-300 to-hunter-green-300 bg-clip-text text-transparent;
+  }
+  
+  .hero-glow {
+    @apply relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-tech-accent-500/20 before:to-hunter-green-500/20 before:blur-3xl before:-z-10;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(53 94 59 / 0.5) transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(53 94 59 / 0.5);
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(53 94 59 / 0.7);
+  }
+}

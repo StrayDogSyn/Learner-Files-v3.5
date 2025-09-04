@@ -5,18 +5,20 @@ import AIDemo from './pages/AIDemo';
 import ROICalculator from './pages/ROICalculator';
 import MetricsDashboard from './pages/MetricsDashboard';
 import CaseStudyGenerator from './pages/CaseStudyGenerator';
+import GlassmorphicDemo from './pages/GlassmorphicDemo';
 import { AIHeroSection, AILeadQualificationChatbot } from './components/ai';
 import { useAnalytics } from './hooks/useAnalytics';
 import './App.css';
 
-type ViewType = 'portfolio' | 'ai-demo' | 'roi-calculator' | 'metrics-dashboard' | 'case-studies';
+type ViewType = 'portfolio' | 'ai-demo' | 'roi-calculator' | 'metrics-dashboard' | 'case-studies' | 'glassmorphic-demo';
 
 const VIEW_TYPES = {
   PORTFOLIO: 'portfolio' as ViewType,
   AI_DEMO: 'ai-demo' as ViewType,
   ROI_CALCULATOR: 'roi-calculator' as ViewType,
   METRICS_DASHBOARD: 'metrics-dashboard' as ViewType,
-  CASE_STUDIES: 'case-studies' as ViewType
+  CASE_STUDIES: 'case-studies' as ViewType,
+  GLASSMORPHIC_DEMO: 'glassmorphic-demo' as ViewType
 };
 
 const INITIAL_VIEW: ViewType = VIEW_TYPES.PORTFOLIO;
@@ -45,6 +47,8 @@ function App() {
       setCurrentView(VIEW_TYPES.METRICS_DASHBOARD);
     } else if (path.includes('/case-studies')) {
       setCurrentView(VIEW_TYPES.CASE_STUDIES);
+    } else if (path.includes('/glassmorphic-demo')) {
+      setCurrentView(VIEW_TYPES.GLASSMORPHIC_DEMO);
     }
   }, []);
 
@@ -53,7 +57,8 @@ function App() {
     const path = view === VIEW_TYPES.AI_DEMO ? '/ai-demo' : 
                  view === VIEW_TYPES.ROI_CALCULATOR ? '/roi-calculator' : 
                  view === VIEW_TYPES.METRICS_DASHBOARD ? '/metrics-dashboard' : 
-                 view === VIEW_TYPES.CASE_STUDIES ? '/case-studies' : '/';
+                 view === VIEW_TYPES.CASE_STUDIES ? '/case-studies' : 
+                 view === VIEW_TYPES.GLASSMORPHIC_DEMO ? '/glassmorphic-demo' : '/';
     window.history.pushState({}, '', path);
   };
 
@@ -71,6 +76,10 @@ function App() {
 
   if (currentView === VIEW_TYPES.CASE_STUDIES) {
     return <CaseStudyGenerator />;
+  }
+
+  if (currentView === VIEW_TYPES.GLASSMORPHIC_DEMO) {
+    return <GlassmorphicDemo />;
   }
 
   return (
@@ -126,6 +135,16 @@ function App() {
           }`}
         >
           Cases
+        </button>
+        <button
+          onClick={() => handleViewChange(VIEW_TYPES.GLASSMORPHIC_DEMO)}
+          className={`px-3 py-2 backdrop-blur-md border rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105 ${
+            currentView === VIEW_TYPES.GLASSMORPHIC_DEMO
+              ? 'bg-green-600/30 border-green-500/50 text-green-400'
+              : 'bg-green-600/20 border-green-500/30 text-green-400 hover:bg-green-600/30'
+          }`}
+        >
+          Glass
         </button>
       </nav>
 

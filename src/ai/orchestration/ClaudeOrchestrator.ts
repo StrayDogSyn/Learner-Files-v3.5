@@ -15,6 +15,7 @@ import {
 import { rateLimiter } from '../services/RateLimiter';
 import { contextManager } from '../services/ContextManager';
 import { analyticsService } from '../services/AnalyticsService';
+import { errorHandler, ErrorType, withRetry } from '@repo/database';
 
 export class ClaudeOrchestrator {
   private rateLimiter = rateLimiter;
@@ -114,12 +115,18 @@ export class ClaudeOrchestrator {
       };
 
     } catch (error) {
+      const serviceError = errorHandler.handleAIServiceError(error, {
+        request: request,
+        domain: request.domain,
+        operation: 'generateContent'
+      });
+
       const aiError: AIError = {
         code: 'ORCHESTRATION_ERROR',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: serviceError.message,
         domain: request.domain,
-        timestamp: new Date(),
-        context: { request }
+        timestamp: serviceError.timestamp,
+        context: serviceError.context
       };
 
       await this.analytics.trackEvent({
@@ -130,12 +137,12 @@ export class ClaudeOrchestrator {
         userId: request.userId || 'anonymous',
         userRole: 'user',
         success: false,
-        error: aiError.message
+        error: serviceError.userMessage || serviceError.message
       });
 
       return this.createErrorResponse(
         aiError.code,
-        aiError.message,
+        serviceError.userMessage || aiError.message,
         requestId,
         startTime
       );
@@ -296,5 +303,5 @@ export class ClaudeOrchestrator {
 
 // Export singleton instance
 export const claudeOrchestrator = new ClaudeOrchestrator(
-  process.env.ANTHROPIC_API_KEY || 'your-api-key-here'
+  process.env.ANTHROPIC_API_KEY!
 );

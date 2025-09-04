@@ -1,0 +1,1 @@
+{"version":3,"file":"AIMetricsDashboard.d.ts","sourceRoot":"","sources":["AIMetricsDashboard.tsx"],"names":[],"mappings":"AAAA,OAAO,KAA8B,MAAM,OAAO,CAAC;AAmCnD,UAAU,uBAAuB;IAC/B,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,eAAe,CAAC,EAAE,MAAM,CAAC;CAC1B;AAED,QAAA,MAAM,kBAAkB,EAAE,KAAK,CAAC,EAAE,CAAC,uBAAuB,CAqWzD,CAAC;AAEF,eAAe,kBAAkB,CAAC"}

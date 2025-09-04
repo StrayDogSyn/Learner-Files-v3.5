@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Glassmorphic base styles */
+  .glass-base {
+    @apply backdrop-blur-md bg-white/10 border border-white/20;
+  }
+  
+  .glass-hover {
+    @apply hover:bg-white/15 hover:border-white/30 transition-all duration-300;
+  }
+  
+  .glass-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-tech-accent-400/50 focus:border-tech-accent-400/50;
+  }
+  
+  /* Hunter Green theme variations */
+  .hunter-glass {
+    @apply backdrop-blur-md bg-hunter-green-500/10 border border-hunter-green-300/20;
+  }
+  
+  .hunter-glass-hover {
+    @apply hover:bg-hunter-green-500/15 hover:border-hunter-green-300/30;
+  }
+  
+  /* Tech accent variations */
+  .tech-glass {
+    @apply backdrop-blur-md bg-tech-accent-500/10 border border-tech-accent-300/20;
+  }
+  
+  .tech-glass-hover {
+    @apply hover:bg-tech-accent-500/15 hover:border-tech-accent-300/30;
+  }
+}
+
+@layer utilities {
+  /* Custom animations */
+  .animate-glass-shimmer {
+    animation: glass-shimmer 2s ease-in-out infinite;
+  }
+  
+  @keyframes glass-shimmer {
+    0%, 100% {
+      background-position: -200% 0;
+    }
+    50% {
+      background-position: 200% 0;
+    }
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-hunter-green-300 to-tech-accent-300 bg-clip-text text-transparent;
+  }
+  
+  /* Scrollbar styling */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-hunter-green-900/20 rounded-lg;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-hunter-green-500/30 rounded-lg hover:bg-hunter-green-500/50;
+  }
+}

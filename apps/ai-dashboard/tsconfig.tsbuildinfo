@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/aiinitializer.tsx","./src/components/aitestpanel.tsx","./src/components/dashboardlayout.tsx","./src/hooks/usedomainrouting.ts","./src/pages/analyticspage.tsx","./src/pages/homepage.tsx","./src/router/index.tsx","./src/types/routing.ts","./src/utils/ai-request-router.ts","./src/utils/domain-routes.ts"],"version":"5.9.2"}
