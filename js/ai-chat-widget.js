@@ -28,13 +28,13 @@ class AIChatWidget {
                     right: 30px;
                     width: 60px;
                     height: 60px;
-                    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
-                    border: none;
+                    background: rgba(53, 94, 59, 0.75);
                     border-radius: 50%;
                     cursor: pointer;
                     box-shadow: 0 8px 32px rgba(45, 80, 22, 0.3);
-                    backdrop-filter: blur(10px);
-                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     transition: all 0.3s ease;
                     z-index: 1000;
                     display: flex;
@@ -46,12 +46,13 @@ class AIChatWidget {
 
                 .ai-chat-button:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 12px 40px rgba(45, 80, 22, 0.4);
-                    background: linear-gradient(135deg, #4a7c59 0%, #2d5016 100%);
+                    box-shadow: 0 12px 40px rgba(45, 80, 22, 0.5);
+                    background: rgba(53, 94, 59, 0.85);
                 }
 
                 .ai-chat-button.active {
-                    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+                    background: rgba(53, 94, 59, 0.95);
+                    box-shadow: 0 8px 32px rgba(45, 80, 22, 0.5);
                 }
 
                 .ai-chat-modal {
@@ -60,11 +61,12 @@ class AIChatWidget {
                     right: 30px;
                     width: 380px;
                     height: 500px;
-                    background: rgba(255, 255, 255, 0.1);
-                    backdrop-filter: blur(20px);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    background: rgba(53, 94, 59, 0.2);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
+                    border: 1px solid rgba(255, 255, 255, 0.25);
                     border-radius: 20px;
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 20px 60px rgba(45, 80, 22, 0.3);
                     z-index: 999;
                     display: none;
                     flex-direction: column;
@@ -89,11 +91,14 @@ class AIChatWidget {
 
                 .ai-chat-header {
                     padding: 20px;
-                    background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+                    background: rgba(53, 94, 59, 0.85);
+                    backdrop-filter: blur(12px);
+                    -webkit-backdrop-filter: blur(12px);
                     color: white;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
                 }
 
                 .ai-chat-title {

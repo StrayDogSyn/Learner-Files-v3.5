@@ -207,7 +207,7 @@ class AIIntegration {
 
                 .ai-chat-input {
                     padding: 20px;
-                    border-top: 1px solid #eee;
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
                     display: flex;
                     gap: 10px;
                 }
@@ -215,14 +215,23 @@ class AIIntegration {
                 #chat-input {
                     flex: 1;
                     padding: 12px 16px;
-                    border: 1px solid #ddd;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
                     border-radius: 25px;
                     outline: none;
                     font-size: 14px;
+                    color: white;
+                    backdrop-filter: blur(8px);
+                    -webkit-backdrop-filter: blur(8px);
                 }
 
                 #chat-input:focus {
-                    border-color: #667eea;
+                    border-color: rgba(53, 94, 59, 0.6);
+                    box-shadow: 0 0 0 2px rgba(53, 94, 59, 0.2);
+                }
+                
+                #chat-input::placeholder {
+                    color: rgba(255, 255, 255, 0.6);
                 }
 
                 .send-btn {
