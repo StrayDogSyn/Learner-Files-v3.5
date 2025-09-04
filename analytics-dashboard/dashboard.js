@@ -280,9 +280,7 @@ class AnalyticsDashboard {
             await this.setupEventListeners();
             await this.initializeCharts();
             await this.loadInitialData();
-            await this.setupRealTimeUpdates();
             this.showLoading(false);
-            this.updateConnectionStatus(true);
         } catch (error) {
             console.error('Dashboard initialization failed:', error);
             this.showError('Failed to initialize dashboard');
@@ -329,7 +327,7 @@ class AnalyticsDashboard {
         });
 
         // GitHub refresh button
-        const githubRefreshBtn = document.getElementById('refresh-github-btn');
+        const githubRefreshBtn = document.getElementById('refresh-github');
         if (githubRefreshBtn) {
             githubRefreshBtn.addEventListener('click', () => {
                 this.refreshGitHubData();
@@ -454,33 +452,9 @@ class AnalyticsDashboard {
     }
 
     async loadInitialData() {
-        try {
-            // Try to fetch real data first, fallback to mock data
-            console.log('Attempting to load real analytics data...');
-            const response = await fetch('../api/analytics/dashboard.js');
-            
-            if (response.ok) {
-                const realData = await response.json();
-                console.log('Real analytics data loaded successfully');
-                this.updateDashboard(realData);
-                this.isConnected = true;
-            } else {
-                throw new Error('API not available');
-            }
-        } catch (error) {
-            console.log('Real data unavailable, loading mock data for demonstration');
-            this.loadMockData();
-            this.isConnected = false;
-        }
-
-        // Load GitHub data
-        try {
-            console.log('Loading GitHub data...');
-            await this.github.updateGitHubMetrics();
-            console.log('GitHub data loaded successfully');
-        } catch (error) {
-            console.error('Failed to load GitHub data:', error);
-        }
+        // Load functional demo data immediately
+        this.loadMockData();
+        this.updateConnectionStatus('demo');
     }
 
     loadMockData() {
@@ -708,6 +682,16 @@ class AnalyticsDashboard {
         });
     }
 
+    setupDemoUpdates() {
+        // Setup periodic updates with fresh mock data for demonstration
+        this.updateInterval = setInterval(() => {
+            console.log('Refreshing demo data...');
+            this.loadMockData();
+        }, 30000); // Update every 30 seconds with new mock data
+        
+        this.isConnected = 'demo';
+    }
+
     async setupRealTimeUpdates() {
         // Try Server-Sent Events first
         try {
@@ -890,8 +874,8 @@ class AnalyticsDashboard {
     }
 
     resumeUpdates() {
-        this.setupRealTimeUpdates();
-        this.updateConnectionStatus(true);
+        this.setupDemoUpdates();
+        this.updateConnectionStatus('demo');
     }
 
     retryConnection() {
@@ -907,24 +891,18 @@ class AnalyticsDashboard {
         }
     }
 
-    updateConnectionStatus(connected) {
+    updateConnectionStatus(status) {
         const statusElement = document.getElementById('connection-status');
-        const dot = statusElement.querySelector('.status-dot');
-        const text = statusElement.querySelector('span');
+        const statusText = document.getElementById('status-text');
         
-        if (connected) {
-            statusElement.style.background = 'rgba(34, 197, 94, 0.1)';
-            statusElement.style.borderColor = 'rgba(34, 197, 94, 0.3)';
-            dot.style.background = '#22c55e';
-            text.textContent = 'Live';
-        } else {
-            statusElement.style.background = 'rgba(239, 68, 68, 0.1)';
-            statusElement.style.borderColor = 'rgba(239, 68, 68, 0.3)';
-            dot.style.background = '#ef4444';
-            text.textContent = 'Offline';
+        if (statusElement && statusText) {
+            statusElement.className = `connection-status ${status}`;
+            if (status === 'demo') {
+                statusText.textContent = 'Demo Mode - Live Data Simulation';
+            } else {
+                statusText.textContent = status === 'online' ? 'Connected' : 'Offline - Demo Mode';
+            }
         }
-        
-        this.isConnected = connected;
     }
 
     showLoading(show) {

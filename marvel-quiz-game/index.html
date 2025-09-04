@@ -708,6 +708,35 @@
                 img.style.display = 'block';
                 showHDIndicator();
             };
+
+        // Preload images for better performance
+        function preloadImages() {
+            if (!questions || questions.length === 0) return;
+            
+            questions.forEach(question => {
+                if (question.character && question.character.images) {
+                    const images = question.character.images;
+                    
+                    // Preload primary image
+                    if (images.primary) {
+                        const img1 = new Image();
+                        img1.src = images.primary;
+                    }
+                    
+                    // Preload secondary image
+                    if (images.secondary) {
+                        const img2 = new Image();
+                        img2.src = images.secondary;
+                    }
+                    
+                    // Preload fallback image
+                    if (images.fallback) {
+                        const img3 = new Image();
+                        img3.src = images.fallback;
+                    }
+                }
+            });
+        }
             
             img.onerror = function() {
                 currentImageAttempt++;
@@ -857,131 +886,381 @@
                 {
                     question: "Who is known as the 'Merc with a Mouth'?",
                     answers: ["Spider-Man", "Deadpool", "Wolverine", "Iron Man"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Deadpool",
+                        tier: "A",
+                        theme: "deadpool",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/ff0000/ffffff?text=Deadpool"
+                        }
+                    }
                 },
                 {
                     question: "What is the Hulk's real name?",
                     answers: ["Bruce Banner", "Bruce Wayne", "Peter Parker", "Tony Stark"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Hulk",
+                        tier: "S+",
+                        theme: "hulk",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/228b22/ffffff?text=Hulk"
+                        }
+                    }
                 },
                 {
                     question: "Which Infinity Stone is red?",
                     answers: ["Power Stone", "Reality Stone", "Time Stone", "Space Stone"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Scarlet Witch",
+                        tier: "S",
+                        theme: "black-widow",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1494790108755-2616c6106db4?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/dc143c/ffffff?text=Reality+Stone"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of Black Widow's real name?",
                     answers: ["Natasha Romanoff", "Wanda Maximoff", "Carol Danvers", "Maria Hill"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Black Widow",
+                        tier: "A",
+                        theme: "black-widow",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1494790108755-2616c6106db4?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/8b0000/ffffff?text=Black+Widow"
+                        }
+                    }
                 },
                 {
                     question: "Who is the king of Wakanda?",
                     answers: ["T'Chaka", "M'Baku", "T'Challa", "Shuri"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Black Panther",
+                        tier: "S+",
+                        theme: "black-panther",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4b0082/ffffff?text=Black+Panther"
+                        }
+                    }
                 }
             ],
             medium: [
                 {
                     question: "What is the name of the cosmic entity that devours planets?",
                     answers: ["Galactus", "Dormammu", "Eternity", "The Living Tribunal"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Galactus",
+                        tier: "S+",
+                        theme: "galactus",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4b0082/ffffff?text=Galactus"
+                        }
+                    }
                 },
                 {
                     question: "Which villain is known as the 'Master of Magnetism'?",
                     answers: ["Doctor Doom", "Magneto", "Loki", "Red Skull"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Magneto",
+                        tier: "S",
+                        theme: "magneto",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/8b0000/ffffff?text=Magneto"
+                        }
+                    }
                 },
                 {
                     question: "What is the real name of the Winter Soldier?",
                     answers: ["Steve Rogers", "Sam Wilson", "Bucky Barnes", "John Walker"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Winter Soldier",
+                        tier: "A",
+                        theme: "winter-soldier",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1566753323558-f4e0952af115?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/2f4f4f/ffffff?text=Winter+Soldier"
+                        }
+                    }
                 },
                 {
                     question: "Which dimension does Doctor Strange protect Earth from?",
                     answers: ["Dark Dimension", "Quantum Realm", "Mirror Dimension", "Astral Plane"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Doctor Strange",
+                        tier: "S+",
+                        theme: "doctor-strange",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/8b0000/ffffff?text=Doctor+Strange"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the Asgardian rainbow bridge?",
                     answers: ["Bifrost", "Heimdall", "Yggdrasil", "Valhalla"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Heimdall",
+                        tier: "A",
+                        theme: "heimdall",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/ffd700/000000?text=Heimdall"
+                        }
+                    }
                 },
                 {
                     question: "Who created the Infinity Stones?",
                     answers: ["The Celestials", "The Watchers", "The Cosmic Entities", "The First Firmament"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Cosmic Entity",
+                        tier: "S+",
+                        theme: "cosmic-entity",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4b0082/ffffff?text=Cosmic+Entity"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the Fantastic Four's headquarters?",
                     answers: ["Avengers Tower", "Baxter Building", "Xavier Mansion", "Sanctum Sanctorum"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Mr. Fantastic",
+                        tier: "A",
+                        theme: "mr-fantastic",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4169e1/ffffff?text=Mr.+Fantastic"
+                        }
+                    }
                 },
                 {
                     question: "Which mutant has the ability to absorb other mutants' powers?",
                     answers: ["Rogue", "Mystique", "Emma Frost", "Jean Grey"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Rogue",
+                        tier: "A",
+                        theme: "rogue",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/228b22/ffffff?text=Rogue"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the symbiote that bonds with Spider-Man?",
                     answers: ["Carnage", "Toxin", "Venom", "Anti-Venom"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Venom",
+                        tier: "S",
+                        theme: "venom",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/000000/ffffff?text=Venom"
+                        }
+                    }
                 },
                 {
                     question: "Who is the herald of Galactus?",
                     answers: ["Silver Surfer", "Nova", "Quasar", "Captain Marvel"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Silver Surfer",
+                        tier: "S+",
+                        theme: "silver-surfer",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/c0c0c0/000000?text=Silver+Surfer"
+                        }
+                    }
                 }
             ],
             hard: [
                 {
                     question: "What is the real name of the villain known as Apocalypse?",
                     answers: ["En Sabah Nur", "Nathaniel Essex", "Victor Von Doom", "Max Eisenhardt"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Apocalypse",
+                        tier: "S+",
+                        theme: "apocalypse",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/2f4f4f/ffffff?text=Apocalypse"
+                        }
+                    }
                 },
                 {
                     question: "Which cosmic entity represents Death in the Marvel Universe?",
                     answers: ["Eternity", "Infinity", "Lady Death", "Oblivion"],
-                    correct: 2
+                    correct: 2,
+                    character: {
+                        name: "Lady Death",
+                        tier: "S+",
+                        theme: "lady-death",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/000000/ffffff?text=Lady+Death"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the dimension where the Beyonder originates?",
                     answers: ["Beyond-Realm", "Outside", "The Beyond", "Beyonderland"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Beyonder",
+                        tier: "S+",
+                        theme: "beyonder",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4b0082/ffffff?text=Beyonder"
+                        }
+                    }
                 },
                 {
                     question: "Who was the first host of the Phoenix Force?",
                     answers: ["Jean Grey", "Rachel Summers", "Emma Frost", "A primordial being"],
-                    correct: 3
+                    correct: 3,
+                    character: {
+                        name: "Phoenix Force",
+                        tier: "S+",
+                        theme: "phoenix-force",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/ff4500/ffffff?text=Phoenix+Force"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the cosmic cube that grants reality-warping powers?",
                     answers: ["Tesseract", "Cosmic Cube", "Reality Gem", "Infinity Cube"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Cosmic Cube",
+                        tier: "S",
+                        theme: "cosmic-cube",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4169e1/ffffff?text=Cosmic+Cube"
+                        }
+                    }
                 },
                 {
                     question: "Which Elder of the Universe is obsessed with games and contests?",
                     answers: ["The Collector", "The Grandmaster", "The Gardener", "The Runner"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "The Grandmaster",
+                        tier: "S",
+                        theme: "grandmaster",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/ffd700/000000?text=Grandmaster"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the pocket dimension created by Franklin Richards?",
                     answers: ["Counter-Earth", "Heroes Reborn", "Franklin's World", "Pocket Universe"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Franklin Richards",
+                        tier: "S+",
+                        theme: "franklin-richards",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/4169e1/ffffff?text=Franklin+Richards"
+                        }
+                    }
                 },
                 {
                     question: "Who is the creator of the Sentinels?",
                     answers: ["Bolivar Trask", "William Stryker", "Henry Gyrich", "Sebastian Shaw"],
-                    correct: 0
+                    correct: 0,
+                    character: {
+                        name: "Bolivar Trask",
+                        tier: "A",
+                        theme: "bolivar-trask",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/696969/ffffff?text=Bolivar+Trask"
+                        }
+                    }
                 },
                 {
                     question: "What is the name of the alien race that the Skrulls are at war with?",
                     answers: ["Shi'ar", "Kree", "Badoon", "Brood"],
-                    correct: 1
+                    correct: 1,
+                    character: {
+                        name: "Kree Warrior",
+                        tier: "B",
+                        theme: "kree",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/0066cc/ffffff?text=Kree+Warrior"
+                        }
+                    }
                 },
                 {
                     question: "Which character has the ability to manipulate probability?",
                     answers: ["Scarlet Witch", "Domino", "Longshot", "All of the above"],
-                    correct: 3
+                    correct: 3,
+                    character: {
+                        name: "Scarlet Witch",
+                        tier: "S",
+                        theme: "scarlet-witch",
+                        images: {
+                            primary: "https://images.unsplash.com/photo-1494790108755-2616c9c0e8e0?w=400&h=400&fit=crop&crop=face",
+                            secondary: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop&crop=face",
+                            fallback: "https://via.placeholder.com/400x400/dc143c/ffffff?text=Scarlet+Witch"
+                        }
+                    }
                 }
             ]
         };
