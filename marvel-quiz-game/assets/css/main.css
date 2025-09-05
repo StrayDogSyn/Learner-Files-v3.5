@@ -112,6 +112,7 @@ html {
   font-size: 16px;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   -moz-tab-size: 4;
   tab-size: 4;
 }
@@ -551,10 +552,10 @@ a:hover {
 .cursor-not-allowed { cursor: not-allowed; }
 
 /* Select Utilities */
-.select-none { user-select: none; }
-.select-text { user-select: text; }
-.select-all { user-select: all; }
-.select-auto { user-select: auto; }
+.select-none { -webkit-user-select: none; user-select: none; }
+.select-text { -webkit-user-select: text; user-select: text; }
+.select-all { -webkit-user-select: all; user-select: all; }
+.select-auto { -webkit-user-select: auto; user-select: auto; }
 
 /* Pointer Events */
 .pointer-events-none { pointer-events: none; }
@@ -709,4 +710,21 @@ a:hover {
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+}
+
+/* Fallback for browsers that don't support scrollbar-width/scrollbar-color */
+@supports not (scrollbar-width: thin) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
 }

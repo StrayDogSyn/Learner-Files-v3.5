@@ -390,6 +390,7 @@ p, .text {
 /* High DPI / Retina Displays */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     .glass-card {
+        -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
     }
     
