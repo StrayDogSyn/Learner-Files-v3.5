@@ -2,8 +2,8 @@
 
 /* Core Glassmorphism Mixins and Base Classes */
 .glass-base {
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   position: relative;
   overflow: hidden;
@@ -60,6 +60,7 @@
 .glass-card-interactive {
   @extend .glass-card;
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
   transition: all var(--transition-fast);
 }
@@ -245,8 +246,8 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: var(--z-modal-backdrop);
   display: flex;
   align-items: center;
@@ -571,6 +572,7 @@
   align-items: center;
   justify-content: space-between;
   transition: background var(--transition-fast);
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -639,23 +641,23 @@
 
 /* Glass Utility Classes */
 .glass-blur-sm {
-  backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 
 .glass-blur-md {
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
 .glass-blur-lg {
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
 
 .glass-blur-xl {
-  backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(32px);
+  backdrop-filter: blur(32px);
 }
 
 .glass-border-gradient {
