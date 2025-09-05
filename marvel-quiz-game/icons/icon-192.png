@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="marvelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="25%" style="stop-color:#4ecdc4;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#45b7d1;stop-opacity:1" />
+      <stop offset="75%" style="stop-color:#96ceb4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#feca57;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="192" height="192" rx="24" fill="#0a0a23"/>
+  
+  <!-- Glassmorphic background -->
+  <rect x="12" y="12" width="168" height="168" rx="20" fill="url(#marvelGradient)" opacity="0.1"/>
+  <rect x="12" y="12" width="168" height="168" rx="20" fill="none" stroke="url(#marvelGradient)" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Marvel Logo Style -->
+  <g transform="translate(96,96)" filter="url(#glow)">
+    <!-- M -->
+    <path d="M-60,-30 L-60,30 L-50,30 L-50,0 L-40,20 L-30,0 L-30,30 L-20,30 L-20,-30 L-35,-30 L-40,-10 L-45,-30 Z" fill="#ff6b6b"/>
+    
+    <!-- Quiz Symbol -->
+    <circle cx="0" cy="0" r="25" fill="none" stroke="#4ecdc4" stroke-width="3"/>
+    <text x="0" y="8" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#45b7d1">?</text>
+    
+    <!-- Decorative elements -->
+    <circle cx="35" cy="-15" r="3" fill="#96ceb4" opacity="0.8"/>
+    <circle cx="40" cy="10" r="2" fill="#feca57" opacity="0.8"/>
+    <circle cx="-35" cy="15" r="2.5" fill="#ff6b6b" opacity="0.8"/>
+  </g>
+  
+  <!-- Bottom text -->
+  <text x="96" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#4ecdc4">MARVEL QUIZ</text>
+</svg>

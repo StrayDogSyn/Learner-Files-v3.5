@@ -1,0 +1,183 @@
+{
+  "name": "Ultimate Marvel Universe Quiz",
+  "short_name": "Marvel Quiz",
+  "description": "The ultimate Marvel Universe quiz experience with glassmorphic design, advanced scoring, and offline functionality. Test your Marvel knowledge with dynamic questions and real-time character data.",
+  "version": "2.0.0",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0f3460",
+  "background_color": "#0a0a23",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["games", "entertainment", "education"],
+  "screenshots": [
+    {
+      "src": "./screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Marvel Quiz Desktop Experience"
+    },
+    {
+      "src": "./screenshots/mobile-1.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Marvel Quiz Mobile Experience"
+    }
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Quiz",
+      "short_name": "Quiz",
+      "description": "Start a quick Marvel quiz",
+      "url": "./index.html?mode=quick",
+      "icons": [
+        {
+          "src": "./icons/shortcut-quiz.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Challenge Mode",
+      "short_name": "Challenge",
+      "description": "Take on the ultimate Marvel challenge",
+      "url": "./index.html?mode=challenge",
+      "icons": [
+        {
+          "src": "./icons/shortcut-challenge.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Leaderboard",
+      "short_name": "Scores",
+      "description": "View top scores and achievements",
+      "url": "./index.html?view=leaderboard",
+      "icons": [
+        {
+          "src": "./icons/shortcut-leaderboard.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://marvel-quiz-ultimate.vercel.app/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate",
+  "protocol_handlers": [
+    {
+      "protocol": "web+marvelquiz",
+      "url": "./index.html?action=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./index.html?import=true",
+      "accept": {
+        "application/json": [".json"]
+      },
+      "icons": [
+        {
+          "src": "./icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ],
+      "launch_type": "single-client"
+    }
+  ],
+  "share_target": {
+    "action": "./index.html?share=true",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "quiz_data",
+          "accept": ["application/json", ".json"]
+        }
+      ]
+    }
+  },
+  "display_override": [
+    "window-controls-overlay",
+    "minimal-ui",
+    "standalone",
+    "browser"
+  ],
+  "id": "ultimate-marvel-quiz",
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7"
+}
