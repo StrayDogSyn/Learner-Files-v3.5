@@ -359,7 +359,7 @@ p, .text {
 @media (max-height: 500px) and (orientation: landscape) {
     .game-container {
         padding: 1rem;
-        min-height: auto;
+        min-height: 0;
     }
     
     .question-card {

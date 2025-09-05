@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="app-title">Ultimate Marvel Universe Quiz - 10x Development Showcase</title>
     <meta name="description" content="A cutting-edge glassmorphic quiz application showcasing the Marvel Universe with advanced PWA features, real-time API integration, and 10x programming capabilities">
-    <!-- Cross-browser theme color support -->    
-    <meta name="theme-color" content="#e94560">
+    <!-- Cross-browser theme color support with fallbacks -->    
+    <meta name="theme-color" content="#e94560" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#c73850" media="(prefers-color-scheme: dark)">
     <meta name="msapplication-navbutton-color" content="#e94560">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1652,7 +1653,7 @@
         </div>
         <div class="badge-content">
             <div class="badge-title">GitHub Demo</div>
-            <div class="badge-description">Limited API functionality due to deployment restrictions</div>
+            <div class="badge-description">This demo does not reflect full project functionality due to API call deployment restrictions</div>
         </div>
         <div class="badge-close" onclick="hideBadge()" role="button" tabindex="0" aria-label="Close badge" onkeydown="if(event.key==='Enter'||event.key===' ')hideBadge()">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
@@ -4294,10 +4295,13 @@ timerFill.style.width = `${percentage}%`;
             if (badge && !isHidden) {
                 setTimeout(() => {
                     badge.classList.add('show');
-                }, 2000); // Show after 2 seconds
+                }, 1000); // Show after 1 second
             } else if (badge && isHidden) {
                 badge.style.display = 'none';
             }
+            
+            // Reset hidden state to ensure badge is shown
+            localStorage.removeItem('githubBadgeHidden');
         });
      </script>
 
@@ -4308,8 +4312,8 @@ timerFill.style.width = `${percentage}%`;
             bottom: 20px;
             right: 20px;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             padding: 12px 16px;
