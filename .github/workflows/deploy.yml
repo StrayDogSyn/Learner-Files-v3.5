@@ -37,6 +37,22 @@ jobs:
       - name: Build project
         run: npm run build:gh-pages
       
+      - name: Copy Marvel Quiz Game to dist
+        run: |
+          mkdir -p ./dist/marvel-quiz-game
+          cp -r ./marvel-quiz-game/* ./dist/marvel-quiz-game/
+          echo "✅ Marvel Quiz Game files copied to dist"
+      
+      - name: Verify PWA files
+        run: |
+          echo "Checking for PWA files in marvel-quiz-game..."
+          ls -la ./dist/marvel-quiz-game/
+          if [ -f "./dist/marvel-quiz-game/sw.js" ]; then echo "✅ Service Worker found"; else echo "❌ Service Worker missing"; fi
+          if [ -f "./dist/marvel-quiz-game/manifest.json" ]; then echo "✅ Manifest found"; else echo "❌ Manifest missing"; fi
+          if [ -f "./dist/marvel-quiz-game/env-loader.js" ]; then echo "✅ Environment loader found"; else echo "❌ Environment loader missing"; fi
+          echo "📁 Directory contents:"
+          ls -la ./dist/marvel-quiz-game/
+      
       - name: Setup Pages
         uses: actions/configure-pages@v5
       

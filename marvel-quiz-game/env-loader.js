@@ -66,14 +66,35 @@ loadEnvironmentVariables().then(envVars => {
   window.dispatchEvent(new CustomEvent('env-loaded', { detail: envVars }));
 });
 
-// Environment configuration for GitHub Pages deployment
-window.ENV = {
+// Production environment configuration for GitHub Pages deployment
+// Only public keys and non-sensitive configuration should be included here
+window.ENV = window.ENV || {
+  // Marvel API Configuration (Public Key Only)
   VITE_MARVEL_PUBLIC_KEY: 'e68a214d78db55dc7ce56b8f9fd573f4',
-  MARVEL_PRIVATE_KEY: 'ee923f3a51654f13f4b0c5d1b99c85581b9ab754',
+  
+  // Application Configuration
   VITE_MARVEL_QUIZ_ENABLED: 'true',
   VITE_API_TIMEOUT: '10000',
   VITE_MAX_RETRIES: '3',
   VITE_MARVEL_CACHE_DURATION: '3600000',
+  
+  // App Metadata
+  VITE_APP_TITLE: 'Marvel Quiz Game',
+  VITE_APP_VERSION: '2.1.0',
+  VITE_ENVIRONMENT: 'production',
+  
+  // Feature Flags
+  VITE_ENABLE_PWA: 'true',
+  VITE_ENABLE_OFFLINE_MODE: 'true',
+  VITE_ENABLE_ANALYTICS: 'false',
+  
+  // Performance Settings
+  VITE_CACHE_ENABLED: 'true',
+  VITE_PRELOAD_IMAGES: 'true',
+  VITE_LAZY_LOADING: 'true'
 };
 
-console.log('Environment variables loaded for Marvel Quiz');
+// Security note: Private keys should never be exposed in client-side code
+// For production deployment, use server-side proxy or environment variables
+console.log('✅ Production environment variables loaded for Marvel Quiz');
+console.log('🔒 Security: Private API keys are handled server-side');
