@@ -157,7 +157,7 @@
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: var(--primary);
+            background: transparent;
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -171,6 +171,8 @@
             height: 100%;
             object-fit: contain;
             border-radius: 8px;
+            border: none;
+            box-shadow: none;
         }
 
         .nav-links {
@@ -384,6 +386,38 @@
         }
 
         @media (max-width: 768px) {
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                background: transparent;
+            }
+            
+            .logo-icon img {
+                border: none;
+                box-shadow: none;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+                gap: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                background: transparent;
+            }
+            
+            .logo span {
+                font-size: 1.1rem;
+            }
+            
+            .logo {
+                gap: 0.4rem;
+            }
+            
             .hero-achievements {
                 grid-template-columns: repeat(2, 1fr);
                 max-width: 600px;
@@ -872,6 +906,7 @@
             text-decoration: none;
             font-size: 1.3rem;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .social-link:hover {
@@ -879,6 +914,36 @@
             box-shadow: 0 8px 25px rgba(82, 214, 129, 0.3);
             border-color: var(--secondary-accent);
             background: linear-gradient(135deg, rgba(82, 214, 129, 0.2), rgba(107, 159, 120, 0.2));
+        }
+        
+        /* Social Link Tooltips */
+        .social-link::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.9);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            color: var(--light-contrast);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+        }
+        
+        .social-link:hover::before {
+            opacity: 1;
+            visibility: visible;
+            bottom: -40px;
         }
 
         .contact-details {
@@ -897,6 +962,44 @@
 
         .contact-detail-icon {
             font-size: 1.2rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-detail-icon:hover {
+            transform: translateY(-2px);
+            color: var(--secondary-accent);
+        }
+        
+        /* Contact Detail Icon Tooltips */
+        .contact-detail-icon::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.9);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            color: var(--light-contrast);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+        }
+        
+        .contact-detail-icon:hover::before {
+            opacity: 1;
+            visibility: visible;
+            bottom: -30px;
         }
 
         .contact-form {
@@ -912,37 +1015,83 @@
         }
 
         .form-label {
-            color: var(--secondary-accent);
-            font-weight: 500;
+            color: #52D681;
+            font-weight: 600;
             font-size: 0.95rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            margin-left: 2px;
         }
 
         .form-input {
-            background: rgba(45, 80, 22, 0.1);
-            border: 1px solid rgba(82, 214, 129, 0.2);
+            background: rgba(45, 80, 22, 0.2);
+            border: 1px solid rgba(82, 214, 129, 0.3);
             border-radius: 12px;
             padding: 15px;
-            color: var(--light-contrast);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
             transition: all 0.3s ease;
             -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-input:hover {
+            background: rgba(45, 80, 22, 0.25);
+            border-color: rgba(82, 214, 129, 0.4);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), inset 0 1px 3px rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-input:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(82, 214, 129, 0.1),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% {
+                left: 100%;
+            }
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--secondary-accent);
-            box-shadow: 0 0 0 3px rgba(82, 214, 129, 0.1);
-            background: rgba(45, 80, 22, 0.15);
+            box-shadow: 0 0 0 3px rgba(82, 214, 129, 0.2), 0 4px 12px rgba(82, 214, 129, 0.2);
+            background: rgba(45, 80, 22, 0.25);
+            color: #ffffff;
+            transform: translateY(-1px);
         }
 
         .form-input::placeholder {
-            color: var(--utility-gray);
+            color: rgba(255, 255, 255, 0.5);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .form-textarea {
             min-height: 120px;
             resize: vertical;
+            background: rgba(45, 80, 22, 0.25);
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-textarea:focus {
+            background: rgba(45, 80, 22, 0.3);
+            box-shadow: 0 0 0 3px rgba(82, 214, 129, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
         .contact-submit-btn {
@@ -960,12 +1109,42 @@
             justify-content: center;
             gap: 10px;
             margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(82, 214, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         .contact-submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(82, 214, 129, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(82, 214, 129, 0.4), 0 0 0 1px rgba(82, 214, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
             background: linear-gradient(135deg, var(--secondary-accent), #52D681);
+        }
+        
+        .contact-submit-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 15px rgba(82, 214, 129, 0.3);
+        }
+        
+        .contact-submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+        
+        .contact-submit-btn:hover::before {
+            left: 100%;
+            transition: all 0.5s ease;
         }
 
         .btn-text {
@@ -1866,6 +2045,11 @@
 
         .analytics-cta {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
 
         .analytics-btn {
@@ -1877,12 +2061,28 @@
             font-size: 1.3rem;
             font-weight: 700;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
             transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(82, 214, 129, 0.3);
+            box-shadow: 0 10px 30px rgba(82, 214, 129, 0.3),
+                        0 0 0 rgba(82, 214, 129, 0);
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .analytics-btn .btn-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .analytics-btn .svg-icon-inline {
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
         }
 
         .analytics-btn::before {
@@ -1892,25 +2092,70 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s ease;
+            z-index: 1;
+        }
+
+        .analytics-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(82, 214, 129, 0.7), rgba(53, 94, 59, 0.7));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 50px;
+            z-index: 0;
         }
 
         .analytics-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(82, 214, 129, 0.4);
-            background: linear-gradient(135deg, var(--secondary-accent), #52D681);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(82, 214, 129, 0.5),
+                        0 0 20px rgba(82, 214, 129, 0.3);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .analytics-btn:hover .svg-icon-inline {
+            transform: scale(1.2) rotate(5deg);
         }
 
         .analytics-btn:hover::before {
             left: 100%;
+            animation: shimmerEffect 1.5s infinite;
+        }
+
+        .analytics-btn:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes shimmerEffect {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .analytics-note {
-            color: var(--utility-gray);
-            font-size: 0.95rem;
+            color: var(--light-contrast);
+            font-size: 1rem;
             margin-top: 15px;
             font-style: italic;
+            background: linear-gradient(90deg, rgba(82, 214, 129, 0.1), rgba(53, 94, 59, 0.1), rgba(82, 214, 129, 0.1));
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: inline-block;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(82, 214, 129, 0.2);
+            box-shadow: 0 4px 15px rgba(82, 214, 129, 0.15);
+            animation: pulseGlow 3s infinite alternate;
+        }
+        
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 4px 15px rgba(82, 214, 129, 0.15);
+            }
+            100% {
+                box-shadow: 0 4px 25px rgba(82, 214, 129, 0.3);
+            }
         }
 
         /* Responsive Design for Analytics Section */
@@ -2084,24 +2329,73 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: rgba(74, 124, 89, 0.2);
+            background: rgba(82, 214, 129, 0.15);
             border-radius: 10px;
             text-decoration: none;
             font-size: 1.2rem;
             transition: all 0.3s ease;
-            border: 1px solid rgba(74, 124, 89, 0.3);
+            border: 1px solid rgba(82, 214, 129, 0.3);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(82, 214, 129, 0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: 0;
+        }
+
+        .project-link svg {
+            position: relative;
+            z-index: 1;
         }
 
         .project-link:hover {
             background: rgba(82, 214, 129, 0.3);
-            transform: scale(1.1);
+            transform: translateY(-3px) scale(1.1);
             border-color: rgba(82, 214, 129, 0.5);
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(82, 214, 129, 0.4);
+        }
+
+        .project-link:hover::before {
+            width: 150%;
+            height: 150%;
         }
 
         .project-link.disabled {
-            opacity: 0.5;
+            opacity: 0.7;
             cursor: not-allowed;
-            pointer-events: none;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-link.disabled::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .project-link.disabled:hover::before {
+            transform: translateX(100%);
         }
 
         .project-image {
@@ -2116,7 +2410,7 @@
             border-radius: 10px;
             overflow: hidden;
             margin: 0 auto 1.5rem auto;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
             position: relative;
             background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
@@ -2124,22 +2418,24 @@
             align-items: center;
             justify-content: center;
             padding: 8px;
+            border: 1px solid rgba(82, 214, 129, 0.1);
         }
 
         .project-preview:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(74, 124, 89, 0.3);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(82, 214, 129, 0.3);
+            border-color: rgba(82, 214, 129, 0.3);
         }
 
         .project-preview img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
 
         .project-preview:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .project-preview .preview-overlay {
@@ -2148,28 +2444,51 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(74, 124, 89, 0.1), rgba(107, 159, 120, 0.1));
+            background: linear-gradient(45deg, rgba(82, 214, 129, 0.2), rgba(107, 159, 120, 0.1));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
         .project-preview:hover .preview-overlay {
             opacity: 1;
         }
+        
+        .project-preview::after {
+            content: 'View Project';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(82, 214, 129, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .project-preview:hover::after {
+            opacity: 1;
+            bottom: 10px;
+        }
 
         .project-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #2C3E50;
+            color: #ffffff;
             margin-bottom: 1rem;
             line-height: 1.3;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         .project-description {
-            color: #5A6C7D;
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.6;
             margin-bottom: 1.5rem;
             font-size: 1rem;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         }
 
         .tech-stack {
@@ -2180,20 +2499,44 @@
         }
 
         .tech-tag {
-            background: rgba(74, 124, 89, 0.1);
-            color: #4A7C59;
+            background: rgba(82, 214, 129, 0.15);
+            color: #ffffff;
             padding: 0.4rem 0.8rem;
             border-radius: 15px;
             font-size: 0.85rem;
             font-weight: 500;
-            border: 1px solid rgba(74, 124, 89, 0.2);
+            border: 1px solid rgba(82, 214, 129, 0.3);
             transition: all 0.3s ease;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .tech-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(82, 214, 129, 0.4), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
         }
 
         .tech-tag:hover {
-            background: rgba(82, 214, 129, 0.2);
-            color: #52D681;
-            border-color: rgba(82, 214, 129, 0.3);
+            background: rgba(82, 214, 129, 0.3);
+            color: #ffffff;
+            border-color: rgba(82, 214, 129, 0.5);
+            box-shadow: 0 4px 8px rgba(82, 214, 129, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .tech-tag:hover::before {
+            transform: translateX(100%);
         }
 
         .project-metrics {
@@ -2209,15 +2552,18 @@
             display: block;
             font-size: 1.2rem;
             font-weight: 700;
-            color: #4A7C59;
+            color: #52D681;
             margin-bottom: 0.25rem;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .metric-label {
             font-size: 0.8rem;
-            color: #6B9F78;
+            color: rgba(255, 255, 255, 0.85);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         }
 
         .projects-footer {
@@ -2230,22 +2576,25 @@
 
         .projects-note {
             font-size: 1.1rem;
-            color: #5A6C7D;
+            color: rgba(255, 255, 255, 0.9);
             margin: 0;
             line-height: 1.6;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
         }
 
         .projects-contact-link {
-            color: #4A7C59;
+            color: #52D681;
             text-decoration: none;
             font-weight: 600;
             border-bottom: 2px solid transparent;
             transition: all 0.3s ease;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .projects-contact-link:hover {
-            color: #52D681;
-            border-bottom-color: #52D681;
+            color: #ffffff;
+            border-bottom-color: #ffffff;
+            text-shadow: 0 0 8px rgba(82, 214, 129, 0.5);
         }
 
         /* Responsive Design for Projects */
@@ -2520,9 +2869,9 @@
                         <path d="M7 14a6 6 0 0 0-3 6a6 6 0 0 0 6-3"/>
                         <circle cx="15" cy="9" r="1"/>
                     </svg>
-                    Launch AI Analytics Dashboard
+                    <span class="btn-text">Explore AI Analytics Dashboard</span>
                 </a>
-                <p class="analytics-note">Live demo with real-time data visualization</p>
+                <p class="analytics-note">✨ Interactive live demo with advanced real-time data visualization & AI insights</p>
             </div>
         </div>
     </section>
@@ -3292,31 +3641,31 @@ const items = data?.items || [];
                     </p>
 
                     <div class="social-links">
-                        <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" rel="noopener" title="GitHub">
+                        <a href="https://github.com/StrayDogSyn" class="social-link" target="_blank" rel="noopener" data-tooltip="GitHub" title="GitHub Profile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
                         </a>
-                        <a href="#" class="social-link" title="LinkedIn">
+                        <a href="#" class="social-link" data-tooltip="LinkedIn" title="LinkedIn Profile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                         </a>
-                        <a href="mailto:eHunter@straydog-secondstory.org" class="social-link" title="Email">
+                        <a href="mailto:eHunter@straydog-secondstory.org" class="social-link" data-tooltip="Email Me" title="Send Email">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                         </a>
-                        <a href="#" class="social-link" title="Resume">
+                        <a href="#" class="social-link" data-tooltip="Download Resume" title="Download Resume">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
                         </a>
                     </div>
 
                     <div class="contact-details">
                         <div class="contact-detail">
-                            <span class="contact-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                            <span class="contact-detail-icon" data-tooltip="Location Flexibility"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
                             <span>Available for Remote & On-site Work</span>
                         </div>
                         <div class="contact-detail">
-                            <span class="contact-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></span>
+                            <span class="contact-detail-icon" data-tooltip="Quick Response"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></span>
                             <span>Response within 24 hours</span>
                         </div>
                         <div class="contact-detail">
-                            <span class="contact-detail-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+                            <span class="contact-detail-icon" data-tooltip="Work Availability"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
                             <span>Open to Full-time & Contract Opportunities</span>
                         </div>
                     </div>
