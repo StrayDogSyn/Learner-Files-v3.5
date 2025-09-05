@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Loading Test</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-weights {
+            margin-top: 20px;
+        }
+        .weight-300 { font-weight: 300; }
+        .weight-400 { font-weight: 400; }
+        .weight-500 { font-weight: 500; }
+        .weight-600 { font-weight: 600; }
+        .weight-700 { font-weight: 700; }
+        .weight-800 { font-weight: 800; }
+        .weight-900 { font-weight: 900; }
+    </style>
+</head>
+<body>
+    <h1>Font Loading Test - Fixed</h1>
+    <p>This page tests the corrected Inter font loading. Check the Network tab in Developer Tools - there should be no 404 errors for font files.</p>
+    
+    <div class="test-weights">
+        <p class="weight-300">Inter Light (300)</p>
+        <p class="weight-400">Inter Regular (400)</p>
+        <p class="weight-500">Inter Medium (500)</p>
+        <p class="weight-600">Inter SemiBold (600)</p>
+        <p class="weight-700">Inter Bold (700)</p>
+        <p class="weight-800">Inter ExtraBold (800)</p>
+        <p class="weight-900">Inter Black (900)</p>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if fonts are loaded
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function() {
+                    console.log('✅ All fonts loaded successfully');
+                    document.body.style.backgroundColor = '#e8f5e8';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

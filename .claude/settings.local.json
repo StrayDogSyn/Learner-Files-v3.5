@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "mcp__ide__getDiagnostics",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npm run build:main:*)"
     ],
     "deny": []
   }

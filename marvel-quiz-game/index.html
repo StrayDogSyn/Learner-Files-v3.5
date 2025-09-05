@@ -15,7 +15,6 @@
     <meta name="color-scheme" content="light dark">
     <!-- Firefox-specific theme color support -->
     <meta name="mozilla:background-color" content="#e94560">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
     <meta property="og:color" content="#e94560">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,7 +23,7 @@
     <meta name="author" content="StrayDog Syndications - 10x Developer">
 
     <!-- Enhanced Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://gateway.marvel.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http: blob:; connect-src 'self' https://gateway.marvel.com https://api.marvel.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://gateway.marvel.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http: blob:; connect-src 'self' https://gateway.marvel.com https://api.marvel.com; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self' blob:; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -538,25 +537,43 @@
             margin: 0.5rem 0;
         }
 
-        .difficulty-easy {
+        .difficulty-title.difficulty-easy {
             background: linear-gradient(135deg, var(--success-color), #66bb6a);
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #0a3d0f; /* Dark contrasting text color */
+            font-weight: 700;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            width: 80%;
+            margin: 0 auto 1rem;
         }
 
-        .difficulty-medium {
+        .difficulty-title.difficulty-medium {
             background: linear-gradient(135deg, var(--warning-color), #ffb74d);
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #703b00; /* Dark contrasting text color */
+            font-weight: 700;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            width: 80%;
+            margin: 0 auto 1rem;
         }
 
-        .difficulty-hard {
+        .difficulty-title.difficulty-hard {
             background: linear-gradient(135deg, var(--error-color), #ef5350);
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #5a0f0e; /* Dark contrasting text color */
+            font-weight: 700;
             border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            width: 80%;
+            margin: 0 auto 1rem;
         }
 
         /* Character Image System */
@@ -930,44 +947,70 @@
         }
 
         .difficulty-option {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius-md);
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
             padding: 2rem;
             text-align: center;
             cursor: pointer;
-            transition: all var(--transition-medium);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 6px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
             transform-style: preserve-3d;
             transform: perspective(1000px) translateZ(0);
+            backdrop-filter: blur(5px);
         }
 
         .difficulty-option:hover {
-            transform: perspective(1000px) translateY(-5px) translateZ(10px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            transform: perspective(1000px) translateY(-12px) translateZ(20px) rotateX(5deg);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 10px 15px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .difficulty-option:hover .difficulty-title {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        .difficulty-option:hover .difficulty-description {
+            transform: translateY(5px);
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .difficulty-option.selected {
             border-color: var(--info-color);
-            background: rgba(33, 150, 243, 0.1);
-            box-shadow: 0 0 15px rgba(33, 150, 243, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
-            transform: perspective(1000px) translateZ(5px);
+            background: rgba(33, 150, 243, 0.15);
+            box-shadow: 0 0 25px rgba(33, 150, 243, 0.4), 0 8px 15px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(33, 150, 243, 0.2);
+            transform: perspective(1000px) translateZ(10px);
+        }
+        
+        .difficulty-option.selected .difficulty-title {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 0 10px rgba(33, 150, 243, 0.3);
+            transform: scale(1.05);
         }
 
         .difficulty-title {
             font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-md);
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .difficulty-description {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            max-width: 90%;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
 
         /* Results Screen */
@@ -1389,16 +1432,16 @@
             font-size: 1.1em;
         }
 
-        /* Classes for difficulty levels */
-        .difficulty-easy {
+        /* Classes for difficulty levels in results */
+        .results-screen .difficulty-easy {
             color: var(--success-color);
         }
 
-        .difficulty-medium {
+        .results-screen .difficulty-medium {
             color: var(--warning-color);
         }
 
-        .difficulty-hard {
+        .results-screen .difficulty-hard {
             color: var(--error-color);
         }
 

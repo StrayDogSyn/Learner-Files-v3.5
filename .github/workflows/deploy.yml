@@ -44,9 +44,7 @@ jobs:
           // Production Environment Configuration
           // Auto-generated during GitHub Actions build
           window.ENV = {
-            VITE_MARVEL_PUBLIC_KEY: "${{ secrets.MARVEL_PUBLIC_KEY }}",
-            VITE_MARVEL_PRIVATE_KEY: "${{ secrets.MARVEL_PRIVATE_KEY }}",
-            VITE_MARVEL_QUIZ_ENABLED: "true",
+            VITE_MARVEL_QUIZ_ENABLED: "false",
             BUILD_TIME: "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
             ENVIRONMENT: 'production'
           };
