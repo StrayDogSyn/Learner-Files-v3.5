@@ -1643,11 +1643,32 @@
         </div>
     </div>
 
+    <!-- GitHub Deployment Badge -->
+    <div class="github-deployment-badge" id="githubBadge" role="complementary" aria-label="GitHub deployment information">
+        <div class="badge-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+        </div>
+        <div class="badge-content">
+            <div class="badge-title">GitHub Demo</div>
+            <div class="badge-description">Limited API functionality due to deployment restrictions</div>
+        </div>
+        <div class="badge-close" onclick="hideBadge()" role="button" tabindex="0" aria-label="Close badge" onkeydown="if(event.key==='Enter'||event.key===' ')hideBadge()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+        </div>
+    </div>
+
     <!-- External Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- Configuration System -->
+    <script src="./config.js"></script>
+    
     <!-- Environment Variables Loader -->
-    <script src="./env-loader.js"></script>
+    <script src="./env-loader.js?v=2"></script>
 
     <script>
         // Application State
@@ -1857,7 +1878,7 @@
                 }
             },
 
-            // Make authenticated API call with advanced features
+            // Make authenticated API call with progressive enhancement
             async call(endpoint, params = {}) {
                 // Check if Marvel Quiz is enabled from environment variables
                 if (window.ENV?.VITE_MARVEL_QUIZ_ENABLED !== 'true') {
@@ -1867,6 +1888,133 @@
                 const cacheKey = this.getCacheKey(endpoint, params);
 
                 // Check cache first
+                const cachedData = this.getCache(cacheKey);
+                if (cachedData) return cachedData;
+
+                // Determine environment and use appropriate API method
+                const isProd = window.CONFIG?.isProd || (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1');
+                const isGitHubPages = window.location.hostname.includes('github.io');
+
+                if (isProd && isGitHubPages) {
+                    // Production GitHub Pages: Use serverless function proxy
+                    return this.callViaServerless(endpoint, params, cacheKey);
+                } else {
+                    // Development or other production: Direct API calls
+                    return this.callDirect(endpoint, params, cacheKey);
+                }
+            },
+
+            // Direct API call method (for development)
+            async callDirect(endpoint, params = {}, cacheKey) {
+                return this.queueRequest(async () => {
+                    try {
+                        // Check if API keys are valid before making request
+                        if (this.publicKey === 'your_public_key_here' || this.privateKey === 'your_private_key_here') {
+                            throw new Error('Invalid API keys. Please configure valid Marvel API keys.');
+                        }
+
+                        const authParams = await this.getAuthParams();
+                        const url = new URL(`${this.baseUrl}${endpoint}`);
+
+                        // Add auth and custom parameters
+                        Object.entries({...authParams, ...params}).forEach(([key, value]) => {
+                            url.searchParams.append(key, value);
+                        });
+
+                        console.log('🌐 Marvel API direct request:', endpoint, params);
+                        const response = await this.fetchWithRetry(url);
+                        const data = await response.json();
+
+                        if (data.code !== 200) {
+                            const errorDetails = data.status || data.message || JSON.stringify(data);
+                            throw new Error(`Marvel API Error: ${errorDetails}`);
+                        }
+
+                        // Cache successful response
+                        this.setCache(cacheKey, data);
+
+                        console.log('✅ Marvel API direct success:', {
+                            endpoint,
+                            results: data.data?.results?.length || 0,
+                            total: data.data?.total || 0
+                        });
+
+                        return data;
+
+                    } catch (error) {
+                        console.error('❌ Marvel API Direct Error:', error);
+                        throw error;
+                    }
+                });
+            },
+
+            // Serverless function API call method (for production)
+            async callViaServerless(endpoint, params = {}, cacheKey) {
+                return this.queueRequest(async () => {
+                    try {
+                        // Use serverless function proxy for production
+                        const serverlessUrl = window.CONFIG?.getApiEndpoint() || 'https://your-app.netlify.app/.netlify/functions/marvel-api';
+                        
+                        console.log('🌐 Marvel API serverless request:', endpoint, params);
+                        
+                        const response = await this.fetchWithRetry(serverlessUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                endpoint,
+                                params
+                            })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.error) {
+                            throw new Error(`Serverless API Error: ${data.error}`);
+                        }
+
+                        if (data.code !== 200) {
+                            const errorDetails = data.status || data.message || JSON.stringify(data);
+                            throw new Error(`Marvel API Error: ${errorDetails}`);
+                        }
+
+                        // Cache successful response
+                        this.setCache(cacheKey, data);
+
+                        console.log('✅ Marvel API serverless success:', {
+                            endpoint,
+                            results: data.data?.results?.length || 0,
+                            total: data.data?.total || 0
+                        });
+
+                        return data;
+
+                    } catch (error) {
+                        console.error('❌ Marvel API Serverless Error:', error);
+                        
+                        // Fallback to direct call if serverless fails
+                        console.log('🔄 Falling back to direct API call...');
+                        try {
+                            return await this.callDirect(endpoint, params, cacheKey);
+                        } catch (fallbackError) {
+                            console.error('❌ Fallback also failed:', fallbackError);
+                            
+                            // Show user-friendly error
+                            const displayError = error.message.includes('undefined') ?
+                                `Error with ${endpoint} endpoint - check console for details` :
+                                error.message;
+
+                            showNotification(`❌ Marvel API Error: ${displayError}`, 5000);
+                            return null;
+                        }
+                    }
+                });
+            },
+
+            // Legacy method for backward compatibility
+            async callLegacy(endpoint, params = {}) {
+                const cacheKey = this.getCacheKey(endpoint, params);
                 const cachedData = this.getCache(cacheKey);
                 if (cachedData) return cachedData;
 
@@ -4124,6 +4272,189 @@ timerFill.style.width = `${percentage}%`;
          });
 
          console.log('🎮 Ultimate Marvel Universe Quiz loaded - Ready for 10x performance!');
+
+        // GitHub Badge functionality
+        function hideBadge() {
+            const badge = document.getElementById('githubBadge');
+            if (badge) {
+                badge.style.transform = 'translateX(100%)';
+                badge.style.opacity = '0';
+                setTimeout(() => {
+                    badge.style.display = 'none';
+                }, 300);
+                localStorage.setItem('githubBadgeHidden', 'true');
+            }
+        }
+
+        // Show badge on load if not previously hidden
+        document.addEventListener('DOMContentLoaded', () => {
+            const badge = document.getElementById('githubBadge');
+            const isHidden = localStorage.getItem('githubBadgeHidden');
+            
+            if (badge && !isHidden) {
+                setTimeout(() => {
+                    badge.classList.add('show');
+                }, 2000); // Show after 2 seconds
+            } else if (badge && isHidden) {
+                badge.style.display = 'none';
+            }
+        });
      </script>
+
+     <style>
+        /* GitHub Deployment Badge Styles */
+        .github-deployment-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 280px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: var(--font-primary);
+            font-size: 12px;
+            line-height: 1.4;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: default;
+        }
+
+        .github-deployment-badge.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .github-deployment-badge:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 30px rgba(255, 255, 255, 0.15);
+            transform: translateX(0) translateY(-2px);
+        }
+
+        .badge-icon {
+            flex-shrink: 0;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .github-deployment-badge:hover .badge-icon {
+            opacity: 1;
+        }
+
+        .badge-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .badge-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 2px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .badge-description {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.3;
+        }
+
+        .badge-close {
+            flex-shrink: 0;
+            padding: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+            margin-left: 4px;
+        }
+
+        .badge-close:hover,
+        .badge-close:focus {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+
+        .badge-close:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .github-deployment-badge {
+                bottom: 15px;
+                right: 15px;
+                max-width: 250px;
+                padding: 10px 12px;
+                font-size: 11px;
+            }
+
+            .badge-title {
+                font-size: 12px;
+            }
+
+            .badge-description {
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .github-deployment-badge {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                padding: 8px 10px;
+            }
+        }
+
+        /* Ensure badge doesn't interfere with game UI */
+        @media (max-height: 600px) {
+            .github-deployment-badge {
+                bottom: 10px;
+                transform: scale(0.9) translateX(100%);
+            }
+
+            .github-deployment-badge.show {
+                transform: scale(0.9) translateX(0);
+            }
+
+            .github-deployment-badge:hover {
+                transform: scale(0.9) translateX(0) translateY(-2px);
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            .github-deployment-badge {
+                transition: opacity 0.2s ease;
+                transform: translateX(0) !important;
+            }
+
+            .github-deployment-badge:hover {
+                transform: translateX(0) !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .github-deployment-badge {
+                background: rgba(0, 0, 0, 0.8);
+                border-color: rgba(255, 255, 255, 0.8);
+                color: white;
+            }
+        }
+     </style>
  </body>
  </html>
