@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="app-title">Ultimate Marvel Universe Quiz - 10x Development Showcase</title>
     <meta name="description" content="A cutting-edge glassmorphic quiz application showcasing the Marvel Universe with advanced PWA features, real-time API integration, and 10x programming capabilities">
-    <!-- Cross-browser theme color support with fallbacks -->    
+    <!-- Cross-browser theme color support with fallbacks for all browsers -->    
     <meta name="theme-color" content="#e94560" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#c73850" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#e94560">
     <meta name="msapplication-navbutton-color" content="#e94560">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- Firefox specific color support -->
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <meta property="og:color" content="#e94560">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Ultimate Marvel Quiz">
@@ -39,8 +45,7 @@
         /* Font Face Declarations with Local Fallbacks */
         @font-face {
             font-family: 'Inter-Fallback';
-            src: local('Inter'), local('Inter-Regular'),
-                 url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap') format('woff2');
+            src: local('Inter'), local('Inter-Regular');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -77,10 +82,11 @@
                 }
             });
             
-            // Create font link element
+            // Create font link element with proper URL format
             const fontLink = document.createElement('link');
             fontLink.rel = 'stylesheet';
             fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap';
+            fontLink.crossOrigin = 'anonymous';
             
             // Font loading success handler
              fontLink.onload = function() {
