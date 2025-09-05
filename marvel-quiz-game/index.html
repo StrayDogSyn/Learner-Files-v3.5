@@ -66,34 +66,87 @@
             const fontTimeout = 3000; // 3 seconds timeout
             let fontLoaded = false;
             
+            // Show loading indicator initially
+            document.addEventListener('DOMContentLoaded', function() {
+                const indicator = document.getElementById('fontLoadingIndicator');
+                if (indicator) {
+                    indicator.classList.add('show');
+                }
+            });
+            
             // Create font link element
             const fontLink = document.createElement('link');
             fontLink.rel = 'stylesheet';
             fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap';
             
             // Font loading success handler
-            fontLink.onload = function() {
-                fontLoaded = true;
-                document.documentElement.classList.add('font-loaded');
-                document.documentElement.classList.remove('font-loading');
-                console.log('✅ Inter font loaded successfully');
-            };
-            
-            // Font loading error handler
-            fontLink.onerror = function() {
-                console.warn('⚠️ Failed to load Inter font, using system fallbacks');
-                document.documentElement.classList.add('font-loaded');
-                document.documentElement.classList.remove('font-loading');
-            };
-            
-            // Timeout fallback
-            setTimeout(function() {
-                if (!fontLoaded) {
-                    console.warn('⚠️ Font loading timeout, using system fallbacks');
-                    document.documentElement.classList.add('font-loaded');
-                    document.documentElement.classList.remove('font-loading');
-                }
-            }, fontTimeout);
+             fontLink.onload = function() {
+                 fontLoaded = true;
+                 document.documentElement.classList.add('font-loaded');
+                 document.documentElement.classList.remove('font-loading');
+                 console.log('✅ Inter font loaded successfully');
+                 
+                 // Hide loading indicator
+                 const indicator = document.getElementById('fontLoadingIndicator');
+                 if (indicator) {
+                     indicator.classList.remove('show');
+                     setTimeout(() => {
+                         if (indicator.parentNode) {
+                             indicator.parentNode.removeChild(indicator);
+                         }
+                     }, 300);
+                 }
+             };
+             
+             // Font loading error handler
+             fontLink.onerror = function() {
+                 console.warn('⚠️ Failed to load Inter font, using system fallbacks');
+                 document.documentElement.classList.add('font-loaded');
+                 document.documentElement.classList.remove('font-loading');
+                 
+                 // Update and hide loading indicator
+                 const indicator = document.getElementById('fontLoadingIndicator');
+                 if (indicator) {
+                     const textElement = indicator.querySelector('.font-loading-text');
+                     if (textElement) {
+                         textElement.textContent = '⚠️ Using fallback fonts';
+                     }
+                     setTimeout(() => {
+                         indicator.classList.remove('show');
+                         setTimeout(() => {
+                             if (indicator.parentNode) {
+                                 indicator.parentNode.removeChild(indicator);
+                             }
+                         }, 300);
+                     }, 1500);
+                 }
+             };
+             
+             // Timeout fallback
+             setTimeout(function() {
+                 if (!fontLoaded) {
+                     console.warn('⚠️ Font loading timeout, using system fallbacks');
+                     document.documentElement.classList.add('font-loaded');
+                     document.documentElement.classList.remove('font-loading');
+                     
+                     // Update and hide loading indicator
+                     const indicator = document.getElementById('fontLoadingIndicator');
+                     if (indicator) {
+                         const textElement = indicator.querySelector('.font-loading-text');
+                         if (textElement) {
+                             textElement.textContent = '⚠️ Font timeout - using fallbacks';
+                         }
+                         setTimeout(() => {
+                             indicator.classList.remove('show');
+                             setTimeout(() => {
+                                 if (indicator.parentNode) {
+                                     indicator.parentNode.removeChild(indicator);
+                                 }
+                             }, 300);
+                         }, 1500);
+                     }
+                 }
+             }, fontTimeout);
             
             // Add loading class initially
             document.documentElement.classList.add('font-loading');
@@ -104,6 +157,7 @@
     </script>
     
     <!-- External CSS Files -->
+    <link rel="stylesheet" href="assets/css/fonts.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/glassmorphism.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
@@ -1389,6 +1443,12 @@
     </style>
 </head>
 <body>
+    <!-- Font Loading Indicator -->
+    <div id="fontLoadingIndicator" class="font-loading-indicator" aria-live="polite" role="status">
+        <div class="font-loading-spinner"></div>
+        <span class="font-loading-text">Loading fonts...</span>
+    </div>
+
     <!-- Skip link for screen readers -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
