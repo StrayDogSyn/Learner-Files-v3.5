@@ -30,7 +30,83 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" as="script">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Loading with Fallback -->
+    <style>
+        /* Font Face Declarations with Local Fallbacks */
+        @font-face {
+            font-family: 'Inter-Fallback';
+            src: local('Inter'), local('Inter-Regular'),
+                 url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        /* Robust Font Stack */
+        :root {
+            --font-primary: 'Inter', 'Inter-Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            --font-display: 'Inter', 'Inter-Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        /* Font Loading Detection */
+        .font-loading {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .font-loaded {
+            font-family: var(--font-primary);
+        }
+    </style>
+    
+    <!-- Async Font Loading with Error Handling -->
+    <script>
+        (function() {
+            // Font loading with timeout and fallback
+            const fontTimeout = 3000; // 3 seconds timeout
+            let fontLoaded = false;
+            
+            // Create font link element
+            const fontLink = document.createElement('link');
+            fontLink.rel = 'stylesheet';
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap';
+            
+            // Font loading success handler
+            fontLink.onload = function() {
+                fontLoaded = true;
+                document.documentElement.classList.add('font-loaded');
+                document.documentElement.classList.remove('font-loading');
+                console.log('✅ Inter font loaded successfully');
+            };
+            
+            // Font loading error handler
+            fontLink.onerror = function() {
+                console.warn('⚠️ Failed to load Inter font, using system fallbacks');
+                document.documentElement.classList.add('font-loaded');
+                document.documentElement.classList.remove('font-loading');
+            };
+            
+            // Timeout fallback
+            setTimeout(function() {
+                if (!fontLoaded) {
+                    console.warn('⚠️ Font loading timeout, using system fallbacks');
+                    document.documentElement.classList.add('font-loaded');
+                    document.documentElement.classList.remove('font-loading');
+                }
+            }, fontTimeout);
+            
+            // Add loading class initially
+            document.documentElement.classList.add('font-loading');
+            
+            // Append font link to head
+            document.head.appendChild(fontLink);
+        })();
+    </script>
+    
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/glassmorphism.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
 
     <style>
         /* CSS Custom Properties for Dynamic Theming */

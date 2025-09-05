@@ -1,0 +1,100 @@
+{
+  "characters": [
+    {
+      "id": 1009144,
+      "name": "A.I.M.",
+      "description": "AIM is a terrorist organization bent on destroying the world.",
+      "thumbnail": {
+        "path": "http://i.annihil.us/u/prod/marvel/i/mg/6/20/52602f21f29ec",
+        "extension": "jpg"
+      },
+      "realName": "Advanced Idea Mechanics",
+      "firstAppearance": "Strange Tales #146 (1966)",
+      "powers": ["Advanced Technology", "Scientific Research", "Weapons Development"]
+    },
+    {
+      "id": 1009146,
+      "name": "Abomination",
+      "description": "Formerly known as Emil Blonsky, a spy of Soviet Yugoslavian origin working for the KGB, the Abomination gained his powers after receiving a dose of gamma radiation similar to that which transformed Bruce Banner into the Incredible Hulk.",
+      "thumbnail": {
+        "path": "http://i.annihil.us/u/prod/marvel/i/mg/9/50/4ce18691cbf04",
+        "extension": "jpg"
+      },
+      "realName": "Emil Blonsky",
+      "firstAppearance": "Tales to Astonish #90 (1967)",
+      "powers": ["Superhuman Strength", "Superhuman Durability", "Regeneration"]
+    },
+    {
+      "id": 1009148,
+      "name": "Absorbing Man",
+      "description": "Carl 'Crusher' Creel has the power to absorb and take on the properties of any material he touches.",
+      "thumbnail": {
+        "path": "http://i.annihil.us/u/prod/marvel/i/mg/1/b0/5269678709fb7",
+        "extension": "jpg"
+      },
+      "realName": "Carl Creel",
+      "firstAppearance": "Journey into Mystery #114 (1965)",
+      "powers": ["Matter Absorption", "Superhuman Strength", "Invulnerability"]
+    },
+    {
+      "id": 1009149,
+      "name": "Abyss",
+      "description": "Abyss is a mutant with the ability to open dimensional portals.",
+      "thumbnail": {
+        "path": "http://i.annihil.us/u/prod/marvel/i/mg/9/30/535feab462a64",
+        "extension": "jpg"
+      },
+      "realName": "Nils Styger",
+      "firstAppearance": "X-Men Alpha #1 (1995)",
+      "powers": ["Dimensional Portals", "Teleportation", "Energy Projection"]
+    },
+    {
+      "id": 1009150,
+      "name": "Agent Brand",
+      "description": "Agent Brand is the director of S.W.O.R.D., the Sentient World Observation and Response Department.",
+      "thumbnail": {
+        "path": "http://i.annihil.us/u/prod/marvel/i/mg/4/60/52695285d6e7e",
+        "extension": "jpg"
+      },
+      "realName": "Abigail Brand",
+      "firstAppearance": "Astonishing X-Men #3 (2004)",
+      "powers": ["Pyrokinesis", "Leadership", "Strategic Planning"]
+    }
+  ],
+  "questionTemplates": [
+    {
+      "type": "character_identification",
+      "template": "Who is this character?",
+      "difficulty": "easy"
+    },
+    {
+      "type": "real_name",
+      "template": "What is {character}'s real name?",
+      "difficulty": "medium"
+    },
+    {
+      "type": "first_appearance",
+      "template": "In which comic did {character} first appear?",
+      "difficulty": "hard"
+    },
+    {
+      "type": "powers",
+      "template": "Which of these is NOT a power of {character}?",
+      "difficulty": "medium"
+    }
+  ],
+  "difficultySettings": {
+    "easy": {
+      "timeLimit": 30,
+      "scoreMultiplier": 1,
+      "questionCount": 10
+    },
+    "medium": {
+      "timeLimit": 20,
+      "scoreMultiplier": 1.5,
+      "questionCount": 15
+    },
+    "hard": {
+      "timeLimit": 15,
+      "scoreMultiplier": 2,
+      "questionCount
