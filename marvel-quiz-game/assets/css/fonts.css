@@ -4,7 +4,6 @@
 @font-face {
   font-family: 'Inter-Local';
   src: local('Inter'), local('Inter-Regular'),
-       url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap'),
        url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
@@ -14,7 +13,6 @@
 @font-face {
   font-family: 'Inter-Local';
   src: local('Inter Medium'), local('Inter-Medium'),
-       url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap'),
        url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2') format('woff2');
   font-weight: 500;
   font-style: normal;
@@ -24,7 +22,6 @@
 @font-face {
   font-family: 'Inter-Local';
   src: local('Inter SemiBold'), local('Inter-SemiBold'),
-       url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap'),
        url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
@@ -34,7 +31,6 @@
 @font-face {
   font-family: 'Inter-Local';
   src: local('Inter Bold'), local('Inter-Bold'),
-       url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap'),
        url('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
