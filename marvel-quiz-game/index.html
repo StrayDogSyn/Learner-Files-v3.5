@@ -228,13 +228,16 @@
             backdrop-filter: blur(20px);
             border-radius: var(--border-radius-lg);
             border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1);
             padding: 2.5rem;
             max-width: 900px;
             width: 100%;
             position: relative;
             overflow: hidden;
             animation: slideInUp 0.8s var(--transition-medium);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
+            transition: all var(--transition-medium);
         }
 
         .glass-card::before {
@@ -311,6 +314,9 @@
             transition: all var(--transition-medium);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
         }
 
         .stat-card::before {
@@ -329,9 +335,10 @@
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-medium);
+            transform: perspective(1000px) translateY(-5px) translateZ(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.3);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
 
         .stat-label {
@@ -379,38 +386,45 @@
         }
 
         .difficulty-badge {
-            padding: 0.5rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             border-radius: var(--border-radius-lg);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            margin: 0.5rem 0;
         }
 
         .difficulty-easy {
             background: linear-gradient(135deg, var(--success-color), #66bb6a);
             color: white;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .difficulty-medium {
             background: linear-gradient(135deg, var(--warning-color), #ffb74d);
             color: white;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .difficulty-hard {
             background: linear-gradient(135deg, var(--error-color), #ef5350);
             color: white;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         /* Character Image System */
         .character-showcase {
             display: flex;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin: 1rem 0 2rem;
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .character-frame {
@@ -539,6 +553,9 @@
             -webkit-backdrop-filter: blur(5px);
             backdrop-filter: blur(5px);
             letter-spacing: 0.01em;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
         }
 
         .answer-option::before {
@@ -557,28 +574,35 @@
         }
 
         .answer-option:hover {
-            transform: translateY(-3px);
+            transform: perspective(1000px) translateY(-3px) translateZ(10px);
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
 
         .answer-option.selected {
             border-color: var(--info-color);
             background: rgba(33, 150, 243, 0.2);
-            transform: translateY(-3px);
+            transform: perspective(1000px) translateY(-3px) translateZ(5px);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
         }
 
         .answer-option.correct {
             border-color: var(--success-color);
             background: rgba(76, 175, 80, 0.2);
             animation: correctPulse 0.6s ease;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
         }
 
         .answer-option.incorrect {
             border-color: var(--error-color);
             background: rgba(244, 67, 54, 0.2);
             animation: incorrectShake 0.6s ease;
+            box-shadow: 0 0 20px rgba(244, 67, 54, 0.4), 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
         }
 
         @keyframes correctPulse {
@@ -661,21 +685,25 @@
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: var(--text-primary);
             padding: 1rem 2rem;
             border-radius: var(--border-radius-lg);
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 1.05rem;
+            font-weight: 700;
             transition: all var(--transition-medium);
             position: relative;
             overflow: hidden;
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .btn::before {
@@ -694,29 +722,41 @@
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: var(--shadow-medium);
-            background: rgba(255, 255, 255, 0.15);
+            transform: perspective(1000px) translateY(-3px) translateZ(10px);
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 1px 3px rgba(0, 0, 0, 0.3);
         }
 
         .btn:active {
-            transform: translateY(-1px);
+            transform: perspective(1000px) translateY(-1px) translateZ(5px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.1s;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--info-color), #42a5f5);
             border-color: var(--info-color);
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.4), 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.5);
+            color: white;
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--success-color), #66bb6a);
             border-color: var(--success-color);
+            box-shadow: 0 4px 15px rgba(102, 187, 106, 0.4), 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.5);
+            color: white;
         }
 
         .btn-danger {
             background: linear-gradient(135deg, var(--error-color), #ef5350);
             border-color: var(--error-color);
+            box-shadow: 0 4px 15px rgba(239, 83, 80, 0.4), 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.5);
+            color: white;
         }
 
         /* Screen Management */
@@ -758,17 +798,24 @@
             transition: all var(--transition-medium);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) translateZ(0);
         }
 
         .difficulty-option:hover {
-            transform: translateY(-5px);
+            transform: perspective(1000px) translateY(-5px) translateZ(10px);
             border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: var(--shadow-medium);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
         }
 
         .difficulty-option.selected {
             border-color: var(--info-color);
             background: rgba(33, 150, 243, 0.1);
+            box-shadow: 0 0 15px rgba(33, 150, 243, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+            transform: perspective(1000px) translateZ(5px);
         }
 
         .difficulty-title {
@@ -1345,6 +1392,15 @@
                 <div class="combo-indicator" id="comboIndicator" aria-live="polite" aria-atomic="true" role="status">
                     🔥 <span class="sr-only">Combo multiplier:</span>COMBO x<span id="comboCount" aria-label="Current combo count">0</span>
                 </div>
+                
+                <!-- Character Showcase -->
+                <div class="character-showcase" id="characterShowcase" role="img" aria-labelledby="character-description">
+                    <div class="loading-container" id="characterLoading" aria-live="polite">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <div class="loading-text">Loading Marvel character...</div>
+                    </div>
+                    <div id="character-description" class="sr-only">Character image will appear here</div>
+                </div>
 
                 <!-- Stats Dashboard -->
                 <div class="stats-dashboard" role="group" aria-label="Game statistics">
@@ -1384,14 +1440,7 @@
                         <div class="difficulty-badge" id="difficultyBadge" role="status" aria-label="Current difficulty level">Medium</div>
                     </div>
 
-                    <!-- Character Showcase -->
-                    <div class="character-showcase" id="characterShowcase" role="img" aria-labelledby="character-description">
-                        <div class="loading-container" id="characterLoading" aria-live="polite">
-                            <div class="loading-spinner" aria-hidden="true"></div>
-                            <div class="loading-text">Loading Marvel character...</div>
-                        </div>
-                        <div id="character-description" class="sr-only">Character image will appear here</div>
-                    </div>
+                    <!-- Character Showcase moved to top of game interface -->
 
                     <div class="question-text" id="questionText" role="heading" aria-level="3" aria-live="polite">Loading question...</div>
 
@@ -1479,6 +1528,9 @@
             isAnswered: false
         };
 
+        // ===== API & DATA HANDLING =====
+        // Functions for interacting with external APIs and managing data
+        
         // Advanced Marvel API Configuration with Smart Caching & Rate Limiting
         const MARVEL_API = {
             baseUrl: 'https://gateway.marvel.com/v1/public',
@@ -2782,6 +2834,9 @@
             }
         };
 
+        // ===== SCORING SYSTEM =====
+        // Advanced scoring logic with performance tracking and achievements
+        
         // Advanced Scoring System with AI-like Intelligence
         const ScoringSystem = {
             // Performance tracking for adaptive scoring
@@ -3089,6 +3144,9 @@
             particlesContainer.appendChild(fragment);
         }
 
+        // ===== UI MANAGEMENT =====
+        // Functions that control the user interface and display
+        
         // Screen Management
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(screen => {
@@ -3174,6 +3232,9 @@
             }
         }
 
+        // ===== GAME MECHANICS =====
+        // Core functions that control the quiz flow and gameplay
+        
         // Quiz Management
         async function startQuiz() {
             const startTime = performance.now();
@@ -3221,6 +3282,7 @@
             }
         }
 
+        // Question Loading
         function loadQuestion() {
             if (gameState.currentQuestion >= gameState.questions.length) {
                 endQuiz();
@@ -3251,13 +3313,16 @@
             console.log(`📝 Loaded question ${gameState.currentQuestion + 1}:`, question.question);
         }
 
+        // Game Statistics Update
         function updateGameStats() {
             document.getElementById('questionCounter').textContent = `${gameState.currentQuestion + 1}/${gameState.questions.length}`;
             document.getElementById('currentScore').textContent = gameState.score;
             document.getElementById('currentStreak').textContent = gameState.streak;
-            document.getElementById('bonusPoints').textContent = gameState.totalPoints;
+            // Fix NaN values in Bonus card by ensuring we display a valid number
+            document.getElementById('bonusPoints').textContent = gameState.streak > 0 ? ScoringSystem.calculateStreakBonus(gameState.streak) : 0;
         }
 
+        // Question Display Update
         function updateQuestionDisplay(question) {
             document.getElementById('questionNumber').textContent = `Question ${gameState.currentQuestion + 1} of ${gameState.questions.length}`;
             document.getElementById('questionText').textContent = question.question;
@@ -3267,6 +3332,7 @@
             difficultyBadge.className = `difficulty-badge difficulty-${question.difficulty}`;
         }
 
+        // Character Image Loading
         function loadCharacterImage(character) {
             const showcase = document.getElementById('characterShowcase');
             const loading = document.getElementById('characterLoading');
@@ -3420,7 +3486,8 @@
              }
          }
 
-         function selectAnswer(selectedIndex) {
+         // Answer Selection and Scoring
+        function selectAnswer(selectedIndex) {
              if (gameState.isAnswered) return;
 
              gameState.isAnswered = true;
@@ -3458,21 +3525,22 @@
                  }
              });
 
-             // Announce result to screen readers
-             const resultMessage = isCorrect ?
-                 `Correct! The answer was ${question.answers[question.correct]}` :
-                 `Incorrect. The correct answer was ${question.answers[question.correct]}`;
+             // Announce result to screen readers - Fix undefined values
+            const correctAnswer = question.answers && question.answers[question.correct] ? question.answers[question.correct] : 'not available';
+            const resultMessage = isCorrect ?
+                `Correct! The answer was ${correctAnswer}` :
+                `Incorrect. The correct answer was ${correctAnswer}`;
              announceToScreenReader(resultMessage);
 
-             // Calculate score using advanced scoring system
-             const scoreResult = ScoringSystem.calculateScore(
-                 gameState.timeLeft,
-                 question.difficulty,
-                 gameState.streak,
-                 isCorrect,
-                 responseTime,
-                 question.category || 'general'
-             );
+             // Calculate score using advanced scoring system - Fix NaN values
+            const scoreResult = ScoringSystem.calculateScore(
+                gameState.timeLeft || 0,
+                question.difficulty || 'medium',
+                gameState.streak || 0,
+                isCorrect,
+                responseTime || 0,
+                question.category || 'general'
+            );
 
              // Update game state
              if (isCorrect) {
@@ -3514,7 +3582,8 @@
                  showNotification('❌ Incorrect answer', 2000);
              }
 
-             gameState.totalPoints += scoreResult.totalPoints;
+             // Ensure totalPoints is never NaN
+            gameState.totalPoints += (scoreResult.totalPoints || 0);
 
              // Check for achievements
              ScoringSystem.checkAchievements(gameState);
@@ -3535,7 +3604,8 @@
              }
          }
 
-         function startTimer() {
+         // Timer Management
+        function startTimer() {
              clearInterval(gameState.timer);
 
              gameState.timer = setInterval(() => {
@@ -3557,12 +3627,14 @@ timerFill.style.width = `${percentage}%`;
              }, 1000);
          }
 
-         function nextQuestion() {
+         // Question Navigation
+        function nextQuestion() {
              gameState.currentQuestion++;
              loadQuestion();
          }
 
-         function endQuiz() {
+         // Quiz Completion
+        function endQuiz() {
              const endTime = Date.now();
              const totalTime = Math.floor((endTime - gameState.startTime) / 1000);
              const minutes = Math.floor(totalTime / 60);
@@ -3629,7 +3701,8 @@ timerFill.style.width = `${percentage}%`;
              });
          }
 
-         function restartQuiz() {
+         // Quiz Restart
+        function restartQuiz() {
              showScreen('startScreen');
              clearInterval(gameState.timer);
          }
@@ -3639,7 +3712,8 @@ timerFill.style.width = `${percentage}%`;
          }
 
          // Notification System
-         function showNotification(message, duration = 3000) {
+         // Notification System
+        function showNotification(message, duration = 3000) {
              const notification = document.getElementById('notification');
              notification.textContent = message;
              notification.classList.add('show');
@@ -3737,8 +3811,11 @@ timerFill.style.width = `${percentage}%`;
              }
          }
 
-         // Accessibility Helper Functions
-         function announceToScreenReader(message) {
+         // ===== ACCESSIBILITY =====
+        // Functions that improve accessibility for all users
+        
+        // Screen Reader Announcements
+        function announceToScreenReader(message) {
              const announcement = document.createElement('div');
              announcement.setAttribute('aria-live', 'polite');
              announcement.setAttribute('aria-atomic', 'true');
@@ -3852,8 +3929,11 @@ timerFill.style.width = `${percentage}%`;
              }
          };
 
-         // Initialize Application
-         document.addEventListener('DOMContentLoaded', async () => {
+         // ===== INITIALIZATION & EVENT LISTENERS =====
+        // Application startup and event binding
+        
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', async () => {
              const startTime = performance.now();
              console.log('🚀 Ultimate Marvel Universe Quiz - 10x Development Showcase');
 
@@ -3886,7 +3966,7 @@ timerFill.style.width = `${percentage}%`;
              } else if (apiStatus.status === 'offline' || apiStatus.status === 'error') {
                  showNotification(`⚠️ Marvel API unavailable - using offline mode (${apiStatus.error || 'Unknown error'})`, 5000);
              } else {
-                 showNotification(`✅ Marvel API online (${apiStatus.responseTime}ms)`, 3000);
+                 showNotification(`✅ Marvel API online (${apiStatus.responseTime || 'unknown'}ms)`, 3000);
              }
 
              const initTime = performance.now() - startTime;
