@@ -146,8 +146,10 @@ h1 {
   font-size: var(--text-5xl);
   background: var(--bg-hero);
   -webkit-background-clip: text;
+  -moz-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
 h2 {
