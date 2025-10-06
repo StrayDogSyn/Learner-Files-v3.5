@@ -1,8 +1,48 @@
-# Learner Files v3.5 🎓
+<div align="center">
 
-A comprehensive monorepo containing three specialized applications for different learning and business contexts, built with modern web technologies and shared infrastructure.
+# 🎯 Learner Files v3.5
+## StrayDog Syndications Monorepo
 
-## Architecture Overview
+<div align="center">
+
+![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen?style=for-the-badge)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=for-the-badge&logo=typescript)
+![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react)
+![Vite](https://img.shields.io/badge/Vite-5.0+-646CFF?style=for-the-badge&logo=vite)
+
+</div>
+
+**A comprehensive monorepo containing three specialized applications and shared packages for the StrayDog Syndications ecosystem.**
+
+</div>
+
+---
+
+## 📚 Documentation
+
+### Development Resources
+- **[Architecture Guide](./docs/architecture.md)** - System design and structure
+- **[Development Setup](./docs/development.md)** - Local environment configuration
+- **[API Documentation](./docs/api.md)** - Backend services and endpoints
+- **[Component Library](./docs/components.md)** - Shared UI components
+
+## 🚀 Live Applications
+
+<div align="center">
+
+### 🌐 Production Deployments
+
+| Application | URL | Status |
+|-------------|-----|--------|
+| **🏢 Business** | [business.straydogsyndicationsllc.biz](https://business.straydogsyndicationsllc.biz) | 🚧 Development |
+| **🎓 Education** | [education.straydogsyndicationsllc.biz](https://education.straydogsyndicationsllc.biz) | 🚧 Development |
+| **💼 Portfolio** | [portfolio.straydogsyndicationsllc.biz](https://portfolio.straydogsyndicationsllc.biz) | 🚧 Development |
+
+</div>
+
+---
+
+## 🏗️ Architecture Overview
 
 This monorepo follows a domain-driven architecture with shared packages and independent applications:
 
@@ -21,24 +61,24 @@ learner-files-v3.5/
 
 ## Applications
 
-### Business App
-**Focus**: Professional development, business analytics, and career growth
-- **Features**: Project management, skill tracking, professional networking
-- **Tech Stack**: React + TypeScript + Tailwind CSS
+### 🏢 Business Application
+- 🎯 **Purpose**: Professional services and client management
+- 💼 **Features**: Client portal, project management, service offerings
+- 🔧 **Tech Stack**: React 18, TypeScript, Supabase, Tailwind CSS
 - **Port**: 3001
 - **URL**: [Business Dashboard](http://localhost:3001)
 
-### 🎓 Education App
-**Focus**: Academic learning, research, and educational content
-- **Features**: Course management, research tools, academic progress tracking
-- **Tech Stack**: React + TypeScript + Tailwind CSS
+### 🎓 Education Application  
+- 🎯 **Purpose**: Learning management and educational resources
+- 📚 **Features**: Course management, progress tracking, interactive learning
+- 🔧 **Tech Stack**: React 18, TypeScript, Supabase, Tailwind CSS
 - **Port**: 3002
 - **URL**: [Education Portal](http://localhost:3002)
 
-### Portfolio App
-**Focus**: Personal projects, creative work, and professional showcase
-- **Features**: Project galleries, skill demonstrations, personal branding
-- **Tech Stack**: React + TypeScript + Tailwind CSS
+### 💼 Portfolio Application
+- 🎯 **Purpose**: Personal portfolio and professional showcase
+- 🌟 **Features**: Project showcase, skills demonstration, contact management
+- 🔧 **Tech Stack**: React 18, TypeScript, Supabase, Tailwind CSS
 - **Port**: 3003
 - **URL**: [Portfolio Showcase](http://localhost:3003)
 
