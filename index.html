@@ -699,6 +699,280 @@
             margin: 0 auto;
         }
 
+        /* AISE Developer Toolbox Section */
+        .toolbox-section {
+            padding: 5rem 2rem;
+            background: rgba(11, 11, 11, 0.5);
+            position: relative;
+        }
+
+        .toolbox-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(122, 162, 247, 0.08) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 30%, rgba(187, 154, 247, 0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(80, 200, 120, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .toolbox-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .toolbox-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .toolbox-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 1rem;
+            font-weight: 400;
+        }
+
+        /* Stats Section */
+        .toolbox-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: rgba(26, 27, 38, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(80, 200, 120, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        /* Task Categories */
+        .task-categories {
+            margin-bottom: 4rem;
+        }
+
+        .category-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            background: rgba(26, 27, 38, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 0.8rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .category-btn:hover {
+            background: rgba(80, 200, 120, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(80, 200, 120, 0.8) 100%);
+            border-color: var(--primary);
+            color: #1a1b26;
+            font-weight: 600;
+        }
+
+        /* Tools Container */
+        .tools-container {
+            position: relative;
+            min-height: 400px;
+        }
+
+        .tool-category {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tool-category.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: rgba(26, 27, 38, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(80, 200, 120, 0.15);
+        }
+
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tool-header h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .priority-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority-badge.high {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+
+        .priority-badge.medium {
+            background: linear-gradient(135deg, #ffd93d, #f39c12);
+            color: #1a1b26;
+        }
+
+        .priority-badge.low {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+        }
+
+        .tool-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(122, 162, 247, 0.2);
+            color: #7aa2f7;
+            padding: 0.3rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(122, 162, 247, 0.3);
+        }
+
+        /* Workflow Tips */
+        .workflow-tips {
+            margin-top: 4rem;
+        }
+
+        .workflow-tips h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tip-card {
+            background: rgba(26, 27, 38, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 25px rgba(80, 200, 120, 0.15);
+        }
+
+        .tip-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tip-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+        }
+
+        .tip-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
         .ecosystem-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -2791,6 +3065,13 @@
                         <path d="M16 17l-1.5 1.5" />
                     </svg>
                 </a></li>
+                <li><a href="#toolbox" class="nav-icon" data-tooltip="Dev Toolbox" aria-label="Developer Toolbox">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                </a></li>
                 <li><a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener" class="nav-icon" data-tooltip="GitHub" aria-label="GitHub">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -2883,6 +3164,482 @@
                         that values both technical excellence and human-centered design. Every project is 
                         an opportunity to learn something new and build something meaningful.
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AISE Developer Toolbox Section -->
+    <section id="toolbox" class="toolbox-section">
+        <div class="toolbox-container">
+            <div class="toolbox-header fade-in">
+                <h2 class="section-title">AISE Developer Toolbox</h2>
+                <p class="toolbox-subtitle">Comprehensive development arsenal for modern software engineering</p>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="toolbox-stats fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">25+</div>
+                    <div class="stat-label">Development Tools</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Task Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">AISE</div>
+                    <div class="stat-label">Certified Developer</div>
+                </div>
+            </div>
+
+            <!-- Task Categories -->
+            <div class="task-categories fade-in">
+                <div class="category-selector">
+                    <button class="category-btn active" data-category="frontend">Frontend Development</button>
+                    <button class="category-btn" data-category="backend">Backend & APIs</button>
+                    <button class="category-btn" data-category="database">Database Management</button>
+                    <button class="category-btn" data-category="devops">DevOps & Deployment</button>
+                    <button class="category-btn" data-category="testing">Testing & QA</button>
+                    <button class="category-btn" data-category="ai">AI Integration</button>
+                    <button class="category-btn" data-category="design">Design & UX</button>
+                    <button class="category-btn" data-category="productivity">Productivity Tools</button>
+                </div>
+
+                <!-- Tool Cards Container -->
+                <div class="tools-container">
+                    <!-- Frontend Development Tools -->
+                    <div class="tool-category active" data-category="frontend">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>React.js</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Component-based UI library for building interactive user interfaces</p>
+                                <div class="tool-tags">
+                                    <span class="tag">JavaScript</span>
+                                    <span class="tag">JSX</span>
+                                    <span class="tag">Hooks</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Next.js</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Full-stack React framework with SSR and static site generation</p>
+                                <div class="tool-tags">
+                                    <span class="tag">React</span>
+                                    <span class="tag">SSR</span>
+                                    <span class="tag">API Routes</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>TypeScript</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Typed superset of JavaScript for better code quality and maintainability</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Types</span>
+                                    <span class="tag">IntelliSense</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Tailwind CSS</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Utility-first CSS framework for rapid UI development</p>
+                                <div class="tool-tags">
+                                    <span class="tag">CSS</span>
+                                    <span class="tag">Responsive</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend & APIs Tools -->
+                    <div class="tool-category" data-category="backend">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Node.js</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>JavaScript runtime for building scalable server-side applications</p>
+                                <div class="tool-tags">
+                                    <span class="tag">JavaScript</span>
+                                    <span class="tag">Server</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Express.js</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Fast, unopinionated web framework for Node.js applications</p>
+                                <div class="tool-tags">
+                                    <span class="tag">REST API</span>
+                                    <span class="tag">Middleware</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>GraphQL</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Query language and runtime for APIs with flexible data fetching</p>
+                                <div class="tool-tags">
+                                    <span class="tag">API</span>
+                                    <span class="tag">Schema</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Fastify</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Fast and low overhead web framework for Node.js</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Performance</span>
+                                    <span class="tag">Plugins</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Database Management Tools -->
+                    <div class="tool-category" data-category="database">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>MongoDB</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>NoSQL document database for flexible, scalable data storage</p>
+                                <div class="tool-tags">
+                                    <span class="tag">NoSQL</span>
+                                    <span class="tag">Documents</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>PostgreSQL</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Advanced open-source relational database with JSON support</p>
+                                <div class="tool-tags">
+                                    <span class="tag">SQL</span>
+                                    <span class="tag">ACID</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Prisma</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Next-generation ORM for Node.js and TypeScript</p>
+                                <div class="tool-tags">
+                                    <span class="tag">ORM</span>
+                                    <span class="tag">Type-safe</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Redis</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>In-memory data structure store for caching and sessions</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Cache</span>
+                                    <span class="tag">Sessions</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DevOps & Deployment Tools -->
+                    <div class="tool-category" data-category="devops">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Docker</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Containerization platform for consistent deployment environments</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Containers</span>
+                                    <span class="tag">Deployment</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Vercel</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Cloud platform for static sites and serverless functions</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Hosting</span>
+                                    <span class="tag">Serverless</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>GitHub Actions</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>CI/CD platform for automated testing and deployment workflows</p>
+                                <div class="tool-tags">
+                                    <span class="tag">CI/CD</span>
+                                    <span class="tag">Automation</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>AWS</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Cloud computing services for scalable infrastructure</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Cloud</span>
+                                    <span class="tag">Infrastructure</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testing & QA Tools -->
+                    <div class="tool-category" data-category="testing">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Jest</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>JavaScript testing framework with built-in mocking and assertions</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Unit Tests</span>
+                                    <span class="tag">Mocking</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Cypress</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>End-to-end testing framework for web applications</p>
+                                <div class="tool-tags">
+                                    <span class="tag">E2E</span>
+                                    <span class="tag">Browser</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Postman</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>API development and testing platform</p>
+                                <div class="tool-tags">
+                                    <span class="tag">API Testing</span>
+                                    <span class="tag">Documentation</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Playwright</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Cross-browser automation library for testing</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Automation</span>
+                                    <span class="tag">Cross-browser</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Integration Tools -->
+                    <div class="tool-category" data-category="ai">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>OpenAI API</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>GPT models for natural language processing and generation</p>
+                                <div class="tool-tags">
+                                    <span class="tag">NLP</span>
+                                    <span class="tag">GPT</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Claude API</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Anthropic's AI assistant for complex reasoning and analysis</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Reasoning</span>
+                                    <span class="tag">Analysis</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>LangChain</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Framework for developing applications with language models</p>
+                                <div class="tool-tags">
+                                    <span class="tag">LLM</span>
+                                    <span class="tag">Chains</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Hugging Face</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Open-source platform for machine learning models</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Models</span>
+                                    <span class="tag">Transformers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design & UX Tools -->
+                    <div class="tool-category" data-category="design">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Figma</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Collaborative design tool for UI/UX prototyping</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Prototyping</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Framer Motion</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Animation library for React applications</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Animation</span>
+                                    <span class="tag">React</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Lucide Icons</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>Beautiful and consistent icon library</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Icons</span>
+                                    <span class="tag">SVG</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Adobe XD</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Vector-based design tool for web and mobile apps</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Design</span>
+                                    <span class="tag">Vector</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Productivity Tools -->
+                    <div class="tool-category" data-category="productivity">
+                        <div class="tools-grid">
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>VS Code</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Powerful code editor with extensive extension ecosystem</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Editor</span>
+                                    <span class="tag">Extensions</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="high">
+                                <div class="tool-header">
+                                    <h4>Git & GitHub</h4>
+                                    <span class="priority-badge high">High</span>
+                                </div>
+                                <p>Version control system and collaborative development platform</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Version Control</span>
+                                    <span class="tag">Collaboration</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="medium">
+                                <div class="tool-header">
+                                    <h4>Notion</h4>
+                                    <span class="priority-badge medium">Medium</span>
+                                </div>
+                                <p>All-in-one workspace for notes, docs, and project management</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Documentation</span>
+                                    <span class="tag">Planning</span>
+                                </div>
+                            </div>
+                            <div class="tool-card" data-priority="low">
+                                <div class="tool-header">
+                                    <h4>Slack</h4>
+                                    <span class="priority-badge low">Low</span>
+                                </div>
+                                <p>Team communication and collaboration platform</p>
+                                <div class="tool-tags">
+                                    <span class="tag">Communication</span>
+                                    <span class="tag">Teams</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Tips -->
+            <div class="workflow-tips fade-in">
+                <h3>Professional Workflow Tips</h3>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">💡</div>
+                        <h4>Start with High Priority</h4>
+                        <p>Focus on mastering high-priority tools first - they form the foundation of modern development workflows.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🔄</div>
+                        <h4>Iterative Learning</h4>
+                        <p>Learn tools incrementally through real projects. Apply new skills immediately to reinforce understanding.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🎯</div>
+                        <h4>Project-Based Practice</h4>
+                        <p>Choose tools based on project requirements. Each project is an opportunity to expand your toolkit.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">📚</div>
+                        <h4>Stay Updated</h4>
+                        <p>Technology evolves rapidly. Regularly review and update your tool preferences based on industry trends.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -3658,11 +4415,127 @@ const items = data?.items || [];
                 initClaudeDemo();
                 initChatDemo();
                 initContactForm();
+                initDevToolbox();
             });
         } else {
             initClaudeDemo();
             initChatDemo();
             initContactForm();
+            initDevToolbox();
+        }
+
+        // Dev Toolbox Interactive Functionality
+        function initDevToolbox() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const toolsCategories = document.querySelectorAll('.tools-category');
+
+            if (categoryButtons.length === 0 || toolsCategories.length === 0) return;
+
+            // Set initial active category (Frontend)
+            categoryButtons[0].classList.add('active');
+            toolsCategories[0].classList.add('active');
+
+            categoryButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and categories
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    toolsCategories.forEach(category => category.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding category
+                    button.classList.add('active');
+                    if (toolsCategories[index]) {
+                        toolsCategories[index].classList.add('active');
+                    }
+
+                    // Add visual feedback
+                    button.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        button.style.transform = 'scale(1)';
+                    }, 150);
+                });
+
+                // Add keyboard navigation
+                button.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        button.click();
+                    }
+                });
+            });
+
+            // Add hover effects to tool cards
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add click effects to workflow tip cards
+            const workflowCards = document.querySelectorAll('.workflow-card');
+            workflowCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        card.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+
+            // Animate stats numbers on scroll
+            const statsNumbers = document.querySelectorAll('.stat-number');
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = target.textContent;
+                        const numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                        
+                        if (numericValue) {
+                            animateNumber(target, 0, numericValue, finalValue);
+                        }
+                        statsObserver.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statsNumbers.forEach(number => {
+                statsObserver.observe(number);
+            });
+
+            function animateNumber(element, start, end, originalText) {
+                const duration = 2000;
+                const startTime = performance.now();
+                
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    const current = Math.floor(start + (end - start) * easeOutQuart(progress));
+                    
+                    if (originalText.includes('+')) {
+                        element.textContent = current + '+';
+                    } else {
+                        element.textContent = current.toString();
+                    }
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        element.textContent = originalText;
+                    }
+                }
+                
+                requestAnimationFrame(update);
+            }
+
+            function easeOutQuart(t) {
+                return 1 - Math.pow(1 - t, 4);
+            }
         }
     </script>
 
