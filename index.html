@@ -487,6 +487,400 @@
             letter-spacing: 0.01em;
         }
 
+        /* Featured Project Showcase Styles */
+        .featured-project-showcase {
+            margin: 3rem 0;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .project-card {
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(80, 200, 120, 0.3);
+            padding: 2.5rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(80, 200, 120, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--primary) 30%, #00d4ff 70%, transparent 100%);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(80, 200, 120, 0.2);
+            border-color: rgba(80, 200, 120, 0.5);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .project-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(80, 200, 120, 0.15);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(80, 200, 120, 0.3);
+        }
+
+        .badge-icon {
+            font-size: 1rem;
+        }
+
+        .badge-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .project-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.live {
+            background: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .status-text {
+            font-size: 0.85rem;
+            color: #00ff88;
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .project-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .project-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: rgba(80, 200, 120, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .highlight-icon {
+            font-size: 1.2rem;
+            width: 32px;
+            text-align: center;
+        }
+
+        .highlight-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .highlight-text strong {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .highlight-text span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tech-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .tech-badge.react {
+            background: rgba(97, 218, 251, 0.1);
+            color: #61dafb;
+            border-color: rgba(97, 218, 251, 0.3);
+        }
+
+        .tech-badge.node {
+            background: rgba(104, 160, 99, 0.1);
+            color: #68a063;
+            border-color: rgba(104, 160, 99, 0.3);
+        }
+
+        .tech-badge.mongo {
+            background: rgba(71, 162, 72, 0.1);
+            color: #47a248;
+            border-color: rgba(71, 162, 72, 0.3);
+        }
+
+        .tech-badge.express {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tech-badge.ai {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+
+        .tech-badge.docker {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196f3;
+            border-color: rgba(33, 150, 243, 0.3);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #00d4ff 100%);
+            color: #000000;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(80, 200, 120, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .project-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-container {
+            background: rgba(10, 10, 10, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(80, 200, 120, 0.2);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(20, 20, 20, 0.9);
+            border-bottom: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .control-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .control-dot.red { background: #ff5f56; }
+        .control-dot.yellow { background: #ffbd2e; }
+        .control-dot.green { background: #27ca3f; }
+
+        .preview-url {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Courier New', monospace;
+        }
+
+        .preview-content {
+            padding: 1rem;
+        }
+
+        .preview-code {
+            margin-bottom: 1rem;
+        }
+
+        .code-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+        }
+
+        .line-number {
+            color: rgba(255, 255, 255, 0.4);
+            width: 20px;
+            text-align: right;
+        }
+
+        .code-text .keyword { color: #ff79c6; }
+        .code-text .variable { color: #8be9fd; }
+        .code-text .function { color: #50fa7b; }
+
+        .preview-stats {
+            display: flex;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .project-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .stat-compact {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-text {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .project-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .project-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .featured-project-showcase {
+                margin: 2rem 0;
+            }
+
+            .project-card {
+                padding: 1.5rem;
+            }
+        }
+
         .hero-buttons {
             display: flex;
             gap: 1.5rem;
@@ -3267,45 +3661,137 @@
             <p class="hero-tagline">From fine dining to AI integration - creating technology with purpose</p>
 
             <div class="hero-achievements">
-                <div class="achievement achievement-clickable" data-target="#journey" data-analytics="years-experience">
-                    <span class="achievement-number">3+</span>
-                    <span class="achievement-text">Years Coding Experience</span>
+                <!-- Featured Project Showcase -->
+                <div class="featured-project-showcase">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-badge">
+                                <span class="badge-icon">⭐</span>
+                                <span class="badge-text">Featured Project</span>
+                            </div>
+                            <div class="project-status">
+                                <span class="status-dot live"></span>
+                                <span class="status-text">Live in Production</span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-info">
+                                <h3 class="project-title">StrayDog AI Ecosystem</h3>
+                                <p class="project-description">
+                                    A comprehensive AI-powered development platform featuring intelligent code generation, 
+                                    automated testing, and real-time analytics. Built with modern MERN stack and integrated 
+                                    with multiple AI providers for enhanced developer productivity.
+                                </p>
+                                
+                                <div class="project-highlights">
+                                    <div class="highlight-item">
+                                        <div class="highlight-icon">🚀</div>
+                                        <div class="highlight-text">
+                                            <strong>Live Production</strong>
+                                            <span>Serving 500+ developers</span>
+                                        </div>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <div class="highlight-icon">🤖</div>
+                                        <div class="highlight-text">
+                                            <strong>AI Integration</strong>
+                                            <span>OpenAI, Claude, Gemini APIs</span>
+                                        </div>
+                                    </div>
+                                    <div class="highlight-item">
+                                        <div class="highlight-icon">📊</div>
+                                        <div class="highlight-text">
+                                            <strong>Real-time Analytics</strong>
+                                            <span>Performance monitoring</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="tech-stack">
+                                    <span class="tech-badge react">React</span>
+                                    <span class="tech-badge node">Node.js</span>
+                                    <span class="tech-badge mongo">MongoDB</span>
+                                    <span class="tech-badge express">Express</span>
+                                    <span class="tech-badge ai">AI APIs</span>
+                                    <span class="tech-badge docker">Docker</span>
+                                </div>
+                                
+                                <div class="project-actions">
+                                    <a href="#toolbox" class="btn-primary" data-analytics="featured-demo">
+                                        <span class="btn-icon">🔗</span>
+                                        Live Demo
+                                    </a>
+                                    <a href="https://github.com/StrayDogSyn" target="_blank" class="btn-secondary" data-analytics="featured-source">
+                                        <span class="btn-icon">📂</span>
+                                        Source Code
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-preview">
+                                <div class="preview-container">
+                                    <div class="preview-header">
+                                        <div class="preview-controls">
+                                            <span class="control-dot red"></span>
+                                            <span class="control-dot yellow"></span>
+                                            <span class="control-dot green"></span>
+                                        </div>
+                                        <div class="preview-url">straydog-ai.dev</div>
+                                    </div>
+                                    <div class="preview-content">
+                                        <div class="preview-code">
+                                            <div class="code-line">
+                                                <span class="line-number">1</span>
+                                                <span class="code-text"><span class="keyword">const</span> <span class="variable">aiResponse</span> = <span class="keyword">await</span> <span class="function">generateCode</span>();</span>
+                                            </div>
+                                            <div class="code-line">
+                                                <span class="line-number">2</span>
+                                                <span class="code-text"><span class="keyword">const</span> <span class="variable">analysis</span> = <span class="keyword">await</span> <span class="function">analyzePerformance</span>();</span>
+                                            </div>
+                                            <div class="code-line">
+                                                <span class="line-number">3</span>
+                                                <span class="code-text"><span class="function">deployToProduction</span>(<span class="variable">aiResponse</span>);</span>
+                                            </div>
+                                        </div>
+                                        <div class="preview-stats">
+                                            <div class="stat-item">
+                                                <div class="stat-value">99.9%</div>
+                                                <div class="stat-label">Uptime</div>
+                                            </div>
+                                            <div class="stat-item">
+                                                <div class="stat-value">< 200ms</div>
+                                                <div class="stat-label">Response</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="project-stats">
+                            <div class="stat-compact">
+                                <span class="stat-number">3+</span>
+                                <span class="stat-text">Years Experience</span>
+                            </div>
+                            <div class="stat-compact">
+                                <span class="stat-number">1.3k+</span>
+                                <span class="stat-text">GitHub Commits</span>
+                            </div>
+                            <div class="stat-compact">
+                                <span class="stat-number">MERN</span>
+                                <span class="stat-text">Stack Expert</span>
+                            </div>
+                            <div class="stat-compact">
+                                <span class="stat-number">CCRI</span>
+                                <span class="stat-text">CS Student</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="achievement achievement-clickable" data-target="#projects" data-analytics="projects-deployed">
-                    <span class="achievement-number">4</span>
-                    <span class="achievement-text">Projects Deployed</span>
-                </div>
-                <div class="achievement achievement-clickable" data-target="https://github.com/StrayDogSyn" data-analytics="github-commits" data-external="true">
-                    <span class="achievement-number">1.3k+</span>
-                    <span class="achievement-text">GitHub Commits</span>
-                </div>
-                <div class="achievement achievement-clickable" data-target="#toolbox" data-analytics="mern-stack">
-                    <span class="achievement-number">MERN</span>
-                    <span class="achievement-text">Stack Developer</span>
-                </div>
-                <div class="achievement achievement-clickable" data-target="https://github.com/StrayDogSyn" data-analytics="code-reviews" data-external="true">
-                    <span class="achievement-number">39</span>
-                    <span class="achievement-text">Code Reviews</span>
-                </div>
-                <div class="achievement achievement-clickable" data-target="#journey" data-analytics="ccri-student">
-                    <span class="achievement-number">CCRI</span>
-                    <span class="achievement-text">Computer Science Student</span>
-                </div>
-            </div>
 
-            <!-- GitHub Stats Integration -->
-            <div id="github-stats-mount"></div>
-
-            <p class="hero-description">
-                3+ years into my coding journey, transitioning from fine dining to software development. 
-                Currently pursuing Computer & Networking Technology at CCRI (GPA: 3.40) while building real-world applications.<br><br>
-
-                I believe in <strong>shipping working code over perfect code</strong>, and <strong>learning by doing</strong>. 
-                My focus areas include:
-                <br>• Full-stack development with MERN stack
-                <br>• AI integration and automation projects
-                <br>• Building solutions that make a real impact
-            </p>
+                <!-- GitHub Stats Integration -->
+                <div id="github-stats-mount"></div>
 
 
         </div>
