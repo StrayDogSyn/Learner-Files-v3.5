@@ -37,13 +37,11 @@ Educational tools suite featuring advanced calculator, strategy games, and certi
 
 ## 💡 About Me
 
-I'm a pragmatic developer who believes in writing clean, maintainable code that solves real problems. My approach combines traditional software engineering principles with modern AI capabilities to build systems that are both innovative and reliable.
+With over three years transitioning from the fast-paced world of fine dining to building intelligent software solutions, I've brought the discipline, creativity, and precision of a chef into my coding journey. Now studying Computer & Networking Technology at CCRI, I focus on applying real-world experience to develop impactful applications.
 
-**What drives me:** Creating technology that makes a meaningful impact, particularly in justice reform and accessibility. I focus on building robust, scalable solutions rather than chasing the latest trends.
+I believe in shipping working code over perfect code, and in learning by doing. My approach pairs hands-on problem-solving with a commitment to continuous growth—delivering practical solutions while learning new technologies and techniques.
 
-**How I work:** I prioritize clear communication, thorough documentation, and incremental delivery. Whether working solo or on a team, I believe in shipping working software early and iterating based on real user feedback.
-
-**Current focus:** Architecting production-ready LLM applications, implementing RAG systems at scale, and building autonomous agent frameworks that enhance rather than replace human decision-making.
+From crafting culinary experiences to designing software and integrating AI, I blend technical expertise with a human-centered mindset. Every project is a new opportunity to learn, adapt, and create something truly meaningful, drawing on the lessons learned in both the kitchen and the tech lab.
 
 ---
 
