@@ -20,11 +20,22 @@
 
 ## 📚 Documentation
 
-### Development Resources
-- **[Architecture Guide](./docs/architecture.md)** - System design and structure
+### 🎯 Quick Start
+- **[Getting Started](#-getting-started)** - Set up development environment
 - **[Development Setup](./docs/development.md)** - Local environment configuration
+- **[Environment Setup](#-environment-variables)** - Configuration requirements
+
+### 📋 Development Resources
+- **[Architecture Guide](./docs/architecture.md)** - System design and structure
 - **[API Documentation](./docs/api.md)** - Backend services and endpoints
 - **[Component Library](./docs/components.md)** - Shared UI components
+
+### 🔗 Ecosystem Links
+- **[Main Navigation](../MASTER_NAVIGATION.md)** - Complete ecosystem navigation
+- **[Corporate Site](../StrayDog_Syndicate_LLC/README.md)** - Professional profile
+- **[Technical Portal](../StrayDog_Technical_Page/README.md)** - Developer resources
+- **[Business Hub](../StrayDog_BusinessPage/README.md)** - Services marketplace
+- **[Second Story](../Second_Story_Splash/README.md)** - Non-profit initiative
 
 ## 🚀 Live Applications
 
