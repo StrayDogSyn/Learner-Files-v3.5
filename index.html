@@ -795,12 +795,17 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 1.5rem;
             color: rgba(255, 255, 255, 0.8);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 160px;
+            justify-content: flex-start;
         }
 
         .category-btn:hover {
@@ -815,6 +820,19 @@
             border-color: var(--primary);
             color: #1a1b26;
             font-weight: 600;
+        }
+
+        .task-card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .task-card-title {
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         /* Tools Container */
@@ -971,6 +989,126 @@
             color: rgba(255, 255, 255, 0.8);
             font-size: 0.9rem;
             line-height: 1.5;
+        }
+
+        /* Tool Details Panel Styles */
+        .tool-details {
+            display: none;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .tool-details-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .task-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .task-title {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .tools-list {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .tool-item .tool-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-name {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .tool-use {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .workflow-tip {
+            background: rgba(82, 214, 129, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(82, 214, 129, 0.2);
+        }
+
+        .workflow-tip h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .workflow-tip p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Task card active state */
+        .task-card.active {
+            background: rgba(82, 214, 129, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .task-card.active .task-card-title {
+            color: var(--primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .ecosystem-grid {
@@ -3200,14 +3338,70 @@
             <!-- Task Categories -->
             <div class="task-categories fade-in">
                 <div class="category-selector">
-                    <button class="category-btn active" data-category="frontend">Frontend Development</button>
-                    <button class="category-btn" data-category="backend">Backend & APIs</button>
-                    <button class="category-btn" data-category="database">Database Management</button>
-                    <button class="category-btn" data-category="devops">DevOps & Deployment</button>
-                    <button class="category-btn" data-category="testing">Testing & QA</button>
-                    <button class="category-btn" data-category="ai">AI Integration</button>
-                    <button class="category-btn" data-category="design">Design & UX</button>
-                    <button class="category-btn" data-category="productivity">Productivity Tools</button>
+                    <button class="task-card category-btn" data-task="fullstack-dev">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Full-Stack Development</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="ai-integration">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">AI Integration</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="design-ui">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Design & UI/UX</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="database-backend">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Database & Backend</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="version-control">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Version Control</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="testing-qa">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 12l2 2 4-4"/><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"/><path d="M21 16H3v3c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-3z"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Testing & QA</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="devops-cloud">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">DevOps & Cloud</span>
+                    </button>
+                    <button class="task-card category-btn" data-task="productivity">
+                        <div class="task-card-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <span class="task-card-title">Productivity</span>
+                    </button>
                 </div>
 
                 <!-- Tool Cards Container -->
@@ -4536,6 +4730,260 @@ const items = data?.items || [];
             function easeOutQuart(t) {
                 return 1 - Math.pow(1 - t, 4);
             }
+        }
+    </script>
+
+    <!-- Tool Allocation Matrix JavaScript -->
+    <script>
+        // Tool Allocation Matrix Data
+        const toolboxData = {
+            'fullstack-dev': {
+                name: 'Full-Stack Development',
+                icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+                color: 'bg-blue-accent',
+                tools: [
+                    { name: 'Windsurf', priority: 'PRIMARY', use: 'Complex AI-powered coding, multi-file refactoring' },
+                    { name: 'Cursor Pro', priority: 'PRIMARY', use: 'Real-time inline completions, component development' },
+                    { name: 'VS Code', priority: 'SECONDARY', use: 'Git operations, extensions, terminal work' },
+                    { name: 'Bootstrap Studio', priority: 'SECONDARY', use: 'Rapid web prototyping, responsive layouts' },
+                    { name: 'StackBlitz', priority: 'UTILITY', use: 'Quick online prototyping, instant previews' }
+                ],
+                tip: 'Start with Windsurf for AI-powered scaffolding, use Bootstrap Studio for rapid layouts, switch to Cursor for iterations, VS Code for Git.'
+            },
+            'ai-integration': {
+                name: 'AI Integration & Automation',
+                icon: '<path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>',
+                color: 'bg-purple-accent',
+                tools: [
+                    { name: 'Claude Pro', priority: 'PRIMARY', use: 'Complex technical problems, architecture, strategic thinking' },
+                    { name: 'TRAE + SOLO', priority: 'PRIMARY', use: 'Automated testing, CI/CD, AI-powered code reviews' },
+                    { name: 'Perplexity Pro', priority: 'PRIMARY', use: 'Real-time research, current tech trends, documentation' },
+                    { name: 'Gemini Pro', priority: 'PRIMARY', use: 'Multi-modal analysis, Google integration, complex reasoning' },
+                    { name: 'Microsoft Copilot', priority: 'SECONDARY', use: 'Windows integration, prompt refinement, code assistance' },
+                    { name: 'ChatGPT', priority: 'SECONDARY', use: 'Quick queries, brainstorming, alternative perspectives' },
+                    { name: 'Hugging Face Pro', priority: 'UTILITY', use: 'Custom models, embeddings, specialized AI tasks' }
+                ],
+                tip: 'Claude Pro for architecture & complex problems, Perplexity Pro for research, Gemini Pro for multi-modal tasks.'
+            },
+            'design-ui': {
+                name: 'Design & UI/UX',
+                icon: '<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>',
+                color: 'bg-pink-accent',
+                tools: [
+                    { name: 'Figma', priority: 'PRIMARY', use: 'UI/UX design, component library, design system, collaboration' },
+                    { name: 'PolyPane', priority: 'PRIMARY', use: 'Multi-viewport responsive testing, accessibility checks' },
+                    { name: 'Bootstrap Studio', priority: 'PRIMARY', use: 'Visual Bootstrap design, rapid prototyping, grid layouts' },
+                    { name: 'Microsoft Designer', priority: 'SECONDARY', use: 'AI-generated graphics, quick visual concepts' },
+                    { name: 'Canva Pro', priority: 'SECONDARY', use: 'Social media assets, marketing materials, quick graphics' },
+                    { name: 'deepimage.ai', priority: 'UTILITY', use: 'Image upscaling, enhancement, batch processing' }
+                ],
+                tip: 'Design in Figma, prototype quickly in Bootstrap Studio, test responsiveness in PolyPane.'
+            },
+            'database-backend': {
+                name: 'Database & Backend',
+                icon: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>',
+                color: 'bg-green-accent',
+                tools: [
+                    { name: 'MongoDB Compass', priority: 'PRIMARY', use: 'Visual database exploration, query building, schema analysis' },
+                    { name: 'Supabase', priority: 'PRIMARY', use: 'PostgreSQL database, real-time, auth, edge functions' },
+                    { name: 'Postman', priority: 'PRIMARY', use: 'API testing, documentation, load testing' },
+                    { name: 'Datastacks', priority: 'SECONDARY', use: 'Data pipelines, analytics, complex data workflows' }
+                ],
+                tip: 'Use MongoDB Compass for document databases, Supabase for relational data, test APIs in Postman.'
+            },
+            'version-control': {
+                name: 'Version Control & Deployment',
+                icon: '<circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/>',
+                color: 'bg-orange-accent',
+                tools: [
+                    { name: 'GitKraken', priority: 'PRIMARY', use: 'Visual Git, branch management, merge conflict resolution' },
+                    { name: 'GitHub Desktop', priority: 'SECONDARY', use: 'Simple Git operations, quick commits' },
+                    { name: 'GitHub Actions', priority: 'PRIMARY', use: 'CI/CD automation, automated reviews, deployments' },
+                    { name: 'Vercel', priority: 'PRIMARY', use: 'Frontend deployment, serverless functions, edge computing' },
+                    { name: 'Railway', priority: 'SECONDARY', use: 'Full-stack deployment, database hosting' }
+                ],
+                tip: 'Use GitKraken for complex Git operations, GitHub Actions for CI/CD, Vercel for frontend deployments.'
+            },
+            'testing-qa': {
+                name: 'Testing & Quality Assurance',
+                icon: '<path d="M9 12l2 2 4-4"/><path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"/><path d="M21 16H3v3c0 .552.448 1 1 1h16c.552 0 1-.448 1-1v-3z"/>',
+                color: 'bg-red-accent',
+                tools: [
+                    { name: 'Jest', priority: 'PRIMARY', use: 'Unit testing, snapshot testing, mocking' },
+                    { name: 'Cypress', priority: 'PRIMARY', use: 'End-to-end testing, integration testing' },
+                    { name: 'Playwright', priority: 'SECONDARY', use: 'Cross-browser testing, API testing' },
+                    { name: 'Postman', priority: 'SECONDARY', use: 'API testing, automated test suites' },
+                    { name: 'Lighthouse', priority: 'UTILITY', use: 'Performance auditing, accessibility testing' }
+                ],
+                tip: 'Use Jest for unit tests, Cypress for E2E testing, Lighthouse for performance audits.'
+            },
+            'devops-cloud': {
+                name: 'DevOps & Cloud Infrastructure',
+                icon: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>',
+                color: 'bg-cyan-accent',
+                tools: [
+                    { name: 'Docker', priority: 'PRIMARY', use: 'Containerization, development environments, deployment' },
+                    { name: 'AWS', priority: 'PRIMARY', use: 'Cloud infrastructure, serverless, databases' },
+                    { name: 'GitHub Actions', priority: 'PRIMARY', use: 'CI/CD pipelines, automated deployments' },
+                    { name: 'Terraform', priority: 'SECONDARY', use: 'Infrastructure as code, cloud provisioning' },
+                    { name: 'Kubernetes', priority: 'UTILITY', use: 'Container orchestration, scaling' }
+                ],
+                tip: 'Start with Docker for containerization, use AWS for cloud services, GitHub Actions for CI/CD.'
+            },
+            'productivity': {
+                name: 'Productivity & Project Management',
+                icon: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+                color: 'bg-yellow-accent',
+                tools: [
+                    { name: 'Notion', priority: 'PRIMARY', use: 'Documentation, project planning, knowledge management' },
+                    { name: 'Linear', priority: 'PRIMARY', use: 'Issue tracking, sprint planning, team collaboration' },
+                    { name: 'Slack', priority: 'SECONDARY', use: 'Team communication, integrations, workflows' },
+                    { name: 'Obsidian', priority: 'SECONDARY', use: 'Personal knowledge management, note-taking' },
+                    { name: 'RescueTime', priority: 'UTILITY', use: 'Time tracking, productivity analytics' }
+                ],
+                tip: 'Use Notion for documentation, Linear for project management, Obsidian for personal notes.'
+            }
+        };
+
+        // Global variable to track current selection
+        let currentTaskId = null;
+
+        // Function to select and display task details
+        function selectTask(taskId) {
+            console.log('Selecting task:', taskId);
+            
+            if (!toolboxData[taskId]) {
+                console.error('Task not found:', taskId);
+                return;
+            }
+
+            currentTaskId = taskId;
+            const task = toolboxData[taskId];
+
+            // Update task cards active state
+            const taskCards = document.querySelectorAll('.task-card');
+            taskCards.forEach(card => {
+                card.classList.remove('active');
+                if (card.dataset.task === taskId) {
+                    card.classList.add('active');
+                }
+            });
+
+            // Find or create tool details container
+            let toolDetails = document.querySelector('.tool-details');
+            if (!toolDetails) {
+                toolDetails = document.createElement('div');
+                toolDetails.className = 'tool-details';
+                const toolboxContainer = document.querySelector('.toolbox-container');
+                if (toolboxContainer) {
+                    toolboxContainer.appendChild(toolDetails);
+                }
+            }
+
+            // Generate priority badge HTML
+            function getPriorityBadge(priority) {
+                const badges = {
+                    'PRIMARY': '<span class="priority-badge high">Primary</span>',
+                    'SECONDARY': '<span class="priority-badge medium">Secondary</span>',
+                    'UTILITY': '<span class="priority-badge low">Utility</span>'
+                };
+                return badges[priority] || '<span class="priority-badge low">Standard</span>';
+            }
+
+            // Generate tools HTML
+            const toolsHTML = task.tools.map(tool => `
+                <div class="tool-item">
+                    <div class="tool-header">
+                        <h4 class="tool-name">${tool.name}</h4>
+                        ${getPriorityBadge(tool.priority)}
+                    </div>
+                    <p class="tool-use">${tool.use}</p>
+                </div>
+            `).join('');
+
+            // Update tool details content
+            toolDetails.innerHTML = `
+                <div class="tool-details-header">
+                    <div class="task-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            ${task.icon}
+                        </svg>
+                    </div>
+                    <h3 class="task-title">${task.name}</h3>
+                </div>
+                <div class="tools-list">
+                    ${toolsHTML}
+                </div>
+                <div class="workflow-tip">
+                    <h4>💡 Workflow Tip</h4>
+                    <p>${task.tip}</p>
+                </div>
+            `;
+
+            // Show the details with animation
+            toolDetails.style.display = 'block';
+            toolDetails.classList.add('fade-in');
+        }
+
+        // Initialize toolbox functionality
+        function initializeToolboxInteractivity() {
+            console.log('Initializing toolbox interactivity...');
+            
+            // Check if toolbox section exists
+            const toolboxSection = document.querySelector('.toolbox-section');
+            if (!toolboxSection) {
+                console.log('Toolbox section not found on this page');
+                return;
+            }
+
+            // Add click handlers to existing task cards
+            const taskCards = document.querySelectorAll('.task-card');
+            console.log('Found task cards:', taskCards.length);
+            
+            taskCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const taskId = this.dataset.task;
+                    console.log('Task card clicked:', taskId);
+                    if (taskId && toolboxData[taskId]) {
+                        selectTask(taskId);
+                    }
+                });
+
+                // Add keyboard support
+                card.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Select first task by default
+            const firstTaskId = Object.keys(toolboxData)[0];
+            if (firstTaskId && taskCards.length > 0) {
+                setTimeout(() => {
+                    console.log('Selecting default task:', firstTaskId);
+                    selectTask(firstTaskId);
+                }, 500);
+            }
+        }
+
+        // Wait for full page load to ensure all elements exist
+        window.addEventListener('load', function() {
+            console.log('Page loaded, initializing toolbox...');
+            initializeToolboxInteractivity();
+        });
+
+        // Also try to initialize if DOM is already loaded
+        if (document.readyState === 'complete') {
+            console.log('DOM already loaded, initializing toolbox...');
+            initializeToolboxInteractivity();
+        } else {
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded, initializing toolbox...');
+                initializeToolboxInteractivity();
+            });
         }
     </script>
 
