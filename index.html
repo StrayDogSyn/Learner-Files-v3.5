@@ -452,6 +452,23 @@
             border-color: rgba(80, 200, 120, 0.4);
         }
 
+        .achievement-clickable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .achievement-clickable:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 6px 16px rgba(80, 200, 120, 0.3);
+            border-color: rgba(80, 200, 120, 0.6);
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .achievement-clickable:active {
+            transform: translateY(-2px) scale(1.01);
+            transition: all 0.1s ease;
+        }
+
         .achievement-number {
             font-size: 2.2rem;
             font-weight: 900;
@@ -3236,27 +3253,27 @@
             <p class="hero-tagline">From justice reform to AI integration - creating technology with purpose</p>
 
             <div class="hero-achievements">
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="#journey" data-analytics="years-experience">
                     <span class="achievement-number">3+</span>
                     <span class="achievement-text">Years Coding Experience</span>
                 </div>
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="#projects" data-analytics="projects-deployed">
                     <span class="achievement-number">4</span>
                     <span class="achievement-text">Projects Deployed</span>
                 </div>
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="https://github.com/StrayDogSyn" data-analytics="github-commits" data-external="true">
                     <span class="achievement-number">1.3k+</span>
                     <span class="achievement-text">GitHub Commits</span>
                 </div>
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="#toolbox" data-analytics="mern-stack">
                     <span class="achievement-number">MERN</span>
                     <span class="achievement-text">Stack Developer</span>
                 </div>
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="https://github.com/StrayDogSyn" data-analytics="code-reviews" data-external="true">
                     <span class="achievement-number">39</span>
                     <span class="achievement-text">Code Reviews</span>
                 </div>
-                <div class="achievement">
+                <div class="achievement achievement-clickable" data-target="#journey" data-analytics="ccri-student">
                     <span class="achievement-number">CCRI</span>
                     <span class="achievement-text">Computer Science Student</span>
                 </div>
@@ -4970,9 +4987,63 @@ const items = data?.items || [];
         }
 
         // Wait for full page load to ensure all elements exist
+        // Achievement Panel Click Handlers
+        function initializeAchievementPanels() {
+            const achievementPanels = document.querySelectorAll('.achievement-clickable');
+            
+            achievementPanels.forEach(panel => {
+                panel.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const target = this.getAttribute('data-target');
+                    const analytics = this.getAttribute('data-analytics');
+                    const isExternal = this.getAttribute('data-external') === 'true';
+                    
+                    // Track analytics if available
+                    if (analytics && typeof trackEvent === 'function') {
+                        trackEvent('achievement_panel_clicked', {
+                            panel: analytics,
+                            target: target,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                    
+                    if (isExternal) {
+                        // Open external links in new tab
+                        window.open(target, '_blank', 'noopener,noreferrer');
+                    } else {
+                        // Smooth scroll to internal sections
+                        const targetElement = document.querySelector(target);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                });
+                
+                // Add keyboard accessibility
+                panel.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+                
+                // Add tabindex for keyboard navigation
+                panel.setAttribute('tabindex', '0');
+                panel.setAttribute('role', 'button');
+                panel.setAttribute('aria-label', `Navigate to ${panel.querySelector('.achievement-text').textContent}`);
+            });
+            
+            console.log('Achievement panels initialized:', achievementPanels.length);
+        }
+
         window.addEventListener('load', function() {
             console.log('Page loaded, initializing toolbox...');
             initializeToolboxInteractivity();
+            initializeAchievementPanels();
         });
 
         // Also try to initialize if DOM is already loaded
