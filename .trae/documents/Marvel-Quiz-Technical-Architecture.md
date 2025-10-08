@@ -1,161 +1,162 @@
-# Marvel Quiz Technical Architecture Document
+# Marvel Quiz Game - Technical Architecture Document
 
 ## 1. Architecture Design
 
 ```mermaid
 graph TD
-    A[User Browser] --> B[React Frontend Application]
-    B --> C[Service Worker]
-    B --> D[Marvel API Client]
-    D --> E[Marvel Comics API]
-    C --> F[Cache Storage]
-    B --> G[Local Storage]
-    B --> H[IndexedDB]
+    A[Portfolio Visitor] --> B[Portfolio Homepage]
+    B --> C[Featured Project Section]
+    C --> D[Marvel Quiz Integration]
+    D --> E[Quiz Interface Component]
+    D --> F[Technical Showcase Panel]
+    E --> G[Marvel API Service]
+    E --> H[Local Storage]
+    E --> I[Service Worker]
+    F --> J[Code Display Module]
+    F --> K[Performance Monitor]
     
     subgraph "Frontend Layer"
         B
-        I[Glassmorphic UI Components]
-        J[Game Logic Engine]
-        K[PWA Manager]
+        C
+        D
+        E
+        F
+        J
+        K
     end
     
-    subgraph "Caching Layer"
-        C
-        F
-        G
+    subgraph "Data Layer"
         H
+        I
     end
     
     subgraph "External Services"
-        E
-        L[CDN for Static Assets]
+        G
     end
 ```
 
 ## 2. Technology Description
 
-- **Frontend**: Vanilla JavaScript ES6+ + CSS3 + HTML5
-- **Styling**: CSS Grid + Flexbox + CSS Custom Properties + Glassmorphism
-- **PWA**: Service Worker + Web App Manifest + Cache API
-- **API Integration**: Marvel Comics API with MD5 authentication
-- **Storage**: LocalStorage + IndexedDB for offline data
-- **Performance**: Intersection Observer + Lazy Loading + Code Splitting
+- **Frontend**: Vanilla JavaScript ES6+ + CSS3 Glassmorphism + HTML5 PWA
+- **API Integration**: Marvel Comics API with fallback data system
+- **Storage**: LocalStorage for game state + Service Worker for offline capability
+- **Build Tool**: Vite for development and optimization
+- **Styling**: Custom CSS with glassmorphic design system and responsive utilities
 
 ## 3. Route Definitions
 
 | Route | Purpose |
-|-------|----------|
-| / | Home page with difficulty selection and game start |
-| /game | Main quiz interface with questions and scoring |
-| /results | Score display and performance analytics |
-| /leaderboard | High scores and achievements display |
-| /settings | Game preferences and API configuration |
-| /offline | Offline mode with cached questions |
+|-------|---------|
+| /index.html | Main portfolio homepage with integrated Marvel Quiz showcase |
+| /marvel-quiz-game/index.html | Standalone Marvel Quiz application (embedded in portfolio) |
+| /marvel-quiz-game/manifest.json | PWA manifest for installable app features |
+| /marvel-quiz-game/sw.js | Service worker for offline functionality and caching |
 
 ## 4. API Definitions
 
-### 4.1 Marvel Comics API Integration
+### 4.1 Core API Integration
 
-**Character Data Retrieval**
+**Marvel Comics API Integration**
 ```
 GET https://gateway.marvel.com/v1/public/characters
 ```
 
 Request Parameters:
 | Param Name | Param Type | isRequired | Description |
-|------------|------------|------------|--------------|
+|------------|------------|------------|-------------|
+| apikey | string | true | Marvel API public key |
 | ts | string | true | Timestamp for authentication |
-| apikey | string | true | Public API key |
 | hash | string | true | MD5 hash of ts+privateKey+publicKey |
-| limit | number | false | Number of results (default: 20) |
-| offset | number | false | Skip the specified number of results |
-| nameStartsWith | string | false | Filter by character name |
+| limit | number | false | Number of results to fetch (default: 20) |
+| offset | number | false | Skip the specified number of resources |
 
-Response:
+Response Structure:
 | Param Name | Param Type | Description |
 |------------|------------|-------------|
-| data.results | array | Array of character objects |
-| data.total | number | Total available characters |
-| status | string | Response status |
+| data.results | array | Array of Marvel character objects |
+| data.results[].name | string | Character name |
+| data.results[].description | string | Character description |
+| data.results[].thumbnail | object | Character image URLs |
 
-Example Response:
+**Local Fallback Data Structure**
 ```json
 {
-  "data": {
-    "results": [
-      {
-        "id": 1011334,
-        "name": "3-D Man",
-        "description": "...",
-        "thumbnail": {
-          "path": "http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784",
-          "extension": "jpg"
-        }
-      }
-    ]
-  }
+  "characters": [
+    {
+      "id": 1,
+      "name": "Spider-Man",
+      "description": "Friendly neighborhood Spider-Man",
+      "thumbnail": {
+        "path": "assets/images/spiderman",
+        "extension": "jpg"
+      },
+      "difficulty": "easy"
+    }
+  ]
 }
 ```
 
-**Comics Data Retrieval**
-```
-GET https://gateway.marvel.com/v1/public/comics
-```
+### 4.2 Game State Management API
 
-Request Parameters:
-| Param Name | Param Type | isRequired | Description |
-|------------|------------|------------|--------------|
-| ts | string | true | Timestamp for authentication |
-| apikey | string | true | Public API key |
-| hash | string | true | MD5 hash authentication |
-| characters | number | false | Filter by character ID |
-| startYear | number | false | Filter by publication year |
-
-### 4.2 Local Storage API
-
-**Game State Management**
+**Local Storage Schema**
 ```javascript
-// Save game progress
-localStorage.setItem('marvelQuiz_gameState', JSON.stringify(gameState));
-
-// Load game progress
-const gameState = JSON.parse(localStorage.getItem('marvelQuiz_gameState'));
-```
-
-**High Scores Storage**
-```javascript
-// Save high score
-const scores = JSON.parse(localStorage.getItem('marvelQuiz_highScores') || '[]');
-scores.push(newScore);
-localStorage.setItem('marvelQuiz_highScores', JSON.stringify(scores));
+// Game state structure
+{
+  "gameState": {
+    "currentScreen": "home|game|results",
+    "difficulty": "easy|medium|hard",
+    "currentQuestion": 0,
+    "totalQuestions": 10,
+    "score": 0,
+    "streak": 0,
+    "questions": [],
+    "answers": [],
+    "isGameActive": false
+  },
+  "userPreferences": {
+    "preferredDifficulty": "medium",
+    "soundEnabled": false,
+    "animationsEnabled": true
+  },
+  "statistics": {
+    "gamesPlayed": 0,
+    "totalScore": 0,
+    "bestStreak": 0,
+    "averageAccuracy": 0
+  }
+}
 ```
 
 ## 5. Server Architecture Diagram
 
 ```mermaid
 graph TD
-    A[Client Browser] --> B[Static File Server]
-    A --> C[Service Worker]
-    C --> D[Cache Management]
-    A --> E[Marvel API Gateway]
+    A[Client Browser] --> B[Portfolio Application]
+    B --> C[Marvel Quiz Component]
+    C --> D[Game Logic Layer]
+    C --> E[UI Rendering Layer]
+    D --> F[Question Generator]
+    D --> G[Score Calculator]
+    D --> H[State Manager]
+    E --> I[Animation Controller]
+    E --> J[Theme Manager]
     
-    subgraph "Client Side"
-        F[UI Components]
-        G[Game Engine]
-        H[State Management]
-        I[API Client]
+    subgraph "Application Layer"
+        B
+        C
     end
     
-    subgraph "Caching Strategy"
+    subgraph "Game Engine"
         D
-        J[Asset Cache]
-        K[API Response Cache]
-        L[Offline Data Cache]
+        F
+        G
+        H
     end
     
-    subgraph "External Services"
+    subgraph "Presentation Layer"
         E
-        M[Marvel Comics Database]
+        I
+        J
     end
 ```
 
@@ -166,223 +167,130 @@ graph TD
 ```mermaid
 erDiagram
     GAME_SESSION ||--o{ QUESTION : contains
-    GAME_SESSION ||--o{ SCORE : generates
+    GAME_SESSION ||--o{ ANSWER : records
     QUESTION ||--|| CHARACTER : references
-    CHARACTER ||--o{ COMIC : appears_in
-    PLAYER ||--o{ GAME_SESSION : plays
+    ANSWER ||--|| QUESTION : responds_to
     
     GAME_SESSION {
-        string id PK
-        string playerId
+        string sessionId PK
         string difficulty
-        number currentQuestion
-        number totalQuestions
-        number score
-        number timeRemaining
-        boolean isCompleted
+        int totalQuestions
+        int currentQuestion
+        int score
+        int streak
         datetime startTime
         datetime endTime
+        boolean isActive
     }
     
     QUESTION {
-        string id PK
+        int questionId PK
         string type
         string questionText
+        array options
         string correctAnswer
-        array wrongAnswers
-        string imageUrl
+        int timeLimit
         string difficulty
-        number timeLimit
     }
     
     CHARACTER {
-        number id PK
+        int characterId PK
         string name
         string description
-        string thumbnailUrl
-        array comics
-        array series
-        datetime modified
-    }
-    
-    COMIC {
-        number id PK
-        string title
-        string description
-        number issueNumber
-        string thumbnailUrl
-        datetime onSaleDate
-    }
-    
-    PLAYER {
-        string id PK
-        string name
-        number totalScore
-        number gamesPlayed
-        number bestScore
-        datetime lastPlayed
-        object preferences
-    }
-    
-    SCORE {
-        string id PK
-        string sessionId
-        number finalScore
-        number correctAnswers
-        number totalQuestions
-        number averageTime
+        string imageUrl
+        array aliases
         string difficulty
-        datetime completedAt
+    }
+    
+    ANSWER {
+        int answerId PK
+        string selectedAnswer
+        string correctAnswer
+        boolean isCorrect
+        int timeSpent
+        datetime timestamp
     }
 ```
 
 ### 6.2 Data Definition Language
 
-**Local Storage Schema**
-
+**LocalStorage Schema Implementation**
 ```javascript
-// Game Session Storage
-const gameSessionSchema = {
-  id: 'string', // UUID
-  playerId: 'string',
-  difficulty: 'easy|medium|hard',
-  currentQuestion: 'number',
-  totalQuestions: 'number',
-  score: 'number',
-  timeRemaining: 'number',
-  isCompleted: 'boolean',
-  startTime: 'ISO8601 string',
-  endTime: 'ISO8601 string',
-  questions: 'array<Question>'
+// Initialize game data structure
+const initializeGameData = () => {
+    const defaultData = {
+        gameState: {
+            currentScreen: 'home',
+            difficulty: 'medium',
+            currentQuestion: 0,
+            totalQuestions: 10,
+            score: 0,
+            timeRemaining: 30,
+            streak: 0,
+            maxStreak: 0,
+            startTime: null,
+            endTime: null,
+            questions: [],
+            answers: [],
+            isGameActive: false,
+            isPaused: false
+        },
+        userPreferences: {
+            preferredDifficulty: 'medium',
+            soundEnabled: false,
+            animationsEnabled: true,
+            theme: 'glassmorphic'
+        },
+        statistics: {
+            gamesPlayed: 0,
+            totalScore: 0,
+            bestStreak: 0,
+            averageAccuracy: 0,
+            totalTimeSpent: 0,
+            favoriteCharacters: []
+        }
+    };
+    
+    localStorage.setItem('marvelQuizData', JSON.stringify(defaultData));
+    return defaultData;
 };
 
-// Question Schema
-const questionSchema = {
-  id: 'string',
-  type: 'character_image|real_name|first_appearance|powers|team_affiliation',
-  questionText: 'string',
-  correctAnswer: 'string',
-  wrongAnswers: 'array<string>',
-  imageUrl: 'string',
-  difficulty: 'easy|medium|hard',
-  timeLimit: 'number',
-  characterId: 'number'
-};
-
-// Player Profile Schema
-const playerSchema = {
-  id: 'string',
-  name: 'string',
-  totalScore: 'number',
-  gamesPlayed: 'number',
-  bestScore: 'number',
-  lastPlayed: 'ISO8601 string',
-  preferences: {
-    difficulty: 'string',
-    soundEnabled: 'boolean',
-    animationsEnabled: 'boolean',
-    theme: 'string'
-  },
-  achievements: 'array<string>'
-};
-
-// High Scores Schema
-const highScoreSchema = {
-  id: 'string',
-  playerName: 'string',
-  score: 'number',
-  difficulty: 'string',
-  questionsCorrect: 'number',
-  totalQuestions: 'number',
-  averageTime: 'number',
-  completedAt: 'ISO8601 string'
-};
-```
-
-**IndexedDB Schema for Offline Data**
-
-```javascript
-// Database initialization
-const dbSchema = {
-  name: 'MarvelQuizDB',
-  version: 1,
-  stores: [
+// Fallback character data structure
+const fallbackCharacters = [
     {
-      name: 'characters',
-      keyPath: 'id',
-      indexes: [
-        { name: 'name', keyPath: 'name', unique: false },
-        { name: 'modified', keyPath: 'modified', unique: false }
-      ]
+        id: 1009610,
+        name: "Spider-Man",
+        description: "Bitten by a radioactive spider, Peter Parker's spider abilities give him amazing powers he uses to help others.",
+        thumbnail: {
+            path: "assets/images/characters/spiderman",
+            extension: "jpg"
+        },
+        difficulty: "easy",
+        aliases: ["Peter Parker", "Web-Slinger", "Wall-Crawler"]
     },
     {
-      name: 'comics',
-      keyPath: 'id',
-      indexes: [
-        { name: 'title', keyPath: 'title', unique: false },
-        { name: 'onSaleDate', keyPath: 'onSaleDate', unique: false }
-      ]
-    },
-    {
-      name: 'gameHistory',
-      keyPath: 'id',
-      indexes: [
-        { name: 'completedAt', keyPath: 'completedAt', unique: false },
-        { name: 'score', keyPath: 'score', unique: false }
-      ]
+        id: 1009368,
+        name: "Iron Man",
+        description: "Wounded, captured and forced to build a weapon by his enemies, billionaire industrialist Tony Stark instead created an advanced suit of armor to save his life and escape captivity.",
+        thumbnail: {
+            path: "assets/images/characters/ironman",
+            extension: "jpg"
+        },
+        difficulty: "medium",
+        aliases: ["Tony Stark", "Armored Avenger"]
     }
-  ]
-};
+];
 
-// Sample data insertion
-const sampleCharacterData = {
-  id: 1011334,
-  name: '3-D Man',
-  description: 'Charles Chandler is a former athlete...',
-  thumbnailUrl: 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg',
-  comics: [1234, 5678],
-  series: [9012],
-  modified: '2023-01-15T10:30:00Z',
-  cached_at: Date.now()
-};
-
-// Cache management
-const cacheConfig = {
-  maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  maxEntries: 1000,
-  strategy: 'cache-first-with-refresh'
-};
-```
-
-**Service Worker Cache Strategy**
-
-```javascript
-// Cache configuration
-const CACHE_CONFIG = {
-  STATIC_CACHE: 'marvel-quiz-static-v1',
-  DYNAMIC_CACHE: 'marvel-quiz-dynamic-v1',
-  API_CACHE: 'marvel-quiz-api-v1',
-  IMAGE_CACHE: 'marvel-quiz-images-v1'
-};
-
-// Cache strategies
-const cacheStrategies = {
-  static: 'cache-first',
-  api: 'network-first-with-cache-fallback',
-  images: 'cache-first-with-network-fallback',
-  dynamic: 'stale-while-revalidate'
-};
-
-// Cache initialization
+// Service Worker Cache Configuration
+const CACHE_NAME = 'marvel-quiz-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/assets/css/main.css',
-  '/assets/css/glassmorphism.css',
-  '/assets/js/app.js',
-  '/assets/js/game-logic.js',
-  '/assets/js/marvel-api.js',
-  '/assets/data/fallback-characters.json',
-  '/assets/images/placeholder-character.jpg'
+    '/marvel-quiz-game/',
+    '/marvel-quiz-game/index.html',
+    '/marvel-quiz-game/assets/css/main.css',
+    '/marvel-quiz-game/assets/css/glassmorphism.css',
+    '/marvel-quiz-game/assets/js/app.js',
+    '/marvel-quiz-game/assets/js/marvel-api.js',
+    '/marvel-quiz-game/assets/data/fallback.json',
+    '/marvel-quiz-game/manifest.json'
 ];
 ```

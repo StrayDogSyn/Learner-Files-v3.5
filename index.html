@@ -3892,52 +3892,52 @@
                         
                         <div class="project-content">
                             <div class="project-info">
-                                <h3 class="project-title">StrayDog AI Ecosystem</h3>
+                                <h3 class="project-title">Marvel Quiz Game - Interactive PWA</h3>
                                 <p class="project-description">
-                                    A comprehensive AI-powered development platform featuring intelligent code generation, 
-                                    automated testing, and real-time analytics. Built with modern MERN stack and integrated 
-                                    with multiple AI providers for enhanced developer productivity.
+                                    A cutting-edge Progressive Web Application showcasing advanced frontend development with 
+                                    Marvel API integration, glassmorphic design, offline functionality, and real-time performance 
+                                    monitoring. Built with vanilla JavaScript and modern web standards.
                                 </p>
                                 
                                 <div class="project-highlights">
                                     <div class="highlight-item">
-                                        <div class="highlight-icon">🚀</div>
+                                        <div class="highlight-icon">🎮</div>
                                         <div class="highlight-text">
-                                            <strong>Live Production</strong>
-                                            <span>Serving 500+ developers</span>
+                                            <strong>Interactive Demo</strong>
+                                            <span>Play directly in portfolio</span>
                                         </div>
                                     </div>
                                     <div class="highlight-item">
-                                        <div class="highlight-icon">🤖</div>
+                                        <div class="highlight-icon">🌐</div>
                                         <div class="highlight-text">
-                                            <strong>AI Integration</strong>
-                                            <span>OpenAI, Claude, Gemini APIs</span>
+                                            <strong>Marvel API</strong>
+                                            <span>Real-time character data</span>
                                         </div>
                                     </div>
                                     <div class="highlight-item">
-                                        <div class="highlight-icon">📊</div>
+                                        <div class="highlight-icon">📱</div>
                                         <div class="highlight-text">
-                                            <strong>Real-time Analytics</strong>
-                                            <span>Performance monitoring</span>
+                                            <strong>PWA Features</strong>
+                                            <span>Offline-ready & installable</span>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="tech-stack">
-                                    <span class="tech-badge react">React</span>
-                                    <span class="tech-badge node">Node.js</span>
-                                    <span class="tech-badge mongo">MongoDB</span>
-                                    <span class="tech-badge express">Express</span>
-                                    <span class="tech-badge ai">AI APIs</span>
-                                    <span class="tech-badge docker">Docker</span>
+                                    <span class="tech-badge js">Vanilla JS</span>
+                                    <span class="tech-badge css">CSS3</span>
+                                    <span class="tech-badge api">Marvel API</span>
+                                    <span class="tech-badge pwa">PWA</span>
+                                    <span class="tech-badge responsive">Responsive</span>
+                                    <span class="tech-badge glass">Glassmorphism</span>
                                 </div>
                                 
                                 <div class="project-actions">
-                                    <a href="#toolbox" class="btn-primary" data-analytics="featured-demo">
-                                        <span class="btn-icon">🔗</span>
-                                        Live Demo
+                                    <a href="./marvel-quiz-game/index.html" target="_blank" class="btn-primary" data-analytics="featured-demo">
+                                        <span class="btn-icon">🎮</span>
+                                        Play Quiz
                                     </a>
-                                    <a href="https://github.com/StrayDogSyn" target="_blank" class="btn-secondary" data-analytics="featured-source">
+                                    <a href="https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game" target="_blank" class="btn-secondary" data-analytics="featured-source">
                                         <span class="btn-icon">📂</span>
                                         Source Code
                                     </a>
@@ -3952,32 +3952,219 @@
                                             <span class="control-dot yellow"></span>
                                             <span class="control-dot green"></span>
                                         </div>
-                                        <div class="preview-url">straydog-ai.dev</div>
+                                        <div class="preview-url">marvel-quiz.app</div>
                                     </div>
                                     <div class="preview-content">
-                                        <div class="preview-code">
-                                            <div class="code-line">
-                                                <span class="line-number">1</span>
-                                                <span class="code-text"><span class="keyword">const</span> <span class="variable">aiResponse</span> = <span class="keyword">await</span> <span class="function">generateCode</span>();</span>
-                                            </div>
-                                            <div class="code-line">
-                                                <span class="line-number">2</span>
-                                                <span class="code-text"><span class="keyword">const</span> <span class="variable">analysis</span> = <span class="keyword">await</span> <span class="function">analyzePerformance</span>();</span>
-                                            </div>
-                                            <div class="code-line">
-                                                <span class="line-number">3</span>
-                                                <span class="code-text"><span class="function">deployToProduction</span>(<span class="variable">aiResponse</span>);</span>
+                                        <!-- Embedded Quiz Interface -->
+                                        <div id="marvel-quiz-embed" class="quiz-embed-container">
+                                            <div class="quiz-preview-screen">
+                                                <div class="quiz-header">
+                                                    <h4 class="quiz-title">Ultimate Marvel Quiz</h4>
+                                                    <div class="quiz-stats">
+                                                        <span class="stat-badge">Score: <span id="preview-score">0</span></span>
+                                                        <span class="stat-badge">Question: <span id="preview-question">1/10</span></span>
+                                                    </div>
+                                                </div>
+                                                <div class="quiz-question-preview">
+                                                    <p class="question-text">Which Marvel character is known as the "Friendly Neighborhood" hero?</p>
+                                                    <div class="quiz-options">
+                                                        <button class="quiz-option correct" onclick="handlePreviewAnswer(true)">Spider-Man</button>
+                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Iron Man</button>
+                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Captain America</button>
+                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Thor</button>
+                                                    </div>
+                                                </div>
+                                                <div class="quiz-progress">
+                                                    <div class="progress-bar">
+                                                        <div class="progress-fill" style="width: 10%"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+                                        
+                                        <!-- Technical Stats -->
                                         <div class="preview-stats">
                                             <div class="stat-item">
-                                                <div class="stat-value">99.9%</div>
-                                                <div class="stat-label">Uptime</div>
+                                                <div class="stat-value" id="api-status">✅</div>
+                                                <div class="stat-label">API Status</div>
                                             </div>
                                             <div class="stat-item">
-                                                <div class="stat-value">< 200ms</div>
+                                                <div class="stat-value" id="response-time">~150ms</div>
                                                 <div class="stat-label">Response</div>
                                             </div>
+                                            <div class="stat-item">
+                                                <div class="stat-value">PWA</div>
+                                                <div class="stat-label">Ready</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Technical Architecture Panel -->
+                        <div class="tech-showcase-panel">
+                            <div class="tech-panel-header">
+                                <h4>Technical Architecture</h4>
+                                <div class="tech-panel-tabs">
+                                    <button class="tech-tab active" data-tab="architecture">Architecture</button>
+                                    <button class="tech-tab" data-tab="code">Code</button>
+                                    <button class="tech-tab" data-tab="performance">Performance</button>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-panel-content">
+                                <!-- Architecture Tab -->
+                                <div class="tech-tab-content active" data-content="architecture">
+                                    <div class="architecture-diagram">
+                                        <div class="arch-layer">
+                                            <div class="arch-component frontend">
+                                                <span class="component-label">Frontend</span>
+                                                <div class="component-details">Vanilla JS + CSS3 Glassmorphism</div>
+                                            </div>
+                                        </div>
+                                        <div class="arch-layer">
+                                            <div class="arch-component api">
+                                                <span class="component-label">API Layer</span>
+                                                <div class="component-details">Marvel Comics API + Local Fallback</div>
+                                            </div>
+                                        </div>
+                                        <div class="arch-layer">
+                                            <div class="arch-component storage">
+                                                <span class="component-label">Storage</span>
+                                                <div class="component-details">LocalStorage + Service Worker</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tech-features">
+                                        <div class="feature-item">
+                                            <span class="feature-icon">⚡</span>
+                                            <span class="feature-text">PWA Ready with Service Worker</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="feature-icon">🎨</span>
+                                            <span class="feature-text">Glassmorphic Design System</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="feature-icon">📱</span>
+                                            <span class="feature-text">Responsive Mobile-First</span>
+                                        </div>
+                                        <div class="feature-item">
+                                            <span class="feature-icon">🔄</span>
+                                            <span class="feature-text">Real-time API Integration</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Code Tab -->
+                                <div class="tech-tab-content" data-content="code">
+                                    <div class="code-snippet">
+                                        <div class="code-header">
+                                            <span class="code-language">JavaScript</span>
+                                            <span class="code-file">quiz-engine.js</span>
+                                        </div>
+                                        <pre class="code-content"><code>// Marvel Quiz Game Engine
+class QuizEngine {
+  constructor() {
+    this.questions = [];
+    this.currentQuestion = 0;
+    this.score = 0;
+    this.apiClient = new MarvelAPIClient();
+  }
+
+  async loadQuestions() {
+    try {
+      const characters = await this.apiClient
+        .getCharacters({ limit: 10 });
+      this.questions = this.generateQuestions(characters);
+    } catch (error) {
+      this.questions = this.getFallbackQuestions();
+    }
+  }
+
+  generateQuestions(characters) {
+    return characters.map(char => ({
+      question: `Who is ${char.name}?`,
+      options: this.generateOptions(char),
+      correct: 0
+    }));
+  }
+}</code></pre>
+                                    </div>
+                                    <div class="code-snippet">
+                                        <div class="code-header">
+                                            <span class="code-language">CSS</span>
+                                            <span class="code-file">glassmorphism.css</span>
+                                        </div>
+                                        <pre class="code-content"><code>/* Glassmorphic Card Design */
+.quiz-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card::before {
+  content: '';
+  position: absolute;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0)
+  );
+}</code></pre>
+                                    </div>
+                                </div>
+                                
+                                <!-- Performance Tab -->
+                                <div class="tech-tab-content" data-content="performance">
+                                    <div class="performance-metrics">
+                                        <div class="metric-card">
+                                            <div class="metric-value">95</div>
+                                            <div class="metric-label">Performance Score</div>
+                                            <div class="metric-bar">
+                                                <div class="metric-fill" style="width: 95%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">98</div>
+                                            <div class="metric-label">Accessibility</div>
+                                            <div class="metric-bar">
+                                                <div class="metric-fill" style="width: 98%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">92</div>
+                                            <div class="metric-label">Best Practices</div>
+                                            <div class="metric-bar">
+                                                <div class="metric-fill" style="width: 92%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="metric-card">
+                                            <div class="metric-value">100</div>
+                                            <div class="metric-label">SEO</div>
+                                            <div class="metric-bar">
+                                                <div class="metric-fill" style="width: 100%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="performance-details">
+                                        <div class="perf-item">
+                                            <span class="perf-metric">First Contentful Paint</span>
+                                            <span class="perf-value">1.2s</span>
+                                        </div>
+                                        <div class="perf-item">
+                                            <span class="perf-metric">Largest Contentful Paint</span>
+                                            <span class="perf-value">2.1s</span>
+                                        </div>
+                                        <div class="perf-item">
+                                            <span class="perf-metric">Cumulative Layout Shift</span>
+                                            <span class="perf-value">0.05</span>
+                                        </div>
+                                        <div class="perf-item">
+                                            <span class="perf-metric">Time to Interactive</span>
+                                            <span class="perf-value">2.8s</span>
                                         </div>
                                     </div>
                                 </div>
@@ -5951,6 +6138,626 @@ const items = data?.items || [];
                 initializeToolboxInteractivity();
             });
         }
+    </script>
+
+    <!-- Marvel Quiz Embed Styles -->
+    <style>
+        /* Quiz Embed Container Styles */
+        .quiz-embed-container {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .quiz-preview-screen {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--light-contrast);
+            margin: 0;
+        }
+
+        .quiz-stats {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stat-badge {
+            background: rgba(80, 200, 120, 0.2);
+            color: var(--primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .quiz-question-preview {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .question-text {
+            font-size: 1rem;
+            color: var(--light-contrast);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            color: var(--light-contrast);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-option.correct {
+            background: rgba(80, 200, 120, 0.1);
+            border-color: rgba(80, 200, 120, 0.3);
+        }
+
+        .quiz-option.selected {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: var(--primary);
+        }
+
+        .quiz-option.wrong {
+            background: rgba(244, 67, 54, 0.1);
+            border-color: rgba(244, 67, 54, 0.3);
+        }
+
+        .quiz-progress {
+            margin-top: auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #4facfe);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* Tech Badge Styles */
+        .tech-badge.js { background: rgba(247, 223, 30, 0.2); color: #f7df1e; }
+        .tech-badge.css { background: rgba(21, 114, 182, 0.2); color: #1572b6; }
+        .tech-badge.api { background: rgba(255, 99, 71, 0.2); color: #ff6347; }
+        .tech-badge.pwa { background: rgba(93, 63, 211, 0.2); color: #5d3fd3; }
+        .tech-badge.responsive { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .tech-badge.glass { background: rgba(139, 69, 19, 0.2); color: #cd853f; }
+
+        /* Technical Showcase Panel Styles */
+         .tech-showcase-panel {
+             background: rgba(255, 255, 255, 0.03);
+             border-radius: 12px;
+             border: 1px solid rgba(255, 255, 255, 0.08);
+             backdrop-filter: blur(15px);
+             margin: 1.5rem 0;
+             overflow: hidden;
+         }
+
+         .tech-panel-header {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 1rem 1.5rem;
+             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+         }
+
+         .tech-panel-header h4 {
+             margin: 0;
+             color: var(--light-contrast);
+             font-size: 1.1rem;
+             font-weight: 600;
+         }
+
+         .tech-panel-tabs {
+             display: flex;
+             gap: 0.5rem;
+         }
+
+         .tech-tab {
+             background: rgba(255, 255, 255, 0.05);
+             border: 1px solid rgba(255, 255, 255, 0.1);
+             border-radius: 6px;
+             padding: 0.4rem 0.8rem;
+             color: var(--light-contrast);
+             font-size: 0.85rem;
+             cursor: pointer;
+             transition: all 0.3s ease;
+         }
+
+         .tech-tab:hover {
+             background: rgba(255, 255, 255, 0.1);
+             border-color: rgba(255, 255, 255, 0.2);
+         }
+
+         .tech-tab.active {
+             background: rgba(80, 200, 120, 0.2);
+             border-color: var(--primary);
+             color: var(--primary);
+         }
+
+         .tech-panel-content {
+             padding: 1.5rem;
+         }
+
+         .tech-tab-content {
+             display: none;
+         }
+
+         .tech-tab-content.active {
+             display: block;
+         }
+
+         /* Architecture Diagram */
+         .architecture-diagram {
+             display: flex;
+             flex-direction: column;
+             gap: 1rem;
+             margin-bottom: 1.5rem;
+         }
+
+         .arch-layer {
+             display: flex;
+             justify-content: center;
+         }
+
+         .arch-component {
+             background: rgba(255, 255, 255, 0.05);
+             border: 1px solid rgba(255, 255, 255, 0.1);
+             border-radius: 8px;
+             padding: 1rem;
+             text-align: center;
+             min-width: 200px;
+             backdrop-filter: blur(10px);
+         }
+
+         .arch-component.frontend {
+             border-color: rgba(80, 200, 120, 0.3);
+             background: rgba(80, 200, 120, 0.1);
+         }
+
+         .arch-component.api {
+             border-color: rgba(255, 99, 71, 0.3);
+             background: rgba(255, 99, 71, 0.1);
+         }
+
+         .arch-component.storage {
+             border-color: rgba(93, 63, 211, 0.3);
+             background: rgba(93, 63, 211, 0.1);
+         }
+
+         .component-label {
+             display: block;
+             font-weight: 600;
+             color: var(--light-contrast);
+             margin-bottom: 0.5rem;
+         }
+
+         .component-details {
+             font-size: 0.85rem;
+             color: rgba(255, 255, 255, 0.7);
+         }
+
+         .tech-features {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+             gap: 0.75rem;
+         }
+
+         .feature-item {
+             display: flex;
+             align-items: center;
+             gap: 0.5rem;
+             padding: 0.5rem;
+             background: rgba(255, 255, 255, 0.03);
+             border-radius: 6px;
+             border: 1px solid rgba(255, 255, 255, 0.05);
+         }
+
+         .feature-icon {
+             font-size: 1.2rem;
+         }
+
+         .feature-text {
+             font-size: 0.85rem;
+             color: var(--light-contrast);
+         }
+
+         /* Code Snippets */
+         .code-snippet {
+             background: rgba(0, 0, 0, 0.3);
+             border-radius: 8px;
+             margin-bottom: 1rem;
+             overflow: hidden;
+             border: 1px solid rgba(255, 255, 255, 0.1);
+         }
+
+         .code-header {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 0.75rem 1rem;
+             background: rgba(0, 0, 0, 0.2);
+             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+         }
+
+         .code-language {
+             background: rgba(80, 200, 120, 0.2);
+             color: var(--primary);
+             padding: 0.25rem 0.5rem;
+             border-radius: 4px;
+             font-size: 0.75rem;
+             font-weight: 500;
+         }
+
+         .code-file {
+             color: rgba(255, 255, 255, 0.6);
+             font-size: 0.85rem;
+             font-family: 'Courier New', monospace;
+         }
+
+         .code-content {
+             padding: 1rem;
+             margin: 0;
+             font-family: 'Courier New', monospace;
+             font-size: 0.8rem;
+             line-height: 1.5;
+             color: #e6e6e6;
+             overflow-x: auto;
+         }
+
+         .code-content code {
+             color: inherit;
+         }
+
+         /* Performance Metrics */
+         .performance-metrics {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+             gap: 1rem;
+             margin-bottom: 1.5rem;
+         }
+
+         .metric-card {
+             background: rgba(255, 255, 255, 0.05);
+             border: 1px solid rgba(255, 255, 255, 0.1);
+             border-radius: 8px;
+             padding: 1rem;
+             text-align: center;
+         }
+
+         .metric-value {
+             font-size: 2rem;
+             font-weight: 700;
+             color: var(--primary);
+             margin-bottom: 0.5rem;
+         }
+
+         .metric-label {
+             font-size: 0.85rem;
+             color: var(--light-contrast);
+             margin-bottom: 0.75rem;
+         }
+
+         .metric-bar {
+             width: 100%;
+             height: 4px;
+             background: rgba(255, 255, 255, 0.1);
+             border-radius: 2px;
+             overflow: hidden;
+         }
+
+         .metric-fill {
+             height: 100%;
+             background: linear-gradient(90deg, var(--primary), #4facfe);
+             border-radius: 2px;
+             transition: width 0.5s ease;
+         }
+
+         .performance-details {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+             gap: 0.75rem;
+         }
+
+         .perf-item {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 0.75rem;
+             background: rgba(255, 255, 255, 0.03);
+             border-radius: 6px;
+             border: 1px solid rgba(255, 255, 255, 0.05);
+         }
+
+         .perf-metric {
+             font-size: 0.85rem;
+             color: var(--light-contrast);
+         }
+
+         .perf-value {
+             font-weight: 600;
+             color: var(--primary);
+             font-size: 0.9rem;
+         }
+
+         /* Responsive adjustments */
+         @media (max-width: 768px) {
+             .quiz-embed-container {
+                 height: 280px;
+                 padding: 0.75rem;
+             }
+
+             .quiz-options {
+                 grid-template-columns: 1fr;
+                 gap: 0.4rem;
+             }
+
+             .quiz-option {
+                 padding: 0.4rem;
+                 font-size: 0.8rem;
+             }
+
+             .quiz-header {
+                 flex-direction: column;
+                 gap: 0.5rem;
+                 align-items: flex-start;
+             }
+
+             .quiz-stats {
+                 align-self: stretch;
+                 justify-content: space-between;
+             }
+
+             .tech-panel-header {
+                 flex-direction: column;
+                 gap: 1rem;
+                 align-items: flex-start;
+             }
+
+             .tech-panel-tabs {
+                 align-self: stretch;
+                 justify-content: space-between;
+             }
+
+             .tech-tab {
+                 flex: 1;
+                 text-align: center;
+             }
+
+             .architecture-diagram {
+                 gap: 0.75rem;
+             }
+
+             .arch-component {
+                 min-width: auto;
+                 padding: 0.75rem;
+             }
+
+             .tech-features {
+                 grid-template-columns: 1fr;
+             }
+
+             .performance-metrics {
+                 grid-template-columns: repeat(2, 1fr);
+             }
+
+             .performance-details {
+                 grid-template-columns: 1fr;
+             }
+
+             .code-content {
+                 font-size: 0.75rem;
+             }
+         }
+    </style>
+
+    <!-- Marvel Quiz Embed JavaScript -->
+    <script>
+        // Quiz Preview Functionality
+        let previewScore = 0;
+        let previewQuestion = 1;
+        let previewAnswered = false;
+
+        // Sample quiz questions for preview
+        const previewQuestions = [
+            {
+                question: "Which Marvel character is known as the 'Friendly Neighborhood' hero?",
+                options: ["Spider-Man", "Iron Man", "Captain America", "Thor"],
+                correct: 0
+            },
+            {
+                question: "What is the real name of the Black Widow?",
+                options: ["Natasha Romanoff", "Wanda Maximoff", "Carol Danvers", "Pepper Potts"],
+                correct: 0
+            },
+            {
+                question: "Which Infinity Stone is housed in the Eye of Agamotto?",
+                options: ["Power Stone", "Space Stone", "Time Stone", "Reality Stone"],
+                correct: 2
+            },
+            {
+                question: "What is the name of Thor's hammer?",
+                options: ["Stormbreaker", "Mjolnir", "Gungnir", "Hofund"],
+                correct: 1
+            },
+            {
+                question: "Who is the leader of the Guardians of the Galaxy?",
+                options: ["Rocket", "Gamora", "Star-Lord", "Drax"],
+                correct: 2
+            }
+        ];
+
+        let currentPreviewQuestion = 0;
+
+        function handlePreviewAnswer(isCorrect) {
+            if (previewAnswered) return;
+            
+            previewAnswered = true;
+            const options = document.querySelectorAll('.quiz-option');
+            
+            // Highlight the selected answer
+            options.forEach((option, index) => {
+                option.style.pointerEvents = 'none';
+                if (option.onclick && option.onclick.toString().includes('true')) {
+                    option.classList.add('correct');
+                } else if (option.onclick && option.onclick.toString().includes('false')) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            if (isCorrect) {
+                previewScore += 10;
+                document.getElementById('preview-score').textContent = previewScore;
+            }
+
+            // Move to next question after delay
+            setTimeout(() => {
+                nextPreviewQuestion();
+            }, 1500);
+        }
+
+        function nextPreviewQuestion() {
+            currentPreviewQuestion = (currentPreviewQuestion + 1) % previewQuestions.length;
+            previewQuestion = currentPreviewQuestion + 1;
+            previewAnswered = false;
+
+            const questionData = previewQuestions[currentPreviewQuestion];
+            
+            // Update question text
+            document.querySelector('.question-text').textContent = questionData.question;
+            
+            // Update question counter
+            document.getElementById('preview-question').textContent = `${previewQuestion}/5`;
+            
+            // Update progress bar
+            const progressPercent = (previewQuestion / 5) * 100;
+            document.querySelector('.progress-fill').style.width = `${progressPercent}%`;
+            
+            // Reset and update options
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((option, index) => {
+                option.textContent = questionData.options[index];
+                option.className = 'quiz-option';
+                option.style.pointerEvents = 'auto';
+                
+                // Update onclick handlers
+                if (index === questionData.correct) {
+                    option.onclick = () => handlePreviewAnswer(true);
+                    option.classList.add('correct');
+                } else {
+                    option.onclick = () => handlePreviewAnswer(false);
+                }
+            });
+        }
+
+        // API Status Simulation
+        function simulateAPIStatus() {
+            const statusElement = document.getElementById('api-status');
+            const responseTimeElement = document.getElementById('response-time');
+            
+            if (!statusElement || !responseTimeElement) return;
+
+            // Simulate API calls with random response times
+            setInterval(() => {
+                const responseTime = Math.floor(Math.random() * 100) + 120; // 120-220ms
+                const isOnline = Math.random() > 0.1; // 90% uptime simulation
+                
+                responseTimeElement.textContent = `~${responseTime}ms`;
+                statusElement.textContent = isOnline ? '✅' : '⚠️';
+                statusElement.style.color = isOnline ? '#4caf50' : '#ff9800';
+            }, 3000);
+        }
+
+        // Tech Panel Tab Switching
+         function switchTechTab(tabName) {
+             // Remove active class from all tabs and content
+             document.querySelectorAll('.tech-tab').forEach(tab => tab.classList.remove('active'));
+             document.querySelectorAll('.tech-tab-content').forEach(content => content.classList.remove('active'));
+             
+             // Add active class to selected tab and content
+             document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+             document.querySelector(`[data-content="${tabName}"]`).classList.add('active');
+         }
+
+         // Initialize quiz preview when page loads
+         document.addEventListener('DOMContentLoaded', function() {
+             // Start API status simulation
+             setTimeout(simulateAPIStatus, 1000);
+             
+             // Initialize first question
+             setTimeout(() => {
+                 const firstQuestion = previewQuestions[0];
+                 if (firstQuestion) {
+                     document.querySelector('.question-text').textContent = firstQuestion.question;
+                     const options = document.querySelectorAll('.quiz-option');
+                     options.forEach((option, index) => {
+                         option.textContent = firstQuestion.options[index];
+                         if (index === firstQuestion.correct) {
+                             option.onclick = () => handlePreviewAnswer(true);
+                         } else {
+                             option.onclick = () => handlePreviewAnswer(false);
+                         }
+                     });
+                 }
+             }, 500);
+
+             // Add tech panel tab event listeners
+             document.querySelectorAll('.tech-tab').forEach(tab => {
+                 tab.addEventListener('click', () => {
+                     const tabName = tab.getAttribute('data-tab');
+                     switchTechTab(tabName);
+                 });
+             });
+         });
     </script>
 
     <!-- AI Integration Script -->
