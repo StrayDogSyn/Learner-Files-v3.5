@@ -491,7 +491,7 @@ Initiative: ${request.initiative}
 Target Population: ${request.targetPopulation}
 Expected Outcomes: ${request.expectedOutcomes.join(', ')}
 Timeframe: ${request.timeframe}
-Resources: ${request.resources.join(', ')}
+Resources: ${request.resources?.join(', ') || 'Not specified'}
 
 Please provide:
 1. Impact Score (1-100)

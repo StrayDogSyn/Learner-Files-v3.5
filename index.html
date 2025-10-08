@@ -116,10 +116,6 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
-
-
-
-
         /* Header */
         header {
             position: fixed;
@@ -421,8 +417,6 @@
                 grid-template-columns: repeat(2, 1fr);
                 max-width: 600px;
             }
-        }
-
         .achievement {
             background: rgba(30, 30, 30, 0.85);
             border-radius: 18px;
@@ -843,6 +837,8 @@
             width: 100%;
             max-width: 400px;
             box-sizing: border-box;
+            position: relative;
+            contain: layout style paint;
         }
 
         .preview-header {
@@ -881,6 +877,9 @@
             padding: 1rem;
             width: 100%;
             box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+            contain: layout style paint;
         }
 
         .preview-code {
@@ -4039,15 +4038,15 @@
                                         <div id="marvel-quiz-embed" class="quiz-embed-container">
                                             <div class="quiz-preview-screen">
                                                 <div class="quiz-timer">
-                                            ⏱️ Time Remaining: <span id="timer-display">30s</span>
-                                        </div>
-                                        <div class="quiz-header">
-                                            <h4 class="quiz-title">Ultimate Marvel Quiz</h4>
-                                            <div class="quiz-stats">
-                                                <span class="stat-badge">Score: <span id="preview-score">0</span></span>
-                                                <span class="stat-badge">Question: <span id="preview-question">1/10</span></span>
-                                            </div>
-                                        </div>
+                                                    ⏱️ Time Remaining: <span id="timer-display">30s</span>
+                                                </div>
+                                                <div class="quiz-header">
+                                                    <h4 class="quiz-title">Ultimate Marvel Quiz</h4>
+                                                    <div class="quiz-stats">
+                                                        <span class="stat-badge">Score: <span id="preview-score">0</span></span>
+                                                        <span class="stat-badge">Question: <span id="preview-question">1/10</span></span>
+                                                    </div>
+                                                </div>
                                                 <div class="quiz-question-preview">
                                                     <p class="question-text">Which Marvel character is known as the "Friendly Neighborhood" hero?</p>
                                                     <div class="quiz-options">
@@ -6237,10 +6236,12 @@ const items = data?.items || [];
             backdrop-filter: blur(20px);
             padding: 1rem;
             margin-bottom: 1rem;
-            overflow: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            contain: layout style paint;
         }
 
         .quiz-preview-screen {
@@ -6248,6 +6249,9 @@ const items = data?.items || [];
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            contain: layout style paint;
         }
 
         .quiz-header {
@@ -6304,6 +6308,11 @@ const items = data?.items || [];
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            position: relative;
+            overflow: hidden;
+            contain: layout style paint;
+            max-width: 100%;
+            word-wrap: break-word;
         }
 
         .question-text {
@@ -6311,6 +6320,12 @@ const items = data?.items || [];
             color: var(--light-contrast);
             margin: 0;
             line-height: 1.5;
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            text-overflow: ellipsis;
+            white-space: normal;
         }
 
         .quiz-options {
@@ -6684,7 +6699,7 @@ const items = data?.items || [];
 
          /* Timer and Urgency Indicators */
          .quiz-timer {
-             position: sticky;
+             position: relative;
              top: 0;
              background: rgba(255, 255, 255, 0.1);
              backdrop-filter: blur(15px);
@@ -6695,7 +6710,11 @@ const items = data?.items || [];
              font-weight: 600;
              color: var(--light-contrast);
              transition: all 0.3s ease;
-             z-index: 10;
+             z-index: 1;
+             max-width: 100%;
+             overflow: hidden;
+             text-overflow: ellipsis;
+             white-space: nowrap;
          }
 
          .quiz-timer.urgent {
@@ -7099,7 +7118,7 @@ const items = data?.items || [];
     </script>
 
     <!-- AI Integration Script -->
-    <script src="js/ai-integration.js"></script>
+    <script type="module" src="js/ai-integration.js"></script>
 
 </body>
 </html>

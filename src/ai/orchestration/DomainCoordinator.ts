@@ -201,7 +201,7 @@ export class DomainCoordinator {
         success: false,
         error: {
           code: 'CROSS_DOMAIN_ANALYSIS_FAILED',
-          message: error.message,
+          message: error instanceof Error ? error.message : 'Unknown error occurred',
           domain: request.primaryDomain,
           timestamp: new Date()
         }
@@ -289,7 +289,7 @@ export class DomainCoordinator {
         success: false,
         error: {
           code: 'RECOMMENDATION_GENERATION_FAILED',
-          message: error.message,
+          message: error instanceof Error ? error.message : 'Unknown error occurred',
           domain,
           timestamp: new Date()
         }
@@ -331,7 +331,7 @@ export class DomainCoordinator {
         success: false,
         error: {
           code: 'CROSS_DOMAIN_INSIGHTS_FAILED',
-          message: error.message,
+          message: error instanceof Error ? error.message : 'Unknown error occurred',
           timestamp: new Date()
         }
       };
@@ -395,7 +395,7 @@ export class DomainCoordinator {
         success: false,
         error: {
           code: 'WORKFLOW_COORDINATION_FAILED',
-          message: error.message,
+          message: error instanceof Error ? error.message : 'Unknown error occurred',
           timestamp: new Date()
         }
       };

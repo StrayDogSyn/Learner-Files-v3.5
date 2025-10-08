@@ -15,7 +15,7 @@ import {
 import { rateLimiter } from '../services/RateLimiter';
 import { contextManager } from '../services/ContextManager';
 import { analyticsService } from '../services/AnalyticsService';
-import { errorHandler, ErrorType, withRetry } from '@straydog/database';
+import { errorHandler, ErrorType, withRetry } from '../../../packages/database/src';
 
 export class ClaudeOrchestrator {
   private rateLimiter = rateLimiter;

@@ -135,7 +135,9 @@ export class ContextManager {
     
     // Update last activity
     session.lastActivity = new Date();
-    session.context.metadata.lastActivity = session.lastActivity;
+    if (session.context.metadata) {
+      session.context.metadata.lastActivity = session.lastActivity;
+    }
     
     return { ...session.context }; // Return a copy
   }
@@ -170,11 +172,15 @@ export class ContextManager {
     
     // Update metadata
     session.lastActivity = now;
-    session.context.metadata.lastActivity = now;
-    session.context.metadata.requestCount++;
-    
-    if (tokensUsed) {
-      session.context.metadata.totalTokens += tokensUsed;
+    if (session.context.metadata) {
+      session.context.metadata.lastActivity = now;
+      if (session.context.metadata.requestCount !== undefined) {
+        session.context.metadata.requestCount++;
+      }
+      
+      if (tokensUsed && session.context.metadata.totalTokens !== undefined) {
+        session.context.metadata.totalTokens += tokensUsed;
+      }
     }
   }
 
@@ -199,12 +205,16 @@ export class ContextManager {
     // Update domain
     session.domain = newDomain;
     session.context.domain = newDomain;
-    session.context.metadata.domain = newDomain;
+    if (session.context.metadata) {
+      session.context.metadata.domain = newDomain;
+    }
     
     // Update system prompt and preferences
     session.context.systemPrompt = domainContext.systemPrompt;
-    session.context.preferences.temperature = domainContext.temperature;
-    session.context.preferences.maxTokens = domainContext.maxTokens;
+    if (session.context.preferences) {
+      session.context.preferences.temperature = domainContext.temperature;
+      session.context.preferences.maxTokens = domainContext.maxTokens;
+    }
     
     // Optionally clear history for clean domain switch
     if (!preserveHistory) {
@@ -229,7 +239,9 @@ export class ContextManager {
     }
     
     session.lastActivity = new Date();
-    session.context.metadata.lastActivity = session.lastActivity;
+    if (session.context.metadata) {
+      session.context.metadata.lastActivity = session.lastActivity;
+    }
   }
 
   /**
@@ -351,7 +363,7 @@ export class ContextManager {
     session.lastActivity = new Date();
     
     // Update metadata if context was updated
-    if (updates.context) {
+    if (updates.context && session.context.metadata) {
       session.context.metadata.lastActivity = session.lastActivity;
     }
   }
@@ -490,8 +502,8 @@ Emphasize fairness, transparency, and systemic change.`,
     // Get sessions sorted by last activity (oldest first)
     const sessions = Array.from(userSessionIds)
       .map(id => this.sessions.get(id))
-      .filter(session => session !== undefined)
-      .sort((a, b) => a!.lastActivity.getTime() - b!.lastActivity.getTime());
+      .filter((session): session is ContextSession => session !== undefined)
+      .sort((a, b) => a.lastActivity.getTime() - b.lastActivity.getTime());
 
     // Close oldest sessions
     const sessionsToClose = sessions.slice(0, sessions.length - this.maxSessionsPerUser);

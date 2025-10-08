@@ -158,7 +158,7 @@ const AICaseStudyGenerator: React.FC = () => {
       });
     } catch (error) {
       console.error('Error generating case study:', error);
-      trackEvent('case_study_generation_error', { error: error.message });
+      trackEvent('case_study_generation_error', { error: error instanceof Error ? error.message : 'Unknown error' });
     } finally {
       setIsGenerating(false);
     }

@@ -146,7 +146,7 @@ const AILeadQualificationChatbot: React.FC = () => {
         'enterprise'
       );
 
-      if (response.success) {
+      if (response.success && response.data) {
         return response.data;
       } else {
         throw new Error(response.error?.message || 'Failed to generate response');

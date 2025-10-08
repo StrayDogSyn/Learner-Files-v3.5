@@ -167,7 +167,7 @@ export const AIChat: React.FC<AIChatProps> = ({
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: `I apologize, but I encountered an error: ${error.message}. Please try again.`,
+        content: `I apologize, but I encountered an error: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.`,
         role: 'assistant',
         timestamp: new Date(),
         domain
