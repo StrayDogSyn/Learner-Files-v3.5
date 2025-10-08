@@ -15,6 +15,7 @@
     "lint": "turbo run lint",
     "test": "turbo run test",
     "clean": "turbo run clean",
+    "build": "npm run build:main",
     "build:workspace": "turbo run build",
     "dev:main": "vite",
     "build:main": "tsc && vite build",
