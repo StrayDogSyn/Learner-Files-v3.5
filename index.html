@@ -121,9 +121,22 @@
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
+        /* Entrance Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Header */
         header {
             position: fixed;
+            animation: fadeInUp 0.8s ease-out;
             top: 0;
             left: 0;
             right: 0;
@@ -153,6 +166,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .logo-icon {
@@ -330,6 +344,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             position: relative;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
         .hero-title::after {
@@ -352,6 +367,7 @@
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(255, 255, 255, 0.9);
             letter-spacing: 0.02em;
             line-height: 1.2;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .hero-tagline {
@@ -365,6 +381,7 @@
             margin-left: auto;
             margin-right: auto;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.5s both;
         }
 
         .hero-description {
@@ -383,6 +400,7 @@
             max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
         }
 
         @media (max-width: 768px) {
@@ -7469,6 +7487,73 @@ const items = data?.items || [];
                      switchTechTab(tabName);
                  });
              });
+
+             // Mobile Menu Toggle - Premium Feature
+             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+             const navLinks = document.querySelector('.nav-links');
+             
+             if (mobileMenuBtn && navLinks) {
+                 mobileMenuBtn.addEventListener('click', (e) => {
+                     e.stopPropagation();
+                     const isOpen = navLinks.style.display === 'flex';
+                     
+                     if (isOpen) {
+                         navLinks.style.display = 'none';
+                     } else {
+                         navLinks.style.display = 'flex';
+                         navLinks.style.flexDirection = 'column';
+                         navLinks.style.position = 'absolute';
+                         navLinks.style.top = '100%';
+                         navLinks.style.right = '0';
+                         navLinks.style.background = 'rgba(11, 11, 11, 0.95)';
+                         navLinks.style.backdropFilter = 'blur(20px)';
+                         navLinks.style.webkitBackdropFilter = 'blur(20px)';
+                         navLinks.style.padding = '1rem';
+                         navLinks.style.borderRadius = '0 0 1rem 1rem';
+                         navLinks.style.gap = '1rem';
+                         navLinks.style.minWidth = '200px';
+                         navLinks.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                         navLinks.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.4)';
+                         navLinks.style.animation = 'fadeInUp 0.3s ease-out';
+                     }
+                 });
+                 
+                 // Close menu when clicking outside
+                 document.addEventListener('click', function closeMenu(e) {
+                     if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                         if (window.innerWidth <= 768 && navLinks.style.display === 'flex') {
+                             navLinks.style.display = 'none';
+                         }
+                     }
+                 });
+
+                 // Close menu when clicking a link
+                 navLinks.querySelectorAll('a').forEach(link => {
+                     link.addEventListener('click', () => {
+                         if (window.innerWidth <= 768) {
+                             navLinks.style.display = 'none';
+                         }
+                     });
+                 });
+
+                 // Reset menu on window resize
+                 window.addEventListener('resize', () => {
+                     if (window.innerWidth > 768) {
+                         navLinks.style.display = '';
+                         navLinks.style.position = '';
+                         navLinks.style.flexDirection = '';
+                         navLinks.style.background = '';
+                         navLinks.style.backdropFilter = '';
+                         navLinks.style.webkitBackdropFilter = '';
+                         navLinks.style.padding = '';
+                         navLinks.style.borderRadius = '';
+                         navLinks.style.gap = '';
+                         navLinks.style.minWidth = '';
+                         navLinks.style.border = '';
+                         navLinks.style.boxShadow = '';
+                     }
+                 });
+             }
          });
     </script>
 
