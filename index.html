@@ -480,28 +480,28 @@
             letter-spacing: 0.01em;
         }
 
-        /* Featured Project Showcase Styles */
+        /* ====================================================================
+           FEATURED PROJECT SHOWCASE - REDESIGNED
+           Three-tier hierarchy: Header → Interactive Demo → Details & CTAs
+           ==================================================================== */
+        
         .featured-project-showcase {
-            margin: 2rem 0;
+            margin: 3rem auto;
             width: 100%;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 1rem;
+            max-width: 1400px;
+            padding: 0 2rem;
             box-sizing: border-box;
         }
 
         .project-card {
-            background: rgba(20, 20, 20, 0.95);
+            background: linear-gradient(135deg, rgba(15, 15, 20, 0.98), rgba(20, 25, 30, 0.98));
             border-radius: 24px;
-            border: 1px solid rgba(80, 200, 120, 0.3);
-            padding: clamp(1.5rem, 4vw, 2.5rem);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(80, 200, 120, 0.1);
+            border: 1px solid rgba(100, 100, 120, 0.2);
+            padding: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
-            transition: all 0.4s ease;
-            width: 100%;
-            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .project-card::before {
@@ -510,190 +510,412 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent 0%, var(--primary) 30%, #00d4ff 70%, transparent 100%);
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(168, 85, 247, 0.5) 25%, 
+                rgba(59, 130, 246, 0.5) 50%,
+                rgba(168, 85, 247, 0.5) 75%,
+                transparent 100%
+            );
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(80, 200, 120, 0.2);
-            border-color: rgba(80, 200, 120, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(168, 85, 247, 0.1);
+            border-color: rgba(168, 85, 247, 0.3);
         }
 
+        /* ============= TIER 1: HEADER ============= */
+        
         .project-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            padding: 2rem 2.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .project-badge {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(80, 200, 120, 0.15);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(80, 200, 120, 0.3);
+            background: rgba(234, 179, 8, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(234, 179, 8, 0.3);
         }
 
         .badge-icon {
-            font-size: 1rem;
+            font-size: 1.1rem;
+            filter: drop-shadow(0 0 8px rgba(234, 179, 8, 0.5));
         }
 
         .badge-text {
-            font-size: clamp(0.75rem, 2vw, 0.85rem);
-            font-weight: 600;
-            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #eab308;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .project-status {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
         .status-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: statusPulse 2s infinite;
         }
 
         .status-dot.live {
-            background: #00ff88;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            background: #10b981;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
         }
 
         .status-text {
-            font-size: clamp(0.75rem, 2vw, 0.85rem);
-            color: #00ff88;
-            font-weight: 500;
+            font-size: 0.7rem;
+            color: #10b981;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.9); }
         }
 
-        .project-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 3rem;
-            width: 100%;
-            box-sizing: border-box;
-            align-items: start;
-        }
-
-        .project-info {
-            width: 100%;
-            box-sizing: border-box;
-            padding-right: 1rem;
-        }
-
-        .project-preview {
-            width: 100%;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-left: 1rem;
+        /* ============= TIER 2: TITLE & DESCRIPTION ============= */
+        
+        .project-info-header {
+            padding: 2rem 2.5rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .project-title {
-            font-size: clamp(1.8rem, 4.5vw, 2.4rem);
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary) 60%, #00d4ff 100%);
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a855f7 40%, #3b82f6 70%, #ffffff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
         }
 
         .project-description {
-            font-size: clamp(1rem, 2.8vw, 1.1rem);
-            color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.7;
-            margin-bottom: 2.5rem;
-            font-weight: 400;
-            letter-spacing: 0.01em;
+            max-width: 900px;
         }
 
-        .project-highlights {
+        /* ============= TIER 3: INTERACTIVE DEMO + FEATURES ============= */
+        
+        .project-content {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            padding: 2rem 2.5rem;
+            align-items: start;
+        }
+
+        /* Interactive Demo Section */
+        .project-demo-container {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.15), rgba(59, 130, 246, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .project-demo-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15), transparent);
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .project-demo-container::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent);
+            animation: float 8s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .project-demo-container:hover {
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.2), rgba(59, 130, 246, 0.15));
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .demo-header {
             display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-            margin-bottom: 2.5rem;
-            width: 100%;
-            box-sizing: border-box;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 2;
         }
 
-        .highlight-item {
+        .demo-label {
             display: flex;
             align-items: center;
-            gap: 1.2rem;
-            padding: 1rem 1.2rem;
-            background: rgba(80, 200, 120, 0.08);
-            border-radius: 16px;
-            border: 1px solid rgba(80, 200, 120, 0.15);
-            width: 100%;
-            box-sizing: border-box;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+
+        .demo-status-text {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        /* Quiz Demo Styles */
+        .quiz-demo-interactive {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .quiz-question-display {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            line-height: 1.4;
+        }
+
+        .quiz-answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .quiz-answer-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .highlight-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary) 0%, #00d4ff 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .quiz-answer-btn:hover:not(.disabled) {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateX(4px);
         }
 
-        .highlight-item:hover {
-            background: rgba(80, 200, 120, 0.12);
-            border-color: rgba(80, 200, 120, 0.25);
+        .quiz-answer-btn.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+            animation: correctPulse 0.5s ease;
+        }
+
+        .quiz-answer-btn.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            animation: wrongShake 0.5s ease;
+        }
+
+        .quiz-answer-btn .answer-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-right: 0.75rem;
+        }
+
+        .quiz-answer-btn .answer-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .quiz-answer-btn.correct .answer-icon {
+            color: #10b981;
+        }
+
+        .quiz-answer-btn.wrong .answer-icon {
+            color: #ef4444;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+
+        .quiz-stats-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .quiz-stat-item .stat-value {
+            color: #a855f7;
+        }
+
+        .quiz-stat-item .stat-label {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .demo-hint {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Feature Cards */
+        .project-features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(20, 20, 30, 0.6);
+            border: 1px solid rgba(100, 100, 120, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 0;
+            background: linear-gradient(180deg, #a855f7, #3b82f6);
+            transition: height 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(30, 30, 45, 0.8);
+            border-color: rgba(168, 85, 247, 0.3);
             transform: translateX(8px);
         }
 
-        .highlight-item:hover::before {
-            opacity: 1;
+        .feature-card:hover::before {
+            height: 100%;
         }
 
-        .highlight-icon {
-            font-size: 1.3rem;
-            width: 36px;
-            text-align: center;
+        .feature-card-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-icon-box {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 10px;
+            font-size: 1.25rem;
             flex-shrink: 0;
         }
 
-        .highlight-text {
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-            min-width: 0;
-        }
-
-        .highlight-text strong {
+        .feature-text-content h4 {
+            font-size: 1rem;
+            font-weight: 700;
             color: #ffffff;
-            font-weight: 600;
-            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            margin-bottom: 0.25rem;
         }
 
-        .highlight-text span {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+        .feature-text-content p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        /* ============= TIER 4: TECH STACK & ACTIONS ============= */
+        
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 2rem 2.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .tech-stack {
@@ -749,6 +971,42 @@
             background: rgba(33, 150, 243, 0.1);
             color: #2196f3;
             border-color: rgba(33, 150, 243, 0.3);
+        }
+
+        /* Featured Project Specific Tech Badges */
+        .tech-badge.js {
+            background: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+            border-color: rgba(234, 179, 8, 0.3);
+        }
+
+        .tech-badge.css {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .tech-badge.api {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .tech-badge.pwa {
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .tech-badge.responsive {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .tech-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
         }
 
         .project-actions {
@@ -3957,9 +4215,10 @@
             <p class="hero-tagline">From fine dining to AI integration - creating technology with purpose</p>
 
             <div class="hero-achievements">
-                <!-- Featured Project Showcase -->
+                <!-- Featured Project Showcase - REDESIGNED -->
                 <div class="featured-project-showcase">
                     <div class="project-card">
+                        <!-- TIER 1: Header -->
                         <div class="project-header">
                             <div class="project-badge">
                                 <span class="badge-icon">⭐</span>
@@ -3971,25 +4230,114 @@
                             </div>
                         </div>
                         
+                        <!-- TIER 2: Title & Description -->
+                        <div class="project-info-header">
+                            <h3 class="project-title">Marvel Quiz Game</h3>
+                            <p class="project-description">
+                                Progressive Web Application showcasing advanced frontend development with Marvel API integration, 
+                                offline functionality, and glassmorphic design. Built with vanilla JavaScript.
+                            </p>
+                        </div>
+                        
+                        <!-- TIER 3: Interactive Demo + Features (Side by Side) -->
                         <div class="project-content">
-                            <div class="project-info">
-                                <h3 class="project-title">Marvel Quiz Game - Interactive PWA</h3>
-                                <p class="project-description">
-                                    A cutting-edge Progressive Web Application showcasing advanced frontend development with 
-                                    Marvel API integration, glassmorphic design, offline functionality, and real-time performance 
-                                    monitoring. Built with vanilla JavaScript and modern web standards.
-                                </p>
+                            <!-- Left: Interactive Demo -->
+                            <div class="project-demo-container" id="featuredQuizDemo">
+                                <div class="demo-header">
+                                    <div class="demo-label">
+                                        <span>🎮</span>
+                                        <span>LIVE DEMO</span>
+                                    </div>
+                                    <div class="demo-status-text" id="demoStatus">↻ Auto-playing</div>
+                                </div>
                                 
-                                <div class="project-highlights">
-                                    <div class="highlight-item">
-                                        <div class="highlight-icon">🎮</div>
-                                        <div class="highlight-text">
-                                            <strong>Interactive Demo</strong>
-                                            <span>Play directly in portfolio</span>
+                                <div class="quiz-demo-interactive">
+                                    <div class="quiz-question-display" id="quizQuestion">
+                                        Which Avenger wields Mjolnir?
+                                    </div>
+                                    
+                                    <div class="quiz-answers-grid" id="quizAnswers">
+                                        <!-- Answers injected by JavaScript -->
+                                    </div>
+                                    
+                                    <div class="quiz-stats-display">
+                                        <div class="quiz-stat-item">
+                                            <span class="stat-label">Question:</span>
+                                            <span class="stat-value" id="questionNum">1/3</span>
+                                        </div>
+                                        <div class="quiz-stat-item">
+                                            <span class="stat-label">Streak:</span>
+                                            <span class="stat-value" id="streakCount">🔥 0</span>
+                                        </div>
+                                        <div class="quiz-stat-item">
+                                            <span class="stat-label">Score:</span>
+                                            <span class="stat-value" id="scoreCount">0</span>
                                         </div>
                                     </div>
-                                    <div class="highlight-item">
-                                        <div class="highlight-icon">🌐</div>
+                                </div>
+                                
+                                <p class="demo-hint">
+                                    💡 Hover to pause • Click answers to test your Marvel knowledge
+                                </p>
+                            </div>
+                            
+                            <!-- Right: Key Features -->
+                            <div class="project-features-list">
+                                <div class="feature-card">
+                                    <div class="feature-card-content">
+                                        <div class="feature-icon-box">�</div>
+                                        <div class="feature-text-content">
+                                            <h4>Marvel API Integration</h4>
+                                            <p>Real-time character data with intelligent caching and rate limit handling</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <div class="feature-card-content">
+                                        <div class="feature-icon-box">⚡</div>
+                                        <div class="feature-text-content">
+                                            <h4>Progressive Web App</h4>
+                                            <p>Offline-ready, installable, with service worker caching</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="feature-card">
+                                    <div class="feature-card-content">
+                                        <div class="feature-icon-box">✨</div>
+                                        <div class="feature-text-content">
+                                            <h4>Modern Design System</h4>
+                                            <p>Glassmorphism, animations, responsive across all devices</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- TIER 4: Tech Stack & CTAs -->
+                        <div class="project-footer">
+                            <div class="tech-stack">
+                                <span class="tech-badge js">Vanilla JS</span>
+                                <span class="tech-badge css">CSS3</span>
+                                <span class="tech-badge api">Marvel API</span>
+                                <span class="tech-badge pwa">PWA</span>
+                                <span class="tech-badge responsive">Responsive</span>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="./marvel-quiz-game/index.html" target="_blank" class="btn-primary" data-analytics="featured-demo">
+                                    <span>🎮</span>
+                                    <span>Play Full Game</span>
+                                </a>
+                                <a href="https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game" target="_blank" class="btn-secondary" data-analytics="featured-source">
+                                    <span>📂</span>
+                                    <span>View Source</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                                         <div class="highlight-text">
                                             <strong>Marvel API</strong>
                                             <span>Real-time character data</span>
