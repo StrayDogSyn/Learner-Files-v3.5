@@ -6,6 +6,9 @@
     <title>Eric "Hunter" Petross | AISE Software Developer - StrayDog Syndications</title>
     <meta name="description" content="AI Software Engineer specializing in justice reform technology. 3+ years building real solutions with modern web technologies.">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/brand/favicon.ico">
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     
@@ -69,11 +72,21 @@
             left: 50%;
             width: 650px;
             height: 650px;
-            background: radial-gradient(circle, rgba(80, 200, 120, 0.15) 0%, transparent 70%);
+            background-image: url('./assets/banner-CnNuPhIo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-blend-mode: overlay;
+            opacity: 0.15;
             transform: translate(-50%, -50%);
+            animation: spin 60s linear infinite;
             z-index: -1;
             pointer-events: none;
-            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
         @keyframes pulse {
@@ -93,6 +106,154 @@
             margin: 0 auto;
             padding: 2rem;
         }
+        
+        /* Premium Navigation Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(11, 11, 11, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--light-contrast);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        /* Navigation Icons with Glassmorphic Effects */
+        .nav-icon {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            min-height: 48px;
+            color: var(--light-contrast);
+        }
+        
+        .nav-icon svg {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-icon:hover {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: rgba(80, 200, 120, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(80, 200, 120, 0.3);
+        }
+        
+        .nav-icon:hover svg {
+            transform: scale(1.1);
+        }
+        
+        /* Glassmorphic Tooltips */
+        .nav-icon::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 30, 30, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: var(--light-contrast);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            z-index: 1001;
+            pointer-events: none;
+        }
+        
+        .nav-icon:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-contrast);
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu-btn:hover {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: rgba(80, 200, 120, 0.4);
+        }
 
         /* Header Section - Enhanced Glassmorphism */
         .header {
@@ -106,6 +267,7 @@
             margin-bottom: 3rem;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s ease-out;
         }
         
         .header::before {
@@ -117,6 +279,17 @@
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary-accent));
         }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .logo {
             font-size: 2rem;
@@ -127,6 +300,7 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
             letter-spacing: -0.5px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         h1 {
@@ -134,17 +308,21 @@
             margin-bottom: 0.5rem;
             color: var(--primary);
             font-weight: 800;
+            text-shadow: 0 0 30px rgba(80, 200, 120, 0.3);
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
         .tagline {
             font-size: 1.2rem;
             color: var(--text-secondary);
             margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
         .subtitle {
             font-style: italic;
             color: var(--text-secondary);
+            animation: fadeInUp 0.8s ease-out 0.5s both;
         }
 
         /* Navigation */
@@ -185,6 +363,7 @@
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
         }
         
         .quiz-container::before {
@@ -195,6 +374,19 @@
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--primary), var(--secondary-accent));
+        }
+        
+        .quiz-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(80, 200, 120, 0.08) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
         }
 
         .quiz-header {
@@ -266,12 +458,29 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(80, 200, 120, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .answer-btn:hover::before {
+            left: 100%;
         }
 
         .answer-btn:hover {
             background: linear-gradient(135deg, var(--primary), var(--secondary-accent));
             color: var(--accent-black);
-            transform: translateX(5px);
+            transform: translateX(5px) scale(1.02);
             box-shadow: 0 4px 16px rgba(80, 200, 120, 0.3);
             border-color: var(--primary);
         }
@@ -281,12 +490,25 @@
             color: white;
             border-color: var(--primary);
             box-shadow: 0 4px 20px rgba(80, 200, 120, 0.4);
+            animation: correctPulse 0.5s ease;
         }
 
         .answer-btn.incorrect {
             background: var(--error);
             color: white;
             border-color: var(--error);
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         .answer-btn:disabled {
@@ -305,6 +527,7 @@
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.8s both;
         }
         
         .tech-section::before {
@@ -388,6 +611,7 @@
             margin: 2rem 0;
             position: relative;
             overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 1s both;
         }
         
         .journey-section::before {
@@ -419,6 +643,18 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            header nav {
+                padding: 0 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
             h1 {
                 font-size: 1.8rem;
             }
@@ -435,11 +671,74 @@
             .tech-grid {
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             }
+            
+            .nav-icon::before {
+                display: none;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .nav-links {
+                display: flex !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Premium Navigation Header -->
+    <header>
+        <nav>
+            <a href="https://www.straydog-syndications-llc.com" class="logo" target="_blank" rel="noopener" title="StrayDog Syndications LLC Website">
+                <div class="logo-icon">
+                    <img src="./assets/mainLogo.png" alt="StrayDog Syndications Logo" />
+                </div>
+                <span>StrayDog Syndications</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#quiz" class="nav-icon" data-tooltip="Marvel Quiz" aria-label="Marvel Quiz">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                </a></li>
+                <li><a href="#tech" class="nav-icon" data-tooltip="Tech Stack" aria-label="Tech Stack">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 21h4l13 -13a1.5 1.5 0 0 0 -4 -4l-13 13v4" />
+                        <path d="M14.5 5.5l4 4" />
+                        <path d="M12 8l-5 -5l-4 4l5 5" />
+                        <path d="M7 8l-1.5 1.5" />
+                        <path d="M16 12l5 5l-4 4l-5 -5" />
+                        <path d="M16 17l-1.5 1.5" />
+                    </svg>
+                </a></li>
+                <li><a href="#journey" class="nav-icon" data-tooltip="My Journey" aria-label="My Journey">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+                        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                    </svg>
+                </a></li>
+                <li><a href="https://github.com/StrayDogSyn" target="_blank" rel="noopener" class="nav-icon" data-tooltip="GitHub" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+                    </svg>
+                </a></li>
+            </ul>
+            <button class="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <div class="container" style="margin-top: 80px;">
         <!-- Header -->
         <header class="header">
             <div class="logo">StrayDog Syndications</div>
@@ -553,6 +852,38 @@
     </div>
 
     <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isOpen = navLinks.style.display === 'flex';
+                navLinks.style.display = isOpen ? 'none' : 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'rgba(11, 11, 11, 0.95)';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.padding = '1rem';
+                navLinks.style.borderRadius = '0 0 1rem 1rem';
+                navLinks.style.gap = '1rem';
+                navLinks.style.minWidth = '200px';
+                navLinks.style.animation = 'fadeInUp 0.3s ease-out';
+                
+                // Close menu when clicking outside
+                if (!isOpen) {
+                    document.addEventListener('click', function closeMenu(e) {
+                        if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                            navLinks.style.display = 'none';
+                            document.removeEventListener('click', closeMenu);
+                        }
+                    });
+                }
+            });
+        }
+
         // Marvel Quiz Data
         const quizData = [
             {
