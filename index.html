@@ -510,8 +510,429 @@
         }
 
         /* ====================================================================
-           FEATURED PROJECT SHOWCASE - REDESIGNED
-           Three-tier hierarchy: Header → Interactive Demo → Details & CTAs
+           FEATURED PROJECT SECTION - Marvel Quiz Showcase
+           Clean two-column layout: Interactive Demo | Features & CTAs
+           ==================================================================== */
+        
+        .featured-project-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(11, 11, 11, 0.95) 0%, rgba(20, 20, 25, 0.98) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-project-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(80, 200, 120, 0.3) 50%, transparent 100%);
+        }
+
+        .featured-project-section::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(80, 200, 120, 0.08) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .featured-project-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(80, 200, 120, 0.1);
+            border: 1px solid rgba(80, 200, 120, 0.3);
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .badge-icon {
+            font-size: 1.2rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(80, 200, 120, 0.3);
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .project-showcase-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Interactive Demo Card */
+        .project-demo-card {
+            background: rgba(30, 30, 35, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(80, 200, 120, 0.2);
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .project-demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(80, 200, 120, 0.1);
+            border-color: rgba(80, 200, 120, 0.4);
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(80, 200, 120, 0.2);
+        }
+
+        .demo-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-icon {
+            font-size: 1.2rem;
+        }
+
+        .demo-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #888;
+        }
+
+        .status-dot.live {
+            background: var(--primary);
+            box-shadow: 0 0 10px rgba(80, 200, 120, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .quiz-demo-interactive {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question-display {
+            font-size: 1.3rem;
+            color: var(--light-contrast);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+            min-height: 60px;
+        }
+
+        .quiz-answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-answer-btn {
+            padding: 1rem;
+            background: rgba(40, 40, 45, 0.8);
+            border: 2px solid rgba(80, 200, 120, 0.2);
+            border-radius: 12px;
+            color: var(--light-contrast);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(80, 200, 120, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .quiz-answer-btn:hover {
+            background: rgba(80, 200, 120, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(80, 200, 120, 0.2);
+        }
+
+        .quiz-answer-btn:hover::before {
+            left: 100%;
+        }
+
+        .quiz-answer-btn.correct {
+            background: linear-gradient(135deg, rgba(80, 200, 120, 0.3), rgba(53, 94, 59, 0.3));
+            border-color: var(--primary);
+            animation: correctPulse 0.5s ease;
+        }
+
+        .quiz-answer-btn.incorrect {
+            background: rgba(220, 38, 38, 0.2);
+            border-color: #ef4444;
+            animation: shake 0.5s ease;
+        }
+
+        .quiz-stats-display {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem;
+            background: rgba(20, 20, 25, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .quiz-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .demo-hint {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Features Card */
+        .project-features-card {
+            background: rgba(30, 30, 35, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(80, 200, 120, 0.2);
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(80, 200, 120, 0.1);
+            border-radius: 12px;
+            border: 1px solid rgba(80, 200, 120, 0.2);
+        }
+
+        .feature-content h4 {
+            font-size: 1.1rem;
+            color: var(--light-contrast);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .tech-stack-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(20, 20, 25, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(80, 200, 120, 0.1);
+        }
+
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(80, 200, 120, 0.1);
+            border: 1px solid rgba(80, 200, 120, 0.3);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tech-badge:hover {
+            background: rgba(80, 200, 120, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary-accent));
+            border-color: var(--primary);
+            color: var(--accent-black);
+            box-shadow: 0 4px 15px rgba(80, 200, 120, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(80, 200, 120, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(40, 40, 45, 0.8);
+            border-color: rgba(80, 200, 120, 0.3);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(80, 200, 120, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .btn-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .project-showcase-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .featured-project-section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .quiz-answers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .section-header {
+                margin-bottom: 3rem;
+            }
+        }
+
+        /* ====================================================================
+           OLD FEATURED PROJECT STYLES (to be removed if not used elsewhere)
            ==================================================================== */
         
         .featured-project-showcase {
@@ -4267,6 +4688,125 @@
         <div class="scroll-indicator">↓</div>
     </section>
 
+    <!-- Featured Project Section -->
+    <section id="featured-project" class="featured-project-section">
+        <div class="featured-project-container">
+            <div class="section-header fade-in">
+                <div class="featured-badge">
+                    <span class="badge-icon">⭐</span>
+                    <span class="badge-text">Featured Project</span>
+                </div>
+                <h2 class="section-title">Marvel Quiz Game</h2>
+                <p class="section-subtitle">Progressive Web Application showcasing advanced frontend development with Marvel API integration, offline functionality, and glassmorphic design.</p>
+            </div>
+
+            <div class="project-showcase-grid">
+                <!-- Left: Interactive Demo -->
+                <div class="project-demo-card fade-in">
+                    <div class="demo-header">
+                        <div class="demo-label">
+                            <span class="demo-icon">🎮</span>
+                            <span>LIVE DEMO</span>
+                        </div>
+                        <div class="demo-status">
+                            <span class="status-dot live"></span>
+                            <span>Auto-playing</span>
+                        </div>
+                    </div>
+
+                    <div class="quiz-demo-interactive" id="featuredQuizDemo">
+                        <div class="quiz-question-display" id="quizQuestion">
+                            Which Avenger wields Mjolnir?
+                        </div>
+
+                        <div class="quiz-answers-grid" id="quizAnswers">
+                            <button class="quiz-answer-btn" data-correct="true">Thor</button>
+                            <button class="quiz-answer-btn">Iron Man</button>
+                            <button class="quiz-answer-btn">Captain America</button>
+                            <button class="quiz-answer-btn">Hulk</button>
+                        </div>
+
+                        <div class="quiz-stats-display">
+                            <div class="quiz-stat-item">
+                                <span class="stat-label">Question:</span>
+                                <span class="stat-value" id="questionNum">1/3</span>
+                            </div>
+                            <div class="quiz-stat-item">
+                                <span class="stat-label">Streak:</span>
+                                <span class="stat-value" id="streakCount">🔥 0</span>
+                            </div>
+                            <div class="quiz-stat-item">
+                                <span class="stat-label">Score:</span>
+                                <span class="stat-value" id="scoreCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="demo-hint">💡 Click answers to test your Marvel knowledge • Hover to pause auto-play</p>
+                </div>
+
+                <!-- Right: Key Features -->
+                <div class="project-features-card fade-in">
+                    <h3 class="features-title">Key Features</h3>
+                    
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🎯</div>
+                            <div class="feature-content">
+                                <h4>Marvel API Integration</h4>
+                                <p>Real-time character data with intelligent caching and rate limit handling</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <h4>Progressive Web App</h4>
+                                <p>Offline-ready, installable, with service worker caching</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">✨</div>
+                            <div class="feature-content">
+                                <h4>Glassmorphic Design</h4>
+                                <p>Modern UI with backdrop filters, animations, and responsive layouts</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">📱</div>
+                            <div class="feature-content">
+                                <h4>Mobile-First Responsive</h4>
+                                <p>Optimized for all devices with touch-friendly interactions</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tech-stack-display">
+                        <span class="tech-badge">Vanilla JS</span>
+                        <span class="tech-badge">CSS3</span>
+                        <span class="tech-badge">Marvel API</span>
+                        <span class="tech-badge">PWA</span>
+                        <span class="tech-badge">Responsive</span>
+                        <span class="tech-badge">Glassmorphism</span>
+                    </div>
+
+                    <div class="project-actions">
+                        <a href="./marvel-quiz-game/index.html" target="_blank" class="btn-primary">
+                            <span class="btn-icon">🎮</span>
+                            <span>Play Full Game</span>
+                        </a>
+                        <a href="https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game" target="_blank" class="btn-secondary">
+                            <span class="btn-icon">📂</span>
+                            <span>View Source</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- My Journey Section -->
     <section id="journey" class="journey-section">
         <div class="journey-content">
@@ -7167,6 +7707,145 @@ const items = data?.items || [];
                  });
              }
          });
+
+         // ===================================================================
+         // Featured Project: Interactive Quiz Demo
+         // ===================================================================
+         
+         const quizQuestions = [
+             {
+                 question: "Which Avenger wields Mjolnir?",
+                 answers: ["Thor", "Iron Man", "Captain America", "Hulk"],
+                 correct: 0
+             },
+             {
+                 question: "What is Tony Stark's superhero name?",
+                 answers: ["War Machine", "Iron Man", "Steel Man", "Tin Man"],
+                 correct: 1
+             },
+             {
+                 question: "Which planet is Thor from?",
+                 answers: ["Earth", "Sakaar", "Asgard", "Xandar"],
+                 correct: 2
+             }
+         ];
+
+         let currentQuestion = 0;
+         let score = 0;
+         let streak = 0;
+         let autoPlayInterval = null;
+
+         function initQuizDemo() {
+             const demoContainer = document.getElementById('featuredQuizDemo');
+             if (!demoContainer) return;
+
+             // Set up initial question
+             updateQuestion();
+
+             // Add click handlers to answer buttons
+             const answerBtns = demoContainer.querySelectorAll('.quiz-answer-btn');
+             answerBtns.forEach((btn, index) => {
+                 btn.addEventListener('click', () => handleAnswer(index));
+             });
+
+             // Auto-play functionality
+             startAutoPlay();
+
+             // Pause on hover
+             demoContainer.addEventListener('mouseenter', pauseAutoPlay);
+             demoContainer.addEventListener('mouseleave', startAutoPlay);
+         }
+
+         function updateQuestion() {
+             const question = quizQuestions[currentQuestion];
+             
+             // Update question text
+             const questionEl = document.getElementById('quizQuestion');
+             if (questionEl) {
+                 questionEl.textContent = question.question;
+             }
+
+             // Update answer buttons
+             const answerBtns = document.querySelectorAll('.quiz-answer-btn');
+             answerBtns.forEach((btn, index) => {
+                 btn.textContent = question.answers[index];
+                 btn.className = 'quiz-answer-btn';
+                 btn.disabled = false;
+                 btn.setAttribute('data-correct', index === question.correct);
+             });
+
+             // Update question counter
+             const questionNum = document.getElementById('questionNum');
+             if (questionNum) {
+                 questionNum.textContent = `${currentQuestion + 1}/${quizQuestions.length}`;
+             }
+         }
+
+         function handleAnswer(selectedIndex) {
+             const question = quizQuestions[currentQuestion];
+             const answerBtns = document.querySelectorAll('.quiz-answer-btn');
+             const isCorrect = selectedIndex === question.correct;
+
+             // Disable all buttons
+             answerBtns.forEach(btn => btn.disabled = true);
+
+             // Show correct/incorrect
+             answerBtns[selectedIndex].classList.add(isCorrect ? 'correct' : 'incorrect');
+             if (!isCorrect) {
+                 answerBtns[question.correct].classList.add('correct');
+             }
+
+             // Update score
+             if (isCorrect) {
+                 score += 10;
+                 streak++;
+             } else {
+                 streak = 0;
+             }
+
+             // Update stats
+             document.getElementById('scoreCount').textContent = score;
+             document.getElementById('streakCount').textContent = `🔥 ${streak}`;
+
+             // Move to next question after delay
+             setTimeout(() => {
+                 currentQuestion = (currentQuestion + 1) % quizQuestions.length;
+                 
+                 // Reset on loop
+                 if (currentQuestion === 0) {
+                     score = 0;
+                     streak = 0;
+                     document.getElementById('scoreCount').textContent = score;
+                     document.getElementById('streakCount').textContent = `🔥 ${streak}`;
+                 }
+                 
+                 updateQuestion();
+             }, 2000);
+         }
+
+         function startAutoPlay() {
+             if (autoPlayInterval) return;
+             
+             autoPlayInterval = setInterval(() => {
+                 const question = quizQuestions[currentQuestion];
+                 const randomIndex = Math.floor(Math.random() * question.answers.length);
+                 handleAnswer(randomIndex);
+             }, 4000);
+         }
+
+         function pauseAutoPlay() {
+             if (autoPlayInterval) {
+                 clearInterval(autoPlayInterval);
+                 autoPlayInterval = null;
+             }
+         }
+
+         // Initialize when DOM is ready
+         if (document.readyState === 'loading') {
+             document.addEventListener('DOMContentLoaded', initQuizDemo);
+         } else {
+             initQuizDemo();
+         }
     </script>
 
     <!-- AI Integration Script -->
