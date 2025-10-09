@@ -23,8 +23,8 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
 
-    /* Deprecation handling */
-    "ignoreDeprecations": "6.0",
+    /* Deprecation handling - removed invalid ignoreDeprecations */
+    /* Use TypeScript 5.x without ignoring deprecations */
 
     /* Path mapping */
     "baseUrl": ".",
