@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eric "Hunter" Petross | AISE Software Developer - StrayDog Syndications</title>
+    <meta name="description" content="AI Software Engineer specializing in justice reform technology. 3+ years building real solutions with modern web technologies.">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables & Reset */
+        :root {
+            --primary-green: #10b981;
+            --dark-bg: #0f172a;
+            --darker-bg: #020817;
+            --card-bg: rgba(15, 23, 42, 0.8);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #3b82f6;
+            --error: #ef4444;
+            --success: #22c55e;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-green), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-green);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-green);
+            color: var(--darker-bg);
+            transform: translateY(-2px);
+        }
+
+        /* Marvel Quiz Section */
+        .quiz-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .quiz-title {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+        }
+
+        .quiz-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .question-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .answers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .answer-btn {
+            padding: 1rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .answer-btn:hover {
+            background: var(--primary-green);
+            color: var(--darker-bg);
+            transform: translateX(5px);
+        }
+
+        .answer-btn.correct {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .answer-btn.incorrect {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Tech Stack Section */
+        .tech-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tech-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-green);
+        }
+
+        .tech-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-category {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Journey Section */
+        .journey-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .journey-text {
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .journey-text strong {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .answers {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">StrayDog Syndications</div>
+            <h1>Eric "Hunter" Petross</h1>
+            <p class="tagline">AISE Software Developer | 3+ Years Building Real Solutions</p>
+            <p class="subtitle">From fine dining to AI integration - creating technology with purpose</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="#quiz" class="nav-link">🎮 Marvel Quiz</a>
+            <a href="#tech" class="nav-link">💻 Tech Stack</a>
+            <a href="#journey" class="nav-link">📚 My Journey</a>
+            <a href="#projects" class="nav-link">🚀 Projects</a>
+            <a href="https://github.com/straydogsyn" class="nav-link" target="_blank">🔗 GitHub</a>
+        </nav>
+
+        <!-- Marvel Quiz Section -->
+        <section id="quiz" class="quiz-container">
+            <div class="quiz-header">
+                <h2 class="quiz-title">⭐ Ultimate Marvel Quiz</h2>
+                <div class="quiz-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="timer">30</span>
+                        <span class="stat-label">Time</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="score">0</span>
+                        <span class="stat-label">Score</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="questionNum">1/10</span>
+                        <span class="stat-label">Question</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <h3 class="question" id="question">Loading question...</h3>
+                <div class="answers" id="answers"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="startQuiz()" class="answer-btn" style="display: inline-block; padding: 1rem 2rem;">
+                    🎯 Start New Quiz
+                </button>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section id="tech" class="tech-section">
+            <h2 class="section-title">🛠️ AISE Developer Toolbox</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-name">React.js</div>
+                    <div class="tech-category">Frontend</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Next.js</div>
+                    <div class="tech-category">Full-Stack</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">TypeScript</div>
+                    <div class="tech-category">Language</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Claude API</div>
+                    <div class="tech-category">AI Integration</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Tailwind CSS</div>
+                    <div class="tech-category">Styling</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Supabase</div>
+                    <div class="tech-category">Database</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Node.js</div>
+                    <div class="tech-category">Backend</div>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-name">Vercel</div>
+                    <div class="tech-category">Deployment</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Journey Section -->
+        <section id="journey" class="journey-section">
+            <h2 class="section-title">📖 My Journey</h2>
+            <p class="journey-text">
+                In my over three years transitioning from the fast-paced world of fine dining to building intelligent software solutions, 
+                I've brought the <strong>discipline</strong>, <strong>creativity</strong>, and <strong>precision</strong> of a chef 
+                into my coding journey. Now studying Computer & Networking Technology at CCRI, I believe in 
+                <strong>shipping working code over perfect code</strong>, and in <strong>learning by doing</strong>.
+            </p>
+            <p class="journey-text">
+                My approach pairs hands-on problem-solving with a commitment to continuous growth—delivering practical solutions 
+                while learning new technologies and techniques. From crafting culinary experiences to designing software and integrating AI, 
+                I blend technical expertise with a human-centered mindset. Every project is a new opportunity to learn, adapt, 
+                and create something truly meaningful, drawing on the lessons learned in both the kitchen and the tech lab.
+            </p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 StrayDog Syndications LLC | Building AI-Powered Justice Reform Technology</p>
+            <p>Contact: ehunter@straydog-secondstory.org</p>
+        </footer>
+    </div>
+
+    <script>
+        // Marvel Quiz Data
+        const quizData = [
+            {
+                question: "Which Marvel character is known as the 'Friendly Neighborhood' hero?",
+                answers: ["Spider-Man", "Iron Man", "Captain America", "Thor"],
+                correct: 0
+            },
+            {
+                question: "What is the name of Thor's hammer?",
+                answers: ["Stormbreaker", "Mjolnir", "Gungnir", "Hofund"],
+                correct: 1
+            },
+            {
+                question: "Who collected all six Infinity Stones?",
+                answers: ["Loki", "Ultron", "Thanos", "Red Skull"],
+                correct: 2
+            },
+            {
+                question: "What type of doctor is Stephen Strange?",
+                answers: ["Heart Surgeon", "Brain Surgeon", "Neurosurgeon", "General Practitioner"],
+                correct: 2
+            },
+            {
+                question: "What is Black Widow's real name?",
+                answers: ["Natalie Rushman", "Natasha Romanoff", "Nina Romanova", "Nadine Roman"],
+                correct: 1
+            },
+            {
+                question: "Where is Wakanda located?",
+                answers: ["South America", "Asia", "Africa", "Europe"],
+                correct: 2
+            },
+            {
+                question: "Who was the first Avenger?",
+                answers: ["Iron Man", "Captain America", "Thor", "Hulk"],
+                correct: 1
+            },
+            {
+                question: "What is the name of Star-Lord's ship?",
+                answers: ["The Milano", "The Benatar", "The Ravager", "The Nova"],
+                correct: 0
+            },
+            {
+                question: "What does S.H.I.E.L.D. stand for?",
+                answers: [
+                    "Strategic Homeland Intervention, Enforcement and Logistics Division",
+                    "Supreme Headquarters: International Espionage and Law-Enforcement Division", 
+                    "Strategic Hazard Intelligence and Emergency Leadership Division",
+                    "Special Headquarters for Intelligence and Emergency Law Division"
+                ],
+                correct: 0
+            },
+            {
+                question: "Who said 'I am Iron Man' first in the MCU?",
+                answers: ["Tony Stark", "James Rhodes", "Pepper Potts", "Happy Hogan"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let timer = 30;
+        let timerInterval;
+        let quizActive = false;
+
+        function startQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            timer = 30;
+            quizActive = true;
+            document.getElementById('score').textContent = score;
+            clearInterval(timerInterval);
+            loadQuestion();
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timer--;
+                document.getElementById('timer').textContent = timer;
+                if (timer <= 0) {
+                    clearInterval(timerInterval);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function loadQuestion() {
+            const data = quizData[currentQuestion];
+            document.getElementById('question').textContent = data.question;
+            document.getElementById('questionNum').textContent = `${currentQuestion + 1}/10`;
+            
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            
+            data.answers.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = answer;
+                btn.onclick = () => selectAnswer(index);
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(index) {
+            if (!quizActive) return;
+            
+            clearInterval(timerInterval);
+            const buttons = document.querySelectorAll('.answer-btn');
+            const correct = quizData[currentQuestion].correct;
+            
+            buttons[index].classList.add(index === correct ? 'correct' : 'incorrect');
+            buttons[correct].classList.add('correct');
+            
+            if (index === correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+            }
+            
+            buttons.forEach(btn => {
+                btn.onclick = null;
+                btn.disabled = true;
+            });
+            
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                timer = 30;
+                loadQuestion();
+                startTimer();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function endQuiz() {
+            quizActive = false;
+            clearInterval(timerInterval);
+            document.getElementById('question').textContent = `Quiz Complete! Final Score: ${score}/10`;
+            document.getElementById('answers').innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <p style="font-size: 1.5rem; margin-bottom: 1rem;">
+                        ${score >= 8 ? '🏆 Excellent!' : score >= 6 ? '⭐ Good job!' : score >= 4 ? '👍 Not bad!' : '📚 Keep learning!'}
+                    </p>
+                    <p>You know ${score * 10}% of Marvel trivia!</p>
+                </div>
+            `;
+        }
+
+        // Auto-start quiz on load
+        window.addEventListener('load', () => {
+            startQuiz();
+        });
+    </script>
+</body>
+</html>
