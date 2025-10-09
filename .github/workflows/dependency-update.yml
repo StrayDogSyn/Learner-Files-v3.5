@@ -104,7 +104,7 @@ jobs:
           fi
 
       - name: Upload security report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: security-audit-report
           path: security-report.md
