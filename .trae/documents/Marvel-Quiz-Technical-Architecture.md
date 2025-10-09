@@ -37,48 +37,56 @@ graph TD
 
 ## 2. Technology Description
 
-- **Frontend**: Vanilla JavaScript ES6+ + CSS3 Glassmorphism + HTML5 PWA
-- **API Integration**: Marvel Comics API with fallback data system
-- **Storage**: LocalStorage for game state + Service Worker for offline capability
-- **Build Tool**: Vite for development and optimization
-- **Styling**: Custom CSS with glassmorphic design system and responsive utilities
+* **Frontend**: Vanilla JavaScript ES6+ + CSS3 Glassmorphism + HTML5 PWA
+
+* **API Integration**: Marvel Comics API with fallback data system
+
+* **Storage**: LocalStorage for game state + Service Worker for offline capability
+
+* **Build Tool**: Vite for development and optimization
+
+* **Styling**: Custom CSS with glassmorphic design system and responsive utilities
 
 ## 3. Route Definitions
 
-| Route | Purpose |
-|-------|---------|
-| /index.html | Main portfolio homepage with integrated Marvel Quiz showcase |
-| /marvel-quiz-game/index.html | Standalone Marvel Quiz application (embedded in portfolio) |
-| /marvel-quiz-game/manifest.json | PWA manifest for installable app features |
-| /marvel-quiz-game/sw.js | Service worker for offline functionality and caching |
+| Route                           | Purpose                                                      |
+| ------------------------------- | ------------------------------------------------------------ |
+| /index.html                     | Main portfolio homepage with integrated Marvel Quiz showcase |
+| /marvel-quiz-game/index.html    | Standalone Marvel Quiz application (embedded in portfolio)   |
+| /marvel-quiz-game/manifest.json | PWA manifest for installable app features                    |
+| /marvel-quiz-game/sw\.js        | Service worker for offline functionality and caching         |
 
 ## 4. API Definitions
 
 ### 4.1 Core API Integration
 
 **Marvel Comics API Integration**
+
 ```
 GET https://gateway.marvel.com/v1/public/characters
 ```
 
 Request Parameters:
-| Param Name | Param Type | isRequired | Description |
-|------------|------------|------------|-------------|
-| apikey | string | true | Marvel API public key |
-| ts | string | true | Timestamp for authentication |
-| hash | string | true | MD5 hash of ts+privateKey+publicKey |
-| limit | number | false | Number of results to fetch (default: 20) |
-| offset | number | false | Skip the specified number of resources |
+
+| Param Name | Param Type | isRequired | Description                              |
+| ---------- | ---------- | ---------- | ---------------------------------------- |
+| apikey     | string     | true       | Marvel API public key                    |
+| ts         | string     | true       | Timestamp for authentication             |
+| hash       | string     | true       | MD5 hash of ts+privateKey+publicKey      |
+| limit      | number     | false      | Number of results to fetch (default: 20) |
+| offset     | number     | false      | Skip the specified number of resources   |
 
 Response Structure:
-| Param Name | Param Type | Description |
-|------------|------------|-------------|
-| data.results | array | Array of Marvel character objects |
-| data.results[].name | string | Character name |
-| data.results[].description | string | Character description |
-| data.results[].thumbnail | object | Character image URLs |
+
+| Param Name                  | Param Type | Description                       |
+| --------------------------- | ---------- | --------------------------------- |
+| data.results                | array      | Array of Marvel character objects |
+| data.results\[].name        | string     | Character name                    |
+| data.results\[].description | string     | Character description             |
+| data.results\[].thumbnail   | object     | Character image URLs              |
 
 **Local Fallback Data Structure**
+
 ```json
 {
   "characters": [
@@ -99,6 +107,7 @@ Response Structure:
 ### 4.2 Game State Management API
 
 **Local Storage Schema**
+
 ```javascript
 // Game state structure
 {
@@ -215,6 +224,7 @@ erDiagram
 ### 6.2 Data Definition Language
 
 **LocalStorage Schema Implementation**
+
 ```javascript
 // Initialize game data structure
 const initializeGameData = () => {
@@ -294,3 +304,4 @@ const urlsToCache = [
     '/marvel-quiz-game/manifest.json'
 ];
 ```
+
