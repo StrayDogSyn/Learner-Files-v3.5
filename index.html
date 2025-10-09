@@ -396,10 +396,12 @@
         }
 
         .hero-achievements {
-            margin: 2rem 0;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem auto 2rem;
+            max-width: 1000px;
+            padding: 0 1rem;
             animation: fadeInUp 0.8s ease-out 0.6s both;
         }
 
@@ -438,8 +440,12 @@
             
             .hero-achievements {
                 grid-template-columns: repeat(2, 1fr);
-                max-width: 600px;
+                gap: 1rem;
+                margin: 2rem auto 1.5rem;
+                max-width: 500px;
             }
+        }
+        
         .achievement {
             background: rgba(30, 30, 30, 0.85);
             border-radius: 18px;
@@ -4238,417 +4244,23 @@
             <p class="hero-tagline">From fine dining to AI integration - creating technology with purpose</p>
 
             <div class="hero-achievements">
-                <!-- Featured Project Showcase - REDESIGNED -->
-                <div class="featured-project-showcase">
-                    <div class="project-card">
-                        <!-- TIER 1: Header -->
-                        <div class="project-header">
-                            <div class="project-badge">
-                                <span class="badge-icon">⭐</span>
-                                <span class="badge-text">Featured Project</span>
-                            </div>
-                            <div class="project-status">
-                                <span class="status-dot live"></span>
-                                <span class="status-text">Live in Production</span>
-                            </div>
-                        </div>
-                        
-                        <!-- TIER 2: Title & Description -->
-                        <div class="project-info-header">
-                            <h3 class="project-title">Marvel Quiz Game</h3>
-                            <p class="project-description">
-                                Progressive Web Application showcasing advanced frontend development with Marvel API integration, 
-                                offline functionality, and glassmorphic design. Built with vanilla JavaScript.
-                            </p>
-                        </div>
-                        
-                        <!-- TIER 3: Interactive Demo + Features (Side by Side) -->
-                        <div class="project-content">
-                            <!-- Left: Interactive Demo -->
-                            <div class="project-demo-container" id="featuredQuizDemo">
-                                <div class="demo-header">
-                                    <div class="demo-label">
-                                        <span>🎮</span>
-                                        <span>LIVE DEMO</span>
-                                    </div>
-                                    <div class="demo-status-text" id="demoStatus">↻ Auto-playing</div>
-                                </div>
-                                
-                                <div class="quiz-demo-interactive">
-                                    <div class="quiz-question-display" id="quizQuestion">
-                                        Which Avenger wields Mjolnir?
-                                    </div>
-                                    
-                                    <div class="quiz-answers-grid" id="quizAnswers">
-                                        <!-- Answers injected by JavaScript -->
-                                    </div>
-                                    
-                                    <div class="quiz-stats-display">
-                                        <div class="quiz-stat-item">
-                                            <span class="stat-label">Question:</span>
-                                            <span class="stat-value" id="questionNum">1/3</span>
-                                        </div>
-                                        <div class="quiz-stat-item">
-                                            <span class="stat-label">Streak:</span>
-                                            <span class="stat-value" id="streakCount">🔥 0</span>
-                                        </div>
-                                        <div class="quiz-stat-item">
-                                            <span class="stat-label">Score:</span>
-                                            <span class="stat-value" id="scoreCount">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <p class="demo-hint">
-                                    💡 Hover to pause • Click answers to test your Marvel knowledge
-                                </p>
-                            </div>
-                            
-                            <!-- Right: Key Features -->
-                            <div class="project-features-list">
-                                <div class="feature-card">
-                                    <div class="feature-card-content">
-                                        <div class="feature-icon-box">�</div>
-                                        <div class="feature-text-content">
-                                            <h4>Marvel API Integration</h4>
-                                            <p>Real-time character data with intelligent caching and rate limit handling</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="feature-card">
-                                    <div class="feature-card-content">
-                                        <div class="feature-icon-box">⚡</div>
-                                        <div class="feature-text-content">
-                                            <h4>Progressive Web App</h4>
-                                            <p>Offline-ready, installable, with service worker caching</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="feature-card">
-                                    <div class="feature-card-content">
-                                        <div class="feature-icon-box">✨</div>
-                                        <div class="feature-text-content">
-                                            <h4>Modern Design System</h4>
-                                            <p>Glassmorphism, animations, responsive across all devices</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- TIER 4: Tech Stack & CTAs -->
-                        <div class="project-footer">
-                            <div class="tech-stack">
-                                <span class="tech-badge js">Vanilla JS</span>
-                                <span class="tech-badge css">CSS3</span>
-                                <span class="tech-badge api">Marvel API</span>
-                                <span class="tech-badge pwa">PWA</span>
-                                <span class="tech-badge responsive">Responsive</span>
-                            </div>
-                            
-                            <div class="project-actions">
-                                <a href="./marvel-quiz-game/index.html" target="_blank" class="btn-primary" data-analytics="featured-demo">
-                                    <span>🎮</span>
-                                    <span>Play Full Game</span>
-                                </a>
-                                <a href="https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game" target="_blank" class="btn-secondary" data-analytics="featured-source">
-                                    <span>📂</span>
-                                    <span>View Source</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="achievement achievement-clickable" onclick="window.location.href='#journey'">
+                    <span class="achievement-number">3+</span>
+                    <span class="achievement-text">Years Building Real Solutions</span>
                 </div>
-                                        <div class="highlight-text">
-                                            <strong>Marvel API</strong>
-                                            <span>Real-time character data</span>
-                                        </div>
-                                    </div>
-                                    <div class="highlight-item">
-                                        <div class="highlight-icon">📱</div>
-                                        <div class="highlight-text">
-                                            <strong>PWA Features</strong>
-                                            <span>Offline-ready & installable</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="tech-stack">
-                                    <span class="tech-badge js">Vanilla JS</span>
-                                    <span class="tech-badge css">CSS3</span>
-                                    <span class="tech-badge api">Marvel API</span>
-                                    <span class="tech-badge pwa">PWA</span>
-                                    <span class="tech-badge responsive">Responsive</span>
-                                    <span class="tech-badge glass">Glassmorphism</span>
-                                </div>
-                                
-                                <div class="project-actions">
-                                    <a href="./marvel-quiz-game/index.html" target="_blank" class="btn-primary" data-analytics="featured-demo">
-                                        <span class="btn-icon">🎮</span>
-                                        Play Quiz
-                                    </a>
-                                    <a href="https://github.com/StrayDogSyn/Learner-Files-v3.5/tree/main/marvel-quiz-game" target="_blank" class="btn-secondary" data-analytics="featured-source">
-                                        <span class="btn-icon">📂</span>
-                                        Source Code
-                                    </a>
-                                </div>
-                            </div>
-                            
-                            <div class="project-preview">
-                                <div class="preview-container">
-                                    <div class="preview-header">
-                                        <div class="preview-controls">
-                                            <span class="control-dot red"></span>
-                                            <span class="control-dot yellow"></span>
-                                            <span class="control-dot green"></span>
-                                        </div>
-                                        <div class="preview-url">marvel-quiz.app</div>
-                                    </div>
-                                    <div class="preview-content">
-                                        <!-- Embedded Quiz Interface -->
-                                        <div id="marvel-quiz-embed" class="quiz-embed-container">
-                                            <div class="quiz-preview-screen">
-                                                <div class="quiz-timer">
-                                                    ⏱️ Time Remaining: <span id="timer-display">30s</span>
-                                                </div>
-                                                <div class="quiz-header">
-                                                    <h4 class="quiz-title">Ultimate Marvel Quiz</h4>
-                                                    <div class="quiz-stats">
-                                                        <span class="stat-badge">Score: <span id="preview-score">0</span></span>
-                                                        <span class="stat-badge">Question: <span id="preview-question">1/10</span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="quiz-question-preview">
-                                                    <p class="question-text">Which Marvel character is known as the "Friendly Neighborhood" hero?</p>
-                                                    <div class="quiz-options">
-                                                        <button class="quiz-option correct" onclick="handlePreviewAnswer(true)">Spider-Man</button>
-                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Iron Man</button>
-                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Captain America</button>
-                                                        <button class="quiz-option" onclick="handlePreviewAnswer(false)">Thor</button>
-                                                    </div>
-                                                </div>
-                                                <div class="quiz-progress">
-                                                    <div class="progress-bar">
-                                                        <div class="progress-fill" style="width: 10%"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Technical Stats -->
-                                        <div class="preview-stats">
-                                            <div class="stat-item">
-                                                <div class="stat-value" id="api-status">✅</div>
-                                                <div class="stat-label">API Status</div>
-                                            </div>
-                                            <div class="stat-item">
-                                                <div class="stat-value" id="response-time">~150ms</div>
-                                                <div class="stat-label">Response</div>
-                                            </div>
-                                            <div class="stat-item">
-                                                <div class="stat-value">PWA</div>
-                                                <div class="stat-label">Ready</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Technical Architecture Panel -->
-                        <div class="tech-showcase-panel">
-                            <div class="tech-panel-header">
-                                <h4>Technical Architecture</h4>
-                                <div class="tech-panel-tabs">
-                                    <button class="tech-tab active" data-tab="architecture">Architecture</button>
-                                    <button class="tech-tab" data-tab="code">Code</button>
-                                    <button class="tech-tab" data-tab="performance">Performance</button>
-                                </div>
-                            </div>
-                            
-                            <div class="tech-panel-content">
-                                <!-- Architecture Tab -->
-                                <div class="tech-tab-content active" data-content="architecture">
-                                    <div class="architecture-diagram">
-                                        <div class="arch-layer">
-                                            <div class="arch-component frontend">
-                                                <span class="component-label">Frontend</span>
-                                                <div class="component-details">Vanilla JS + CSS3 Glassmorphism</div>
-                                            </div>
-                                        </div>
-                                        <div class="arch-layer">
-                                            <div class="arch-component api">
-                                                <span class="component-label">API Layer</span>
-                                                <div class="component-details">Marvel Comics API + Local Fallback</div>
-                                            </div>
-                                        </div>
-                                        <div class="arch-layer">
-                                            <div class="arch-component storage">
-                                                <span class="component-label">Storage</span>
-                                                <div class="component-details">LocalStorage + Service Worker</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tech-features">
-                                        <div class="feature-item">
-                                            <span class="feature-icon">⚡</span>
-                                            <span class="feature-text">PWA Ready with Service Worker</span>
-                                        </div>
-                                        <div class="feature-item">
-                                            <span class="feature-icon">🎨</span>
-                                            <span class="feature-text">Glassmorphic Design System</span>
-                                        </div>
-                                        <div class="feature-item">
-                                            <span class="feature-icon">📱</span>
-                                            <span class="feature-text">Responsive Mobile-First</span>
-                                        </div>
-                                        <div class="feature-item">
-                                            <span class="feature-icon">🔄</span>
-                                            <span class="feature-text">Real-time API Integration</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- Code Tab -->
-                                <div class="tech-tab-content" data-content="code">
-                                    <div class="code-snippet">
-                                        <div class="code-header">
-                                            <span class="code-language">JavaScript</span>
-                                            <span class="code-file">quiz-engine.js</span>
-                                        </div>
-                                        <pre class="code-content"><code>// Marvel Quiz Game Engine
-class QuizEngine {
-  constructor() {
-    this.questions = [];
-    this.currentQuestion = 0;
-    this.score = 0;
-    this.apiClient = new MarvelAPIClient();
-  }
-
-  async loadQuestions() {
-    try {
-      const characters = await this.apiClient
-        .getCharacters({ limit: 10 });
-      this.questions = this.generateQuestions(characters);
-    } catch (error) {
-      this.questions = this.getFallbackQuestions();
-    }
-  }
-
-  generateQuestions(characters) {
-    return characters.map(char => ({
-      question: `Who is ${char.name}?`,
-      options: this.generateOptions(char),
-      correct: 0
-    }));
-  }
-}</code></pre>
-                                    </div>
-                                    <div class="code-snippet">
-                                        <div class="code-header">
-                                            <span class="code-language">CSS</span>
-                                            <span class="code-file">glassmorphism.css</span>
-                                        </div>
-                                        <pre class="code-content"><code>/* Glassmorphic Card Design */
-.quiz-card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
-
-.quiz-card::before {
-  content: '';
-  position: absolute;
-  background: linear-gradient(
-    135deg, 
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0)
-  );
-}</code></pre>
-                                    </div>
-                                </div>
-                                
-                                <!-- Performance Tab -->
-                                <div class="tech-tab-content" data-content="performance">
-                                    <div class="performance-metrics">
-                                        <div class="metric-card">
-                                            <div class="metric-value">95</div>
-                                            <div class="metric-label">Performance Score</div>
-                                            <div class="metric-bar">
-                                                <div class="metric-fill" style="width: 95%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="metric-value">98</div>
-                                            <div class="metric-label">Accessibility</div>
-                                            <div class="metric-bar">
-                                                <div class="metric-fill" style="width: 98%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="metric-value">92</div>
-                                            <div class="metric-label">Best Practices</div>
-                                            <div class="metric-bar">
-                                                <div class="metric-fill" style="width: 92%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="metric-card">
-                                            <div class="metric-value">100</div>
-                                            <div class="metric-label">SEO</div>
-                                            <div class="metric-bar">
-                                                <div class="metric-fill" style="width: 100%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="performance-details">
-                                        <div class="perf-item">
-                                            <span class="perf-metric">First Contentful Paint</span>
-                                            <span class="perf-value">1.2s</span>
-                                        </div>
-                                        <div class="perf-item">
-                                            <span class="perf-metric">Largest Contentful Paint</span>
-                                            <span class="perf-value">2.1s</span>
-                                        </div>
-                                        <div class="perf-item">
-                                            <span class="perf-metric">Cumulative Layout Shift</span>
-                                            <span class="perf-value">0.05</span>
-                                        </div>
-                                        <div class="perf-item">
-                                            <span class="perf-metric">Time to Interactive</span>
-                                            <span class="perf-value">2.8s</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="project-stats">
-                            <div class="stat-compact">
-                                <span class="stat-number">3+</span>
-                                <span class="stat-text">Years Experience</span>
-                            </div>
-                            <div class="stat-compact">
-                                <span class="stat-number">1.3k+</span>
-                                <span class="stat-text">GitHub Commits</span>
-                            </div>
-                            <div class="stat-compact">
-                                <span class="stat-number">MERN</span>
-                                <span class="stat-text">Stack Expert</span>
-                            </div>
-                            <div class="stat-compact">
-                                <span class="stat-number">CCRI</span>
-                                <span class="stat-text">CS Student</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="achievement">
+                    <span class="achievement-number">1.3k+</span>
+                    <span class="achievement-text">GitHub Commits</span>
                 </div>
-
-                <!-- GitHub Stats Integration -->
-                <div id="github-stats-mount"></div>
+                <div class="achievement achievement-clickable" onclick="window.location.href='#toolbox'">
+                    <span class="achievement-number">MERN</span>
+                    <span class="achievement-text">Stack Expert</span>
+                </div>
+                <div class="achievement">
+                    <span class="achievement-number">CCRI</span>
+                    <span class="achievement-text">CS Student</span>
+                </div>
+            </div>
 
 
         </div>
